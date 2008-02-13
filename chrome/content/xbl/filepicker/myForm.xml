@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+ * (c) Edutice 2007 http://www.edutice.fr
+ * Author: vbe [ v.bataille@novatice.com ]
+ * Version: 00.00.01 [11 october 2007]
+ * Note: Edutice is a brand of Novatice Technologies SAS
+-->
+
+<!--
+* WHAT?
+    Binding of a file(s) picker form element.
+    attributes :
+        _ action -> action attribute of <html:form/>
+        _ width -> width of the file picker element
+        _ [dir] -> whether to put the pick file button on the right of the <textbox/>
+                   (default) or on its left (dir="reverse")
+        _ [several] -> if true, shows two buttons to add or remove a file picker in the form
+ 
+ * HOWTO? XUL
+    <vbox id="myForm" class="myForm"
+          action="myServerSideFileUploader"
+          width="250" [dir="reverse"] [several="true"] />
+ 
+ * HOWTO? CSS
+    /**
+     * binding of the element
+     */
+    .myForm {
+        -moz-binding: url('xbl/myForm.xml#myForm');
+    }
+    /**
+     * image used as file picker button
+     * IMPORTANT: width and height of the image are required
+     */
+    .xbl_myInputFileBut {
+        background-image: url('images/myFilePickerBut.png');
+        width: 32px;
+        height: 32px;
+    }
+    /**
+     * button to add a file picker
+     */
+    .xbl_butAdd {
+        list-style-image: url('images/plus.png');
+    }
+    /**
+     * button to remove a file picker
+     */
+    .xbl_butRemove {
+        list-style-image: url('images/minus.png');
+    }
+ 
+ * HOWTO? javascript
+        _ the method init() has to be executed when the window is loading (attribute 'onload' of the <window/> element):
+            document.getElementById('myForm').init();
+        
+        _ the method getFilesPath() returns an array with the selected files path
+        
+        _ the method setDirectory(directoryPath) sets the hidden field uploadDir value (to be used on server side in case of file upload)
+        
+        _ the method submit() submits the form and executes the associated action
+    
+ * HOWTO? on server side
+    The html form send to server has one hidden field which can be used on the server side:
+        _ uploadDir: the path of the directory to upload the file into.
+-->
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:xbl="http://www.mozilla.org/xbl"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:html="http://www.w3.org/1999/xhtml">
+    
+    <binding id="myForm">
+        <content>
+            <html:form method="POST" enctype="multipart/form-data" xbl:inherits="action">
+                <html:input type="hidden" name="uploadDir"/>
+                <xul:vbox>
+                    <xul:hbox>
+                        <xul:hbox align="center" dir="normal" xbl:inherits="dir">
+                            <xul:textbox readonly="true"/>
+                            
+                            <xul:vbox class="xbl_myInputFileBut" style="overflow: hidden;">
+                                <html:div style="position: relative;">
+                                    <html:input type="file" size="1" style="float: right;-moz-opacity: 0;font-size: 100px;"
+                                                name="filePath" onchange="document.getBindingParent(this).setValue(this);"/>
+                                </html:div>
+                            </xul:vbox>
+                        </xul:hbox>
+                        <xul:vbox pack="center" hidden="true">
+                            <xul:button class="xbl_butAdd" oncommand="document.getBindingParent(this).addInputFile(this);"/>
+                            <xul:spacer height="5"/>
+                            <xul:button class="xbl_butRemove" oncommand="document.getBindingParent(this).removeInputFile(this);"/>
+                        </xul:vbox>
+                    </xul:hbox>
+                </xul:vbox>
+            </html:form>
+        </content>
+        
+        <implementation>
+            <field name="form">
+                <![CDATA[
+                    document.getAnonymousNodes(this)[0]
+                ]]>
+            </field>
+            <field name="vbCont">
+                <![CDATA[
+                    this.form.lastChild.previousSibling
+                ]]>
+            </field>
+            <field name="firstText">
+                <![CDATA[
+                    this.vbCont.firstChild.firstChild.firstChild
+                ]]>
+            </field>
+            <field name="boxSeveral">
+                <![CDATA[
+                    this.firstText.parentNode.nextSibling
+                ]]>
+            </field>
+            
+            <!--
+              - initializes the form:
+              -   resizes file picker
+              -   shows add/remove buttons if needed
+              -->
+            <method name="init">
+                <body>
+                    <![CDATA[
+                    //size
+                    var widthElem = parseInt(this.getAttribute("width"), 10);
+                    var widthBut = window.getComputedStyle(this.firstText.nextSibling, null).getPropertyValue("width");
+                    widthBut = parseInt(widthBut, 10);
+                    this.firstText.setAttribute("width", widthElem-widthBut);
+                    
+                    //single or several
+                    if (this.getAttribute("several") == "true") {
+                        this.boxSeveral.removeAttribute("hidden");
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+              - submits the form
+              -->
+            <method name="submit">
+                <body>
+                    <![CDATA[
+                    if (this.hasAttribute("choice")) {
+                        this.form.submit();
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+              - sets upload directory name
+              -->
+            <method name="setDirectory">
+                <parameter name="dir"/>
+                <body>
+                    <![CDATA[
+                    var uploadDir = this.form.firstChild.nextSibling;
+                    uploadDir.value = dir;
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+              - gets the selected file(s) path
+              - @returns an array with the selected file(s) path
+              -->
+            <method name="getFilesPath">
+                <body>
+                    <![CDATA[
+                    var filesPath = new Array();
+                    var pickers = this.vbCont.childNodes;
+                    
+                    for (var i=0 ; i<pickers.length ; i++) {
+                        var picker = pickers[i];
+                        filesPath[i] = picker.firstChild.firstChild.value;
+                    }
+                    
+                    return filesPath;
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+              - copy the value of html file picker to xul textbox
+              - @param inputFile the html file input element
+              -->
+            <method name="setValue">
+                <parameter name="inputFile"/>
+                <body>
+                    <![CDATA[
+                    var tb = inputFile.parentNode.parentNode.previousSibling;
+                    tb.value = inputFile.value;
+                    
+                    this.setAttribute("choice", "true");
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+              - add a new file picker after the current one
+              - @param but the add button
+              -->
+            <method name="addInputFile">
+                <parameter name="but"/>
+                <body>
+                    <![CDATA[
+                    var vbCont = this.vbCont;
+                    var inputFile = but.parentNode.parentNode;
+                    
+                    if (inputFile.nextSibling) {
+                        vbCont.insertBefore(inputFile.cloneNode(true), inputFile.nextSibling);
+                    } else {
+                        vbCont.appendChild(inputFile.cloneNode(true));
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+              - remove the current file picker
+              - @param but the remove button
+              -->
+            <method name="removeInputFile">
+                <parameter name="but"/>
+                <body>
+                    <![CDATA[
+                    var vbCont = this.vbCont;
+                    var inputFile = but.parentNode.parentNode;
+                    
+                    if (inputFile.nextSibling || inputFile.previousSibling) {
+                        //there is one inputFile left -> remove this one
+                        vbCont.removeChild(inputFile);
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+        </implementation>    
+    </binding>
+   
+</bindings>

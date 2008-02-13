@@ -1,0 +1,156 @@
+textbox[replacemode], textbox[delay], textbox[ontimeout], textbox[regexp] {
+	-moz-binding: url("textfield.xml#textfield");
+	font-family:monospace, cursive, serif, sans-serif;
+}
+textbox[regexp][error] {
+	color:orange;
+}
+textbox[type="autosuggest"] {
+	-moz-binding: url("textfield.xml#suggestion");
+	font-family:monospace, cursive, serif, sans-serif;
+}
+
+suggest-counter {
+  -moz-binding: url("textfield.xml#suggest-counter");
+  display:none;
+}
+/* ::::: suggestion ::::: */
+tree[type="suggestion"] {
+	-moz-binding: url("textfield.xml#suggestion-tree");
+	padding:0px;
+	margin:0px;
+}
+tree[type="suggestion"][hidescrollbar="true"] scrollbar {
+	display:none;
+}
+popup[type="suggestion"] {
+	padding:0px;
+	margin:0px;
+}
+
+textbox {
+  cursor: default;
+  padding: 0;
+}
+
+/* Used by autocomplete widgets that don't have an icon. Gross. -dwh */
+textbox.padded {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  -moz-padding-start: 2px;
+  -moz-padding-end: 0px;
+}
+
+.suggestion-textbox-container {
+  -moz-box-align: center;
+}
+
+.textbox-input-box {
+  margin: 0 3px;
+  -moz-box-align: center;
+}
+
+.suggestion-textbox-container {
+  -moz-box-align: center;
+}
+
+.textbox-input-box {
+  margin: 0 3px;
+  -moz-box-align: center;
+}
+
+/* ::::: suggestion-dropmarker ::::: */
+.suggestion-dropmarker {
+  -moz-binding: url("textfield.xml#suggestion-dropmarker");
+  width: 16px;
+  height: 20px;
+  margin: 0px;
+  border-left: 1px solid #96969D;
+  padding: 0px;
+  background-color: -moz-dialog; 
+  list-style-image: url("chrome://global/skin/icons/autocomplete-dropmark-arrow.png");
+  -moz-image-region: rect(0px, 16px, 20px, 0px);
+}
+
+textbox[chromedir="rtl"] .suggestion-dropmarker {
+  border-left: none;
+  border-right: 1px solid #96969D;
+}
+
+.suggestion-dropmarker:hover {
+  -moz-image-region: rect(0px, 32px, 20px, 16px);
+}
+
+.suggestion-dropmarker:active {
+  -moz-image-region: rect(0px, 64px, 20px, 48px);
+}
+
+.suggestion-dropmarker-bkgnd-top {
+  list-style-image: url("chrome://global/skin/icons/autocomplete-dropmark-bkgnd.png");
+  -moz-image-region: rect(0px, 16px, 9px, 0px);
+  height: 9px;
+}
+
+/* GTK does not stretch image regions properly, so use background images instead.
+   See bugs 351764 and 254659. */
+.suggestion-dropmarker-bkgnd-mid-top {
+  background-image: url("chrome://global/skin/icons/autocomplete-dropmark-bkgnd-mid-top.png");
+  background-repeat: repeat;
+  -moz-background-clip: padding;
+}
+
+.suggestion-dropmarker-bkgnd-mid-bottom {
+  background-image: url("chrome://global/skin/icons/autocomplete-dropmark-bkgnd-mid-bottom.png");
+  background-repeat: repeat;
+  -moz-background-clip: padding;
+  list-style-image: none;
+}
+
+.suggestion-dropmarker-bkgnd-bottom {
+  list-style-image: url("chrome://global/skin/icons/autocomplete-dropmark-bkgnd.png");
+  -moz-image-region: rect(11px, 16px, 20px, 0px);
+  height: 9px;
+}
+
+.suggestion-dropmarker:hover .suggestion-dropmarker-bkgnd-top {
+  -moz-image-region: rect(0px, 32px, 9px, 16px);
+  height: 9px;
+}
+
+.suggestion-dropmarker:hover .suggestion-dropmarker-bkgnd-mid-top {
+  background-position: -16px 0px;
+}
+
+.suggestion-dropmarker:hover .suggestion-dropmarker-bkgnd-mid-bottom {
+  background-position: -16px 0px;
+}
+
+.suggestion-dropmarker:hover .suggestion-dropmarker-bkgnd-bottom {
+  -moz-image-region: rect(11px, 32px, 20px, 16px);
+  height: 9px;
+}
+
+.suggestion-dropmarker:hover:active .suggestion-dropmarker-bkgnd-top {
+  -moz-image-region: rect(0px, 64px, 9px, 48px);
+  height: 9px;
+}
+
+.suggestion-dropmarker:hover:active .suggestion-bkgnd-mid-top {
+  background-position: -48px 0px;
+}
+
+.suggestion-dropmarker:hover:active .suggestion-dropmarker-bkgnd-mid-bottom {
+  background-position: -48px 0px;
+}
+
+.suggestion-dropmarker:hover:active .suggestion-dropmarker-bkgnd-bottom {
+  -moz-image-region: rect(11px, 64px, 20px, 48px);
+  height: 9px;
+}
+
+/* ::::: tree ::::: */
+
+treechildren::-moz-tree-row(menuactive) {
+  background-color: Highlight;
+}
+

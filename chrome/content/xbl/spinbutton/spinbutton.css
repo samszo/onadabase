@@ -1,0 +1,38 @@
+spinbutton {-moz-binding: url("spinbutton.xml#spinbutton");}
+spinbutton-arrow {
+	-moz-binding: url("spinbutton.xml#spinbutton-arrow");
+	margin: 0;
+	padding: 3px;
+	border: 1px solid transparent;
+	-moz-border-radius:1px;
+	background-repeat:no-repeat;
+	background-position: center center;
+	list-style-image:none !important;
+	opacity:1.0 !important;
+}
+spinbutton-arrow:hover {
+	border-color:ThreeDHighlight ThreeDShadow ThreeDShadow ThreeDHighlight;
+	background-color:#f4f4ee;         
+}
+spinbutton-arrow:hover:active {
+	border-color:ThreeDShadow ThreeDHighlight ThreeDHighlight ThreeDShadow;
+	padding-top: 4px;
+	padding-bottom: 2px;
+}
+spinbutton[orient="vertical"] 	spinbutton-arrow[type="dn"] {background-image: url("chrome://global/skin/arrow/arrow-dn.gif");}
+spinbutton[orient="vertical"] 	spinbutton-arrow[type="up"] {background-image: url("chrome://global/skin/arrow/arrow-up.gif");}
+spinbutton[orient="horizontal"] spinbutton-arrow[type="dn"] {background-image: url("chrome://global/skin/arrow/arrow-rit.gif");}
+spinbutton[orient="horizontal"] spinbutton-arrow[type="up"] {background-image: url("chrome://global/skin/arrow/arrow-lft.gif");}
+
+spinbutton[orient="vertical"][disabled="true"] 		spinbutton-arrow[type="dn"] {background-image: url("chrome://global/skin/arrow/arrow-dn-dis.gif");}
+spinbutton[orient="vertical"][disabled="true"] 		spinbutton-arrow[type="up"] {background-image: url("chrome://global/skin/arrow/arrow-up-dis.gif");}
+spinbutton[orient="horizontal"][disabled="true"] 	spinbutton-arrow[type="dn"] {background-image: url("chrome://global/skin/arrow/arrow-rit-dis.gif");}
+spinbutton[orient="horizontal"][disabled="true"] 	spinbutton-arrow[type="up"] {background-image: url("chrome://global/skin/arrow/arrow-lft-dis.gif");}
+
+spinbutton[disabled="true"] spinbutton-arrow[type="up"], spinbutton[disabled="true"] spinbutton-arrow[type="dn"],
+spinbutton[disabled="true"] spinbutton-arrow[type="up"]:hover, spinbutton[disabled="true"] spinbutton-arrow[type="dn"]:hover,
+spinbutton[disabled="true"] spinbutton-arrow[type="up"]:hover:active, spinbutton[disabled="true"] spinbutton-arrow[type="dn"]:hover:active {
+	border-color:transparent;
+	background-color:transparent;         
+	padding: 3px;
+}

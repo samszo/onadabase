@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xul-overlay href="overlay/popupset.php?f=1"?>
+<?xul-overlay href="overlay/tree.php?box=box1&ParamNom=GetTradTree"?>
+<?xul-overlay href="overlay/table.php?box=box3&ParamNom=GetOntoTrad&type=ieml-10eF"?>
+<?xul-overlay href="overlay/tree.php?box=box2&ParamNom=GetTradTree&type=10eF" ?>
+<?xml-stylesheet rel="stylesheet" href="xbl/editableTree/demo.css" type="text/css" title="css"?>
+
+<window id="ieml-global" title="IEML-10eF v0.1 - information economy meta language - Dixième Famille" orient="horizontal" left="0" top="0" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
+	<script language="JavaScript" type="application/x-javascript" src="js/Interface.js"/>
+ 	<script language="JavaScript" type="application/x-javascript" src="js/ajax.js"/>
+<script type="text/javascript" src="xbl/editableTree/functions.js" />
+
+	<popupset id="popupset">
+	</popupset>
+
+	<vbox>
+		<label value="action : "/><label id="onto-message-ieml"  />
+	</vbox>
+	<vbox id="box1" style="height:560px;width:400px;" >
+	</vbox>
+	
+	<splitter collapse="before" resizeafter="farthest">
+				<grippy/>
+	</splitter>
+	
+		<vbox id="box3" style="height:560px;width:400px;" >
+		<hbox >
+			<vbox >
+				<hbox >
+					<label value="Langage : ieml"/>
+				</hbox>
+				<label id="id-trad-ieml" hidden="true"/>
+				<hbox >
+					<label value="code :"/><label id="code-trad-ieml"  />
+				</hbox>
+				<hbox >
+					<label value="descriptif : "/><label id="lib-trad-ieml"  />
+				</hbox>
+			</vbox>
+			<vbox >
+				<button label="Ajouter une traduction" oncommand="AddTrad();"/>				
+				<label id="trad-message" />
+			</vbox>
+			<vbox >
+				<hbox >
+					<label value="Langage : 10eF"/>
+				</hbox>
+					<label id="id-trad-10eF" hidden="true"/>
+				<hbox >
+					<label value="code :"/><label id="code-trad-10eF"  />
+				</hbox>
+				<hbox >
+					<label value="descriptif : "/><label id="lib-trad-10eF"  />
+				</hbox>
+			</vbox>
+		</hbox>
+	</vbox>
+	
+	
+	<splitter collapse="before" resizeafter="farthest">
+				<grippy/>
+	</splitter>
+	
+	<vbox>
+		<label value="action : "/><label id="onto-message-10eF"  />
+	</vbox>
+	<vbox id="box2" style="height:560px;width:400px;" >
+	</vbox>
+</window>

@@ -1,0 +1,59 @@
+/*** Démonstration de XUL ***/
+window{
+  background-color: #FFFFFF;  
+}
+
+menubar {
+	background-image: url("images/bg.png") !important; 
+  max-width:700px;
+}
+
+.global {
+  background-color: #FFFFFF;
+  max-width:700px;
+  min-height:320px;
+}
+
+.titre {
+	font-size: 12px !important;
+	font-family: arial, verdana, sans-serif !important;
+	padding:0px;
+	margin:3px 3px 3px 3px;
+}
+
+.form {
+
+	font-size: 10px !important;
+	font-family: verdana, sans-serif !important;
+	padding:0;
+	margin:3px 3px 3px 3px;
+}
+
+.hboxTitre {
+
+	background-color:lightblue;
+	font-size: 15px !important;
+	font-family: arial, verdana, sans-serif !important;
+	margin:10px 10px 10px 10px;
+}
+
+.boxKml {
+	-moz-box-flex:1;
+	background-color:lightblue;
+	font-size: 15px !important;
+	font-family: arial, verdana, sans-serif !important;
+	margin:0px 10px 10px 10px;
+}
+
+.boxRub {
+	-moz-box-flex:1;
+	background-color:lightblue;
+	font-size: 15px !important;
+	font-family: arial, verdana, sans-serif !important;
+	margin:0px 10px 10px 10px;
+}
+
+
+
+
+

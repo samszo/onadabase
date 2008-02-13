@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<binding id="spinbutton">
+		<content orient="vertical">
+			<xul:spinbutton-arrow type="up"/>
+			<children/>
+			<xul:spacer anonid="spinbutton-spacer" flex="1"/>
+			<xul:spinbutton-arrow type="dn"/>
+		</content>
+		<implementation>
+			<constructor><![CDATA[
+				if(this.childNodes.length) document.getAnonymousElementByAttribute(this ,"anonid", "spinbutton-spacer").setAttribute("flex", "0");
+			]]></constructor>
+		</implementation>
+		<handlers>
+			<handler event="clickup"><![CDATA[
+				if(this.getAttribute("disabled")!="true") {
+					try {eval(this.getAttribute("onclickup"));} catch(e) {}
+					try {eval(this.getAttribute("oncommand"));} catch(e) {}
+				}
+				event.preventDefault();
+				event.stopPropagation();
+			]]></handler>
+			<handler event="clickdn"><![CDATA[
+				if(this.getAttribute("disabled")!="true") {
+					try {eval(this.getAttribute("onclickdn"));} catch(e) {}
+					try {eval(this.getAttribute("oncommand"));} catch(e) {}
+				}
+				event.preventDefault();
+				event.stopPropagation();
+			]]></handler>
+			<handler event="clicklft"><![CDATA[
+				if(this.getAttribute("disabled")!="true") {
+					try {eval(this.getAttribute("onclicklft"));} catch(e) {}
+					try {eval(this.getAttribute("oncommand"));} catch(e) {}
+				}
+				event.preventDefault();
+				event.stopPropagation();
+			]]></handler>
+			<handler event="clickrit"><![CDATA[
+				if(this.getAttribute("disabled")!="true") {
+					try {eval(this.getAttribute("onclickrit"));} catch(e) {}
+					try {eval(this.getAttribute("oncommand"));} catch(e) {}
+				}
+				event.preventDefault();
+				event.stopPropagation();
+			]]></handler>
+		</handlers>
+	</binding>
+	<binding id="spinbutton-arrow" extends="xul:image">
+		<content minheight="13px" minwidth="13px"/>
+		<implementation>
+			<constructor><![CDATA[
+				this.setAttribute("id", "spinbutton-arrow"+Math.random());
+				this.id=this.getAttribute("id");
+			]]></constructor>
+			<field name="_timer">null</field>
+			<field name="_delay">400</field>
+			<field name="id"></field>
+			<method name="_fireEvent">
+				<body><![CDATA[
+					var evt = document.createEvent("MouseEvents");
+					try {
+						evt.initMouseEvent("mousedown", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, this);
+						this.dispatchEvent(evt);
+					} catch(e) {};
+				]]></body>
+			</method>
+		</implementation>
+		<handlers>
+			<handler event="click"><![CDATA[
+				this._delay = 400;
+				clearTimeout(this._timer);
+			]]></handler>
+			<handler event="mouseout"><![CDATA[
+				this._delay = 400;
+				clearTimeout(this._timer);
+			]]></handler>
+			<handler event="mouseup"><![CDATA[
+				this._delay = 400;
+				clearTimeout(this._timer);
+			]]></handler>
+			<handler event="mousedown" button="0"><![CDATA[
+				var evt = document.createEvent("MouseEvents");
+				var type = this.getAttribute("type");
+				if(this.parentNode.getAttribute("orient")=="horizontal") {
+					if(type=="up") type="lft";
+					else type = "rit";
+				}
+				try {
+					evt.initMouseEvent("click"+type, true, true, window, 1, event.screenX, event.screenY, event.clientX, event.clientY, false, false, false, false, 0, this);
+				} catch(e) {};
+				this.parentNode.dispatchEvent(evt);
+				this._timer = setTimeout("document.getElementById('"+this.id+"')._fireEvent()", this._delay);
+				this._delay = this._delay*0.8;
+			]]></handler>
+		</handlers>
+	</binding>
+</bindings>

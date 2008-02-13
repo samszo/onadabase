@@ -1,0 +1,1437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * (c) Edutice 2007 http://www.edutice.fr
+ * Author: vbe <v.bataille@novatice.com>
+ * Version:
+ *    v00.00.02 -> fixing bug: checkbox mode (change all)
+ *                    _ the update was made whatever the cell's state
+ *                    _ correction: test the cell's state before update
+ *    v00.00.01 -> creation
+ * Description: binding of an editable tree
+ * Note: Edutice is a brand of Novatice Technologies SAS 
+-->
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<!--
+WHAT?
+An editableTree class box gives several capabilities to its tree child:
+    
+     ¤ different ways to select and edit a treecell:
+        _ with the mouse -> a simple click select the cell, a double click edit it
+        _ with the keyboard -> direction arrows to select a treecell, enter to edit it
+        
+     ¤ different types of editing mode:
+        _ with a textbox element -> the value in the textbox can be tested with
+                                    a regular expression before to be saved
+        _ with a checkbox element -> the treecell is checked or unchecked, several cells
+                                     in one column can be checked at the same time
+                                     (hit shift key to control the entire column)
+        _ with a radio element -> only one treecell is selected in one column
+        _ with a list of items -> the new value has to be chosen in a given list of items
+        _ with a rdf generated list of items -> the new value has to be chosen in a list
+                                                of rdf generated items
+
+     ¤ when editing a treecell (with textbox or list):
+        enter validate the new value
+        escape cancel the update
+        
+     ¤ if 'insert' key is pressed, execute a function defined by the user
+      to insert a new item in the tree
+    
+     ¤ if 'suppr' (=delete) key is pressed, execute a function defined by the user
+      to delete the selected item
+      
+        
+HOWTO?
+¤ To edit treecells, define the fctStart and fctSave attributes of the tree.
+parameters of the fctStart: (event, idCol)
+parameters of the fctSave: (element)
+
+The fctStart function must define the way to edit a cell for each column to edit in the tree.
+You can use several methods to edit a cell:
+    _ updateByCb(event) -> use to edit checkbox type column
+    _ updateByRadio() -> use to edit radio type column
+    _ updateByTextbox(testExp, idTooltip)
+                -> use to edit a free text column
+                   testExp: a regular expression to control the new value
+                   idtooltip: the tooltip to show if the new value doesn't match
+    _ updateByList(popup)
+                -> use to edit column with a short list of item
+                   popup: a <menupopup/> element with the items
+    _ updateByRdfList(rdfSource, rdfRef, labelField, valueField)
+                -> use to edit column with a rdf generated list
+                   rdfSource: the datasources attribute of the menulist
+                   rdfRef: the ref attribute of the menulist
+                   labelField: the label attribute of an item
+                   valueField: the value attribute of an item
+
+Those three last methods return the created element (a textbox or a menulist).
+This allows to customize a bit more the element (size or maxlength attributes
+on a textbox for example).
+They should be followed by the method "locateEditable(element)" which locates the
+edition element at its correct position on the tree.
+
+¤ To save the new value, the parameter 'element' has two special attributes:
+    currentId -> the id of the updated item
+    currentField -> the id of the updated column
+
+¤ To allow column sorting, define the ondblclick attribute of the <treecol/> element
+to "sortOnColumn(event, fieldName);" where fieldName is the name of the rdf field to use.
+
+
+¤ For more detailed explications, see the complete exemple below.
+
+
+EXEMPLE
+¤ in the XUL file:
+    /* 4 new attributes can be set on the tree:
+     *     fctStart: the name of the function to execute when starting the update of a cell
+     *     fctSave: the name of the function to execute when saving the new value of a cell
+     *     fctInsert: the name of the function to execute to insert a new item in the tree (optional)
+     *     fctDelete: the name of the function to execute to delete an item in the tree (optional)
+     *
+     * to allow sort on column, define the ondblclick attribute with the function:
+     *     'sortOnColumn(event, rdf field);'
+     *
+     * a treecol with id="id" containing an id for the item must be defined
+     * (this id is used to update the database).
+     */
+
+    <vbox class="editableTree">
+        <tree id="treeRing"
+              width="600" height="300"
+              ref="urn:data:ring" 
+              datasources="later" 
+              fctStart="startEditable"
+              fctSave="saveEditable"
+              fctInsert="startInsert"
+              fctDelete="startDelete">
+
+            <treecols>
+                <treecol id="id" hidden="true" ignoreincolumnpicker="true"/>                        
+
+                <treecol id="per_name" label="Nom" flex="1"
+                    sortDirection="ascending" 
+                    ondblclick="sortOnColumn(event, 'http://ring/rdf#per_name');"/>
+                <splitter class="tree-splitter" />
+
+                <treecol id="per_firstname" label="Prénom" flex="1" />
+                <splitter class="tree-splitter" />
+
+                <treecol id="per_race" label="Race" flex="1" />
+                <splitter class="tree-splitter" />
+
+                <treecol id="per_community" label="Communauté"
+                        width="65" cycler="true"
+                        ondblclick="sortOnColumn(event, 'http://ring/rdf#per_community');"/>
+                <splitter class="tree-splitter" />
+
+                <treecol id="per_ring" label="Porteur" 
+                        width="65" cycler="true" fixed="true"/>
+                <splitter class="tree-splitter" />
+
+                <treecol id="per_actor_name" label="Acteur" flex="1"/>
+                <splitter class="tree-splitter" />
+
+                <treecol id="per_actor_birth" label="Naissance" width="80" fixed="true"/>
+            </treecols>
+
+            <template>
+                <treechildren>
+                    <treeitem uri="rdf:*"><treerow>
+                            <treecell label="rdf:http://ring/rdf#per_id"/>
+                            <treecell label="rdf:http://ring/rdf#per_name"/>
+                            <treecell label="rdf:http://ring/rdf#per_firstname"/>
+                            <treecell label="rdf:http://ring/rdf#per_race"/>
+                            <treecell properties="rdf:http://ring/rdf#per_community"/>
+                            <treecell properties="rdf:http://ring/rdf#per_ring"/>                                
+                            <treecell label="rdf:http://ring/rdf#per_actor_name"/>
+                            <treecell label="rdf:http://ring/rdf#per_actor_age"/>
+                    </treerow></treeitem>
+                </treechildren>
+            </template>
+        </tree>
+
+    </vbox>
+    
+    
+¤ in the Javascript file:
+    /*start the edition*/
+    function startEditable(event, col) {
+
+        var vbTreeRing = document.getElementById('treeRing').parentNode;
+
+        //definition of edtion type for each column to edit
+        switch (col) {
+            case 'per_community':
+                //update by checkbox
+                vbTreeRing.updateByCb(event);
+                break;
+            
+            case 'per_ring':
+                //update by radio
+                vbTreeRing.updateByRadio();
+                break;    
+            
+            case 'per_race':
+                //update by list
+                var pop = document.createElement('menupopup');
+                var it1 = document.createElement('menuitem');
+                it1.setAttribute('label', 'Elfe');
+                it1.setAttribute('value', 'Elfe');
+                var it2 = document.createElement('menuitem');
+                it2.setAttribute('label', 'Hobbit');
+                it2.setAttribute('value', 'Hobbit');
+                var it3 = document.createElement('menuitem');
+                it3.setAttribute('label', 'Homme');
+                it3.setAttribute('value', 'Homme');
+
+                pop.appendChild(it1);
+                pop.appendChild(it2);
+                pop.appendChild(it3);
+
+                var list = vbTreeRing.updateByList(pop);
+                vbTreeRing.locateEditable(list);
+                break;
+            
+            case 'per_actor_name':
+                //update by rdf list
+                var source = 'everyActors.rdf';
+                var lab = 'rdf:http://actors/rdf#act_name';
+                var val = 'rdf:http://actors/rdf#act_id';
+                var ml = vbTreeRing.updateByRdfList(source, 'urn:data:actors', lab, val);
+
+                vbTreeRing.locateEditable(ml);
+                break;
+
+            case 'per_actor_birth':
+                //update by textbox
+                //allow only 4 figures or nothing
+                var tbAge = vbTreeRing.updateByTextbox("(^[0-9]{4}$|^$)", "tipBadValue");
+                //4 characters maximum
+                tbAge.setAttribute('maxlength', 4);
+                
+                vbTreeRing.locateEditable(tbAge);
+                break;        
+
+            default:
+                break;
+        }
+    }
+    
+    /*save the new value*/
+    function saveEditable(element) {
+    
+        var idCol = element.getAttribute('currentField');
+        var idToUpdate = element.getAttribute('currentId');
+
+        switch (idCol) {
+             case 'per_race':
+                var newValue = element.value;
+                sendUpdateRingRequest(newValue, idToUpdate, 'per_race');
+                break;
+
+            case 'per_community':
+                var newValue = 'check_no';
+                if (element.hasAttribute('checked')) {
+                    newValue = 'check_yes';
+                }            
+                sendUpdateRingRequest(newValue, idToUpdate, 'per_community');
+                break;
+
+            case 'per_ring':
+                sendUpdateRingRequest('radio_no', allOfThem, 'per_ring');
+                sendUpdateRingRequest('radio_yes', idToUpdate, 'per_ring');
+                break;
+
+            case 'per_actor_age':
+                var newValue = element.value;
+                sendUpdateRingRequest(newValue, idToUpdate, 'per_actor_age');
+                break;
+
+             default:
+                break;
+        }
+    }
+    
+    /*insert a new row*/
+    function startInsert() {
+        //do here whatever you need to insert a new line
+        sendInsertRingRequest();
+
+        //then reload the datasource
+    }
+    
+    /*delete the row selected*/
+    function startDelete(idToDelete) {
+        //do here whatever you need to delete the given index item
+        sendDeleteRingRequest(idToDelete);
+
+        //then reload the datasource
+    }
+    
+    
+¤ in the css file:
+    /* 7 properties can be used to style an editable tree:
+     *     isSelected (-moz-tree-cell): the currently selected treecell
+     *     updatingTb (-moz-tree-cell): the cell is updated with a textbox
+     *     updatingMl (-moz-tree-cell): the cell is updated with a menulist
+     *     check_yes (-moz-tree-image): the image for a checked checkbox type treecell
+     *     check_no (-moz-tree-image): the image for an unchecked checkbox type treecell
+     *     radio_yes (-moz-tree-image): the image for the selected radio type treecell
+     *     radio_no (-moz-tree-image): the image for an unselected radio type treecell
+     */
+
+    /*link to the binding*/
+    .editableTree {
+        -moz-binding: url('editableTree.xml#editableTree');
+    }
+    /*height of a tree row: 
+     * 22px minimum in case of editing textbo
+     * 26px minimum in case of editing list
+     *if more, editing element are centered
+     */
+    .editableTree treechildren::-moz-tree-row {
+        height: 26px;
+    }
+
+    /*change default appearance of selected row*/
+    .editableTree treechildren::-moz-tree-row(selected), 
+    .editableTree treechildren::-moz-tree-row(current) {    
+        background-color: transparent;
+        border-color: transparent;
+    }
+    /*change default appearance of the text in a selected row*/
+    .editableTree treechildren::-moz-tree-cell-text(selected) {
+        color: black;
+    }
+
+    /*a transparent border for each cell:
+     *avoid little vibration when selecting a cell
+     *useless if no border is defined in the appearance of a selected cell
+     */
+    .editableTree treechildren::-moz-tree-cell {
+        border: 1px solid transparent;
+    }
+    /*appearance of a selected cell*/
+    .editableTree treechildren::-moz-tree-cell(isSelected) {
+        border: 1px solid gray;
+        -moz-border-radius: 10px;
+    }
+
+    /*text color for a cell edited by a textbox
+     *use the tree background color, so that the text becomes invisible
+     *otherwise, the text stays visible through the textbox
+     *(z-index problem in a stack)
+     */
+    .editableTree treechildren::-moz-tree-cell-text(updatingTb) {
+        color: white;
+    }
+    /*text color for a cell edited by a menulist
+     *useless if it's the same as the default cell text color
+     */
+    .editableTree treechildren::-moz-tree-cell-text(updatingMl) {
+        color: black;
+        margin-left: 5px; //firefox 2
+        margin-top: 5px; //firefox 2
+    }
+
+    /*images used for a checkbox type cell*/
+    .editableTree treechildren::-moz-tree-image(check_yes) {
+        list-style-image: url('check_yes.png');
+    }
+    .editableTree treechildren::-moz-tree-image(check_no) {
+        list-style-image: url('check_no.png');
+    }
+    /*images used for a radio type cell
+     *here, a unselected cell stays empty
+     */
+    .editableTree treechildren::-moz-tree-image(radio_yes) {
+        list-style-image: url('check_yes.png');
+    }
+    .editableTree treechildren::-moz-tree-image(radio_no) {
+    }
+
+-->
+
+    <binding id="editableTree">
+        
+        <content>
+            <xul:stack>
+                <children />
+            </xul:stack>
+        </content>
+        
+        <implementation>
+            
+            <constructor>
+                <![CDATA[
+                var tree = this.firstChild;
+
+                //give the correct reactions to mouse and keyboard events
+                tree.setAttribute('allowevents', 'true');
+                
+                tree.setAttribute('onclick', 'this.parentNode.clickOnTree(event);');
+                tree.setAttribute('ondblclick', 'this.parentNode.dblClickOnTree(event);');
+                tree.setAttribute('onkeypress', 'this.parentNode.keyOnTree(event);');
+                ]]>
+            </constructor>
+            
+            
+            <!-- the selected cell in the tree
+            -->
+            <field name="currentSelectedCell">
+                null
+            </field>
+            
+            
+            <!--
+            ********************************************************************
+            *  EVENTS CONTROL FUNCTIONS
+            ********************************************************************
+            -->
+            
+            <!--
+               called by a click on the tree
+               @param event: the clicking event
+            -->
+            <method name="clickOnTree">
+                <parameter name="event"/>
+                <body>
+                    <![CDATA[
+				//pour gérer le multi-tree
+				idTree = this.firstChild.getAttribute('idTree');
+				initTree(idTree);
+                   var tree = this.firstChild;
+                   var cellCoord = this.getClickedCell(event);
+    
+                    if (cellCoord.row != -1) {
+                        //the mouse in on a row        
+                        var cell = this.getCell(cellCoord.row, cellCoord.col);
+                        var cellDesc = this.getCellDesc(cell);
+
+						eval(tree.getAttribute('fctSelect')+"(this,cellCoord)");
+
+
+                        if (this.currentSelectedCell == null) {
+                            //it's the first click on the tree
+                            this.currentSelectedCell = cell;
+                            this.addPropertie(this.currentSelectedCell, 'isSelected');
+
+                        } else {
+                            //there is already a selected cell
+                            //-> select cell if different from currently selected one
+                            if (this.currentSelectedCell != cell) {
+                                this.terminateTreeEdition();
+                                this.deletePropertie(this.currentSelectedCell, 'isSelected');
+
+                                this.currentSelectedCell = cell;
+                                this.addPropertie(this.currentSelectedCell, 'isSelected');
+                            }
+                        }
+
+                    } else {
+                        //the mouse is not on a row
+                        this.terminateTreeEdition();
+                    }
+
+                    event.stopPropagation();
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               called by a double click on the tree
+               @param event: the clicking event
+            -->
+            <method name="dblClickOnTree">
+                <parameter name="event"/>
+                <body>
+                    <![CDATA[
+                    var cellCoord = this.getClickedCell(event);
+
+                    if (cellCoord.row != -1) {
+                        //click on a cell
+                        var cell = this.getCell(cellCoord.row, cellCoord.col);
+                        var cellDesc = this.getCellDesc(cell);
+                        
+                        this.actionOnTree(event);
+                    }
+
+                   event.stopPropagation();
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               called by a key pressed on the tree
+               @param event: the event made by pressing the key
+            -->
+            <method name="keyOnTree">
+                <parameter name="event"/>
+                <body>
+                    <![CDATA[
+                    var tree = this.firstChild;
+                    
+                    switch (event.keyCode) {
+                        case event.DOM_VK_RETURN:
+                            //start update
+                            this.actionOnTree(event);
+                            break;
+
+                        case event.DOM_VK_INSERT:
+                            //insert a new row
+                            if (tree.hasAttribute('fctInsert')) {
+                                eval(tree.getAttribute('fctInsert')+"()");
+                            }
+                            break;
+
+                        case event.DOM_VK_DELETE:
+                            //delete the selected row
+                            if (tree.hasAttribute('fctDelete')) {
+                                var cellDesc = this.getCellDesc(this.currentSelectedCell);
+                                eval(tree.getAttribute('fctDelete')+"("+cellDesc.indexRow+")");
+                            }
+                            break;
+
+                        case event.DOM_VK_RIGHT:
+                            this.moveRight();
+                            break;
+
+                        case event.DOM_VK_LEFT:
+                            this.moveLeft();
+                            break;
+
+                        case event.DOM_VK_UP:
+                            this.moveUp();
+                            break;
+
+                        case event.DOM_VK_DOWN:
+                            this.moveDown();
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    event.stopPropagation();
+                    ]]>
+                </body>
+            </method>
+
+            <!--
+               start the edition of current selected cell
+            -->
+            <method name="actionOnTree">
+                <parameter name="event"/>
+                <body>
+                    <![CDATA[
+                    var cellDesc = this.getCellDesc(this.currentSelectedCell);
+    
+                    eval(this.firstChild.getAttribute('fctStart')+"(event,cellDesc.idCol)");
+                    ]]>
+                </body>
+            </method> 
+
+
+            
+            <!--
+            ********************************************************************
+            *  MOVING BRANCHE FUNCTIONS
+            ********************************************************************
+            -->
+            
+            <!--
+               bouge la branche sélectionnée
+            -->
+      <method name="Move">
+        <parameter name="treename"/>
+        <parameter name="direction"/>
+        <parameter name="event"/>
+        <body>
+        <![CDATA[
+			var tree = document.getElementById(treename);
+			var idx = tree.currentIndex;
+			var dir = 1;
+			if (direction == "up") {
+				dir = -1;
+			}	
+			var currentitem = tree.treeBoxObject.view.getItemAtIndex(idx);
+			var previousitem = tree.treeBoxObject.view.getItemAtIndex(idx + dir);
+			var parent = currentitem.parentNode;
+
+			if (direction == "up") {
+				if (previousitem.parentNode == currentitem.parentNode) {
+					parent.insertBefore(currentitem, previousitem);
+				} else {
+					var tmp = previousitem.parentNode.parentNode;
+					var ourobj = tmp;
+					while (tmp.id != TreeId) {
+						tmp = tmp.parentNode;
+						if (currentitem.parentNode == tmp.parentNode) {
+							ourobj = tmp;
+						}
+					}					
+					parent.insertBefore(currentitem, ourobj);
+				}
+			} else {
+				if (previousitem.parentNode == currentitem.parentNode) {
+					parent.insertBefore(previousitem, currentitem);
+				} else {
+					var previousitem = tree.treeBoxObject.view.getItemAtIndex(idx + dir + 1);
+					var i = 1;
+					var ourobj;
+					while (previousitem && ( previousitem.parentNode != currentitem.parentNode ) ) {
+						i++;
+						previousitem = tree.treeBoxObject.view.getItemAtIndex(idx + dir + i);	
+					}
+					if (previousitem) {
+						parent.insertBefore(previousitem, currentitem);
+					}
+					
+				}
+			
+			}
+        ]]>
+        </body>
+      </method>
+
+            
+            <!--
+            ********************************************************************
+            *  MOVING CONTROL FUNCTIONS
+            ********************************************************************
+            -->
+            
+            <!--
+               select the first visible cell
+               on the right of the currently selected one
+            -->
+            <method name="moveRight">
+                <body>
+                    <![CDATA[
+                    var found = this.currentSelectedCell;
+                    var cur = found;
+
+                    while ((cur.nextSibling!=null) && (found == this.currentSelectedCell)) {
+                        cur = cur.nextSibling;
+                        var desc = this.getCellDesc(cur);
+                        if (desc.hidden == false) {
+                            found = cur;
+                        }
+                    }  
+
+                    this.deletePropertie(this.currentSelectedCell, 'isSelected');
+                    this.currentSelectedCell = found;
+                    this.addPropertie(this.currentSelectedCell, 'isSelected');
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               select the first visible cell
+               on the left of the currently selected one
+            -->
+            <method name="moveLeft">
+                <body>
+                    <![CDATA[
+                    var found = this.currentSelectedCell;
+                    var cur = found;
+
+                    while ((cur.previousSibling!=null) && (found == this.currentSelectedCell)) {
+                        cur = cur.previousSibling;
+                        var desc = this.getCellDesc(cur);
+                        if (desc.hidden == false) {
+                            found = cur;
+                        }
+                    }  
+
+                    this.deletePropertie(this.currentSelectedCell, 'isSelected');
+                    this.currentSelectedCell = found;
+                    this.addPropertie(this.currentSelectedCell, 'isSelected');
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               select the cell just upwards the currently selected one
+            -->
+            <method name="moveUp">
+                <body>
+                    <![CDATA[
+                    var curDesc = this.getCellDesc(this.currentSelectedCell);
+    
+                    this.deletePropertie(this.currentSelectedCell, 'isSelected');
+
+                    var indexUp = curDesc.indexRow;
+                    if (indexUp > 0) {
+                        indexUp--;
+                    }
+                    this.currentSelectedCell = this.getCell(indexUp, curDesc.idCol);
+
+                    this.addPropertie(this.currentSelectedCell, 'isSelected');
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               select the cell just downward the currently selected one
+            -->
+            <method name="moveDown">
+                <body>
+                    <![CDATA[
+                    var curDesc = this.getCellDesc(this.currentSelectedCell);
+    
+                    this.deletePropertie(this.currentSelectedCell, 'isSelected');
+
+                    var indexDown = curDesc.indexRow;
+                    if (indexDown < (this.firstChild.view.rowCount-1)) {
+                        indexDown++;
+                    }
+                    this.currentSelectedCell = this.getCell(indexDown, curDesc.idCol);
+                    this.addPropertie(this.currentSelectedCell, 'isSelected');
+                    ]]>
+                </body>
+            </method>
+            
+            
+            <!--
+            ********************************************************************
+            *  TREE ELEMENTS HANDING
+            ********************************************************************
+            -->
+            
+            <!-- 
+               get the treecell on which the the cliking event occured
+               @returns the tree coordinates of the clicked cell {row, col}
+               @param event: the click event
+            -->
+            <method name="getClickedCell">
+                <parameter name="event"/>
+                <body>
+                    <![CDATA[
+                    /* the clicked cell */
+                    var row = new Object();
+                    var col = new Object();
+                    var child = new Object();
+                    this.firstChild.treeBoxObject.getCellAt(event.clientX, event.clientY, row, col, child);
+
+                    var idMatch;
+                    try {
+                        idMatch = col.value.element.getAttribute('id');
+                    } catch (error) {
+                        idMatch = col.value;
+                    }
+
+                    return {row: row.value, col: idMatch};
+                    ]]>
+                </body>
+            </method>
+            
+            <!-- 
+               get a cell from its row index and column id
+               @returns a reference to the given cell
+               @param indexRow: the index of the row
+               @param idCol: the id of the column
+            -->
+            <method name="getCell">
+                <parameter name="indexRow"/>
+                <parameter name="idCol"/>
+                <body>
+                    <![CDATA[
+                    var row = this.firstChild.contentView.getItemAtIndex(indexRow);
+    
+                    var cell = row.firstChild.firstChild;
+
+                    var indexCol = this.getColIndex(idCol, 'row');
+                    for (var i=0 ; i<indexCol ; i++) {
+                        cell = cell.nextSibling;
+                    }
+                    return cell;
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               get a column element index
+               @returns the index of the given column
+               @param idCol: the id of the column to look for
+               @param level: whether to give the index in the <treecols> children
+                              or in the <treerow> ('cols'|'row')
+            -->
+            <method name="getColIndex">
+                <parameter name="idCol"/>
+                <parameter name="level"/>
+                <body>
+                    <![CDATA[
+                     var colsChildren = this.firstChild.firstChild.childNodes;
+    
+                    var indexSearch = -1;
+                    var indexCol = 0;
+                    var found = false;
+
+                    while ((indexSearch<colsChildren.length) && (found==false)) {
+
+                        indexSearch++;     
+                        var colChild = colsChildren[indexSearch];
+
+                        if (colChild.tagName == 'treecol') {
+
+                            if (colChild.getAttribute('id') == idCol) {
+                                found = true;
+                            } else {
+                                indexCol++;
+                            }
+                        }
+                    }
+
+                    if (level == 'cols') {
+                        return indexSearch;
+                    } else {
+                        return indexCol;
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               get the description of a cell
+               @returns a description of the given cell
+                {rowIndex, indexCol, idCol, hidden}
+               @param cell: the cell to describe
+            -->
+            <method name="getCellDesc">
+                <parameter name="cell"/>
+                <body>
+                    <![CDATA[
+                    //retrieve the cell row
+                    var item = cell.parentNode.parentNode;
+                    var indexRow = this.firstChild.contentView.getIndexOfItem(item);
+
+                    // retrieve the cell column
+                    var found = false;
+                    var testCell = cell.parentNode.firstChild;
+                    var indexCol = 0;
+
+                    while ((testCell!=null) && (testCell!=cell)) {
+
+                        indexCol++;
+                        testCell = testCell.nextSibling;
+                    }
+
+                    var curCol = this.firstChild.firstChild.firstChild;
+                    for (var i=0 ; i<indexCol ; i++) {
+
+                        curCol = curCol.nextSibling;
+                        if (curCol.tagName != 'treecol') {
+                            curCol = curCol.nextSibling;
+                        }
+                    }
+
+                    var id_col = curCol.getAttribute('id');
+                    var hidden_col = curCol.hasAttribute('hidden');
+
+                    //the object with the description
+                    return {indexRow: indexRow, indexCol: indexCol, idCol: id_col, hidden: hidden_col};
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               get coordinates and size of a cell
+               @returns an object with coordinates and size of the given cell
+                {cellX, cellY, colW, rowH}
+               @param rowV: the index of the row
+               @param colV: the id of the column
+            -->
+            <method name="getCellCoordAndSize">
+                <parameter name="rowV"/>
+                <parameter name="colV"/>
+                <body>
+                    <![CDATA[
+                    var tree = this.firstChild;
+                    
+                    /* coordinates of the selected cell */
+                    var elem = new Object();
+                    var outX = new Object();
+                    var outY = new Object();
+                    var outW = new Object();
+                    var outH = new Object();
+
+                    var colMatch;
+                    try {
+                        colMatch = tree.columns[colV];
+                    } catch (error) {
+                        colMatch = colV;
+                    }
+
+                    tree.treeBoxObject.getCoordsForCellItem(rowV, colMatch, elem, outX, outY, outW, outH);
+
+                    /* tree head height */
+                    var headH = tree.firstChild.boxObject.height;
+
+                    /* width of the column */
+                    var cols = tree.firstChild.childNodes;
+
+                    var curCol = cols[this.getColIndex(colV, 'cols')];
+                    var colWidth = curCol.boxObject.width;
+
+                    return {cellX: outX.value, cellY: outY.value+headH, colW: colWidth, rowH: tree.treeBoxObject.rowHeight};
+                    ]]>
+                </body>
+            </method>
+            
+            
+            <!--
+            ********************************************************************
+            *  CELL PROPERTIES MANIPULATION
+            ********************************************************************
+            -->
+            
+            <!--
+               delete an element's propertie
+               @param element: the element to consider
+               @param delProp: the name of the propertie to delete
+            -->
+            <method name="deletePropertie">
+                <parameter name="element"/>
+                <parameter name="delProp"/>
+                <body>
+                    <![CDATA[
+                    var props = element.getAttribute('properties');
+
+                    //delete the propertie
+                    var newProp = props.replace(delProp, '');
+
+                    //delete extra spaces
+                    newProp = newProp.replace(/^\s*/, "");
+                    newProp = newProp.replace(/\s*$/, "");
+                    newProp = newProp.replace(/\s+/g, " ");
+
+                    if (newProp == '') {
+                        element.removeAttribute('properties');
+                    } else {
+                        element.setAttribute('properties', newProp);
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               add a propertie to an element
+               @param element: the element to consider
+               @param newProp: the name of the propertie to add
+            -->
+            <method name="addPropertie">
+                <parameter name="element"/>
+                <parameter name="newProp"/>
+                <body>
+                    <![CDATA[
+                    var prop = "";
+                    if (element.hasAttribute('properties')) {
+                        prop = element.getAttribute('properties');
+                    }
+                    element.setAttribute('properties', prop+' '+newProp);
+                    ]]>
+                </body>
+            </method>
+            
+            
+            <!--
+            ********************************************************************
+            *  COLUMN HEAD EVENT CONTROL = SORT COLUMN
+            ********************************************************************
+            -->
+            
+            <!--
+               sort the tree by the given rdf field
+               @param event: the event on the column head
+               @param fieldName: the rdf field's name used to sort the tree
+            -->
+            <method name="sortOnColumn">
+                <parameter name="event"/>
+                <parameter name="fieldName"/>
+                <body>
+                    <![CDATA[
+                    var col = event.target;
+                    var cols = col.parentNode;
+                    var tree = cols.parentNode;
+
+                    if (!col.hasAttribute('sortDirection')) {
+                        this.deleteActiveSort(cols);
+                    }
+
+                    if (col.getAttribute('sortDirection') == 'ascending') {
+                        col.setAttribute('sortDirection', 'descending');
+                        tree.setAttribute('sortDirection', 'descending');
+                    } else {
+                        col.setAttribute('sortDirection', 'ascending');
+                        tree.setAttribute('sortDirection', 'ascending');
+                    }
+
+                    tree.setAttribute('sortResource', fieldName);
+
+                    tree.builder.refresh();
+
+                    event.stopPropagation();
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               delete the little sort arrow on the sorted column
+               @param cols: a reference to the treecols element
+            -->
+            <method name="deleteActiveSort">
+                <parameter name="cols"/>
+                <body>
+                    <![CDATA[
+                    var col = cols.firstChild;
+                    var found = false;
+
+                    while ((col.nextSibling != null) && (found == false)) {
+                        if (col.hasAttribute('sortDirection')) {
+                            found = true,
+                            col.removeAttribute('sortDirection');
+                        }
+                        col = col.nextSibling;
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+            
+            <!--
+            ********************************************************************
+            *  SEVERAL WAYS TO EDIT THE TREE: CHECK TYPE ELEMENTS
+            ********************************************************************
+            -->
+
+            <!--
+               update with a checkbox element (several cells can be selected in the column):
+                select or deselect the given cell
+            -->
+            <method name="updateByCb">
+                <parameter name="event"/>
+                <body>
+                    <![CDATA[
+                    var cellCheckProp = this.currentSelectedCell.getAttribute('properties');
+
+                    var cb = document.createElement('checkbox');
+
+                    if (cellCheckProp.indexOf('check_yes') == -1) {
+                        cb.setAttribute('checked', 'true');
+                    }
+                    
+                    //keep a reference to th current selected cell
+                    var curOrigin = this.currentSelectedCell;
+                    var curDesc = this.getCellDesc(this.currentSelectedCell);
+                    
+                    if (event.shiftKey) {
+                        //the shift key was pressed -> modify every cell in the column
+                        
+                        for (var i=0 ; i<this.firstChild.view.rowCount ; i++) {
+                            if (i!=curDesc.indexRow) {
+                            
+                                this.currentSelectedCell = this.getCell(i, curDesc.idCol);
+                                var curProp = this.currentSelectedCell.getAttribute('properties');
+
+                                if ( (cb.hasAttribute('checked') && (curProp.indexOf('check_yes') == -1))
+                                    || (!cb.hasAttribute('checked') && (curProp.indexOf('check_no') == -1)) ) {
+                                
+                                    this.startSave(cb);
+                                }
+                            }
+                        }
+                    }             
+                    
+                    //update the initially selected cell
+                    this.currentSelectedCell = curOrigin;
+                    this.startSave(cb);
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               update with a radio element (only one cell in the column can be selected):
+                deselect all cells in the column and select the given one
+            -->
+            <method name="updateByRadio">
+                <body>
+                    <![CDATA[
+                    var cellRadioProp = this.currentSelectedCell.getAttribute('properties');
+
+                    //do something only if cell not already checked
+                    if (cellRadioProp.indexOf('radio_no') != -1) {
+
+                        //-> deselect the cell checked in the column
+                        var foundRadio = false;
+                        var indexSearch = 0;
+                        var curDesc = this.getCellDesc(this.currentSelectedCell);
+                        var col = curDesc.idCol;
+
+                        while ((indexSearch < this.firstChild.view.rowCount) && (foundRadio == false)) {
+
+                            var cellTemp = this.getCell(indexSearch, col);
+                            var cellTempProp = cellTemp.getAttribute('properties');
+
+                            if (cellTempProp.indexOf('radio_yes') != -1) {
+                                //the cell is selected -> deselect it
+                                this.deletePropertie(cellTemp, 'radio_yes');
+                                this.addPropertie(cellTemp, 'radio_no');
+                                foundRadio = true;
+                            }
+
+                            indexSearch++;
+                        }
+
+                        //create a radio element
+                        var radio = document.createElement('radio');
+
+                        this.startSave(radio);
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+            
+            <!--
+            ********************************************************************
+            *  SEVERAL WAYS TO EDIT THE TREE: TEXTBOX ELEMENT
+            ********************************************************************
+            -->
+            
+            <!--
+               update with a textbox element
+               @returns a textbox element
+               @param testExp: a regular expression to test the new value before saving it
+                leave blank to allow every characters
+               @param idTooltip: the id of a tooltip shown if the new value doesn't match testExp
+            -->
+            <method name="updateByTextbox">
+                <parameter name="testExp"/>
+                <parameter name="idTooltip"/>
+                <body>
+                    <![CDATA[
+                    var tb = document.createElement('textbox');
+    
+                    tb.setAttribute('value', this.currentSelectedCell.getAttribute('label'));
+                    tb.setAttribute('onkeypress', 'this.parentNode.keyOnTextbox(event);');
+
+                    tb.setAttribute('testExp', testExp);    
+                    tb.setAttribute('idTooltip', idTooltip);
+
+                    tb.setAttribute('oninput', "try {document.getElementById('"+idTooltip+"').hidePopup();} catch (error) {}");
+
+                    return tb;
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               called by a key event on the editing textbox
+               @param event: the key press event
+            -->
+            <method name="keyOnTextbox">
+                <parameter name="event"/>
+                <body>
+                    <![CDATA[
+                    var editField = event.target;
+
+                    switch (event.keyCode) {
+                        case event.DOM_VK_RETURN:
+                            //test the value
+
+                            //get the test to make
+                            var testExp = editField.getAttribute('testExp');
+                            var testReg = new RegExp(testExp);
+
+                            //get the tooltip to show
+                            var idTooltip = editField.getAttribute('idTooltip');
+
+                            if (!testReg.test(editField.value)) {
+                                //the value doesn't match the given expression -> show tooltip
+                                try {
+                                    var tooltip = document.getElementById(idTooltip);
+                                    tooltip.showPopup(editField, editField.boxObject.screenX , editField.boxObject.screenY, 'tooltip', '', '' );
+                                    editField.select();
+                                } catch (error) {}
+                            } else {
+                                //the value match the expression -> save and hide the tooltip
+                                this.startSave(editField);
+                                try {
+                                    tooltip.hidePopup();
+                                } catch (error) {}
+                            }
+                            
+                            break;
+
+                        case event.DOM_VK_ESCAPE:
+                            //terminate edition
+                            this.terminateTreeEdition();
+                            break;
+
+                        case event.DOM_VK_TAB:
+                            //-> do nothing
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    event.stopPropagation();
+                    ]]>
+                </body>
+            </method>
+            
+            
+            <!--
+            ********************************************************************
+            *  SEVERAL WAYS TO EDIT THE TREE: LIST ELEMENTS
+            ********************************************************************
+            -->
+            
+            <!--
+               update with a list of items
+               @returns a menulist
+               @param popup: a menupopup element containing the items
+            -->
+            <method name="updateByList">
+                <parameter name="popup"/>
+                <body>
+                    <![CDATA[
+                    var menulist = document.createElement('menulist');
+
+                    var item0 = document.createElement('menuitem');
+                    item0.setAttribute('label', '');
+                    item0.setAttribute('value', 'none');
+                    item0.setAttribute('hidden', 'true');
+
+                    popup.insertBefore(item0, popup.firstChild);
+                    menulist.appendChild(popup);
+
+                    return menulist;
+                    ]]>
+                </body>
+            </method>
+            
+            <!--
+               update with a rdf generated list
+               @returns a rdf generated menulist
+               @param rdfSource: the rdf datasource
+               @param rdfRef: the rdf reference
+               @param labelField: the rdf field used as item's label
+               @param valueField: the rdf field used as item's value
+            -->
+            <method name="updateByRdfList">
+                <parameter name="rdfSource"/>
+                <parameter name="rdfRef"/>
+                <parameter name="labelField"/>
+                <parameter name="valueField"/>
+                <body>
+                    <![CDATA[
+                    var rdfList = document.createElement('menulist');
+
+                    var pop = document.createElement('menupopup');
+                    pop.setAttribute('datasources', rdfSource);
+                    pop.setAttribute('ref', rdfRef);
+                    
+                    var item0 = document.createElement('menuitem');
+                    item0.setAttribute('label', '');
+                    item0.setAttribute('value', 'none');
+                    item0.setAttribute('hidden', 'true');
+
+                    var template = document.createElement('template');
+                    var item  = document.createElement('menuitem');
+                    item.setAttribute('uri', 'rdf:*');
+                    item.setAttribute('label', labelField);
+                    item.setAttribute('value', valueField);
+
+                    template.appendChild(item);
+
+                    pop.appendChild(item0);
+                    pop.appendChild(template);
+
+                    rdfList.appendChild(pop);
+
+                    return rdfList;
+                    ]]>
+                </body>
+            </method>
+            
+            
+            <!--
+            ********************************************************************
+            *  EDITING MANAGEMENT
+            ********************************************************************
+            -->
+            
+            <!--
+               set the size and the position of the given editbale element
+               @param editField : the previously created editable field
+            -->
+            <method name="locateEditable">
+                <parameter name="editField"/>
+                <body>
+                    <![CDATA[
+                    //get cell row and col
+                    var cellDesc = this.getCellDesc(this.currentSelectedCell);
+    
+                    //get cell coord and size
+                    var cellCoordAndSize = this.getCellCoordAndSize(cellDesc.indexRow, cellDesc.idCol);
+
+                    //height of the editField
+                    var editH = 0;
+                    switch (editField.tagName) {
+                        case 'textbox':
+                            editH = 21;
+                            break;
+                        case 'menulist':
+                            editH = 25;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    //gap to center the editField
+                    var gap = Math.floor((cellCoordAndSize.rowH - editH)/2);
+
+                    //add necessary attributes to the editable field
+                    editField.setAttribute('left', cellCoordAndSize.cellX);
+                    editField.setAttribute('top', cellCoordAndSize.cellY+gap);
+                    editField.setAttribute('width', cellCoordAndSize.colW);
+
+                    this.deletePropertie(this.currentSelectedCell, 'isSelected');
+
+                    //add the editable element over the tree
+                    this.firstChild.parentNode.appendChild(editField);
+
+                    //action for each type of element
+                    switch (editField.tagName) {
+                        case 'textbox':
+                            //the cell is now updating with a textbox
+                            this.addPropertie(this.currentSelectedCell, 'updatingTb');
+                            editField.select();
+                            break;
+                        case 'menulist':
+                            //the cell is now updating with a menulist
+                            this.addPropertie(this.currentSelectedCell, 'updatingMl');
+                            
+                            editField.setAttribute('oncommand', 'this.parentNode.startSave(this);');
+                            editField.firstChild.setAttribute('onpopuphidden', 'this.parentNode.parentNode.terminateTreeEdition();');
+                            try {  
+                                editField.firstChild.showPopup();
+                            } catch (error) {}
+                            break;
+                        default:
+                            break;
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+            
+            <!--
+               save the new value of the cell: update the cell in the tree
+               and execute the defined save function
+            -->
+            <method name="startSave">
+                <parameter name="editField"/>
+                <body>
+                    <![CDATA[
+                    //save and terminate
+
+                    switch (editField.tagName) {
+                        case 'checkbox':
+                            //check or uncheck the cell
+                            var prop = this.currentSelectedCell.getAttribute('properties');
+
+                            if (editField.hasAttribute('checked')) {
+                                if (prop.indexOf('check_no') != -1) {
+                                    this.deletePropertie(this.currentSelectedCell, 'check_no');
+                                    this.addPropertie(this.currentSelectedCell, 'check_yes');
+                                 }
+                            } else {
+                                if (prop.indexOf('check_yes') != -1) {
+                                    this.deletePropertie(this.currentSelectedCell, 'check_yes');
+                                    this.addPropertie(this.currentSelectedCell, 'check_no');   
+                                }
+                            }
+                            break;
+                    
+                        case 'radio':
+                            //select the given cell
+                            this.deletePropertie(this.currentSelectedCell, 'radio_no');
+                            this.addPropertie(this.currentSelectedCell, 'radio_yes');
+                            break;
+                    
+                        case 'textbox':
+                            this.currentSelectedCell.setAttribute('label', editField.value);
+                            break;
+                            
+                        case 'menulist':
+                            this.currentSelectedCell.setAttribute('label', editField.selectedItem.label);
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    //get the current cell description
+                    var curDesc = this.getCellDesc(this.currentSelectedCell);
+                    
+                    //get the current item id
+                    var id = this.getCell(curDesc.indexRow, 'id').getAttribute('label');
+                    editField.setAttribute('currentId', id);
+
+                    editField.setAttribute('currentField', curDesc.idCol);
+                    
+                    this.terminateTreeEdition();
+					var typeSource = this.firstChild.getAttribute('typesource');
+                    eval(this.firstChild.getAttribute('fctSave')+"(editField,typeSource)");
+                    ]]>
+                </body>
+            </method>
+ 
+            <!--
+               close the editing element
+            -->
+            <method name="terminateTreeEdition">
+                <body>
+                    <![CDATA[
+                    var tree = this.firstChild;
+                    
+                    //terminate the edition of the cell
+                    if (tree.nextSibling != null) {
+
+                        switch (tree.nextSibling.tagName) {
+                            case 'textbox':
+                                try {
+                                    var idTooltip = tree.nextSibling.getAttribute('idTooltip');
+                                    document.getElementById(idTooltip).hidePopup();
+                                } catch (error) {}
+
+                                this.deletePropertie(this.currentSelectedCell, 'updatingTb');
+                                break;
+                            case 'menulist':
+                                this.deletePropertie(this.currentSelectedCell, 'updatingMl');
+                                break;
+                            }
+
+                        tree.parentNode.removeChild(tree.nextSibling);
+                        tree.focus();
+
+                        this.addPropertie(this.currentSelectedCell, 'isSelected');
+						
+                    }
+                    ]]>
+                </body>
+            </method>
+            
+        </implementation>
+        
+    </binding>
+    
+</bindings>

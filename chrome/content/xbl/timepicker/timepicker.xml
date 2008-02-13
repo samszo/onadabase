@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl"
+	xmlns:xbl="http://www.mozilla.org/xbl"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<binding id="timepicker" extends="xul:hbox">
+		<content>
+			<xul:stack>
+				<xul:textbox anonid="textfield" replacemode="true" accepterror="true" xbl:inherits="value,disabled" oninput="parentNode.parentNode.majCursors()"
+					regexp="(00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23)(:(00|01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59)){2}"/>
+				<xul:vbox>
+					<xul:hslider anonid="hslider-minutes" cursor="small-uptodown" onchange="parentNode.parentNode.parentNode.setMinutes(this.value);" value="0" min="0" max="59" ticks="60" xbl:inherits="disabled"/>
+					<xul:spacer flex="1"/>
+					<xul:hslider anonid="hslider-hours" cursor="small-downtoup" onchange="parentNode.parentNode.parentNode.setHours(this.value);" value="0" min="0" max="23" ticks="24" xbl:inherits="disabled"/>
+				</xul:vbox>
+			</xul:stack>
+			<xul:spinbutton onclickup="parentNode.incTime();" onclickdn="parentNode.decTime()" xbl:inherits="disabled"/>
+		</content>
+		<implementation>
+			<constructor><![CDATA[
+				if(this.getAttribute("value")==""||this.getAttribute("value").length!=8) this.setDate(new Date());
+			]]></constructor>
+			<property name="textfield">
+				<getter><![CDATA[
+					return document.getAnonymousElementByAttribute(this ,'anonid', 'textfield');
+				]]></getter>
+			</property>
+			<property name="value">
+				<setter><![CDATA[
+					this.setAttribute("value", val);
+				]]></setter>
+				<getter><![CDATA[
+					return this.textfield.value;
+				]]></getter>
+			</property>
+			<method name="_getCoef">
+				<parameter name="rank"/>
+				<body><![CDATA[
+					if(rank==0) return 3600;
+					else if(rank==1) return 3600;
+					else if(rank==3) return 600;
+					else if(rank==4) return 60;
+					else if(rank==6) return 10;
+					return 1
+				]]></body>
+			</method>
+			<method name="getDate">
+				<body><![CDATA[
+					var time = this.value;
+					var vals = time.split(":");
+					var now = new Date();
+					now.setHours(parseInt(vals[0], 10));
+					now.setMinutes(parseInt(vals[1], 10));
+					now.setSeconds(parseInt(vals[2], 10));
+					return now;
+				]]></body>
+			</method>
+			<method name="decTime">
+				<body><![CDATA[
+					var begin = this.textfield.selectionStart;
+					var coef = this._getCoef(begin);
+					var date = this.getDate();
+					var secs = date.getSeconds()-(1*coef);
+					date.setSeconds(secs);
+					this.setDate(date);
+					this.textfield.selectionStart = begin;
+					this.textfield.focus();
+					this.majCursors();
+				]]></body>
+			</method>
+			<method name="incTime">
+				<body><![CDATA[
+					var begin = this.textfield.selectionStart;
+					var coef = this._getCoef(begin);
+					var date = this.getDate();
+					var secs = date.getSeconds()+(1*coef);
+					date.setSeconds(secs);
+					this.setDate(date);
+					this.textfield.selectionStart = begin;
+					this.textfield.focus();
+					this.majCursors();
+				]]></body>
+			</method>
+			<method name="setDate">
+				<parameter name="date"/>
+				<body><![CDATA[
+					var hours = date.getHours();
+					var mins = date.getMinutes();
+					var secs = date.getSeconds();
+					if(hours<10) hours = "0"+hours;
+					if(mins<10) mins = "0"+mins;
+					if(secs<10) secs = "0"+secs;
+					this.textfield.setAttribute("value", hours+":"+mins+":"+secs);
+					this.textfield.value=hours+":"+mins+":"+secs;
+				]]></body>
+			</method>
+			<method name="setHours">
+				<parameter name="hours"/>
+				<body><![CDATA[
+					var date = this.getDate();
+					var mins = date.getMinutes();
+					var secs = date.getSeconds();
+					if(hours<10) hours = "0"+hours;
+					if(mins<10) mins = "0"+mins;
+					if(secs<10) secs = "0"+secs;
+					this.textfield.setAttribute("value", hours+":"+mins+":"+secs);
+					this.textfield.value=hours+":"+mins+":"+secs;
+				]]></body>
+			</method>
+			<method name="setMinutes">
+				<parameter name="mins"/>
+				<body><![CDATA[
+					var date = this.getDate();
+					var hours = date.getHours();
+					var secs = date.getSeconds();
+					if(hours<10) hours = "0"+hours;
+					if(mins<10) mins = "0"+mins;
+					if(secs<10) secs = "0"+secs;
+					this.textfield.setAttribute("value", hours+":"+mins+":"+secs);
+					this.textfield.value=hours+":"+mins+":"+secs;
+				]]></body>
+			</method>
+			<method name="majCursors">
+				<body><![CDATA[
+					var date = this.getDate();
+					var hours = date.getHours();
+					var slider = document.getAnonymousElementByAttribute(this ,"anonid", "hslider-hours");
+					slider.value = hours;
+					slider.setAttribute("tooltiptext", hours+" heure(s)");
+					var minutes = date.getMinutes();
+					slider = document.getAnonymousElementByAttribute(this ,"anonid", "hslider-minutes");
+					slider.value = minutes;
+					slider.setAttribute("tooltiptext", minutes+" minute(s)");
+				]]></body>
+			</method>
+		</implementation>
+		<handlers>
+			<handler event="mouseover"><![CDATA[this.majCursors();]]></handler>
+		</handlers>
+	</binding>
+</bindings>

@@ -1,0 +1,27 @@
+    /**
+     * binding of the element
+     */
+    .myForm {
+        -moz-binding: url('myForm.xml#myForm');
+    }
+    /**
+     * image used as file picker button
+     * IMPORTANT: width and height of the image are required
+     */
+    .xbl_myInputFileBut {
+        background-image: url('../../images/dossier.gif');
+        width: 32px;
+        height: 32px;
+    }
+    /**
+     * button to add a file picker
+     */
+    .xbl_butAdd {
+        list-style-image: url('../../images/file.gif');
+    }
+    /**
+     * button to remove a file picker
+     */
+    .xbl_butRemove {
+        list-style-image: url('../../images/folder.gif');
+    }

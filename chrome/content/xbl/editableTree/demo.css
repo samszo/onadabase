@@ -1,0 +1,88 @@
+/*
+ * (c) Edutice 2007 http://www.edutice.fr
+ * Author : vbe <v.bataille@novatice.com>
+ * Version : 00.00.01
+ * Description : demo of editable tree css rules
+ * Note : Edutice is a brand of Novatice Technologies SAS 
+ */
+
+@import url("chrome://global/skin");
+
+window {
+    -moz-appearance: none !important;
+    background-color: #ede8e8;
+}
+
+description {
+    margin-left: 10px;
+}
+
+/*link to the binding*/
+.editableTree {
+    -moz-binding: url('editableTree.xml#editableTree');
+}
+/*height of a tree row: 
+ * 22px minimum in case of editing textbo
+ * 26px minimum in case of editing list
+ *if more, editing element are centered
+ */
+.editableTree treechildren::-moz-tree-row {
+    height: 26px;
+}
+
+/*change default appearance of selected row*/
+.editableTree treechildren::-moz-tree-row(selected), 
+.editableTree treechildren::-moz-tree-row(current) {    
+    background-color: transparent;
+    border-color: transparent;
+}
+/*change default appearance of the text in a selected row*/
+.editableTree treechildren::-moz-tree-cell-text(selected) {
+    color: black;
+}
+
+/*a transparent border for each cell:
+ *avoid little vibration when selecting a cell
+ *useless if no border is defined in the appearance of a selected cell
+ */
+.editableTree treechildren::-moz-tree-cell {
+    border: 1px solid transparent;
+}
+/*appearance of a selected cell*/
+.editableTree treechildren::-moz-tree-cell(isSelected) {
+    border: 1px solid green;
+    -moz-border-radius: 10px;
+}
+
+/*text color for a cell edited by a textbox
+ *use the tree background color, so that the text becomes invisible
+ *otherwise, the text stays visible through the textbox
+ *(z-index problem in a stack)
+ */
+.editableTree treechildren::-moz-tree-cell-text(updatingTb) {
+    color: white;
+}
+/*text color for a cell edited by a menulist
+ *useless if it's the same as the default cell text color
+ */
+.editableTree treechildren::-moz-tree-cell-text(updatingMl) {
+    color: black;
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+/*images used for a checkbox type cell*/
+.editableTree treechildren::-moz-tree-image(check_yes) {
+    list-style-image: url('check_yes.png');
+}
+.editableTree treechildren::-moz-tree-image(check_no) {
+    list-style-image: url('check_no.png');
+}
+/*images used for a radio type cell
+ *here, a unselected cell stays empty
+ */
+.editableTree treechildren::-moz-tree-image(radio_yes) {
+    list-style-image: url('check_yes.png');
+}
+.editableTree treechildren::-moz-tree-image(radio_no) {
+}

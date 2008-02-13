@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+ <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+ <window title="Ouverture du filemanager"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+ <script><![CDATA[
+ function openExternal(aFile)
+ {
+   var uri = Components.classes["@mozilla.org/network/io-service;1"]
+                       .getService(Components.interfaces.nsIIOService)
+                       .newFileURI(aFile);
+   var protocolSvc =
+       Components.classes["@mozilla.org/uriloader/external-protocol-service;1"]
+                 .getService(Components.interfaces.nsIExternalProtocolService);
+   protocolSvc.loadUrl(uri);
+   return;
+ }
+
+ function filemanager() {
+  var fp = Components.classes["@mozilla.org/file/local;1"].
+           createInstance(Components.interfaces.nsILocalFile);
+  fp.initWithPath(document.getElementById('dir').value);
+  try {
+    fp.reveal();
+  } catch(e) { openExternal(fp); };
+ }
+ ]]></script>
+
+ <html:h1>Lancement de l'explorateur de fichiers</html:h1>
+ <hbox>
+  <label value="Répertoire système à ouvrir :" />
+  <textbox id="dir" value="~/" />
+  <button label="..." oncommand="filemanager()" />
+ </hbox>
+
+ </window>
