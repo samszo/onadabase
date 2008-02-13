@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings 	xmlns="http://www.mozilla.org/xbl" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xbl="http://www.mozilla.org/xbl"
+			xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<binding id="textfield" extends="chrome://global/content/bindings/textbox.xml#timed-textbox">
+		<implementation>
+			<constructor><![CDATA[
+				this.replacemode = this.getAttribute("replacemode")=="true";
+				var evt = document.createEvent("Events");
+				evt.initEvent("change", true, true);
+				this.dispatchEvent(evt); 
+			]]></constructor>
+			<field name="_oldvalue"/>
+			<field name="_oldbegin"/>
+			<field name="_oldend"/>
+			<property name="accepterror">
+				<setter><![CDATA[this.setAttribute("accepterror", val);]]></setter>
+				<getter><![CDATA[return this.getAttribute("accepterror") == "true";]]></getter>
+			</property>
+			<property name="replacemode">
+				<setter><![CDATA[
+					this.setAttribute("replacemode", val);
+					if(val==true) this.setAttribute("size", this.value.length);
+				]]></setter>
+				<getter><![CDATA[return this.getAttribute("replacemode") == "true";]]></getter>
+			</property>
+		</implementation>
+		<handlers>
+		    <handler event="change"><![CDATA[
+                this.removeAttribute("error");
+                var regexp = this.getAttribute("regexp");
+                if(regexp!="") {
+                	regexp = new RegExp("^"+regexp+"$");
+                	if(!regexp.test(value)) this.setAttribute("error", true);
+                }
+			]]></handler>
+			<handler event="select"><![CDATA[
+				this.focus();
+			]]></handler>
+			<handler event="focus" phase="capturing"><![CDATA[
+                if(this.replacemode) {
+                    var start = (this.selectionStart>=this.textLength)?(this.textLength-1):this.selectionStart;
+                    this.setSelectionRange(start, start+1);
+                }
+				var evt = document.createEvent("Events");
+				evt.initEvent("change", true, true);
+				this.dispatchEvent(evt); 
+			]]></handler>
+		    <handler event="select"><![CDATA[
+				event.preventDefault();
+				event.stopPropagation();
+			]]></handler>
+		    <handler event="input"><![CDATA[
+				var evt = document.createEvent("Events");
+				evt.initEvent("change", true, true);
+				this.dispatchEvent(evt);
+				var begin = this.selectionStart;
+				var end = this.selectionEnd;
+                if(this.getAttribute("error")=="true") {
+                	if(!this.accepterror) {
+                        this.removeAttribute("error");
+	             		this.value=this._oldvalue;
+	             		this.setSelectionRange(this._oldbegin, this._oldend);
+                	}
+                } 
+                this.focus();
+			]]></handler>
+			<handler event="keydown"><![CDATA[
+				this._oldvalue = this.value;
+				this._oldbegin = this.selectionStart;
+				this._oldend = this.selectionEnd;
+			]]></handler>
+			<handler event="keypress" keycode="VK_BACK"><![CDATA[if(this.replacemode) event.preventDefault();]]></handler>
+			<handler event="keypress" keycode="VK_DELETE"><![CDATA[if(this.replacemode) event.preventDefault();]]></handler>
+			<handler event="keypress" keycode="VK_DOWN"><![CDATA[event.preventDefault();]]></handler>
+			<handler event="keypress" keycode="VK_UP"><![CDATA[event.preventDefault();]]></handler>
+			<handler event="keypress" keycode="VK_RIGHT"><![CDATA[
+            	if(this.replacemode) { 
+	                this.selectionStart++;
+	                this.focus();
+					event.preventDefault();
+				}
+			]]></handler>
+			<handler event="keypress" keycode="VK_LEFT"><![CDATA[
+				if(this.replacemode) {
+					this.selectionStart--;
+                	this.focus();
+					event.preventDefault();
+				}
+			]]></handler>
+			<handler event="keypress" keycode="VK_END"><![CDATA[
+				if(this.replacemode) {
+	                this.selectionStart=this.selectionStart=this.textLength;
+	                this.focus();
+					event.preventDefault();
+				}
+			]]></handler>
+			<handler event="keypress" keycode="VK_HOME"><![CDATA[
+				if(this.replacemode) {
+	                this.selectionStart=0;
+	                this.focus();
+					event.preventDefault();
+				}
+			]]></handler>
+			<handler event="mousedown"><![CDATA[this.focus();]]></handler>
+			<handler event="mouseup"><![CDATA[this.focus();]]></handler>
+		</handlers>
+	</binding>
+
+	<binding id="suggestion" extends="chrome://global/content/bindings/textbox.xml#timed-textbox">
+		<content sizetopopup="pref" timeout="500" oncommand="this.updateSuggest();" onfocus="document.getBindingParent(this).updateSuggest();" minlength="1" maxrows="11" autosuggestparam="start" autosuggestlimit="limit" limit="1000">
+			<xul:hbox class="suggestion-textbox-container" flex="1">
+				<children includes="image|deck|stack">
+					<xul:image class="suggestion-icon" allowevents="true" />
+				</children>
+				<xul:hbox anonid="textbox-input-box" class="textbox-input-box" flex="1" xbl:inherits="tooltiptext=inputtooltiptext">
+					<children />
+					<html:input anonid="input" class="suggestion-textbox textbox-input" flex="1" allowevents="true"
+						xbl:inherits="tooltiptext=inputtooltiptext,onfocus,onblur,value,type,maxlength,disabled,size,readonly,userAction" />
+				</xul:hbox>
+				<children includes="hbox" />
+			</xul:hbox>
+			<xul:button anonid="suggestiondropmarker" class="suggestion-dropmarker" allowevents="true"/>
+			<xul:popupset>
+				<xul:popup type="suggestion" anonid="suggestion-popup" ignorekeys="true">
+					<xul:tree type="suggestion" height="200" anonid="suggestion-tree" flex="1" datasources="rdf:null" ref="urn:suggest:values" flags="dont-build-content" hidecolumnpicker="true" xbl:inherits="datasources,ref">
+						<xul:treecols>
+							<xul:treecol flex="1" hideheader="true"/>
+						</xul:treecols>
+						<xul:template>
+							<xul:treechildren>
+								<xul:treeitem uri="rdf:*">
+									<xul:treerow>
+										<xul:treecell properties="rdf:urn:suggest:rdf#prop" label="rdf:urn:suggest:rdf#label" value="rdf:urn:suggest:rdf#issuggest" xbl:inherits="properties,label,value=issuggest"/>
+									</xul:treerow>
+								</xul:treeitem>
+							</xul:treechildren>
+						</xul:template>
+					</xul:tree>
+				</xul:popup>
+			</xul:popupset>
+			<xul:suggest-counter anonid="suggestion-counter" flex="1" datasources="rdf:null" ref="urn:suggest:nb" nb="rdf:http://www.w3.org/1999/02/22-rdf-syntax-ns#number" xbl:inherits="datasources"/>
+		</content>
+		<implementation>
+			<field name="popup">document.getAnonymousElementByAttribute(this, "anonid", "suggestion-popup");</field>
+			<field name="tree">document.getAnonymousElementByAttribute(this, "anonid", "suggestion-tree");</field>
+			<field name="counter">document.getAnonymousElementByAttribute(this, "anonid", "suggestion-counter");</field>
+			<field name="input">document.getAnonymousElementByAttribute(this, "anonid", "input");</field>
+			<field name="rowCount">0</field>
+			<property name="minLength" 
+				onset="this.setAttribute('minlength', val);"
+				onget="return eval(this.getAttribute('minlength'));"/>
+			<property name="maxRows" 
+				onset="this.setAttribute('maxrows', val);"
+				onget="return eval(this.getAttribute('maxrows'));"/>
+			<method name="updateSuggest">
+				<body><![CDATA[
+					if(this.value.length>=this.minLength) {
+						if(this.tree.getAttribute("height")=="20")this.tree.setAttribute("height", 200);
+						this.tree.setAttribute("hidescrollbar", false);
+						var url = this.getAttribute("autosuggestsearch")+"?"+this.getAttribute("autosuggestparam")+"="+encodeURIComponent(this.value)+"&"+this.getAttribute("autosuggestlimit")+"="+this.getAttribute("limit");
+						this.setAttribute("datasources", url);
+					} else {
+						this.tree.setAttribute("height", 20);
+						this.setAttribute("datasources", "rdf:null");
+					}
+					this.input.focus();
+				]]></body>
+			</method>
+			<method name="setNbRows">
+				<parameter name="val"/>
+				<body><![CDATA[
+					var rows = (val<=this.maxRows)?val:this.maxRows;
+					var height = ((18*rows)||18)+2;
+					this.tree.setAttribute("hidescrollbar", val<=this.maxRows);
+					this.tree.setAttribute("height", height);
+					this.rowCount = val;
+					if(val>0&&this.tree.view) this.tree.view.selection.select(0);
+					this.input.focus();
+				]]></body>
+			</method>
+			<method name="hidePopup">
+				<body><![CDATA[
+					this.popup.hidePopup();
+					this.popup.elt = null;
+					this.input.focus();
+				]]></body>
+			</method>
+			<method name="showPopup">
+				<body><![CDATA[
+					if(this.popup.popupBoxObject.width==0)
+						this.popup.showPopup(this, -1, -1, "popup", "bottomleft", "topleft");
+					this.popup.elt = this;
+					this.input.focus();
+				]]></body>
+			</method>
+			<method name="togglePopup">
+				<body><![CDATA[
+					if(this.popup.popupBoxObject.width!=0) this.hidePopup();
+					else this.showPopup();
+				]]></body>
+			</method>
+		</implementation>
+		<handlers>
+			<handler event="DOMMouseScroll"><![CDATA[
+				if(this.popup.popupBoxObject.width==0) {
+					this.setNbRows(this.rowCount);
+					this.showPopup();
+				}
+				var currentIndex = this.tree.view.selection.currentIndex;
+				if(event.detail>0) currentIndex++;
+				else currentIndex--;
+				if(currentIndex<0) currentIndex = this.tree.view.rowCount-1;
+				if(currentIndex>this.tree.view.rowCount) currentIndex=0;
+				if(this.tree.view.rowCount>0) {
+					this.tree.view.selection.select(currentIndex);
+					this.tree.treeBoxObject.ensureRowIsVisible(currentIndex);
+				} 
+				event.stopPropagation();
+				event.preventDefault();
+				this.input.focus();
+			]]></handler>
+			<handler event="input"><![CDATA[
+				this.showPopup();
+				event.stopPropagation();
+			]]></handler>
+			<handler event="keypress" keycode="VK_DOWN"><![CDATA[
+				if(this.popup.popupBoxObject.width==0) {
+					this.setNbRows(this.rowCount);
+					this.showPopup();
+				}
+				var currentIndex = this.tree.view.selection.currentIndex;
+				if(currentIndex==(this.tree.view.rowCount-1)) currentIndex = -1;
+				if(currentIndex>this.tree.view.rowCount) currentIndex=-1;
+				if(this.tree.view.rowCount>0) {
+					currentIndex++;
+					this.tree.view.selection.select(currentIndex);
+					this.tree.treeBoxObject.ensureRowIsVisible(currentIndex);
+				} 
+				event.stopPropagation();
+				event.preventDefault();
+				this.input.focus();
+			]]></handler>
+			<handler event="keypress" keycode="VK_UP"><![CDATA[
+				if(this.popup.popupBoxObject.width==0) {
+					this.setNbRows(this.rowCount);
+					this.showPopup();
+				}
+				var currentIndex = this.tree.view.selection.currentIndex;
+				currentIndex--;
+				if(currentIndex<0) currentIndex = this.tree.view.rowCount-1;
+				if(currentIndex>this.tree.view.rowCount) currentIndex=0;
+				if(this.tree.view.rowCount>0) {
+					this.tree.view.selection.select(currentIndex);
+					this.tree.treeBoxObject.ensureRowIsVisible(currentIndex);
+				} 
+				event.stopPropagation();
+				event.preventDefault();
+				this.input.focus();
+			]]></handler>
+			<handler event="keypress" keycode="VK_PAGE_UP"><![CDATA[
+				var index = this.tree.treeBoxObject.getFirstVisibleRow();
+				var currentIndex = this.tree.currentIndex;
+				if(index==currentIndex) {
+					this.tree.treeBoxObject.scrollByPages(-1);
+					index = this.tree.treeBoxObject.getFirstVisibleRow();
+				}
+				if(this.tree.view&&(index>-1)&&(index<this.tree.view.rowCount)) this.tree.view.selection.select(index);
+				event.stopPropagation();
+				event.preventDefault();
+				this.input.focus();
+			]]></handler>
+			<handler event="keypress" keycode="VK_PAGE_DOWN"><![CDATA[
+				var index = this.tree.treeBoxObject.getLastVisibleRow()-1;
+				var currentIndex = this.tree.currentIndex;
+				if(index==currentIndex) {
+					this.tree.treeBoxObject.scrollByPages(1);
+					index = this.tree.treeBoxObject.getLastVisibleRow()-1;
+				}
+				if(this.tree.view&&(index>-1)&&(index<this.tree.view.rowCount)) this.tree.view.selection.select(index);
+				event.stopPropagation();
+				event.preventDefault();
+				this.input.focus();
+			]]></handler>
+			<handler event="keypress" keycode="VK_ESCAPE"><![CDATA[
+				this.hidePopup();
+				event.stopPropagation();
+				event.preventDefault();
+				this.input.focus();
+			]]></handler>
+			<handler event="keypress" keycode="VK_RETURN"><![CDATA[
+				if(this.tree.view&&this.tree.view.selection.currentIndex!=-1) {
+					var text = this.tree.view.getCellText(this.tree.view.selection.currentIndex, this.tree.columns.getColumnAt(0));
+					var issuggest = this.tree.view.getCellValue(this.tree.view.selection.currentIndex, this.tree.columns.getColumnAt(0));
+					if(issuggest!="false") this.value = text;
+				}
+				this.hidePopup();
+				this.updateSuggest();
+				event.stopPropagation();
+				event.preventDefault();
+				this.input.focus();
+			]]></handler>
+			<handler event="keypress" keycode="VK_TAB"><![CDATA[
+				this.hidePopup();
+			]]></handler>
+			<handler event="keypress" keycode="VK_RIGHT"><![CDATA[
+				if(this.popup.popupBoxObject.width!=0) {
+					var tree = this.tree;
+					var currentIndex = tree.view.selection.currentIndex;
+					if(currentIndex!=-1) {
+						if(tree.view.isContainer(currentIndex)&&!tree.view.isContainerEmpty(currentIndex))
+							if(!tree.view.isContainerOpen(currentIndex))
+								tree.toggleOpenState(currentIndex);
+					}
+				}
+				this.input.focus();
+			]]></handler>
+			<handler event="keypress" keycode="VK_LEFT"><![CDATA[
+				if(this.popup.popupBoxObject.width!=0) {
+					var tree = this.tree;
+					var currentIndex = tree.view.selection.currentIndex;
+					if(currentIndex!=-1) {
+						if(tree.view.isContainer(currentIndex)&&!tree.view.isContainerEmpty(currentIndex)) {
+							if(tree.view.isContainerOpen(currentIndex))	tree.toggleOpenState(currentIndex);
+						} else {
+							var parentIndex = tree.view.getParentIndex(currentIndex)
+							if(parentIndex!=-1) {
+								tree.view.selection.select(parentIndex);
+								this.tree.treeBoxObject.ensureRowIsVisible(parentIndex);
+							}
+						}
+					}
+				}
+				this.input.focus();
+			]]></handler>
+		</handlers>
+	</binding>
+	<binding id="suggestion-tree" extends="chrome://global/content/bindings/tree.xml#tree">
+		<content>
+			<children includes="treecols"/>
+			<xul:treerows class="tree-rows" hidescrollbar="false" flex="1">
+				<children/>
+			</xul:treerows>
+		</content>
+		<implementation>
+			<method name="toggleOpenState">
+				<parameter name="val"/>
+				<body><![CDATA[
+					this.view.toggleOpenState(val);
+					var nb = this.view.rowCount;
+					this.parentNode.elt.setNbRows(nb);
+					this.view.selection.select(val);
+				]]></body>
+			</method>
+		</implementation>
+		<handlers>
+			<handler event="mousemove"><![CDATA[
+				var row = {}; var col = {}; var obj = {};
+				var x = event.screenX - document.documentElement.boxObject.screenX;
+				var y = event.screenY - document.documentElement.boxObject.screenY;
+				this.treeBoxObject.getCellAt(x, y, row, col, obj);
+				if(col.value!=null) this.view.selection.select(row.value);
+			]]></handler>
+			<handler event="mousedown"><![CDATA[
+				var row = {}; var col = {}; var obj = {};
+				var x = event.screenX - document.documentElement.boxObject.screenX;
+				var y = event.screenY - document.documentElement.boxObject.screenY;
+				this.treeBoxObject.getCellAt(x, y, row, col, obj);
+				if(col.value!=null) {
+					if(this.view.isContainer(row.value)&&!this.view.isContainerEmpty(row.value)) {
+						this.toggleOpenState(row.value);
+					} else {
+						var text = this.view.getCellText(row.value, col.value);
+						var issuggest = this.view.getCellValue(row.value, col.value);
+						if(issuggest!="false") {
+							parentNode.elt.value = text;
+							parentNode.hidePopup();
+							parentNode.elt.updateSuggest();
+						}
+					}
+				}
+			]]></handler>
+		</handlers>
+	</binding>
+	<binding id="suggestion-dropmarker" extends="xul:button">
+		<content>
+			<xul:stack>
+				<xul:vbox class="suggestion-dropmarker-bkgnd-box">
+					<xul:image class="suggestion-dropmarker-bkgnd-top autosugestion-dropmarker-bkgnd"/>
+					<xul:vbox flex="1">
+						<xul:image flex="1" class="suggestion-dropmarker-bkgnd-mid-top autosugestion-dropmarker-bkgnd"/>
+						<xul:image flex="1" class="suggestion-dropmarker-bkgnd-mid-bottom autosugestion-dropmarker-bkgnd"/>
+					</xul:vbox>
+					<xul:image class="suggestion-dropmarker-bkgnd-bottom autosugestion-dropmarker-bkgnd"/>
+				</xul:vbox>
+				<xul:hbox align="center" class="dropmarker-image-container">
+					<xul:image class="dropmarker-image"/>
+				</xul:hbox>
+			</xul:stack>
+		</content>
+		<handlers>
+			<handler event="mousedown" button="0" phase="bubble"><![CDATA[
+				document.getBindingParent(this).togglePopup();
+				event.stopPropagation();
+				event.preventDefault();
+			]]></handler>
+		</handlers>
+	</binding>
+	<binding id="suggest-counter">
+		<content>
+			<xul:template>
+				<xul:action uri="rdf:*"	nb="" xbl:inherits="nb"/> 
+			</xul:template>
+		</content>
+		<handlers>
+			<handler event="DOMNodeInserted"><![CDATA[
+				var eSrc = event.target;
+				var nb = eSrc.getAttribute("nb");
+				document.getBindingParent(this).setNbRows(nb);
+			]]></handler>
+		</handlers>
+	</binding>
+</bindings>

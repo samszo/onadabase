@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<window id="onadabase-global" title="onadabase v0.1 - Solutions pour l'Accessibilité" 
+	orient="horizontal" left="0" top="0" 
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	onload="ChargeTreeFromAjax('objet','treeObjet');ChargeTreeFromAjax('rub','treeRub');"
+	>
+	<script language="JavaScript" type="application/x-javascript" src="js/interface.js"/>
+	<script language="JavaScript" type="application/x-javascript" src="js/ajax.js"/>
+	<script language="JavaScript" type="application/x-javascript" src="js/tree.js"/>
+    <script language="JavaScript" type="application/x-javascript"  src="xbl/editableTree/functions.js" />
+
+	
+		<hbox   flex="1" style="background-color: black;" >
+		
+		
+			<vbox  flex="1" style="background-color: red;">
+			    <label value="Adresse du fichier : "/><textbox id="NomFichier" value="http://www.mundilogiweb.com/onadabase/spip/IMG/kml/Gare_Lille_Flandre_a_Rue_Negrier_59800_Lille.kml"/>
+				<button label="Afficher le KML" oncommand="GetFichierKml();"/>
+				
+				
+				
+				<tree  id="treeKml" onselect="GetTreeSelect('treeKml',['idKml','idKml','libKml'],[2,2,1])" >
+					<treecols >
+						<treecol id="id"  persist="width ordinal hidden"/>
+						<!--<splitter class="tree-splitter"/>-->
+						
+						<treecol id="treecol_titre" flex="2" label="titre"  persist="width ordinal hidden"/>
+						<!--<splitter class="tree-splitter"/>-->
+						
+						<treecol id="treecol_kml"  label="kml"  persist="width ordinal hidden" />
+						<!--<splitter class="tree-splitter"/>-->
+						
+						<treecol id="treecol_desc"  label="type" persist="width ordinal hidden"/>
+					</treecols>
+					
+					
+					
+					
+					<treechildren >
+						<treeitem id="TreeRoot" >
+							<treerow >
+								<treecell label="1" flex="1"/>
+								<treecell label="KML"/>
+								<treecell label=""/>
+								<treecell label="Description"/>
+							</treerow>
+						</treeitem>
+					</treechildren>
+				</tree>
+				
+				
+				
+				
+				
+				
+				<splitter collapse="before" resizeafter="farthest">
+							<grippy/>
+				</splitter>
+				<label value="KML"/>
+				<textbox id="idKml" multiline="true" value=""/>
+				
+			</vbox>
+			
+			
+			
+			<!--<splitter collapse="before" resizeafter="farthest">
+						<grippy/>
+			</splitter>-->
+			
+			
+			<vbox  id='treeTexte' flex="10" style="background-color: green;">
+				<hbox flex="1" >
+					<vbox  id='treeRub'   flex="1" style="background-color: blue;" >
+						<label value="Attribuer la rubrique"/>
+					</vbox>
+					
+					
+					<!--<splitter collapse="before" resizeafter="farthest">
+								<grippy/>
+					</splitter>-->
+					
+					
+					<vbox  id='treeObjet' height="200" flex="1" style="background-color: yellow;">
+						<label value="Attribuer le formulaire"/>
+					</vbox>
+				</hbox>
+			</vbox>
+		</hbox>
+		
+		
+		
+					<!--<splitter collapse="before" resizeafter="farthest">
+								<grippy/>
+					</splitter>-->
+					
+					
+					
+		<hbox> 			
+		<vbox flex="3"  style="background-color: brown;">
+				<hbox  hidden="false">
+					<label value="Formulaires  remplir"/>
+						<vbox><label value="KML"/><label id="libKml" value="?"/></vbox>
+						<vbox><label value="Rubrique"/><label id="idrub" value="?"/><label id="librub" value="?"/></vbox>
+						<vbox><label value="Formulaire"/><label id="idobjet" value="?"/><label id="libobjet" value="?"/></vbox>
+				</hbox>
+					<button label="Ajouter" oncommand="SetNewGrille('Kml','objet','rub','treeFormsRoot');"/>
+					<textbox id="btnTrace" multiline="true" value=""/>
+				<hbox flex="1" >
+					<tree id="treeForms"  flex="1" 
+					>
+						<treecols >
+							<treecol id="id" primary="true"  cycler="true"  flex="1"   />
+							<splitter class="tree-splitter"/>
+							<treecol id="treecol_rub" label="rubrique" flex="3" />
+							<splitter class="tree-splitter"/>
+							<treecol id="treecol_form" label="formulaire" flex="12"  />
+							<splitter class="tree-splitter"/>
+							<treecol id="treecol_kml" label="kml" flex="3" />
+						</treecols>
+						<treechildren >
+							<treeitem id="treeFormsRoot" >
+								<treerow>
+									<treecell label="1"/>
+									<treecell label=""/>
+									<treecell label=""/>
+									<treecell label=""/>
+								</treerow>
+							</treeitem>
+						</treechildren>
+					</tree>
+					
+				</hbox>
+			</vbox>
+		</hbox>	
+</window>
