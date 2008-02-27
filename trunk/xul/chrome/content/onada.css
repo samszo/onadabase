@@ -1,0 +1,107 @@
+/*** Démonstration de XUL ***/
+window{
+  background-color: #FFFFFF;  
+}
+
+
+.menubar 
+{
+	background-image: url("images/menubar_bg.png") !important; 
+	height:50px;
+}
+
+.ariane 
+{
+	background-color:#CCCCCC;
+	height:30px;
+	font-size: 14px !important;
+	font-family: arial, verdana, sans-serif !important;
+	color:#FFFFFF;
+	padding:5px;
+}
+
+.arianeLien
+{
+	color:#FFFFFF;
+	padding:0 0 0 10px;
+}
+
+.footer 
+{
+	background-color:#73BE1E;
+	height:20px;
+	-moz-box-align:end;
+	color:#FFFFFF;
+}
+
+.global 
+{
+	margin : 10px 10px 10px 10px;
+	padding: 10px 10px 10px 10px;
+}
+
+
+.BoiteV
+{
+	-moz-box-flex:1;
+	background-color: #E5E5E5; 
+	margin : 0px 10px 10px 10px;
+}
+
+.titre {
+	font-size: 12px !important;
+	font-weight:bold;
+	font-family: arial, verdana, sans-serif !important;
+	padding:3px 0 3px 5px;
+	margin:3px 3px 3px 3px;
+}
+
+
+.FormBox
+{
+	margin : 10px 10px 10px 10px;
+	background-color: #FFFFFF; 
+}
+
+.toolbox
+{
+		background-color:#000000;
+}
+
+.toolbarbutton {
+	  -moz-box-align: center;
+	  -moz-box-pack: center;
+ 	  margin: 0px 10px 0px 50px;
+ 	  padding: 3px 5px 3px 5px;
+ 	  -moz-border-radius: 20px;
+ 	}
+
+
+.toolbar{
+	  -moz-box-align: center;
+	  -moz-box-pack: center;
+ 	  margin: 0px 10px 0px 10px;
+ 	  padding: 3px 5px 3px 5px;
+		background-color:#FFFFFF;
+ 	}
+
+.treeRub{
+	margin : 10px 10px 10px 10px;
+}
+
+.treeRubCols{
+	font-size: 12px !important;
+	font-weight:bold;
+	font-family: arial, verdana, sans-serif !important;
+	background-color:#FF9900;
+}
+
+treechildren::-moz-tree-col {
+  widht: 15px;
+  background-color:#FF6666;
+}
+
+treechildren::-moz-tree-row {
+  height: 15px;
+  background-color:#FF6600;
+}
