@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XmlParams>
+	<XmlParam nom="MenuUrl">
+		<menu nom="Diagnostic">
+			<urlDesc nom="Sur la voirie" src="http://localhost/onadabase/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Sur%20la%20voirie" dst="http://localhost/onadabase/TreeCartOng.php"/>
+			<urlDesc nom="Dans des bâtiments (ERP, IOP)" src="http://localhost/mundilogiweb/ieml/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Processus" dst="http://localhost/mundilogiweb/ieml/processus.php"/>
+			<urlDesc nom="Dans les modes de transport en commun" src="http://localhost/mundilogiweb/ieml/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Processus" dst="http://localhost/mundilogiweb/ieml/processus.php"/>
+		</menu>
+		<menu nom="Outils">
+			<urlDesc nom="Saisie du diagnostic" src="http://localhost/onadabase/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Saisie du diagnostic" dst="http://localhost/onadabase/SaisiDiag.php"/>
+		</menu>
+	</XmlParam>
+	<XmlParam nom="GetOntoTree" >
+		<Querys>
+			<Query fonction="GetTreeChildren_voirie" ajax="http://localhost/onadabase/library/ExeAjax.php?f=GetTreeChildren&amp;ParamNom=GetOntoTree&amp;type=voirie">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<col tag="parent" visible="false"/>
+				<select>SELECT id_rubrique id, titre, id_parent parent </select>
+				<from> FROM spip_rubriques </from>
+				<where def="0" > WHERE id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-type-',['id-type-','lib-type-'],[0,1])" /> 
+			</Query>
+			<Query fonction="GetTreeChildren_rub">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<col tag="parent" visible="false"/>
+				<select>SELECT id_rubrique id, titre, id_parent parent </select>
+				<from> FROM spip_rubriques </from>
+				<where def="9" > WHERE id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-type-',['id-type-','lib-type-'],[0,1])" /> 
+			</Query>
+			<Query fonction="GetTreeChildren_objet">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<col tag="parent" visible="false"/>
+				<select>SELECT id_rubrique id, titre, id_parent parent </select>
+				<from> FROM spip_rubriques </from>
+				<where def="7" > WHERE id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-type-',['id-type-','lib-type-'],[0,1])" /> 
+			</Query>
+			<Query fonction="GetTreeChildren_FormSet">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<col tag="parent" visible="false"/>
+				<select>SELECT id_rubrique id, titre, id_parent parent </select>
+				<from> FROM spip_rubriques </from>
+				<where def="9" > WHERE id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-type-',['id-type-','lib-type-'],[0,1])" /> 
+				<js evt="onclick" function="ChargeTabboxFromAjax('idFormSet','tabForms','voirie');" /> 
+			</Query>
+		</Querys>
+	</XmlParam>
+	<XmlParam nom="GetTabForm">
+		<Querys>
+			<Query fonction="Grille_GetXulTabFormRub">
+				<select>SELECT id_rubrique id, titre </select>
+				<from> FROM spip_rubriques </from>
+				<where> WHERE id_rubrique = -id-</where>
+			</Query>
+			<Query fonction="Grille_GetXulTabFormArt">
+				<select>SELECT id_article id, titre </select>
+				<from> FROM spip_articles </from>
+				<where> WHERE id_article = -id-</where>
+			</Query>
+			<Query fonction="Grille_GetXulTabFormGrille">
+				<select>SELECT id_form id, titre </select>
+				<from> FROM spip_forms </from>
+				<where> WHERE id_form = -id-</where>
+			</Query>
+			<Query fonction="Grille_GetXulTabPanelsRub">
+				<select>SELECT id_article id, titre </select>
+				<from> FROM spip_articles </from>
+				<where> WHERE id_rubrique = -id- AND statut = 'prepa'</where>
+				<dst>Art</dst>
+			</Query>
+			<Query fonction="Grille_GetXulTabPanelsArt">
+				<select>SELECT f.id_form id, f.titre </select>
+				<from> FROM spip_forms f
+INNER JOIN spip_forms_donnees fd ON fd.id_form = f.id_form
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
+				 </from>
+				<where> WHERE fda.id_article = -id-</where>
+				<dst>Grille</dst>
+			</Query>
+			<Query fonction="Grille_GetXulTabPanelsGrille">
+				<select>SELECT f.id_form idGrille, f.titre, fda.id_article idArt </select>
+				<from> FROM spip_forms f
+INNER JOIN spip_forms_donnees fd ON fd.id_form = f.id_form
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
+				 </from>
+				<where> WHERE fda.id_article = -id-</where>
+				<dst>Form</dst>
+			</Query>
+			<Query fonction="Grille_GetForm">
+				<select>SELECT dc.valeur, dc.champ, da.id_donnee, fc.titre</select>
+				<from> FROM spip_articles a
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+				INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
+				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ
+				 </from>
+				<where> WHERE a.id_article =-idArt-  AND fc.id_form =-idGrille-
+				ORDER BY da.id_donnee, dc.champ</where>
+			</Query>
+			<Query fonction="Grille_DelDonnee">
+				<select>DELETE </select>
+				<from> FROM spip_forms_donnees_champs </from>
+				<where> WHERE id_donnee = -idDon-</where>
+			</Query>
+			<Query fonction="Grille_InsDonnee">
+				<insert>INSERT INTO `spip_forms_donnees_champs` (`id_donnee`, `champ`, `valeur`, `maj`)</insert>
+				<values> VALUES (-idDon-, '-champ-', '-val-', now()) </values>
+			</Query>
+			<Query fonction="Grille_GetGrillesPublie">
+				<select>SELECT f.id_form, f.titre, a.id_article </select>
+				<from> FROM spip_articles a
+					INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+					INNER JOIN spip_forms f ON f.id_form = fd.id_form
+				 </from>
+				<where> WHERE a.id_rubrique = -idRub- AND a.statut = 'publie'</where>
+			</Query>
+			<Query fonction="Grille_GetChamps">
+				<select>SELECT champ, rang, titre, '' val </select>
+				<from> FROM spip_forms_champs </from>
+				<where> WHERE id_form = -idGrille- </where>
+			</Query>
+			
+		</Querys>
+	</XmlParam>
+</XmlParams>

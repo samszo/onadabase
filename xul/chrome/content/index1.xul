@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet rel="stylesheet" href="xbl/editableTree/demo.css" type="text/css" title="css"?>
+<?xml-stylesheet rel="stylesheet" href="onada.css" type="text/css" title="css"?>
+<window
+    id="wSaisiDiag"
+    title="Saisi des diagnosics d'accessibilité"
+    persist="screenX screenY width height"
+    orient="horizontal"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="ChargeTreeFromAjax('rub','treeRub')"
+>
+
+<script type="application/x-javascript" src="js/interface.js"/>
+<script type="application/x-javascript" src="js/ajax.js"/>
+<script type="application/x-javascript" src="js/tree.js"/>
+<script type="application/x-javascript"  src="xbl/editableTree/functions.js" />
+
+	<popupset >
+		<popup id="clipmenuRub" onpopupshowing="javascript:;">
+			<menuitem label="Ajouter un établissement" oncommand="AddEtablissement();"/>
+			<menuitem label="Ajouter un territoire" oncommand="AddTerritoire();;"/>
+		</popup>
+	</popupset>
+
+
+	<vbox  flex="1">
+	
+		<hbox class="menubar">
+		
+			<image src="images/logo.png" />
+		
+		</hbox>	
+		
+		<hbox class="ariane">
+		
+			<toolbox class="toolbox">
+				<toolbar id="nav-toolbar" class="toolbar">
+					<toolbarbutton label="Accueil" class="toolbarbutton"/>
+					<toolbarbutton label="Territoire" class="toolbarbutton"/>
+					<toolbarbutton label="Batiments" class="toolbarbutton"/>
+					<toolbarbutton label="Niveau 1" class="toolbarbutton"/>
+				</toolbar>
+			</toolbox>
+		
+		</hbox>	
+		
+		<hbox class="global" flex="1">
+		
+			<vbox class="BoiteV" id='treeRub' context="clipmenuRub" >
+				<label value="Selectionner le territoire" class="titre" />
+				<label id="idrub" value="?"/><label id="librub" value="?"/>
+			</vbox>
+				<splitter collapse="before" resizeafter="farthest">
+							<grippy/>
+				</splitter>
+	
+			<vbox class="BoiteV" >
+				<label value="Etablissement du territoire" id="TitreFormSaisi" class="titre" />
+
+				<hbox class="FormBox" id="FormSaisi" flex="1">
+				</hbox>
+				
+			</vbox>
+		
+		</hbox>	
+
+		<hbox class="footer" >
+			<label control="middle" value="Version 1.0" dir="reverse"/>
+		</hbox>	
+		
+	</vbox>
+
+</window>
+
