@@ -11,7 +11,7 @@ class Grille{
 
   function __construct($site, $id=-1, $complet=true) {
 	//echo "new Site $sites, $id, $scope<br/>";
-	$this->trace = false;
+	$this->trace = true;
 
     $this->site = $site;
     $this->id = $id;
@@ -25,6 +25,70 @@ class Grille{
 		
     }
 
+    function GetObjId($donId,$obj) {
+    	$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetId".$obj."']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-id-", $donId, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		$row =  $db->fetch_assoc($rows);
+		return $row["id"];
+    	
+    }
+    
+    function GereWorkflow($rows, $donId) {
+
+    	
+    	$Xpath = "/XmlParams/XmlParam/workflow[@srcId='".$rows['grille'].";".$rows['champ']."']";
+		if($this->trace)
+			echo "Grille:GereWorkflow:récupère les paramètre du workflow à exécuter ".$Xpath."<br/>";
+    	$wfs = $this->site->XmlParam->GetElements($Xpath);
+		foreach($wfs as $wf)
+		{
+			
+			$id = $this->GetObjId($donId,$wf['dstObj']);
+			if($this->trace)
+				echo "//récupère l'identifiant de l'objet ".$wf['dstObj']." ".$id."<br/>";
+			
+			if($this->trace)
+				echo "//workflow path query ".$wf['dstQuery']."<br/>";
+			
+			$Q = $this->site->XmlParam->GetElements($wf['dstQuery']);
+			$where = str_replace("-id-", $id, $Q[0]->where);
+			$set = str_replace("-param-", $rows['valeur'], $Q[0]->set);
+			$sql = $Q[0]->update.$set.$where;
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+			$db->connect();
+			$db->query($sql);
+			$db->close();
+			if($this->trace)
+				echo "//exécution du workflow ".$sql."<br/>";
+				
+		}
+		
+	}	
+
+	function GetGrilleId($rows, $donId) {
+
+    	$Xpath = "/XmlParams/XmlParam/majliee[@srcId='55;ligne_1']/@dstQuery";
+		$donnees = $xml->GetElements($Xpath);
+		if($this->trace)
+			echo "//récupération des valeurs de workflow ".$donnees."<br/>";
+    	
+		//suppression des éventuelle champ pour la donnée
+		$this->DelDonnee($donId);
+		
+		//création des valeurs
+		while ($row =  mysql_fetch_assoc($rows)) {
+			$this->SetChamp($row, $donId, false);
+			//echo "--- ".$donId." nouvelle valeur ".$i;
+		}
+		
+	}	
+	
 	function AddXmlDonnee($xmlSrc){
 			
 		if($this->trace)
@@ -102,7 +166,8 @@ class Grille{
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
-		//echo $sql."<br/>";
+		if($this->trace)
+			echo "AddGrilles ".$idRubSrc." ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		
 		$result = ""; 
 		while ($row =  $db->fetch_assoc($rows)) {
@@ -381,7 +446,7 @@ class Grille{
 		//$form .= '<caption label="Donnée : '.$idDon.'"/>';
 		$controls = '<column flex="1">';
 		while($r = $db->fetch_assoc($req)) {
-			$idDoc = 'val'.DELIM.$r["id_donnee"].DELIM.$r["champ"];
+			$idDoc = 'val'.DELIM.$idGrille.DELIM.$r["id_donnee"].DELIM.$r["champ"].DELIM.$r["id_article"];
 			$labels .= '<label control="first" multiligne="true" value="'.$r['titre'].'"/>';
 			switch ($idGrille) {
 				case $this->site->infos["GRILLE_REG_LEG"]:
@@ -499,9 +564,10 @@ class Grille{
 				break;
 			case 'mot':
 				//récupération des js
-				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='radio']";
+				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='menu']";
 				$js = $this->site->GetJs($Xpath, array($id));
 				//construction du control
+				/*
 				$control .= '<groupbox>';
 				//$control .= '<caption label="'.$row['titre'].'"/>';
 				$control .= '<radiogroup id="'.$id.'" '.$js.' >';
@@ -510,6 +576,10 @@ class Grille{
 				$control .= '</hbox>';
 				$control .= "</radiogroup>";
 				$control .= '</groupbox>';
+				*/
+				$control .= '<menulist id="'.$id.'" '.$js.' ><menupopup >';
+				$control .= $this->GetChoixVal($row,'menuitem');				
+				$control .= '</menupopup></menulist>';
 				break;
 			default:
 				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='textbox']";
@@ -525,7 +595,7 @@ class Grille{
 
 	}
 
-	function GetChoixVal($row)
+	function GetChoixVal($row,$type='radio')
 	{
 		//requête pour récupérer les données de la grille
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetChoix".$row['type']."']";
@@ -549,7 +619,10 @@ class Grille{
 				$select = 'true';
 			if($this->trace)
 				echo "select ".$select." ".$row['valeur']."==".$r['choix']."<br/>";
-			$control .= "<radio id='".$r['choix']."' selected='".$select."' label='".$this->site->XmlParam->XML_entities($r["titre"])."'/>";
+			if($type=='radio')
+				$control .= "<radio id='".$r['choix']."' selected='".$select."' label='".$this->site->XmlParam->XML_entities($r["titre"])."'/>";
+			else
+				$control .= "<menuitem id='".$r['choix']."' selected='".$select."' label='".$this->site->XmlParam->XML_entities($r['titre'])."'/>";
 		}
 		
 		return $control;

@@ -8,23 +8,44 @@
     persist="screenX screenY width height"
     orient="horizontal"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-    onload="ChargeTreeFromAjax('rub','treeRub')"
+    onload="ChargeTreeFromAjax('idRub','treeRub','terre');"
 >
 
 <script type="application/x-javascript" src="js/interface.js"/>
 <script type="application/x-javascript" src="js/ajax.js"/>
 <script type="application/x-javascript" src="js/tree.js"/>
 <script type="application/x-javascript"  src="xbl/editableTree/functions.js" />
+     <script>
+		xmlParam = GetXmlUrlToDoc("http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml");
+     </script>
 
 	<popupset >
-		<popup id="clipmenuRub" onpopupshowing="javascript:;">
-			<menuitem label="Ajouter un établissement" oncommand="AddEtablissement();"/>
-			<menuitem label="Ajouter un territoire" oncommand="AddTerritoire();;"/>
+		<popup id="popterre" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
+			<menuitem label="Ajouter un établissement" oncommand="AddNewGrille('Etab');"/>
+		</popup>
+		<popup id="popetab" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) espace(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces','espace','Espace');"/>
+			<menuitem label="Ajouter un espace" oncommand="AddNewGrille('Espace');"/>
+		</popup>
+		<popup id="popespace" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parc','Parc');"/>
+			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parc');"/>
+			<menuitem label="Voir le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
+			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
+		</popup>
+		<popup id="popbat" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
+			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
+		</popup>
+		<popup id="popniveau" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) espace(s) intérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces intérieurs','espaceint','EspaceInt');"/>
+			<menuitem label="Ajouter un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
 		</popup>
 	</popupset>
 
 
-	<vbox  flex="1">
+	<vbox  flex="1" style="overflow:auto">
 	
 		<hbox class="menubar">
 		
@@ -36,10 +57,8 @@
 		
 			<toolbox class="toolbox">
 				<toolbar id="nav-toolbar" class="toolbar">
-					<toolbarbutton label="Accueil" class="toolbarbutton"/>
-					<toolbarbutton label="Territoire" class="toolbarbutton"/>
-					<toolbarbutton label="Batiments" class="toolbarbutton"/>
-					<toolbarbutton label="Niveau 1" class="toolbarbutton"/>
+					<toolbarbutton id="tbbAccueil" label="Accueil" class="toolbarbutton"/>
+					<toolbarbutton id="tbbterre" label="Territoires" class="toolbarbutton" onclick="RefreshEcran(9,'Territoires','terre','terre');"/>
 				</toolbar>
 			</toolbox>
 		
@@ -47,17 +66,22 @@
 		
 		<hbox class="global" flex="1">
 		
-			<vbox class="BoiteV" id='treeRub' context="clipmenuRub" >
-				<label value="Selectionner le territoire" class="titre" />
-				<label id="idrub" value="?"/><label id="librub" value="?"/>
+			<vbox class="BoiteV" flex="1" >
+				<hbox>
+				 <label value="Selectionner un territoire" class="titre" />
+				</hbox>
+				<label id="idRub" value="-1"/>
+				<hbox id='treeRub' class="BoiteV" context="popterre" ></hbox>
 			</vbox>
 				<splitter collapse="before" resizeafter="farthest">
 							<grippy/>
 				</splitter>
 	
-			<vbox class="BoiteV" >
-				<label value="Etablissement du territoire" id="TitreFormSaisi" class="titre" />
-
+			<vbox class="BoiteV" flex="1" >
+				<hbox flex="1" >
+				 <label value="Sélectionnez un établissement dans" id="TitreFormSaisi" class="titre" />
+				 <label id="libRub" value="Le département du Nord" class="titre" />
+				</hbox>
 				<hbox class="FormBox" id="FormSaisi" flex="1">
 				</hbox>
 				

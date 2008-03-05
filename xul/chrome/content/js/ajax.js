@@ -2,11 +2,11 @@
 // AJAX Functions
 //--------------------------------------------
 //local
-var urlExeAjax = "http://localhost/onadabase/library/php/ExeAjax.php";
+//var urlExeAjax = "http://localhost/onadabase/library/php/ExeAjax.php";
 //naos
 //var urlExeAjax = "http://www.naoss.fr:81/mundigo/library/php/ExeAjax.php";
 //mundilogiweb
-//var urlExeAjax = "http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php";
+var urlExeAjax = "http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php";
 
 function AppendResult(url,doc) {
   try {
@@ -26,6 +26,10 @@ function AppendResult(url,doc) {
 	          response + "</box>";
 		var parser=new DOMParser();
 		var resultDoc=parser.parseFromString(xulData,"text/xml");
+		//vide le conteneur
+		while(doc.hasChildNodes())
+			doc.removeChild(doc.firstChild);
+		//ajoute le résultat
 		doc.appendChild(resultDoc.documentElement);
 	}
 	dump("AppendResult OUT \n");

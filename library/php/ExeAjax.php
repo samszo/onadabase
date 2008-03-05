@@ -33,7 +33,7 @@
 			$resultat = AddPlacemark($_GET['dst'], $_GET['kml']);
 			break;
 		case 'SetVal':
-			$resultat = SetVal($_GET['idDon'],$_GET['champ'],$_GET['val']);
+			$resultat = SetVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val']);
 			break;
 		case 'GetCurl':
 			$resultat = GetCurl($_GET['url']);
@@ -41,8 +41,8 @@
 		case 'AddXmlDonnee':
 			$resultat = AddXmlDonnee($_GET['url']);
 			break;
-		case 'AddEtablissement':
-			$resultat = AddEtablissement($_GET['src'], $_GET['dst']);
+		case 'AddNewGrille':
+			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type']);
 			break;
 	}
 
@@ -82,14 +82,17 @@
 	
 	}
 	
-	function SetVal($idDon,$champ,$val){
+	function SetVal($idGrille,$idDon,$champ,$val){
 	
 		global $objSite;
 		$g = new Grille($objSite);
 
 		//modifie la valeur 
-		$row = array("champ"=>$champ,"valeur"=>utf8_decode($val));
+		$row = array("grille"=>$idGrille,"champ"=>$champ,"valeur"=>utf8_decode($val));
 		$g->SetChamp($row, $idDon);
+		
+		//gestion du workflow
+		$g->GereWorkflow($row, $idDon);		
 
 		return "donnée enregistrée = ".utf8_decode($val);
 	}
@@ -106,7 +109,7 @@
 
 		//récupération des js
 		$Xpath = "/XmlParams/XmlParam[@nom='".$objSite->scope['ParamNom']."']/Querys/Query[@fonction='GetTreeChildren_".$type."']/js";
-		$js = $objSite->GetJs($Xpath, array($type));
+		$js = $objSite->GetJs($Xpath, array($type,$id));
 		
 		$tree = "<tree flex=\"1\" 
 			id=\"tree".$type."\"
@@ -171,7 +174,7 @@
 		
 	}
 	
-	function AddEtablissement($idRubSrc, $idRubDst){
+	function AddNewGrille($idRubSrc, $idRubDst, $trs){
 		global $objSite;
 		
 		$g = new Granulat($idRubDst,$objSite);
@@ -180,7 +183,7 @@
 				
 		$grille = new Grille($objSite);
 		$grille->AddGrilles($idRubSrc, $id);
-		$xul = $grille->GetXulTab("Etab", $id);
+		$xul = $grille->GetXulTab($trs, $id);
 		
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";

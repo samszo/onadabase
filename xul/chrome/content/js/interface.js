@@ -15,55 +15,73 @@
 var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
+var xmlParam;
 
-//initFocus();
 
-function initFocus() {
-  addEventListener("focus",setFocusedElement,true);
+function GetXmlFicToDoc(fic){
+
+	var xml = read(fic);
+	//alert(xml);
+	var parser = new DOMParser();
+	//var serializer = new XMLSerializer();
+	var doc = parser.parseFromString(xml, "text/xml");
+	
+	return doc;
+
 }
 
-function setFocusedElement() {
-  var focused = document.commandDispatcher.focusedElement;
-  alert(focused.tagName);
+function GetXmlUrlToDoc(url){
+
+	var xml = GetResult(url);
+	//alert(xml);
+	var parser = new DOMParser();
+	//var serializer = new XMLSerializer();
+	var doc = parser.parseFromString(xml, "text/xml");
+	
+	return doc;
+
 }
 
-function AddEtablissement(){
+
+function AddNewGrille(type){
   try {
 	var verif = true;
 	
-	dst = document.getElementById('idrub').value;
+	//récupère les paramètres
+	Xpath ="/Params/Param[@nom='AddObj"+type+"']";
+	iterator = xmlParam.evaluate(Xpath, xmlParam, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+	n = iterator.iterateNext();
+	id = n.attributes["id"].value;
+	messNoVerif = n.childNodes[1].textContent;
+	TitreFormSaisi =  n.childNodes[3].textContent;
+	
+	
+	dst = document.getElementById('idRub').value;
 	if(dst=="?"){
-		alert("Veillez choisir un territoire");
+		alert(messNoVerif);
 		verif = false;
 	}
 	doc = document.getElementById("FormSaisi");
-	document.getElementById("TitreFormSaisi").value="Créer un nouvel établissement";
+	document.getElementById("TitreFormSaisi").value=TitreFormSaisi;
 	//purge les formulaires déjà affiché
 	while(doc.hasChildNodes())
 		doc.removeChild(doc.firstChild);
 
-	if(verif)
-		AddNewGrille(45, dst, doc);
+	if(verif){
+		url = urlExeAjax+"?f=AddNewGrille&src="+id+"&dst="+dst+"&type="+type;
+		//dump("SetNewGrille "+url+"\n");
+		AppendResult(url,doc);
+	}
 
-  } catch(ex2){alert("AddEtablissement::"+ex2);dump("::"+ex2);}
-}
-
-function AddNewGrille(src, dst, doc){
-  try {
-
-	dump("AddNewGrille("+src+", "+dst+"\n");
-	
-	url = urlExeAjax+"?f=AddEtablissement&src="+src+"&dst="+dst;
-	//dump("SetNewGrille "+url+"\n");
-	AppendResult(url,doc);
-
-  } catch(ex2){dump("::"+ex2);}
+  } catch(ex2){alert("AddObj::"+ex2);dump("::"+ex2);}
 }
 
 
-function SetVal(doc){
+function SetVal(idDoc){
   try {
 	var verif = true;
+	//alert(idDoc);
+	doc = document.getElementById(idDoc);
 	arrDoc = doc.id.split(DELIM);
 	
 	//gestion des type de control
@@ -77,10 +95,15 @@ function SetVal(doc){
 	if(!verif)
 		return;
 	
-	url = urlExeAjax+"?f=SetVal&idDon="+arrDoc[1]+"&champ="+arrDoc[2]+"&val="+val;
+	url = urlExeAjax+"?f=SetVal&idGrille="+arrDoc[1]+"&idDon="+arrDoc[2]+"&champ="+arrDoc[3]+"&val="+val;
 	//dump("SetNewGrille "+url+"\n");
 	AjaxRequest(url,"AfficheResult","trace"+doc.id);
-
+	
+	//modifie le titre du panel dans le cas du titre de l'établissement
+	if(arrDoc[1]=="55")
+		if(arrDoc[3]=="ligne_1")
+			document.getElementById("tab"+arrDoc[4]).label=val;
+		
   } catch(ex2){alert("SetVal::"+ex2);dump("::"+ex2);}
 }
 
@@ -126,7 +149,7 @@ function SetNewGrille(kml, src, dst, doc){
 		
 	//src.value="";
 
-  } catch(ex2){dump("::"+ex2);}
+  } catch(ex2){dump(":SetNewGrille:"+ex2);}
 }
 
 function ChargeBrower(id,url)
@@ -152,25 +175,68 @@ function ChargeBrower(id,url)
 	
 }
 
+function RefreshEcran(id,titre,typeSrc,typeDst)
+{
+  try {	
+	document.getElementById('idRub').value=id;
+	//gestion du menu contextuel
+	cont = document.getElementById('treeRub');
+	cont.setAttribute("context","pop"+typeSrc);
+	ChargeTreeFromAjax('idRub','treeRub',typeSrc);
+	ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
+	//vérifie la présence su fil d'ariane
+	tb=document.getElementById("nav-toolbar");
+	tbb=document.getElementById("tbb"+typeSrc);
+	if(!tbb){
+		//ajoute un fil ariane
+		tbb = document.createElement("toolbarbutton");
+		tbb.setAttribute("id","tbb"+typeSrc);
+		tbb.setAttribute("label",titre);
+		tbb.setAttribute("class","toolbarbutton");
+		tbb.setAttribute("onclick","RefreshEcran("+id+",'"+titre+"','"+typeSrc+"','"+typeDst+"');");
+		tb.appendChild(tbb);
+	}else{
+		//récupère la place du tbb
+		j = -1;		 
+		for (var i = 0; i < tb.childNodes.length; i++) {
+			if(tb.childNodes[i].id=="tbb"+typeSrc)
+				j = i+1;		 
+		}
+		if(j!=-1){
+			//supprime les enfants après le tbb
+			nb = tb.childNodes.length
+			for (var i = j; i < nb; i++) {
+				tb.removeChild(tb.childNodes[j]);
+			}
+		}
+	}
+	//alert("RefreshEcran OUT\n");
+   
+   } catch(ex2){alert(":RefreshEcran:"+ex2+"");dump("::"+ex2);}
+	
+}
 
-function ChargeTreeFromAjax(type,parentitem)
+
+function ChargeTreeFromAjax(idSrc,idDst,type)
 {
   try {
-	dump("ChargeTreeFromAjax IN "+type+"\n");
+	//alert("ChargeTreeFromAjax IN "+type+"\n");
 
-	doc = document.getElementById(parentitem);
+	id = document.getElementById(idSrc).value;
+	doc = document.getElementById(idDst);
 	//pour ne charger qu'une fois le tree
-	if(document.getElementById('tree'+type))
-		return
+	//if(document.getElementById('tree'+type))
+	//	return
 
 
-	url = urlExeAjax+"?f=GetTree&ParamNom=GetOntoTree&type="+type;
+	url = urlExeAjax+"?f=GetTree&ParamNom=GetOntoTree&type="+type+"&id="+id;
+	//alert("ChargeTreeFromAjax url "+url+"\n");
 	//AjaxRequest(url,'AppendTreeChildren',parentitem)
 	AppendResult(url,doc);
 	
 	dump("ChargeTreeFromAjax OUT\n");
    
-   } catch(ex2){alert(url);dump("::"+ex2);}
+   } catch(ex2){alert(":ChargeTreeFromAjax:"+ex2+" url="+url);dump("::"+ex2);}
 	
 }
 
