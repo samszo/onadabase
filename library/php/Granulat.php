@@ -50,8 +50,28 @@ class Granulat
   
   }
   
+  function SetNewArticle($titre,$id=-1){
+
+	if($id==-1)
+		$id=$this->id;
+	
+	//ajoute un nouvel enfant
+	$sql = "INSERT INTO spip_articles
+		SET titre = ".$this->site->GetSQLValueString($titre, "text")
+			.", statut='prepa'
+			, date = now()"
+			.", id_rubrique=".$id;
+	
+	$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+	$req = $DB->query($sql);
+	$newId = mysql_insert_id();
+	$DB->close();
+	
+	return $newId;
   
-	function GetGeo($id=-1) {
+  }
+  
+  function GetGeo($id=-1) {
 		
 		if($id==-1)
 			$id = $this->id;

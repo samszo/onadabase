@@ -6,14 +6,16 @@ class Site{
   public $NbsTopics;
   public $XmlParam;
   private $sites;
-
+  private $trace;
+  
   function __tostring() {
     return "Cette classe permet de définir et manipuler un site.<br/>";
     }
 
   function __construct($sites, $id, $scope, $complet=true) {
 	//echo "new Site $sites, $id, $scope<br/>";
-
+    $this->trace = true;
+  	
     $this->sites = $sites;
     $this->id = $id;
     $this->infos = $this->sites[$this->id];
@@ -402,7 +404,10 @@ class Site{
 	
 	function GetTreeChildren($type, $Cols=-1, $id=-1){
 
-		if($Cols==-1){
+	    if($this->trace)
+	    	echo ":GetTreeChildren: type = $type Cols = $Cols, id= $id<br/>";
+		
+	    if($Cols==-1){
 			$Xpath = "/XmlParams/XmlParam[@nom='".$objSite->scope['ParamNom']."']/Querys/Query[@fonction='GetTreeChildren_".$type."']/col";
 			$Cols = $this->XmlParam->GetElements($Xpath);	
 		}
@@ -420,7 +425,8 @@ class Site{
 		$where = str_replace("-parent-", $id, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		
-		//echo $sql."<br/>";
+	    if($this->trace)
+			echo $sql."<br/>";
 
 		$db = new mysql ($this->infos["SQL_HOST"], $this->infos["SQL_LOGIN"], $this->infos["SQL_PWD"], $this->infos["SQL_DB"], $dbOptions);
 		$db->connect();

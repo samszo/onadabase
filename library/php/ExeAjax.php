@@ -35,6 +35,9 @@
 		case 'SetVal':
 			$resultat = SetVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val']);
 			break;
+		case 'DelVal':
+			$resultat = DelVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val']);
+			break;
 		case 'GetCurl':
 			$resultat = GetCurl($_GET['url']);
 			break;
@@ -92,11 +95,23 @@
 		$g->SetChamp($row, $idDon);
 		
 		//gestion du workflow
-		$g->GereWorkflow($row, $idDon);		
+		$xul = $g->GereWorkflow($row, $idDon);		
 
-		return "donnée enregistrée = ".utf8_decode($val);
+		return $xul;
 	}
 
+	function DelVal($idGrille,$idDon,$champ,$val){
+	
+		global $objSite;
+		$g = new Grille($objSite);
+
+		//modifie la valeur 
+		$row = array("grille"=>$idGrille,"champ"=>$champ,"valeur"=>utf8_decode($val));
+		$g->DelChamp($row, $idDon);
+		
+		return utf8_decode("donnée supprimée = ".$val);
+	}
+	
 	function GetTree($type,$Cols,$id){
 		global $objSite;
 		
@@ -178,12 +193,15 @@
 		global $objSite;
 		
 		$g = new Granulat($idRubDst,$objSite);
-		$id = $g->SetNewEnfant("Sans Nom");
+		$id = $g->SetNewEnfant($trs." Sans Nom ".$today = date('j/m/y - H:i:s'));
 		//ajoute une sous-rubrique
 				
 		$grille = new Grille($objSite);
 		$grille->AddGrilles($idRubSrc, $id);
 		$xul = $grille->GetXulTab($trs, $id);
+		
+		if($trs=="EspaceInt")
+			AddNewEspaceGen(66, $id, "ParamGenEspace");
 		
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
@@ -191,6 +209,48 @@
 		return $xul;
 		
 	}
+
+	function AddNewEspaceGen($idRubSrc, $idRubDst, $trs){
+		global $objSite;
+		
+		//ajoute une sous-rubrique espace gen
+		$g = new Granulat($idRubDst,$objSite);
+		$idGen = $g->SetNewEnfant("Paramètres généraux espace");
+		$grille = new Grille($objSite);
+		$gGen = new Granulat($idGen,$objSite);
+		
+		//ajoute une sous-rubrique espace gen->éclairage
+		$id = $gGen->SetNewEnfant("Eclairage");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(71,$id);
+		
+		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
+		$id = $gGen->SetNewEnfant("Equipements et dispositifs de commande");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(70,$id);
+				
+		//ajoute une sous-rubrique espace gen->Pentes et ressauts
+		$id = $gGen->SetNewEnfant("Pentes et ressauts");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(69,$id);
+				
+		//ajoute une sous-rubrique espace gen->Signalétique
+		$id = $gGen->SetNewEnfant("Signalétique");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(72,$id);
+				
+		//ajoute une sous-rubrique espace gen->Sols, murs et plafonds
+		$id = $gGen->SetNewEnfant("Sols, murs et plafonds");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(68,$id);
+				
+		//header('Content-type: application/vnd.mozilla.xul+xml');
+		//$xul = "<box>".$xul."</box>";
+
+		return "OK";
+		
+	}
+	
 	
 	function AddPlacemark($idRubDst, $kml){
 		global $objSite;

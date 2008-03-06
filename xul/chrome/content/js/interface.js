@@ -76,7 +76,6 @@ function AddNewGrille(type){
   } catch(ex2){alert("AddObj::"+ex2);dump("::"+ex2);}
 }
 
-
 function SetVal(idDoc){
   try {
 	var verif = true;
@@ -84,20 +83,38 @@ function SetVal(idDoc){
 	doc = document.getElementById(idDoc);
 	arrDoc = doc.id.split(DELIM);
 	
-	//gestion des type de control
-	if(doc.tagName=="radiogroup")
-		val = doc.selectedItem.id;
-	else
-		val = doc.value;
+	//alert(doc.tagName);	
+	f = "SetVal";
+	switch (doc.tagName)
+	{
+		case "radiogroup":
+			val = doc.selectedItem.id;
+			break;
+		case "checkbox":
+			val = arrDoc[5];
+			if(!doc.checked)
+				f = "DelVal";				
+			break;
+		default:
+			val = doc.value;
+			break;
+	}
+	
+			
 	//alert(doc.tagName+' '+val);	
 	dump("SetVal "+arrDoc[0]+", "+arrDoc[1]+", "+arrDoc[2]+"\n");
 	
 	if(!verif)
 		return;
 	
-	url = urlExeAjax+"?f=SetVal&idGrille="+arrDoc[1]+"&idDon="+arrDoc[2]+"&champ="+arrDoc[3]+"&val="+val;
+	url = urlExeAjax+"?f="+f+"&idGrille="+arrDoc[1]+"&idDon="+arrDoc[2]+"&champ="+arrDoc[3]+"&val="+val;
 	//dump("SetNewGrille "+url+"\n");
-	AjaxRequest(url,"AfficheResult","trace"+doc.id);
+	
+	//récupère le formulaire de signalisation d'un problème dans le cas d'un diagnostic
+	if(arrDoc[1]=="59")
+		AppendResult(url,doc.parentNode);
+	else
+		AjaxRequest(url,"AfficheResult","trace"+doc.id);
 	
 	//modifie le titre du panel dans le cas du titre de l'établissement
 	if(arrDoc[1]=="55")

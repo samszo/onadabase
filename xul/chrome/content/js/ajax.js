@@ -57,8 +57,10 @@ function GetResult(url) {
 }
 
 function AfficheResult(response,params) {
+  try {
 	dump("AfficheResult IN response"+response+" "+params+"\n");
 	document.getElementById(params).value = response;
+  } catch(ex2){dump("Ajax:AfficheResult:"+ex2);}
 }
 
 function RefreshResult(response, params) {
