@@ -29,8 +29,8 @@
 			<menuitem label="Ajouter un espace" oncommand="AddNewGrille('Espace');"/>
 		</popup>
 		<popup id="popespace" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parc','Parc');"/>
-			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parc');"/>
+			<menuitem label="Voir le(s) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
+			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
 			<menuitem label="Voir le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
 		</popup>
@@ -41,6 +41,12 @@
 		<popup id="popniveau" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) espace(s) intérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces intérieurs','espaceint','EspaceInt');"/>
 			<menuitem label="Ajouter un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
+			<menuitem label="Voir le(s) objet(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Objets','objet','Objet');"/>
+			<menuitem label="Ajouter un objet" oncommand="AddNewGrille('Objet');"/>
+		</popup>
+		<popup id="popespaceint" onpopupshowing="javascript:;">
+			<menuitem label="Voir les espaces généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces généraux','espacegen','EspaceGen');"/>
+			<menuitem label="Voir le(s) espace(s) spécifique(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces spécifiques','espacespe','EspaceSpe');"/>
 		</popup>
 	</popupset>
 
@@ -78,7 +84,7 @@
 				</splitter>
 	
 			<vbox class="BoiteV" flex="1" >
-				<hbox flex="1" >
+				<hbox flex="1" hidden="true" >
 				 <label value="Sélectionnez un établissement dans" id="TitreFormSaisi" class="titre" />
 				 <label id="libRub" value="Le département du Nord" class="titre" />
 				</hbox>

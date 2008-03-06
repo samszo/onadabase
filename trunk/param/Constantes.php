@@ -10,7 +10,7 @@
 	// Include the class files.
 	require_once(TT_CLASS_BASE."AllClass.php");
 
-  define ("DEFSITE", "local");
+  define ("DEFSITE", "mundi");
 
   $DB_OPTIONS = array (
 		'ERROR_DISPLAY' => true
@@ -35,6 +35,7 @@ $Site = array(
 	"SITE_ENFANT" => -1,
 	"GRILLE_GEO" => 1,
 	"GRILLE_REG_LEG" => 52,
+	"GRILLE_REP_CON" => 59,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
@@ -51,6 +52,7 @@ $SiteNaos = array(
 	"SITE_ENFANT" => -1,
 	"GRILLE_GEO" => 1,
 	"GRILLE_REG_LEG" => 52,
+	"GRILLE_REP_CON" => 59,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
@@ -68,6 +70,7 @@ $SiteNaos = array(
 	"SITE_ENFANT" => -1,
 	"GRILLE_GEO" => 1,
 	"GRILLE_REG_LEG" => 52,
+	"GRILLE_REP_CON" => 59,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
