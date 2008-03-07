@@ -8,7 +8,7 @@
 //mundilogiweb
 var urlExeAjax = "http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php";
 
-function AppendResult(url,doc) {
+function AppendResult(url,doc,ajoute) {
   try {
 	dump("AppendResult IN "+url+"\n");
 	p = new XMLHttpRequest();
@@ -26,9 +26,11 @@ function AppendResult(url,doc) {
 	          response + "</box>";
 		var parser=new DOMParser();
 		var resultDoc=parser.parseFromString(xulData,"text/xml");
-		//vide le conteneur
-		while(doc.hasChildNodes())
-			doc.removeChild(doc.firstChild);
+		if(!ajoute){
+			//vide le conteneur
+			while(doc.hasChildNodes())
+				doc.removeChild(doc.firstChild);
+		}
 		//ajoute le résultat
 		doc.appendChild(resultDoc.documentElement);
 	}
