@@ -112,7 +112,7 @@ function SetVal(idDoc){
 	
 	//récupère le formulaire de signalisation d'un problème dans le cas d'un diagnostic
 	if(arrDoc[1]=="59")
-		AppendResult(url,doc.parentNode);
+		AppendResult(url,doc.parentNode,true);
 	else
 		AjaxRequest(url,"AfficheResult","trace"+doc.id);
 	

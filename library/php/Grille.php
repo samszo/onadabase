@@ -716,12 +716,12 @@ class Grille{
 			default:
 				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='textbox']";
 				$js = $this->site->GetJs($Xpath, array($id));
-				If($row["grille"]==$this->site->infos["GRILLE_REP_CON"])
+				if($row["grille"]==$this->site->infos["GRILLE_REP_CON"])
 					$control .= '<label  '.$js.' id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
 				else
 					$control .= '<textbox '.$js.' id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row['valeur']).'" />';
 				
-		}
+		}	
 		
 		$control .= '<label id="trace'.$id.'" hidden="true" value=""/>';
 

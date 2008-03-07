@@ -1,4 +1,5 @@
 <?
+/*
 session_start();
 extract($_SESSION,EXTR_OVERWRITE);
 extract($_POST,EXTR_OVERWRITE);
@@ -49,10 +50,10 @@ function ChercheAbo ($login, $mdp)
 	}
 
 ChercheAbo ($login, $mdp);
-
+*/
 
 header ("Content-type: application/vnd.mozilla.xul+xml; charset=iso-8859-15");
-header ("title: BTS Informatique section de Gap");
+header ("title: Saisi des diagnosics d'accessibilité");
 echo '<' . '?xml version="1.0" encoding="iso-8859-15" ?' . '>';
 echo '<' . '?xml-stylesheet href="chrome://global/skin/" type="text/css"?' . '>' . "\n";
 echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
@@ -104,6 +105,14 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		<popup id="popespaceint" onpopupshowing="javascript:;">
 			<menuitem label="Voir les espaces généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces généraux','espacegen','EspaceGen');"/>
 			<menuitem label="Voir le(s) espace(s) spécifique(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces spécifiques','espacespe','EspaceSpe');"/>
+		</popup>
+		<popup id="popparcelle" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) espace(s) extérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces extérieurs','espaceext','EspaceExt');"/>
+			<menuitem label="Ajouter un espace extérieur" oncommand="AddNewGrille('EspaceExt');"/>
+		</popup>
+		<popup id="popespaceext" onpopupshowing="javascript:;">
+			<menuitem label="Voir les paramètres généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
+			<menuitem label="Ajouter un espace extérieur" oncommand="AddNewGrille('EspaceExt');"/>
 		</popup>
 	</popupset>
 
