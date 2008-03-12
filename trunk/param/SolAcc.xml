@@ -361,6 +361,23 @@ INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
 				<from> FROM spip_forms_donnees_champs </from>
 				<where> WHERE id_donnee = -idDon-</where>
 			</Query>
+			<Query fonction="Grille_GetDonneeArtForm">
+				<select>SELECT fda.id_donnee </select>
+				<from> FROM spip_forms_donnees_articles fda
+INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = -idGrille-
+ 				</from>
+				<where> WHERE fda.id_article = -idArt-</where>
+			</Query>
+			<Query fonction="Grille_DelGrilleDonnee">
+				<select>DELETE </select>
+				<from> FROM spip_forms_donnees </from>
+				<where> WHERE id_donnee = -idDon-</where>
+			</Query>
+			<Query fonction="Grille_DelGrilleArtDonnee">
+				<select>DELETE </select>
+				<from> FROM spip_forms_donnees_articles </from>
+				<where> WHERE id_donnee = -idDon-</where>
+			</Query>
 			<Query fonction="Grille_InsDonnee">
 				<insert>INSERT INTO `spip_forms_donnees_champs` (`id_donnee`, `champ`, `valeur`, `maj`)</insert>
 				<values> VALUES (-idDon-, '-champ-', '-val-', now()) </values>
