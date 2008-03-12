@@ -111,66 +111,73 @@ class Grille{
 	function AddXmlDonnee($xmlSrc){
 			
 		if($this->trace)
-			echo "AddXmlDonnee IN //récuparation de la définition des données ".$xmlSrc."<br/>";
+			echo "Grille/AddXmlDonnee IN //récuparation de la définition des données ".$xmlSrc."<br/>";
 		$xml = new XmlParam($xmlSrc);		
 		
 		$Xpath = "/donnees";
 		$donnees = $xml->GetElements($Xpath);
 		if($this->trace)
-			echo "//récupération des valeurs de donnée ".$donnees."<br/>";
+			echo "Grille/AddXmlDonnee/récupération des valeurs de donnée ".$donnees."<br/>";
 		
 		$idGrille = $donnees[0]->grille;
 		if($this->trace)
-			echo "//récupération de l'identifiant de la grille ".$idGrille."<br/>";
+			echo "Grille/AddXmlDonnee/récupération de l'identifiant de la grille ".$idGrille."<br/>";
 		
 		//récupération de la définition des champs
 		$Xpath = "/donnees/champs";
 		$champs = $xml->GetElements($Xpath);
-		
+		$first=true;
 		foreach($donnees[0]->donnee as $donnee)
 		{
 			$idRub = $donnee->rub;
 			if($this->trace)
-				echo "//- récupération de l'identifiant de la rubrique ".$idRub."<br/>";
+				echo "Grille/AddXmlDonnee/- récupération de l'identifiant de la rubrique ".$idRub."<br/>";
 			
 			//récuparation du granulat
 			$g = new Granulat($idRub, $this->site); 
 			$idArt = $g->GetArticle();
 			if($this->trace)
-				echo "//- récupération ou création du dernier article en cours de rédaction ".$idArt."<br/>";
+				echo "Grille/AddXmlDonnee/- récupération ou création du dernier article en cours de rédaction ".$idArt."<br/>";
 			
+			if($first){
+				$this->DelGrilleArt($idGrille,$idArt);
+				if($this->trace)
+					echo "Grille/AddXmlDonnee/suppression des anciennes données ".$idArt."<br/>";
+				$first=false;
+			}
+				
 			$idDon = $g->GetIdDonnee($idGrille, $idArt, true);
 			if($this->trace)
-				echo "//- création de la donnee ".$idDon."<br/>";
+				echo "Grille/AddXmlDonnee/- création de la donnee ".$idDon."<br/>";
 
 			$i=0;
 			foreach($donnee->valeur as $valeur)
 			{
-				if($valeur!='false'){
+				if($valeur!='non'){
 					$valeur=utf8_decode($valeur);
 					$champ = $champs[0]->champ[$i];
 					if($this->trace)
-						echo "//--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+						echo "Grille/AddXmlDonnee/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
 					if(substr($champ,0,8)=="multiple"){
 						$valeur=$champ;
 						//attention il ne doit pas y avoir plus de 10 choix
 						$champ=substr($champ,0,-2);
 					}
 					if($this->trace)
-						echo "//-- récupération du type de champ ".$champ."<br/>";
+						echo "Grille/AddXmlDonnee/-- récupération du type de champ ".$champ."<br/>";
 					$row = array('champ'=>$champ, 'valeur'=>$valeur);
 					if($this->trace)
-						echo "//-- récupération de la valeur du champ ".$valeur."<br/>";
+						echo "Grille/AddXmlDonnee/-- récupération de la valeur du champ ".$valeur."<br/>";
 					$this->SetChamp($row, $idDon,false);
 					if($this->trace)
-						echo "//--- création du champ <br/>";
+						echo "Grille/AddXmlDonnee/--- création du champ <br/>";
 				}
 				$i++;
 			}
 			
 		}
 		if($this->trace)
-			echo "AddXmlDonnee OUT //<br/>";
+			echo "Grille/AddXmlDonnee OUT //<br/>";
 		
 	}
     
@@ -326,7 +333,8 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-idDon-", $donId, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		//echo $sql."<br/>";
+		if($this->trace)
+			echo "Grille:DelDonnee:".$sql."<br/>";
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
 		$db->connect();
 		$result = $db->query($sql);
@@ -334,6 +342,48 @@ class Grille{
 		
 	}	
 
+	function DelGrilleDonnee($donId) {
+
+		//Supression des valeurs de champ
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_DelGrilleDonnee']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-idDon-", $donId, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		if($this->trace)
+			echo "Grille:DelGrilleDonnee:".$sql."<br/>";
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$result = $db->query($sql);
+		$db->close();
+		
+	}	
+	
+	function DelGrilleArt($idGrille, $idArt) {
+
+		if($this->trace)
+			echo "Grille:DelGrilleArt:GetDonneeArtForm $idGrille, $idArt<br/>";
+		//récupération des données pour un article et une grille
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeArtForm']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-idArt-", $idArt, $Q[0]->where);
+		$from = str_replace("-idGrille-", $idGrille, $Q[0]->from);
+		$sql = $Q[0]->select.$from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$result = $db->query($sql);
+		$db->close();
+		if($this->trace)
+			echo "Grille:DelGrilleArt:GetDonneeArtForm=".$sql."<br/>";
+		//echo $sql."<br/>";
+		while ($r =  $db->fetch_assoc($result)) {
+			//Supression des valeurs de champ
+			$this->DelDonnee($r["id_donnee"]);
+			//suppression des donnee
+			$this->DelGrilleDonnee($r["id_donnee"]);
+		}
+		
+	}	
+	
 	function SetChamp($row, $donId, $del=true) {
 
 		if($del)
