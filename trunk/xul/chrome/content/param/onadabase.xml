@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Params>
+	<Param nom="AddObjEtab" id="45" >
+		<NoVerif>Veillez choisir un territoire</NoVerif>
+		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjEspace" id="145" >
+		<NoVerif>Veillez choisir un espace</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjBat" id="46" >
+		<NoVerif>Veillez choisir un établissement</NoVerif>
+		<TitreFormSaisi>Créer un nouveau bâtiment</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjParcelle" id="61" >
+		<NoVerif>Veillez choisir une parcelle</NoVerif>
+		<TitreFormSaisi>Créer une nouvelle parcelle</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjEspaceExt" id="146" >
+		<NoVerif>Veillez choisir une parcelle</NoVerif>
+		<TitreFormSaisi>Créer une nouvelle parcelle</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjNiveau" id="47" >
+		<NoVerif>Veillez choisir un niveau</NoVerif>
+		<TitreFormSaisi>Créer un nouveau niveau</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjEspaceInt" id="49" >
+		<NoVerif>Veillez choisir un espace intérieur</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace intérieur</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjEspaceGen" id="66" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjAscenseur" id="66" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjPorte" id="50" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
+</Params>
