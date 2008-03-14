@@ -262,6 +262,17 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 61
 				<where> WHERE r.id_rubrique = -id- </where>
 				<dst>Art</dst>
 			</Query>
+			<Query fonction="Grille_GetXulTabFormescalier">
+				<select>SELECT DISTINCT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
 			<Query fonction="Grille_GetXulTabFormParcelle">
 				<select>SELECT a.id_article id, a.titre</select>
 				<from> 
