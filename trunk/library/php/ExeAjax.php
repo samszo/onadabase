@@ -198,6 +198,9 @@
 				
 		$grille = new Grille($objSite);
 		$grille->AddGrilles($idRubSrc, $id);
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse($idRubSrc,$id);
+		
 		$xul = $grille->GetXulTab($trs, $id);
 		
 		if($trs=="EspaceInt")

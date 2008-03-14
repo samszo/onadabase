@@ -243,12 +243,12 @@ class Site{
 	  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
 	  $theValue = str_replace("'","''",$theValue);
 	  $theValue = str_replace("\"","''",$theValue);
-	  $theValue = htmlentities($theValue);
+	  //$theValue = htmlentities($theValue);
 	  //echo $theValue."<br/>";
 
 	  switch ($theType) {
 	    case "text":
-	      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+	      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "''";
 	      break;    
 	    case "long":
 	    case "int":
