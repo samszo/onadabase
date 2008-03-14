@@ -12,15 +12,6 @@
 	</XmlParam>
 	<XmlParam nom="GetOntoTree">
 		<Querys>
-			<Query fonction="GetTreeChildren_voirie" ajax="http://localhost/onadabase/library/ExeAjax.php?f=GetTreeChildren&amp;ParamNom=GetOntoTree&amp;type=voirie">
-				<col tag="id" parse="Integer"/>
-				<col tag="titre"/>
-				<col tag="parent" hidden="true"/>
-				<select>SELECT id_rubrique id, titre, id_parent parent </select>
-				<from> FROM spip_rubriques </from>
-				<where def="0"> WHERE id_parent = -parent-</where>
-				<js evt="onselect" function="GetTreeSelect('tree-param0-',['id-param0-','lib-param0-'],[0,1])"/>
-			</Query>
 			<Query fonction="GetTreeChildren_terre">
 				<!-- récupère par rapport au parent les rubriques qui ont un mot clef type de territoire-->
 				<col tag="id" parse="Integer"/>
@@ -81,6 +72,18 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 35
 				<where def="9"> WHERE id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Niveau');"/>
 			</Query>
+			<Query fonction="GetTreeChildren_ascenseur">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> FROM spip_rubriques r
+INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 35
+				</from>
+				<where def="9"> WHERE id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Ascenseur');"/>
+			</Query>
 			<Query fonction="GetTreeChildren_espaceint">
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
@@ -116,8 +119,20 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 58
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE r.id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Parcelle');"/>
+			</Query>
+			<Query fonction="GetTreeChildren_porte">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> FROM spip_rubriques r
+INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+				</from>
+				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','porte');"/>
 			</Query>
 			<Query fonction="GetTreeChildren_espaceext">
 				<col tag="id" parse="Integer"/>
@@ -219,6 +234,17 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 61
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 53
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+			<Query fonction="Grille_GetXulTabFormporte">
+				<select>SELECT DISTINCT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
 				</from>
 				<where> WHERE r.id_rubrique = -id- </where>
 				<dst>Art</dst>

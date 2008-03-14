@@ -200,7 +200,7 @@ class Grille{
 			$idDon = $this->AddDonnee($idRubDst, $row["id_form"], $redon);
 			$result .= $row["id_form"]." ".$row["titre"]." ".$idDon."<br/>";		
 		}
-				
+		
 		return $result;
 	}
 	
@@ -399,7 +399,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$values = str_replace("-idDon-", $donId, $Q[0]->values);
 		$values = str_replace("-champ-", $row["champ"], $values);
-		$values = str_replace("-val-", $row["valeur"], $values);
+		$values = str_replace("'-val-'", $this->site->GetSQLValueString($row["valeur"],"text"), $values);
 		$sql = $Q[0]->insert.$values;
 		if($this->trace)
 			echo $sql."<br/>";
@@ -582,8 +582,10 @@ class Grille{
 		}
 		$oChamp = "";
 		while($r = $db->fetch_assoc($req)) {
-			//construction de l'identifiant
+			
 			$idDoc = 'val'.DELIM.$idGrille.DELIM.$r["id_donnee"].DELIM.$r["champ"].DELIM.$r["id_article"];
+			if($this->trace)
+				echo "GetXulForm/construction de l'identifiant ".$idDoc."<br/>";
 			switch ($idGrille) {
 				case $this->site->infos["GRILLE_REG_LEG"]:
 					//construstion de la règle législative
@@ -767,7 +769,7 @@ class Grille{
 				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='textbox']";
 				$js = $this->site->GetJs($Xpath, array($id));
 				if($row["grille"]==$this->site->infos["GRILLE_REP_CON"])
-					$control .= '<label  '.$js.' id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
+					$control .= '<textbox  '.$js.' multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
 				else
 					$control .= '<textbox '.$js.' id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row['valeur']).'" />';
 				

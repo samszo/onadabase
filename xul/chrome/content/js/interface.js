@@ -16,7 +16,25 @@ var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
 var xmlParam;
+var lienAdminSpip = "http://www.mundilogiweb.com/onadabase/spip/ecrire";
 
+function SetLienAdmin(){
+	
+	var idRub = document.getElementById("idRub").value;
+	
+	var lien = document.getElementById("LienAdmin");
+	if(lien)
+		document.getElementById("RefId").removeChild(lien);
+
+	var lbl = document.createElement("label");
+	lbl.setAttribute("id","LienAdmin");
+	lbl.setAttribute("href",lienAdminSpip+"/?exec=naviguer&id_rubrique="+idRub);
+	lbl.setAttribute("target","_new");
+	lbl.setAttribute("class","text-link");
+	lbl.setAttribute("value","Admin SPIP");
+	document.getElementById("RefId").appendChild(lbl);
+	
+}
 
 function GetXmlFicToDoc(fic){
 
@@ -261,6 +279,9 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 {
   try {
 	dump("ChargeTabboxFromAjax IN "+type+"\n");
+	
+	//ajoute le lien vers spip admin
+	SetLienAdmin();	
 	
 	doc = document.getElementById(idDst);
 	id = document.getElementById(idSrc).value;
