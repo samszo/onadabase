@@ -40,4 +40,8 @@
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
+	<Param nom="AddObjEscalier" id="91" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
 </Params>
