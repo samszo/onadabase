@@ -102,14 +102,16 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menu label="Voir les objets">
 				<menupopup>
 					<menuitem label="Ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Ascenseurs','ascenseur','Ascenseur');"/>
+					<menuitem label="Entrée" oncommand="RefreshEcran(document.getElementById('idRub').value,'Entrées','entree','Entree');"/>
 					<menuitem label="Escalier" oncommand="RefreshEcran(document.getElementById('idRub').value,'Escaliers','escalier','Escalier');"/>
-					<menuitem label="Escalier mécannique" oncommand="RefreshEcran(document.getElementById('idRub').value,'Escalier mécannique','escameca','EscaMeca');"/>
+					<menuitem label="Escalier mécannique" oncommand="RefreshEcran(document.getElementById('idRub').value,'Escaliers mécanniques','escameca','EscaMeca');"/>
 					<menuitem label="Porte" oncommand="RefreshEcran(document.getElementById('idRub').value,'Portes','porte','Porte');"/>
 				</menupopup>
 			</menu>
 			<menu label="Ajouter un objet">
 				<menupopup>
 					<menuitem label="Ascenseur" oncommand="AddNewGrille('Ascenseur');"/>
+					<menuitem label="Entrée" oncommand="AddNewGrille('Entree');"/>
 					<menuitem label="Escalier" oncommand="AddNewGrille('Escalier');"/>
 					<menuitem label="Escalier mécannique" oncommand="AddNewGrille('EscaMeca');"/>
 					<menuitem label="Porte" oncommand="AddNewGrille('Porte');"/>

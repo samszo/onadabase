@@ -146,6 +146,33 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<where def="9"> WHERE r.id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Escalier');"/>
 			</Query>
+			
+			<Query fonction="GetTreeChildren_escameca">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> FROM spip_rubriques r
+INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+				</from>
+				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EscaMeca');"/>
+			</Query>
+			
+			<Query fonction="GetTreeChildren_entree">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> FROM spip_rubriques r
+INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+				</from>
+				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Escalier');"/>
+			</Query>
+
 
 			<Query fonction="GetTreeChildren_espaceext">
 				<col tag="id" parse="Integer"/>
@@ -263,6 +290,28 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 61
 				<dst>Art</dst>
 			</Query>
 			<Query fonction="Grille_GetXulTabFormEscalier">
+				<select>SELECT DISTINCT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+			<Query fonction="Grille_GetXulTabFormEscaMeca">
+				<select>SELECT DISTINCT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+			<Query fonction="Grille_GetXulTabFormEntree">
 				<select>SELECT DISTINCT a.id_article id, a.titre</select>
 				<from> 
 					FROM spip_rubriques r

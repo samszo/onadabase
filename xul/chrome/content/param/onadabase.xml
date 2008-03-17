@@ -44,4 +44,12 @@
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
+	<Param nom="AddObjEscaMeca" id="53" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjEntree" id="471" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
 </Params>
