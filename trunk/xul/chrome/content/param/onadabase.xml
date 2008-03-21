@@ -4,6 +4,10 @@
 		<NoVerif>Veillez choisir un territoire</NoVerif>
 		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
 	</Param>
+	<Param nom="AddObjVoirie" id="431" >
+		<NoVerif>Veillez choisir un territoire</NoVerif>
+		<TitreFormSaisi>Créer un nouveau tronçon de voirie</TitreFormSaisi>
+	</Param>
 	<Param nom="AddObjEspace" id="145" >
 		<NoVerif>Veillez choisir un espace</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace</TitreFormSaisi>
@@ -32,7 +36,15 @@
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjAscenseur" id="66" >
+	<Param nom="AddObjEspaceSpe" id="67" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjEspaceExtParamGen" id="63" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjEspaceExtParamSpe" id="62" >
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
@@ -49,6 +61,14 @@
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
 	<Param nom="AddObjEntree" id="471" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjPalierAscenseur" id="51" >
+		<NoVerif>Veillez choisir un espace général</NoVerif>
+		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjCabineAscenseur" id="597" >
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
