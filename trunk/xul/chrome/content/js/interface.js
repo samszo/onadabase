@@ -66,27 +66,28 @@ function AddNewGrille(type){
 	var verif = true;
 	
 	//récupère les paramètres
-	Xpath ="/Params/Param[@nom='AddObj"+type+"']";
-	iterator = xmlParam.evaluate(Xpath, xmlParam, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
-	n = iterator.iterateNext();
-	id = n.attributes["id"].value;
-	messNoVerif = n.childNodes[1].textContent;
-	TitreFormSaisi =  n.childNodes[3].textContent;
+	var Xpath ="/Params/Param[@nom='AddObj"+type+"']";
+	var iterator = xmlParam.evaluate(Xpath, xmlParam, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+	var n = iterator.iterateNext();
+	var id = n.attributes["id"].value;
+	var messNoVerif = n.childNodes[1].textContent;
+	var TitreFormSaisi =  n.childNodes[3].textContent;
 	
 	
-	dst = document.getElementById('idRub').value;
+	var dst = document.getElementById('idRub').value;
+	var login = document.getElementById('login').value;
 	if(dst=="?"){
 		alert(messNoVerif);
 		verif = false;
 	}
-	doc = document.getElementById("FormSaisi");
+	var doc = document.getElementById("FormSaisi");
 	document.getElementById("TitreFormSaisi").value=TitreFormSaisi;
 	//purge les formulaires déjà affiché
 	while(doc.hasChildNodes())
 		doc.removeChild(doc.firstChild);
 
 	if(verif){
-		url = urlExeAjax+"?f=AddNewGrille&src="+id+"&dst="+dst+"&type="+type;
+		var url = urlExeAjax+"?f=AddNewGrille&src="+id+"&dst="+dst+"&type="+type;
 		//dump("SetNewGrille "+url+"\n");
 		AppendResult(url,doc);
 	}
@@ -145,12 +146,13 @@ function SetVal(idDoc){
 function SetNewGrille(kml, src, dst, doc){
   try {
 	var verif = true;
-	Lkml = document.getElementById('lib'+kml).value;
-	Lsrc = document.getElementById('lib'+src).value;
-	Ldst = document.getElementById('lib'+dst).value;
-	kml = document.getElementById('id'+kml).value;
-	src = document.getElementById('id'+src).value;
-	dst = document.getElementById('id'+dst).value;
+	var Lkml = document.getElementById('lib'+kml).value;
+	var Lsrc = document.getElementById('lib'+src).value;
+	var Ldst = document.getElementById('lib'+dst).value;
+	var kml = document.getElementById('id'+kml).value;
+	var src = document.getElementById('id'+src).value;
+	var dst = document.getElementById('id'+dst).value;
+	var login = document.getElementById('login').value;
 	
 	dump("SetNewGrille("+kml+", "+src+", "+dst+"\n");
 	if(src=="?"){
@@ -165,7 +167,7 @@ function SetNewGrille(kml, src, dst, doc){
 	if(!verif)
 		return;
 	
-	url = urlExeAjax+"?f=AddGrilles&src="+src+"&dst="+dst;
+	var url = urlExeAjax+"?f=AddGrilles&src="+src+"&dst="+dst+"&login="+login;
 	//dump("SetNewGrille "+url+"\n");
 	AjaxRequest(url,"AfficheResult","btnTrace");
 	//AppendResult(url,doc);
@@ -178,7 +180,7 @@ function SetNewGrille(kml, src, dst, doc){
 		AjaxRequest(url,"AfficheResult","btnTrace");
 	}
 
-	cells = new Array(dst,Ldst,Lsrc,Lkml)
+	var cells = new Array(dst,Ldst,Lsrc,Lkml)
 	//cells = new Array("fic"+numFic,"Gare Lille Flandre à Rue Négrier, 59800 Lille.kml",'Fichier')
 	Tree_AddItem(doc, cells);
 		
@@ -219,15 +221,24 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 	cont.setAttribute("context","pop"+typeSrc);
 	ChargeTreeFromAjax('idRub','treeRub',typeSrc);
 	ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
+	ChargeFilArianeFromAjax(id,'tbFilAriane',titre,typeSrc,typeDst);
 	//vérifie la présence su fil d'ariane
 	tb=document.getElementById("nav-toolbar");
 	tbb=document.getElementById("tbb"+typeSrc);
 	if(!tbb){
-		//ajoute un fil ariane
+		//ajoute un fil ariane sous forme de bouton
+		/*
 		tbb = document.createElement("toolbarbutton");
 		tbb.setAttribute("id","tbb"+typeSrc);
 		tbb.setAttribute("label",titre);
 		tbb.setAttribute("class","toolbarbutton");
+		*/
+		//ajoute un fil ariane sous forme de label
+		tbb = document.createElement("label");
+		tbb.setAttribute("id","tbb"+typeSrc);
+		tbb.setAttribute("value",titre);
+		tbb.setAttribute("class","text-link");
+		
 		tbb.setAttribute("onclick","RefreshEcran("+id+",'"+titre+"','"+typeSrc+"','"+typeDst+"');");
 		tb.appendChild(tbb);
 	}else{
@@ -251,20 +262,37 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 	
 }
 
+function ChargeFilArianeFromAjax(idSrc, idDst, titre,typeSrc,typeDst)
+{
+  try {
+	//alert("ChargeFilArianeFromAjax IN "+idSrc+", "+idDst+"\n");
+
+	var doc = document.getElementById(idDst);
+
+	var url = urlExeAjax+"?f=GetFilAriane&id="+idSrc+"&titre="+titre+"&typeSrc="+typeSrc+"&typeDst="+typeDst;
+	AppendResult(url,doc);
+	
+	//dump("ChargeFilArianeFromAjax OUT\n");
+   
+   } catch(ex2){alert(":ChargeFilArianeFromAjax:"+ex2+" url="+url);}
+	
+}
+
+
 
 function ChargeTreeFromAjax(idSrc,idDst,type)
 {
   try {
 	//alert("ChargeTreeFromAjax IN "+type+"\n");
 
-	id = document.getElementById(idSrc).value;
-	doc = document.getElementById(idDst);
+	var id = document.getElementById(idSrc).value;
+	var doc = document.getElementById(idDst);
 	//pour ne charger qu'une fois le tree
 	//if(document.getElementById('tree'+type))
 	//	return
 
 
-	url = urlExeAjax+"?f=GetTree&ParamNom=GetOntoTree&type="+type+"&id="+id;
+	var url = urlExeAjax+"?f=GetTree&ParamNom=GetOntoTree&type="+type+"&id="+id;
 	//alert("ChargeTreeFromAjax url "+url+"\n");
 	//AjaxRequest(url,'AppendTreeChildren',parentitem)
 	AppendResult(url,doc);
@@ -283,13 +311,13 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 	//ajoute le lien vers spip admin
 	SetLienAdmin();	
 	
-	doc = document.getElementById(idDst);
-	id = document.getElementById(idSrc).value;
+	var doc = document.getElementById(idDst);
+	var id = document.getElementById(idSrc).value;
 	
 	while(doc.hasChildNodes())
 		doc.removeChild(doc.firstChild);
   
-	url = urlExeAjax+"?f=GetTabForm&ParamNom=GetTabForm&id="+id+"&type="+type;
+	var url = urlExeAjax+"?f=GetTabForm&ParamNom=GetTabForm&id="+id+"&type="+type;
 	AppendResult(url,doc);
 	//AjaxRequest(url,'AppendTreeChildren',item)
 	
