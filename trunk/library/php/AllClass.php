@@ -10,5 +10,6 @@ require_once(TT_CLASS_BASE."Grille.php");
 require_once (TT_CLASS_BASE.'XmlParam.php');
 require_once (TT_CLASS_BASE.'Granulat.php');
 require_once (TT_CLASS_BASE.'MotClef.php');
+require_once (TT_CLASS_BASE.'Xul.php');
 
 ?>
