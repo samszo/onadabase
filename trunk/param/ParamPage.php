@@ -43,7 +43,13 @@ if(isset($_GET['id']))
 	$id = $_GET['id'];
 else
 	$id = -1;
+
+if(isset($_GET['login']))
+	$login = $_GET['login'];
+else
+	$login = -1;
 	
+
 $scope = array(
 		"site" => $site
 		,"type" => $type
@@ -53,6 +59,7 @@ $scope = array(
 		,"UrlNom" => $UrlNom
 		,"So" => $So
 		,"id" => $id
+		,"login" => $id
 		);	
 //print_r($scope);
 
