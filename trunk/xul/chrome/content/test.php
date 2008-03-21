@@ -75,7 +75,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 <script type="application/x-javascript" src="js/tree.js"/>
 <script type="application/x-javascript"  src="xbl/editableTree/functions.js" />
      <script>
-		xmlParam = GetXmlUrlToDoc("param/onadabase.xml");
+		xmlParam = GetXmlUrlToDoc("http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml");
      </script>
 
 	<popupset >
