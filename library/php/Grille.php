@@ -181,7 +181,7 @@ class Grille{
 		
 	}
     
-    function AddGrilles($idRubSrc, $idRubDst, $redon=false){
+    function AddGrilles($idRubSrc, $idRubDst, $login, $redon=false){
 			
 		//récuparation des grilles des articles publiés de la rubrique
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetGrillesPublie']";
