@@ -54,7 +54,7 @@ class Grille{
 			switch ($wf['dstQuery']) {
 				case "AddNewArtGrille":
 					if($this->trace)
-						echo ":GereWorkflow:AddNewArtGrille ".$row['valeur']."==".$wf['srcCheckVal']."<br/>";					
+						echo "Grille:GereWorkflow:AddNewArtGrille ".$row['valeur']."==".$wf['srcCheckVal']."<br/>";					
 					if($row['valeur']==$wf['srcCheckVal']){						
 						//récupération du granulat
 						$gra = new Granulat($id,$this->site);
@@ -64,8 +64,12 @@ class Grille{
 							echo ":GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
 						//ajoute une nouvelle donnee
 						$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
-						//récupère le formulaire xul
-						$xul = $this->GetXulForm($idDon,$wf['trsId']);
+						if($wf['trsObjet']=="controles" ){
+							$this->AddQuestionReponse($wf['trsId'],$id);
+						}else{
+							//récupère le formulaire xul
+							$xul = $this->GetXulForm($idDon,$wf['trsId']);
+						}
 						//renvoie le formulaire
 						return $xul;
 					}
@@ -181,7 +185,7 @@ class Grille{
 		
 	}
     
-    function AddGrilles($idRubSrc, $idRubDst, $login, $redon=false){
+    function AddGrilles($idRubSrc, $idRubDst, $redon=false){
 			
 		//récuparation des grilles des articles publiés de la rubrique
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetGrillesPublie']";
