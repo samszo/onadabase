@@ -50,6 +50,7 @@ function GetXmlFicToDoc(fic){
 
 function GetXmlUrlToDoc(url){
 
+	//alert(url);
 	var xml = GetResult(url);
 	//alert(xml);
 	var parser = new DOMParser();
@@ -87,23 +88,24 @@ function AddNewGrille(type){
 		doc.removeChild(doc.firstChild);
 
 	if(verif){
-		var url = urlExeAjax+"?f=AddNewGrille&src="+id+"&dst="+dst+"&type="+type;
+		var url = urlExeAjax+"?f=AddNewGrille&src="+id+"&dst="+dst+"&type="+type+"$login="+login;
 		//dump("SetNewGrille "+url+"\n");
 		AppendResult(url,doc);
 	}
 
-  } catch(ex2){alert("AddObj::"+ex2);dump("::"+ex2);}
+  } catch(ex2){alert("AddNewGrille::"+ex2+" "+type);;}
 }
 
 function SetVal(idDoc){
   try {
 	var verif = true;
 	//alert(idDoc);
-	doc = document.getElementById(idDoc);
-	arrDoc = doc.id.split(DELIM);
+	var doc = document.getElementById(idDoc);
+	var arrDoc = doc.id.split(DELIM);
 	
 	//alert(doc.tagName);	
-	f = "SetVal";
+	var f = "SetVal";
+	var val;
 	switch (doc.tagName)
 	{
 		case "radiogroup":
@@ -125,8 +127,9 @@ function SetVal(idDoc){
 	
 	if(!verif)
 		return;
+	var login = document.getElementById('login').value;
 	
-	url = urlExeAjax+"?f="+f+"&idGrille="+arrDoc[1]+"&idDon="+arrDoc[2]+"&champ="+arrDoc[3]+"&val="+val;
+	var url = urlExeAjax+"?f="+f+"&idGrille="+arrDoc[1]+"&idDon="+arrDoc[2]+"&champ="+arrDoc[3]+"&val="+val+"&login="+login;
 	//dump("SetNewGrille "+url+"\n");
 	
 	//récupère le formulaire de signalisation d'un problème dans le cas d'un diagnostic
