@@ -32,6 +32,20 @@ class Granulat
 	}
   }
 
+  function SetAuteur($newId,$objet){
+
+  	if($this->site->scope["login"]!=-1){
+			//association de l'article à l'auteur
+			$sql = "INSERT INTO spip_auteurs_".$objet."s (id_".$objet.",id_auteur)
+				SELECT ".$newId.", id_auteur FROM spip_auteurs where login='".$this->site->scope["login"]."'";					
+			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+			$req = $DB->query($sql);
+			$DB->close();
+	}
+	echo "sql=".$sql."<br/>";
+  	
+  }
+  
   function SetNewEnfant($titre,$id=-1){
 
 	if($id==-1)
@@ -45,7 +59,7 @@ class Granulat
 	$req = $DB->query($sql);
 	$newId = mysql_insert_id();
 	$DB->close();
-	
+			
 	return $newId;
   
   }
@@ -66,6 +80,8 @@ class Granulat
 	$req = $DB->query($sql);
 	$newId = mysql_insert_id();
 	$DB->close();
+
+	$this->SetAuteur($newId,'article');
 	
 	return $newId;
   
@@ -157,6 +173,7 @@ class Granulat
 			$req = $DB->query($sql);
 			$artId = mysql_insert_id();
 			$DB->close();
+			$this->SetAuteur($artId,'article');
 		}
 
 		return $artId; 

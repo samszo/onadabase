@@ -30,7 +30,7 @@
 			$resultat = GetTabForm($_GET['type'],$id);
 			break;
 		case 'AddGrilles':
-			$resultat = AddGrilles($_GET['src'], $_GET['dst'], $_GET['login'], false);
+			$resultat = AddGrilles($_GET['src'], $_GET['dst'], false);
 			break;
 		case 'AddPlacemark':
 			$resultat = AddPlacemark($_GET['dst'], $_GET['kml']);
@@ -48,7 +48,7 @@
 			$resultat = AddXmlDonnee($_GET['url']);
 			break;
 		case 'AddNewGrille':
-			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type'], $_GET['login']);
+			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type']);
 			break;
 	}
 
@@ -97,7 +97,7 @@
 	
 	}
 	
-	function SetVal($idGrille,$idDon,$champ,$val,$login){
+	function SetVal($idGrille,$idDon,$champ,$val){
 	
 		global $objSite;
 		$g = new Grille($objSite,$login);
@@ -191,7 +191,7 @@
 
 	function AddGrilles($idRubSrc, $idRubDst, $login, $redon){
 		global $objSite;
-		$g = new Grille($objSite,$login);
+		$g = new Grille($objSite);
 		$xul = $g->AddGrilles($idRubSrc, $idRubDst, $redon);
 
 		//header('Content-type: application/vnd.mozilla.xul+xml');
@@ -201,14 +201,14 @@
 		
 	}
 	
-	function AddNewGrille($idRubSrc, $idRubDst, $trs, $login){
+	function AddNewGrille($idRubSrc, $idRubDst, $trs){
 		global $objSite;
 		
 		$g = new Granulat($idRubDst,$objSite);
-		$id = $g->SetNewEnfant($trs." Sans Nom ".$today = date('j/m/y - H:i:s'),$login);
+		$id = $g->SetNewEnfant($trs." Sans Nom ".$today = date('j/m/y - H:i:s'));
 		//ajoute une sous-rubrique
 				
-		$grille = new Grille($objSite,$login);
+		$grille = new Grille($objSite);
 		$grille->AddGrilles($idRubSrc, $id);
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse($idRubSrc,$id);
@@ -216,7 +216,7 @@
 		$xul = $grille->GetXulTab($trs, $id);
 		
 		if($trs=="EspaceInt")
-			AddNewEspaceGen(66, $id, "ParamGenEspace",$login);
+			AddNewEspaceGen(66, $id, "ParamGenEspace");
 		
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
@@ -225,37 +225,37 @@
 		
 	}
 
-	function AddNewEspaceGen($idRubSrc, $idRubDst, $trs,$login){
+	function AddNewEspaceGen($idRubSrc, $idRubDst, $trs){
 		global $objSite;
 		
 		//ajoute une sous-rubrique espace gen
 		$g = new Granulat($idRubDst,$objSite);
-		$idGen = $g->SetNewEnfant("Paramètres généraux espace",$login);
-		$grille = new Grille($objSite,$login);
+		$idGen = $g->SetNewEnfant("Paramètres généraux espace");
+		$grille = new Grille($objSite);
 		$gGen = new Granulat($idGen,$objSite);
 		
 		//ajoute une sous-rubrique espace gen->éclairage
-		$id = $gGen->SetNewEnfant("Eclairage",$login);
+		$id = $gGen->SetNewEnfant("Eclairage");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(71,$id);
 		
 		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
-		$id = $gGen->SetNewEnfant("Equipements et dispositifs de commande",$login);
+		$id = $gGen->SetNewEnfant("Equipements et dispositifs de commande");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(70,$id);
 				
 		//ajoute une sous-rubrique espace gen->Pentes et ressauts
-		$id = $gGen->SetNewEnfant("Pentes et ressauts",$login);
+		$id = $gGen->SetNewEnfant("Pentes et ressauts");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(69,$id);
 				
 		//ajoute une sous-rubrique espace gen->Signalétique
-		$id = $gGen->SetNewEnfant("Signalétique",$login);
+		$id = $gGen->SetNewEnfant("Signalétique");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(72,$id);
 				
 		//ajoute une sous-rubrique espace gen->Sols, murs et plafonds
-		$id = $gGen->SetNewEnfant("Sols, murs et plafonds",$login);
+		$id = $gGen->SetNewEnfant("Sols, murs et plafonds");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(68,$id);
 				

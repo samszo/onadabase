@@ -88,7 +88,7 @@ function AddNewGrille(type){
 		doc.removeChild(doc.firstChild);
 
 	if(verif){
-		var url = urlExeAjax+"?f=AddNewGrille&src="+id+"&dst="+dst+"&type="+type+"$login="+login;
+		var url = urlExeAjax+"?f=AddNewGrille&src="+id+"&dst="+dst+"&type="+type+"&login="+login;
 		//dump("SetNewGrille "+url+"\n");
 		AppendResult(url,doc);
 	}

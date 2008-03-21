@@ -673,6 +673,7 @@ INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ" srcId="35;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="35;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="59" />
 		<Querys>
 			<Query fonction="update_ArtTitre">
 				<update>UPDATE spip_articles </update>
