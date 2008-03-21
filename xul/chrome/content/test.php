@@ -8,6 +8,7 @@ if(isset($_SESSION['loginSess']))
 	$login=$_SESSION['loginSess'];
 	$mdp=$_SESSION['mdpSess'];
 	$idAuteur=$_SESSION['IdAuteur'];
+	
 }
 else
 {
