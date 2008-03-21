@@ -1,5 +1,4 @@
-<?
-/*
+<?php
 session_start();
 extract($_SESSION,EXTR_OVERWRITE);
 extract($_POST,EXTR_OVERWRITE);
@@ -8,6 +7,7 @@ if(isset($_SESSION['loginSess']))
 {
 	$login=$_SESSION['loginSess'];
 	$mdp=$_SESSION['mdpSess'];
+	$idAuteur=$_SESSION['IdAuteur'];
 }
 else
 {
@@ -26,7 +26,7 @@ function ChercheAbo ($login, $mdp)
 		mysql_select_db("mundilogcai", $link);	
 	
 	
-		$sql = "SELECT nom, login, email  FROM spip_auteurs WHERE login = '".$login."' AND pass = md5( CONCAT(alea_actuel,'$mdp'))";
+		$sql = "SELECT id_auteur, nom, login, email  FROM spip_auteurs WHERE login = '".$login."' AND pass = md5( CONCAT(alea_actuel,'$mdp'))";
 		//echo $sql;
 		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
 			//echo $nbResultat."<br/>";
@@ -36,6 +36,7 @@ function ChercheAbo ($login, $mdp)
 		{
 			while($resultat = mysql_fetch_assoc($req))
 				{	
+					$_SESSION['IdAuteur'] = $resultat->id_auteur;
 					$_SESSION['NomSess'] = $resultat->nom;
 					$_SESSION['EmailSess'] = $resultat->email;
 					$_SESSION['LoginSess'] = $resultat->login;	
@@ -50,7 +51,6 @@ function ChercheAbo ($login, $mdp)
 	}
 
 ChercheAbo ($login, $mdp);
-*/
 
 header ("Content-type: application/vnd.mozilla.xul+xml; charset=iso-8859-15");
 header ("title: Saisi des diagnosics d'accessibilité");
@@ -74,7 +74,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 <script type="application/x-javascript" src="js/tree.js"/>
 <script type="application/x-javascript"  src="xbl/editableTree/functions.js" />
      <script>
-		xmlParam = GetXmlUrlToDoc("http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml");
+		xmlParam = GetXmlUrlToDoc("param/onadabase.xml");
      </script>
 
 	<popupset >
@@ -158,18 +158,22 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		<hbox class="menubar">
 		
 			<image src="images/logo.png" />
+			<label id="idAuteur" value="<?php echo $idAuteur; ?>" />
+			<label value="Auteur du diagnostic :" />
+			<label id="login" value="<?php echo $login; ?>" />
 		
 		</hbox>	
 		
 		<hbox class="ariane">
-		
-			<toolbox class="toolbox">
-				<toolbar id="nav-toolbar" class="toolbar">
-					<toolbarbutton id="tbbAccueil" label="Accueil" class="toolbarbutton"/>
-					<toolbarbutton id="tbbterre" label="Territoires" class="toolbarbutton" onclick="RefreshEcran(9,'Territoires','terre','terre');"/>
-				</toolbar>
+			<vbox>
+			<toolbox >
+				<hbox id="nav-toolbar" >
+					<label id="tbbAccueil" value="Accueil" />
+					<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(9,'Territoires','terre','terre');"/>
+				</hbox>
 			</toolbox>
-		
+			<toolbox id="tbFilAriane" />
+			</vbox>
 		</hbox>	
 		
 		<hbox class="global" flex="1">
