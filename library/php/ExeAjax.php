@@ -205,7 +205,7 @@
 		global $objSite;
 		
 		$g = new Granulat($idRubDst,$objSite);
-		$id = $g->SetNewEnfant($trs." Sans Nom ".$today = date('j/m/y - H:i:s'));
+		$id = $g->SetNewEnfant($trs." Sans Nom ".date('j/m/y - H:i:s'));
 		//ajoute une sous-rubrique
 				
 		$grille = new Grille($objSite);
@@ -230,32 +230,32 @@
 		
 		//ajoute une sous-rubrique espace gen
 		$g = new Granulat($idRubDst,$objSite);
-		$idGen = $g->SetNewEnfant("Paramètres généraux espace");
 		$grille = new Grille($objSite);
-		$gGen = new Granulat($idGen,$objSite);
+		//$idGen = $g->SetNewEnfant("Paramètres généraux espace");
+		//$gGen = new Granulat($idGen,$objSite);
 		
 		//ajoute une sous-rubrique espace gen->éclairage
-		$id = $gGen->SetNewEnfant("Eclairage");
+		$id = $g->SetNewEnfant("Eclairage");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(71,$id);
 		
 		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
-		$id = $gGen->SetNewEnfant("Equipements et dispositifs de commande");
+		$id = $g->SetNewEnfant("Equipements et dispositifs de commande");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(70,$id);
 				
 		//ajoute une sous-rubrique espace gen->Pentes et ressauts
-		$id = $gGen->SetNewEnfant("Pentes et ressauts");
+		$id = $g->SetNewEnfant("Pentes et ressauts");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(69,$id);
 				
 		//ajoute une sous-rubrique espace gen->Signalétique
-		$id = $gGen->SetNewEnfant("Signalétique");
+		$id = $g->SetNewEnfant("Signalétique");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(72,$id);
 				
 		//ajoute une sous-rubrique espace gen->Sols, murs et plafonds
-		$id = $gGen->SetNewEnfant("Sols, murs et plafonds");
+		$id = $g->SetNewEnfant("Sols, murs et plafonds");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(68,$id);
 				

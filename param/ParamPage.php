@@ -61,7 +61,7 @@ $scope = array(
 		,"id" => $id
 		,"login" => $login
 		);	
-print_r($scope);
+//print_r($scope);
 
 $objSite = new Site($SITES, $site, $scope, false);
 

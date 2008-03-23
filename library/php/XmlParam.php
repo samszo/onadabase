@@ -33,6 +33,13 @@ Class XmlParam{
 		return $this->xml->xpath($Xpath);
 	}
 	
+	public function GetCount($Xpath){
+		
+		if($this->trace)
+			echo 'XmlParam GetCount du xpath '.$Xpath.'<br/>';
+		return count($this->xml->xpath($Xpath));
+	}
+	
 	public function XML_entities($str)
 	{
 	    return preg_replace(array("'&'", "'\"'", "'<'", "'>'"), array('&#38;', '&#34;','&lt;','&gt;'), $str);
