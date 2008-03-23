@@ -58,15 +58,17 @@ class Grille{
 					if($row['valeur']==$wf['srcCheckVal']){						
 						//récupération du granulat
 						$gra = new Granulat($id,$this->site);
+						$gTrs = new Granulat($wf['trsId'],$this->site);
 						
-						$idArt = $gra->SetNewArticle("Sans Nom ".$today = date('j/m/y - H:i:s'));
-						if($this->trace)
-							echo ":GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
-						//ajoute une nouvelle donnee
-						$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
 						if($wf['trsObjet']=="controles" ){
+							$id = $gra->SetNewEnfant($gTrs->titre." ".date('j/m/y - H:i:s'));
 							$this->AddQuestionReponse($wf['trsId'],$id);
 						}else{
+							$idArt = $gra->SetNewArticle($gTrs->titre." ".date('j/m/y - H:i:s'));
+							if($this->trace)
+								echo ":GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
+							//ajoute une nouvelle donnee
+							$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
 							//récupère le formulaire xul
 							$xul = $this->GetXulForm($idDon,$wf['trsId']);
 						}
@@ -213,7 +215,7 @@ class Grille{
 		
 		//création du granulat
 		$g = new Granulat($idRubDst,$this->site);
-				
+					
 		//pour les controles récupération des rubriques dans les liens de la rubrique Src 
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetRubInLiens']";
 		$Q = $this->site->XmlParam->GetElements($Xpath);
@@ -225,6 +227,9 @@ class Grille{
 		$db->close();
 		if($this->trace)
 			echo "Grille:AddQuestionReponse:rubSrc".$sql."<br/>";
+		
+		//récupération du droit de la dernière donnée pour la rubrique parente de la destination
+		$droit = $this->GetDroitParent($g->IdParent);
 				
 		while ($row =  $db->fetch_assoc($rows)) {		
 			//récupération des questions publié pour un type de controle
@@ -238,26 +243,95 @@ class Grille{
 			$dbQ->close();
 			if($this->trace)
 				echo "Grille:AddQuestionReponse:Liste question".$sql."<br/>";
+			$first=true;
 			while ($rowQ =  $dbQ->fetch_assoc($rowsQ)) {
-				//ajoute une nouvelle donnée réponse pour la question
-				$idDon = $g->GetIdDonnee($rowQ["FormRep"],-1,true);
-				if($this->trace)
-					echo "Grille:AddQuestionReponse:ajoute une nouvelle donnée réponse pour la question".$idDon."<br/>";
-				//ajoute la question
-				$r = array("champ"=>"ligne_2","valeur"=>$rowQ["question"]);
-				$this->SetChamp($r,$idDon,false);
-				//ajoute la référence
-				$r = array("champ"=>"ligne_1","valeur"=>$rowQ["ref"]);
-				$this->SetChamp($r,$idDon,false);
-				//ajoute la réponse par défaut
-				$r = array("champ"=>"mot_1","valeur"=>$rowQ["valdef"]);
-				$this->SetChamp($r,$idDon,false);
+				if($first){
+					//ajoute le mot clef type de controle à la rubrique
+					$g->SetMotClef($rowQ["typecon"]);
+					$first=false;
+				}
+				//vérifie si le contrôle est cohérent par rapport au parent
+				if($this->GereCoheDroit($rowQ, $droit)){
+					//ajoute une nouvelle donnée réponse pour la question
+					$idDon = $g->GetIdDonnee($rowQ["FormRep"],-1,true);
+					if($this->trace)
+						echo "Grille:AddQuestionReponse:ajoute une nouvelle donnée réponse pour la question".$idDon."<br/>";
+					//ajoute la question
+					$r = array("champ"=>"ligne_2","valeur"=>$rowQ["question"]);
+					$this->SetChamp($r,$idDon,false);
+					//ajoute la référence
+					$r = array("champ"=>"ligne_1","valeur"=>$rowQ["ref"]);
+					$this->SetChamp($r,$idDon,false);
+					//ajoute la réponse par défaut
+					$r = array("champ"=>"mot_1","valeur"=>$rowQ["valdef"]);
+					$this->SetChamp($r,$idDon,false);					
+				}
 			}
 		}
 		
 	}
 	
+	function GereCoheDroit($rQ, $droit){
+		//vérifie si la question est cohérente par rapport au questionnaire parent
+		//$Xpath = "/XmlParams/XmlParam/CoheDroit[@srcId='".$rQ['id_form'].";".$row['droit']."']";
+		$Xpath = "/XmlParams/XmlParam/CoheDroit[@dstId='".$rQ['id_form']."' and @dstCheckVal='".$rQ['droit']."' and @srcCheckVal='".$droit."' ]";
+		if($this->trace)
+			echo "Grille:GereCoheDroit:récupère la cohérence ".$Xpath."<br/>";
+    	$coh = $this->site->XmlParam->GetCount($Xpath);
+		if($this->trace)
+			echo "Grille:GereCoheDroit:coh=".$coh."<br/>";
+    
+    	if($coh>0)
+    		$cohe=true;
+    	else
+    		$cohe=false;
+		return $cohe;
+	}
 
+	function GetDroitParent($id){
+		//récupération des droits pour la rubrique parente
+		$rParDon = $this->GetLastDonne($id);
+
+		//récupère le champ droit de la donnée du parent
+		$Xpath = "/XmlParams/XmlParam/CoheDroit[@srcId='".$rParDon['id_form']."']/@srcChamp";
+    	$srcChamps = $this->site->XmlParam->GetElements($Xpath);
+		$srcChamp = $srcChamps[0];
+		
+		//récupère la valeur du champ droit
+		$droit = $this->GetValeur($rParDon['id_donnee'], $srcChamp);
+		
+		return $droit;
+	}
+
+	function GetValeur($idDon, $champ){
+		//récupère la valeur d'un champ
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetValeurChamp']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-id-", $idDon, $Q[0]->where);
+		$where = str_replace("-champ-", $champ, $where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		$row =  $db->fetch_assoc($rows);
+		return $row['valeur'];
+	}
+	
+	function GetLastDonne($id){
+		//récupération de la dernière donnée d'une rubriques 
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetLastDonnee']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-id-", $id, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		$row =  $db->fetch_assoc($rows);
+		return $row;
+	}
+	
 	function AddDonnee($idRub, $idGrille=-1, $redon=false, $idArt=-1){
 		
 		if($idGrille==-1)
@@ -506,14 +580,15 @@ class Grille{
 		
 		//ajoute les groupbox pour chaque article
 		If($id==$this->site->infos["GRILLE_REP_CON"]){
-			$tabpanel .='<grid flex="1">';	
-			$tabpanel .='<columns >';	
-			$tabpanel .='<column/>';	
+			$tabpanel .='<grid flex="1">';
+			//on cache la colonne de référence	
+			$tabpanel .='<columns>';	
+			$tabpanel .='<column hidden="true"/>';	
 			$tabpanel .='<column flex="1"/>';
 			$tabpanel .='<column />';			
 			$tabpanel .='</columns>';	
 			$tabpanel .='<rows>';	
-			$tabpanel .='<row><label value="Référence"/><label value="Question"/><label value="Réponse"/></row>';	
+			$tabpanel .='<row><label value="Référence" hidden="true" /><label value="Question"/><label value="Réponse"/></row>';	
 		}
 		while($r = $db->fetch_assoc($req)) {
 			//$tabpanel .= '<groupbox >';	
@@ -772,11 +847,15 @@ class Grille{
 			default:
 				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='textbox']";
 				$js = $this->site->GetJs($Xpath, array($id));
-				if($row["grille"]==$this->site->infos["GRILLE_REP_CON"])
-					$control .= '<textbox  '.$js.' multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
-				else
+				if($row["grille"]==$this->site->infos["GRILLE_REP_CON"]){
+					//on cache le textbox référence
+					if($row["champ"]=="ligne_1")
+						$control .= '<textbox  '.$js.' hidden="true" multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
+					else
+						$control .= '<textbox  '.$js.' multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
+				}else{
 					$control .= '<textbox '.$js.' id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row['valeur']).'" />';
-				
+				}
 		}	
 		
 		$control .= '<label id="trace'.$id.'" hidden="true" value=""/>';

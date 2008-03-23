@@ -86,6 +86,25 @@ class Granulat
 	return $newId;
   
   }
+
+  function SetMotClef($id_mot,$id=-1){
+
+	if($id==-1)
+		$id=$this->id;
+	
+	//ajoute un nouveau mot clef
+	$sql = "INSERT INTO spip_mots_rubriques
+		SET id_mot = ".$id_mot.", id_rubrique=".$id;
+	
+	$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+	$req = $DB->query($sql);
+	$newId = mysql_insert_id();
+	$DB->close();
+	
+	return $newId;
+  
+  }
+  
   
   function GetGeo($id=-1) {
 		

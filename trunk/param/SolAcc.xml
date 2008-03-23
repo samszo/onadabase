@@ -110,12 +110,11 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
 				<from> 
 					FROM spip_rubriques r
-					INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =59
 				</from>
-				<where> WHERE rp.id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent- </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceGen');"/>
 			</Query>
 			
@@ -178,6 +177,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<col tag="titre"/>
 				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
 				<from> FROM spip_rubriques r
+INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot = 126
 INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
@@ -388,6 +388,18 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<dst>Art</dst>
 			</Query>
 			
+			<Query fonction="Grille_GetXulTabFormPalierAscenseur">
+				<select>SELECT DISTINCT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+
 			<Query fonction="Grille_GetXulTabFormCabineAscenseur">
 				<select>SELECT DISTINCT a.id_article id, a.titre</select>
 				<from> 
@@ -648,15 +660,25 @@ INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form 
 				<where> WHERE id_form = -idGrille- </where>
 			</Query>
 			<Query fonction="Grille_AddQuestion">
-				<select>SELECT fd.id_form, '59' FormRep, a.id_article, fdc1.valeur ref, fdc2.valeur question, '1' valdef </select>
+				<select>SELECT fd.id_form, '59' FormRep, a.id_article, fdc1.valeur ref, fdc2.valeur question, '1' valdef, fdc3.valeur typecon, fdc4.valeur droit </select>
 				<from> FROM spip_articles a
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = 54
 INNER JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee AND fdc1.champ = 'ligne_1'
 INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee AND fdc2.champ = 'texte_1'
+INNER JOIN spip_forms_donnees_champs fdc3 ON fdc3.id_donnee = fd.id_donnee AND fdc3.champ = 'mot_1'
+INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fdc4.champ = 'multiple_2'
 				</from>
 				<where> WHERE a.id_rubrique =-idRubSrc- AND a.statut = 'publie'</where>
 			</Query>
+			
+			<Query fonction="Grille_GetValeurChamp">
+				<select>SELECT dc.valeur </select>
+				<from> FROM spip_forms_donnees_champs dc
+				</from>
+				<where> WHERE dc.id_donnee = -id- AND dc.champ ='-champ-'	</where>
+			</Query>
+
 		</Querys>
 	</XmlParam>
 	<XmlParam nom="Workflow">
@@ -674,6 +696,10 @@ INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ" srcId="35;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="59" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="56" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="60" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="54" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="57" />
 		<Querys>
 			<Query fonction="update_ArtTitre">
 				<update>UPDATE spip_articles </update>
@@ -696,5 +722,26 @@ INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee AND f
 				<where> WHERE id_donnee = -id-</where>
 			</Query>
 		</Querys>
+	</XmlParam>
+	<XmlParam nom="CoheDroit">
+	<CoheDroit srcId="57" srcChamp="select_1" srcCheckVal="select_1_1" dstId="54" dstCheckVal="multiple_2_1"  />
+	<CoheDroit srcId="57" srcChamp="select_1" srcCheckVal="select_1_2" dstId="54" dstCheckVal="multiple_2_2"  />
+	<CoheDroit srcId="57" srcChamp="select_1" srcCheckVal="select_1_3" dstId="54" dstCheckVal="multiple_2_1" />
+	<CoheDroit srcId="57" srcChamp="select_1" srcCheckVal="select_1_3" dstId="54" dstCheckVal="multiple_2_2" />
+		<Querys>
+			<Query fonction="GetLastDonnee">
+				<select>SELECT a.id_article, fd.id_form, fd.id_donnee </select>
+				<from> FROM spip_articles a
+INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+				</from>
+				<where> WHERE a.id_rubrique =-id-
+ORDER BY a.date DESC
+LIMIT 0 , 1 
+ 				</where>
+			</Query>
+		</Querys>
+
+
 	</XmlParam>
 </XmlParams>

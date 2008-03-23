@@ -125,7 +125,6 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		</popup>
 		<popup id="popespaceint" onpopupshowing="javascript:;">
 			<menuitem label="Voir les paramètres généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres généraux','espacegen','EspaceGen');"/>
-			<menuitem label="Voir le(s) paramètre(s) spécifique(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres spécifiques','espacespe','EspaceSpe');"/>
 		</popup>
 		<popup id="popparcelle" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) espace(s) extérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces extérieurs','espaceext','EspaceExt');"/>
