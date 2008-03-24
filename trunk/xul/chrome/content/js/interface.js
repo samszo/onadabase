@@ -15,8 +15,6 @@
 var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
-var xmlParam;
-var lienAdminSpip = "http://www.mundilogiweb.com/onadabase/spip/ecrire";
 
 function SetLienAdmin(){
 	
@@ -61,6 +59,32 @@ function GetXmlUrlToDoc(url){
 
 }
 
+function Synchroniser(){
+
+  try {
+  	var btn = document.getElementById("btnSync");
+  	if(btn.getAttribute("label")=="Synchroniser"){
+		var doc = document.getElementById("synctreeRub");
+		var url = syncurlExeAjax+"?f=Synchroniser";
+		//rend visible les blocs de synchro
+		AppendResult(url,doc);
+		document.getElementById("syncV1").setAttribute("hidden","false");
+		document.getElementById("syncSplit").setAttribute("hidden","false");
+		document.getElementById("syncV2").setAttribute("hidden","false");
+		document.getElementById("treeRub").setAttribute("context","popSyncSrc");
+		document.getElementById("synctreeRub").setAttribute("context","popSyncDst");
+		btn.setAttribute("label","Terminer la synchronisation");
+  	}else{
+		document.getElementById("syncV1").setAttribute("hidden","true");
+		document.getElementById("syncSplit").setAttribute("hidden","true");
+		document.getElementById("syncV2").setAttribute("hidden","true");
+		document.getElementById("treeRub").setAttribute("context","popterre");
+		btn.setAttribute("label","Synchroniser");  		
+  	}
+	
+  } catch(ex2){alert("Synchroniser::"+ex2+" "+type);;}
+	
+}
 
 function AddNewGrille(type){
   try {

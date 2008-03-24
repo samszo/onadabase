@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Params>
+	<Param nom="UrlAjax" url="45" />
 	<Param nom="AddObjEtab" id="45" >
 		<NoVerif>Veillez choisir un territoire</NoVerif>
 		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
