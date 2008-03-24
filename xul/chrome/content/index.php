@@ -1,4 +1,5 @@
 <?php
+require_once ("../../../param/ParamPage.php");
 session_start();
 extract($_SESSION,EXTR_OVERWRITE);
 extract($_POST,EXTR_OVERWRITE);
@@ -16,17 +17,18 @@ else
 	$mdp=$_POST['mdp_uti'];
 }
 
-function ChercheAbo ($login, $mdp)
+function ChercheAbo ($login, $mdp, $objSite)
 	{
-	
 		// connexion serveur
-	   $link = mysql_connect("mysql5-5", "mundilogcai", "CnVjzGxb")
-		   or die("Impossible de se connecter : " . mysql_error());
-	
+	   //$link = mysql_connect("mysql5-5", "mundilogcai", "CnVjzGxb")  or die("Impossible de se connecter : " . mysql_error());	
 		// Sélection de la base de données
-		mysql_select_db("mundilogcai", $link);	
+		//mysql_select_db("mundilogcai", $link);	
 	
-	
+		$link = mysql_connect($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"]) or die("Impossible de se connecter : " . mysql_error());	
+		// Sélection de la base de données
+		//mysql_select_db("solacc", $link);	
+		mysql_select_db($objSite->infos["SQL_DB"], $link);	
+		
 		$sql = "SELECT id_auteur, nom, login, email  FROM spip_auteurs WHERE login = '".$login."' AND pass = md5( CONCAT(alea_actuel,'$mdp'))";
 		//echo $sql;
 		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
@@ -51,7 +53,7 @@ function ChercheAbo ($login, $mdp)
 		}
 	}
 
-ChercheAbo ($login, $mdp);
+ChercheAbo ($login, $mdp, $objSite);
 
 header ("Content-type: application/vnd.mozilla.xul+xml; charset=iso-8859-15");
 header ("title: Saisi des diagnosics d'accessibilité");
@@ -70,12 +72,18 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
     onload="ChargeTreeFromAjax('idRub','treeRub','terre');"
 >
 
-<script type="application/x-javascript" src="js/interface.js"/>
+<script type="application/x-javascript" src="js/interface.js" />
 <script type="application/x-javascript" src="js/ajax.js"/>
 <script type="application/x-javascript" src="js/tree.js"/>
 <script type="application/x-javascript"  src="xbl/editableTree/functions.js" />
      <script>
-		xmlParam = GetXmlUrlToDoc("http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml");
+		//initialise le paramètrage du site
+		var lienAdminSpip = "<?php echo $objSite->infos["lienAdminSpip"]; ?>";
+		var urlExeAjax = "<?php echo $objSite->infos["urlExeAjax"]; ?>";
+		var xmlParam = GetXmlUrlToDoc("<?php echo $objSite->infos["jsXulParam"]; ?>");
+		var synclienAdminSpip = "<?php echo $objSiteSync->infos["lienAdminSpip"]; ?>";
+		var syncurlExeAjax = "<?php echo $objSiteSync->infos["urlExeAjax"]; ?>";
+		var syncxmlParam = GetXmlUrlToDoc("<?php echo $objSiteSync->infos["jsXulParam"]; ?>");
      </script>
 
 	<popupset >
@@ -150,6 +158,12 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Voir les paramètres généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
 			<menuitem label="Voir le(s) paramètre(s) spécifique(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres spécifiques','espaceextparamspe','EspaceExtParamSpe');"/>
 		</popup>
+		<popup id="popSyncSrc" onpopupshowing="javascript:;">
+			<menuitem label="Ajouter les objets local au serveur" oncommand="SyncAjout(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
+		</popup>
+		<popup id="popSyncDst" onpopupshowing="javascript:;">
+			<menuitem label="Récupérer les objets du serveur" oncommand="SyncAjout(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
+		</popup>
 	</popupset>
 
 
@@ -158,34 +172,36 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		<hbox class="menubar">
 		
 			<image src="images/logo.png" />
-			<label id="idAuteur" value="<?php echo $idAuteur; ?>" class="menubartext"/>
-			<label value="Auteur du diagnostic :" class="menubartext"/>
-			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
+			<label id="idAuteur" value="<?php echo $idAuteur; ?>" />
+			<label value="Auteur du diagnostic :" />
+			<label id="login" value="<?php echo $login; ?>" />
+			<button id="btnSync" label="Synchroniser" onclick="Synchroniser()"/>
 		
 		</hbox>	
 		
-
-			
+		<hbox class="ariane">
+			<vbox>
+			<toolbox >
 				<hbox id="nav-toolbar" >
-					<label id="tbbAccueil" value="Accueil" class="text-link"/>
+					<label id="tbbAccueil" value="Accueil" />
 					<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(9,'Territoires','terre','terre');"/>
 				</hbox>
-			
-			<hbox id="tbFilAriane" />
-
+			</toolbox>
+			<toolbox id="tbFilAriane" />
+			</vbox>
+		</hbox>	
 		
-		<hbox class="global" flex="1">
+		<hbox class="global" id="global" flex="1">
 		
-			<vbox class="BoiteV" flex="0" width="300px">
+			<vbox class="BoiteV" flex="1" >
 				<hbox id="RefId" >
 				 <label value="Selectionner un territoire" class="titre" />
-				 <label id="idRub" value="-1" class="titreLiens"/>
 				</hbox>
-				
+				<label id="idRub" value="-1"/>
 				<hbox id='treeRub' class="BoiteV" context="popterre" ></hbox>
 			</vbox>
 				<splitter collapse="before" resizeafter="farthest">
-							<grippy/>
+					<grippy/>
 				</splitter>
 	
 			<vbox class="BoiteV" flex="1" >
@@ -194,6 +210,27 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 				 <label id="libRub" value="Le département du Nord" class="titre" />
 				</hbox>
 				<hbox class="FormBox" id="FormSaisi" flex="1">
+				</hbox>
+				
+			</vbox>
+
+			<vbox class="BoiteV" id="syncV1" flex="1" hidden="true">
+				<hbox id="syncRefId" >
+				 <label value="Selectionner un territoire" class="titre" />
+				</hbox>
+				<label id="syncidRub" value="-1"/>
+				<hbox id='synctreeRub' class="BoiteV" context="popterre" ></hbox>
+			</vbox>
+				<splitter id="syncSplit" hidden="true" collapse="before" resizeafter="farthest">
+					<grippy/>
+				</splitter>
+	
+			<vbox class="BoiteV" id="syncV2" flex="1" hidden="true">
+				<hbox flex="1" hidden="true" >
+				 <label value="Sélectionnez un établissement dans" id="syncTitreFormSaisi" class="titre" />
+				 <label id="synclibRub" value="Le département du Nord" class="titre" />
+				</hbox>
+				<hbox class="FormBox" id="syncFormSaisi" flex="1">
 				</hbox>
 				
 			</vbox>
