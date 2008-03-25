@@ -10,8 +10,9 @@
 	// Include the class files.
 	require_once(TT_CLASS_BASE."AllClass.php");
 
-  define ("DEFSITE", "mundi");
-
+  define ("DEFSITE", "local2");
+  define ("SYNCSITE", "local2");
+  
   $DB_OPTIONS = array (
 		'ERROR_DISPLAY' => true
 		);
@@ -25,7 +26,7 @@
   define('EOL', "\r\n");
 
 
-$Site = array(
+$SiteLocal1 = array(
 	"SQL_LOGIN" => "root", 
 	"SQL_PWD" => "", 
 	"SQL_HOST" => "localhost",
@@ -40,7 +41,30 @@ $Site = array(
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ"
+	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
+	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
+	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
+	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml"	
+	); 
+$SiteLocal2 = array(
+	"SQL_LOGIN" => "root", 
+	"SQL_PWD" => "", 
+	"SQL_HOST" => "localhost",
+	"SQL_DB" => "onadabase",
+	"NOM" => "onadabase",//je sais pas
+	"SITE_PARENT" => -1,//je sais pas
+	"SITE_ENFANT" => -1,
+	"GRILLE_GEO" => 1,
+	"GRILLE_REG_LEG" => 52,
+	"GRILLE_REP_CON" => 59,
+	"DEF_LAT" => 45,
+	"DEF_LNG" => 1,
+	"DEF_ZOOM" => 4,
+	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
+	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
+	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
+	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
+	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml"	
 	); 
 $SiteNaos = array(
 	"SQL_LOGIN" => "naossfr3", 
@@ -75,11 +99,15 @@ $SiteNaos = array(
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRRWuADP5IHMsclz4StI_c8lb9zkohTyT7mGzubP9DAdxQrlDe2AW8dGTw"
+	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRRWuADP5IHMsclz4StI_c8lb9zkohTyT7mGzubP9DAdxQrlDe2AW8dGTw",
+	"lienAdminSpip" => "http://www.mundilogiweb.com/onadabase/spip/ecrire",
+	"urlExeAjax" => "http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php",
+	"jsXulParam" => "http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml"	
 	); 
-
+	
 $SITES = array(
-	"local" => $Site
+	"local1" => $SiteLocal1
+	,"local2" => $SiteLocal2
 	,"naos" => $SiteNaos
 	,"mundi" => $SiteMundi
 	);

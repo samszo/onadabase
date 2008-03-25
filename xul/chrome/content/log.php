@@ -47,7 +47,7 @@ session_start();
 	<div id='globalPass'>
 		<div class='BlocTextePass'>	
 			<p align="center">Vous allez entrer dans une zone sécurisée.</p>		
-			<form name="formulaire" method="post" action="test.php">
+			<form name="formulaire" method="post" action="index.php">
 			<p align="center">login :<br /> 
 			<input name="login_uti" type="text" id="login_uti">
 			</p>

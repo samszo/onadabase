@@ -13,7 +13,8 @@ class Site{
     }
 
   function __construct($sites, $id, $scope, $complet=true) {
-	//echo "new Site $sites, $id, $scope<br/>";
+
+  	//echo "new Site $sites, $id, $scope<br/>";
     $this->trace = true;
   	
     $this->sites = $sites;
@@ -46,8 +47,54 @@ class Site{
 	//echo "FIN new Site <br/>";
 		
     }
-	
-	public function EstParent($id)
+    
+    public function Synchronise($siteSrc, $siteDst=-1){
+		if($siteDst==-1)
+			$siteDst=$this->id;
+    	
+		//récupère les mots clefs de la source
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetMotsClef']";
+		if($this->trace)
+			echo "Site:Synchronise:Xpath=".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$sql = $Q[0]->select.$Q[0]->from;
+		$db = new mysql ($siteSrc->infos["SQL_HOST"], $siteSrc->infos["SQL_LOGIN"], $siteSrc->infos["SQL_PWD"], $siteSrc->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		if($this->trace)
+			echo "Site:Synchronise:sql=".$sql."<br/>";
+		while ($row =  $db->fetch_assoc($rows)) {
+			//vérifie l'existence dans la destination
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='VerifMotsClef']";
+			$Q = $this->site->XmlParam->GetElements($Xpath);
+			$where = str_replace("-idGroupe-", $row['id_groupe'], $Q[0]->where);
+			$where = str_replace("-titre-", $row['titre'], $where);
+			$sql = $Q[0]->select.$Q[0]->from.$where;
+			$db = new mysql ($siteSrc->infos["SQL_HOST"], $siteSrc->infos["SQL_LOGIN"], $siteSrc->infos["SQL_PWD"], $siteSrc->infos["SQL_DB"], $dbOptions);
+			$db->connect();
+			$rowsVerif = $db->query($sql);
+			$db->close();
+			$rowVerif =  $db->fetch_assoc($rowsVerif);
+			if($rowVerif['nb']==0){
+				//ajoute le mot clef
+				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='AjoutMotsClef']";
+				$Q = $this->site->XmlParam->GetElements($Xpath);
+				$values = str_replace("-idGroupe-", $row['id_groupe'], $Q[0]->values);
+				$values = str_replace("-titre-", $row['titre'], $values);
+				$sql = $Q[0]->insert.$values;
+				$db = new mysql ($siteSrc->infos["SQL_HOST"], $siteSrc->infos["SQL_LOGIN"], $siteSrc->infos["SQL_PWD"], $siteSrc->infos["SQL_DB"], $dbOptions);
+				$db->connect();
+				$db->query($sql);
+				$db->close();
+			}
+			
+		}
+			
+    	
+    }
+    
+    public function EstParent($id)
 	{
 		$arrParent = split("[".DELIM."]", $this->GetParentIds());
 		//print_r($arrParent); 

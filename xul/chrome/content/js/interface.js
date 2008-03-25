@@ -16,9 +16,14 @@ var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
 
-function SetLienAdmin(){
+function OuvreLienAdmin(idRub){
 	
-	var idRub = document.getElementById("idRub").value;
+	window.open(lienAdminSpip+"/?exec=naviguer&id_rubrique="+idRub);
+	
+}
+
+
+function SetLienAdmin(idRub){
 	
 	var lien = document.getElementById("LienAdmin");
 	if(lien)
@@ -243,15 +248,25 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 {
   try {	
 	document.getElementById('idRub').value=id;
-	//gestion du menu contextuel
-	cont = document.getElementById('treeRub');
+	//gestion du menu contextuel du tree
+	var cont = document.getElementById('treeRub');
 	cont.setAttribute("context","pop"+typeSrc);
+	
+	//récupération des objets  du serveur
 	ChargeTreeFromAjax('idRub','treeRub',typeSrc);
 	ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
 	ChargeFilArianeFromAjax(id,'tbFilAriane',titre,typeSrc,typeDst);
+	
+	//gestion de menu contextuel du formulaire
+	if(document.getElementById('dataBox').childNodes.length>0){
+		var fs = document.getElementById('FormSaisi');
+		fs.setAttribute("context","pop"+typeDst);
+	}
+	
+	
 	//vérifie la présence su fil d'ariane
-	tb=document.getElementById("nav-toolbar");
-	tbb=document.getElementById("tbb"+typeSrc);
+	var tb=document.getElementById("nav-toolbar");
+	var tbb=document.getElementById("tbb"+typeSrc);
 	if(!tbb){
 		//ajoute un fil ariane sous forme de bouton
 		/*
@@ -264,10 +279,11 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 		tbb = document.createElement("label");
 		tbb.setAttribute("id","tbb"+typeSrc);
 		tbb.setAttribute("value",titre);
-		tbb.setAttribute("class","text-link");
-		
+		tbb.setAttribute("class","text-link");		
 		tbb.setAttribute("onclick","RefreshEcran("+id+",'"+titre+"','"+typeSrc+"','"+typeDst+"');");
 		tb.appendChild(tbb);
+		//met à jour le titre tree
+		document.getElementById("titreRub").value = "Sélectionner un(e) des "+titre;
 	}else{
 		//récupère la place du tbb
 		j = -1;		 
@@ -336,7 +352,7 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 	dump("ChargeTabboxFromAjax IN "+type+"\n");
 	
 	//ajoute le lien vers spip admin
-	SetLienAdmin();	
+	//SetLienAdmin(document.getElementById("idRub").value);	
 	
 	var doc = document.getElementById(idDst);
 	var id = document.getElementById(idSrc).value;
