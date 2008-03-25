@@ -1,0 +1,22 @@
+tree {
+  -moz-binding: url("captree.xml#mytree");
+  -moz-user-focus: normal !important;
+  -moz-user-select: text;
+}
+
+/* display folder icons in front of the treecell text */
+treechildren:-moz-tree-image { 	list-style-image: url("images/folder.gif"); }
+treechildren:-moz-tree-image(open) { list-style-image: url("images/folder-open.gif"); }
+
+treechildren::-moz-tree-column {
+  	background-color: #ffffff;
+}
+
+treechildren::-moz-tree-cell {
+	/* border-bottom: 1px solid #FF0000; 
+  	background-color: #dddddd; */
+}
+
+treechildren::-moz-tree-cell-text {
+	color: #000000;  font-size: 11px; font-weight: bold;
+}
