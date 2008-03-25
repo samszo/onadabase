@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="captree.css" type="text/css"?>
+
+<window title="www.captain.at"
+   id="captree-main-window"
+   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script language="JavaScript" type="application/x-javascript" src="captain.js"/>
+<script type="application/x-javascript">
+	<![CDATA[
+		function getthetree() {
+			return document.getElementById('outlineTree');
+		}
+	]]>
+</script>
+
+<hbox flex="1">
+<vbox flex="1">
+
+<popupset>
+	<popup id="clipmenu" onpopupshowing="javascript:;">
+		<menuitem label="Move Up" oncommand="getthetree().Move('outlineTree', 'up', event);"/>
+		<menuitem label="Move Down" oncommand="getthetree().Move('outlineTree', 'down', event);"/>
+		<menuitem label="Add new rootnode" oncommand="getthetree().topcategory('thetreechildren', prompt('Please enter a nodename','undefined'));"/>
+		<menuitem label="Add node" oncommand="getthetree().CreateSubTree('outlineTree', '');"/>
+		<menuitem label="Delete" oncommand="getthetree().DeleteCurrent('outlineTree');"/>
+		<menuitem label="Rename" oncommand="getthetree().RenameCurrent('outlineTree','category');"/><menu
+			label="test">
+			<menupopup>
+				<menuitem label="test1.1" />
+			</menupopup>
+</menu>
+	</popup>
+</popupset>
+<hbox flex="1">
+<vbox flex="1">
+<tree hidecolumnpicker="true" id="outlineTree" flex="1" context="clipmenu" 
+ ondraggesture="treeDragGesture(event)" ondragenter="treeDragEnter(event)" 
+ ondragover="return DragOverContentArea(event);" ondragexit="treeDragExit(event)" ondragdrop="treeDragDrop(event);">
+  <treecols>
+    <treecol id="category" label="Name" primary="true" flex="1"/>
+  </treecols>
+
+  <treechildren id="22">
+   <treeitem container="true" open="true" id="treeitem1">
+    <treerow id="mainrow1">
+      <treecell id="cell-of-mainitem1" label="www.captain.at"  />
+    </treerow>
+    <treechildren id="thetreechildren">
+    <treeitem container="true" open="true" id="treeitem1">
+      <treerow id="treerow1">
+        <treecell id="cell-of-treeitem1" label="cell1"  />
+      </treerow>
+      <treechildren>
+        <treeitem id="treeitem2">
+          <treerow id="treerow2">
+            <treecell id="cell-of-treeitem2" label="cell2" value="1"/>
+          </treerow>
+        </treeitem>
+        <treeitem id="treeitem3">
+          <treerow id="treerow3">
+            <treecell id="cell-of-treeitem3" label="cell3"/>
+          </treerow>
+        </treeitem>
+        <treeitem id="treeitem4">
+          <treerow id="treerow4">
+            <treecell id="cell-of-treeitem4" label="cell4"/>
+          </treerow>
+        </treeitem>
+      </treechildren>
+    </treeitem>
+    <treeitem id="treeitem5">
+      <treerow id="treerow5" >
+        <treecell id="cell-of-treeitem5" label="cell5"/>
+      </treerow>
+    </treeitem>
+    <treeitem container="true" open="true" id="treeitem6">
+      <treerow id="treerow6">
+        <treecell id="cell-of-treeitem6" label="cell6" />
+      </treerow>
+      <treechildren>
+        <treeitem id="treeitem7">
+          <treerow id="treerow7">
+            <treecell id="cell-of-treeitem7" label="cell7" value="1"/>
+          </treerow>
+        </treeitem>
+        <treeitem id="treeitem8">
+          <treerow id="treerow8">
+            <treecell id="cell-of-treeitem8" label="cell8"/>
+          </treerow>
+        </treeitem>
+      </treechildren>
+    </treeitem>    
+    <treeitem id="treeitem9">
+      <treerow id="treerow9" >
+        <treecell id="cell-of-treeitem9" label="cell9"/>
+      </treerow>
+    </treeitem>  
+  </treechildren>
+  </treeitem>
+ </treechildren>
+</tree>
+</vbox>
+<vbox flex="1">
+<tree hidecolumnpicker="true" id="outlineTree1" flex="1" context="clipmenu" 
+ ondraggesture="treeDragGesture(event)" ondragenter="treeDragEnter(event)" 
+ ondragover="return DragOverContentArea(event);" ondragexit="treeDragExit(event)" ondragdrop="treeDragDrop(event);">
+  <treecols>
+    <treecol id="category" label="Name" primary="true" flex="1"/>
+  </treecols>
+
+  <treechildren id="22">
+   <treeitem container="true" open="true" id="treeitem1">
+    <treerow id="mainrow1">
+      <treecell id="cell-of-mainitem1" label="www.captain.at"  />
+    </treerow>
+    <treechildren id="thetreechildren">
+    <treeitem container="true" open="true" id="treeitem1">
+      <treerow id="treerow1">
+        <treecell id="cell-of-treeitem1" label="cell1"  />
+      </treerow>
+      <treechildren>
+        <treeitem id="treeitem2">
+          <treerow id="treerow2">
+            <treecell id="cell-of-treeitem2" label="cell2" value="1"/>
+          </treerow>
+        </treeitem>
+        <treeitem id="treeitem3">
+          <treerow id="treerow3">
+            <treecell id="cell-of-treeitem3" label="cell3"/>
+          </treerow>
+        </treeitem>
+        <treeitem id="treeitem4">
+          <treerow id="treerow4">
+            <treecell id="cell-of-treeitem4" label="cell4"/>
+          </treerow>
+        </treeitem>
+      </treechildren>
+    </treeitem>
+    <treeitem id="treeitem5">
+      <treerow id="treerow5" >
+        <treecell id="cell-of-treeitem5" label="cell5"/>
+      </treerow>
+    </treeitem>
+    <treeitem container="true" open="true" id="treeitem6">
+      <treerow id="treerow6">
+        <treecell id="cell-of-treeitem6" label="cell6" />
+      </treerow>
+      <treechildren>
+        <treeitem id="treeitem7">
+          <treerow id="treerow7">
+            <treecell id="cell-of-treeitem7" label="cell7" value="1"/>
+          </treerow>
+        </treeitem>
+        <treeitem id="treeitem8">
+          <treerow id="treerow8">
+            <treecell id="cell-of-treeitem8" label="cell8"/>
+          </treerow>
+        </treeitem>
+      </treechildren>
+    </treeitem>    
+    <treeitem id="treeitem9">
+      <treerow id="treerow9" >
+        <treecell id="cell-of-treeitem9" label="cell9"/>
+      </treerow>
+    </treeitem>  
+  </treechildren>
+  </treeitem>
+ </treechildren>
+</tree>
+</vbox>
+</hbox>
+<hbox >
+<groupbox>
+	<caption label="Action"/>
+	<vbox>
+		<label id="myout" value="jklkljkl"/>
+	</vbox>
+</groupbox>
+</hbox>
+</vbox>
+</hbox>
+</window>
+
