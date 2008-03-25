@@ -11,7 +11,7 @@ class Grille{
 
   function __construct($site, $id=-1, $complet=true) {
 	//echo "new Site $sites, $id, $scope<br/>";
-	$this->trace = true;
+	$this->trace = false;
 
     $this->site = $site;
     $this->id = $id;
@@ -272,6 +272,9 @@ class Grille{
 	}
 	
 	function GereCoheDroit($rQ, $droit){
+
+		return true;
+		
 		//vérifie si la question est cohérente par rapport au questionnaire parent
 		//$Xpath = "/XmlParams/XmlParam/CoheDroit[@srcId='".$rQ['id_form'].";".$row['droit']."']";
 		$Xpath = "/XmlParams/XmlParam/CoheDroit[@dstId='".$rQ['id_form']."' and @dstCheckVal='".$rQ['droit']."' and @srcCheckVal='".$droit."' ]";

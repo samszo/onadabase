@@ -5,8 +5,7 @@ require_once ("Constantes.php");
 if(isset($_GET['site'])){
 	$site = $_GET['site'];
 }else{
-	if(!session_is_registered("Site"))
-		$site = DEFSITE;
+	$site = DEFSITE;
 }
 
 if(isset($_GET['type']))
@@ -64,6 +63,7 @@ $scope = array(
 //print_r($scope);
 
 $objSite = new Site($SITES, $site, $scope, false);
+$objSiteSync = new Site($SITES, SYNCSITE, $scope, false);
 
 if($id!=-1)
 	$g = new Granulat($id,$objSite);

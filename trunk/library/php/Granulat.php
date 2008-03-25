@@ -34,6 +34,10 @@ class Granulat
 
   function SetAuteur($newId,$objet){
 
+  	//pas de création d'auteur pour les rubriques
+  	if($objet=="rubrique")
+  		return;
+  		
   	if($this->site->scope["login"]!=-1){
 			//association de l'article à l'auteur
 			$sql = "INSERT INTO spip_auteurs_".$objet."s (id_".$objet.",id_auteur)
@@ -42,7 +46,6 @@ class Granulat
 			$req = $DB->query($sql);
 			$DB->close();
 	}
-	echo "sql=".$sql."<br/>";
   	
   }
   

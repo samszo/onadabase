@@ -99,6 +99,10 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Voir le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
 		</popup>
+		<popup id="popEtab" onpopupshowing="javascript:;">
+			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
+			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
+		</popup>
 		<popup id="popespace" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) espace(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces','espace','Espace');"/>
 			<menuitem label="Ajouter un espace" oncommand="AddNewGrille('Espace');"/>
@@ -107,6 +111,10 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Voir le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
 			<menuitem label="Voir la(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','cabineascenseur','CabineAscenseur');"/>
+			<menuitem label="Ajouter la(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('CabineAscenseur');"/>
+		</popup>
+		<popup id="popBat" onpopupshowing="javascript:;">
+			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
 			<menuitem label="Ajouter la(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('CabineAscenseur');"/>
 		</popup>
 		<popup id="popniveau" onpopupshowing="javascript:;">
@@ -172,32 +180,26 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		<hbox class="menubar">
 		
 			<image src="images/logo.png" />
-			<label id="idAuteur" value="<?php echo $idAuteur; ?>" />
-			<label value="Auteur du diagnostic :" />
-			<label id="login" value="<?php echo $login; ?>" />
+			<label id="idAuteur" value="<?php echo $idAuteur; ?>" class="menubartext"/>
+			<label value="Auteur du diagnostic :" class="menubartext"/>
+			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
 			<button id="btnSync" label="Synchroniser" onclick="Synchroniser()"/>
 		
 		</hbox>	
 		
-		<hbox class="ariane">
-			<vbox>
-			<toolbox >
-				<hbox id="nav-toolbar" >
-					<label id="tbbAccueil" value="Accueil" />
-					<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(9,'Territoires','terre','terre');"/>
-				</hbox>
-			</toolbox>
-			<toolbox id="tbFilAriane" />
-			</vbox>
-		</hbox>	
+		<hbox id="nav-toolbar" >
+			<label id="tbbAccueil" value="Accueil" class="text-link" />
+			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(9,'Territoires','terre','terre');"/>
+		</hbox>
+		<hbox id="tbFilAriane" />
 		
 		<hbox class="global" id="global" flex="1">
 		
-			<vbox class="BoiteV" flex="1" >
+			<vbox class="BoiteV" flex="0" width="300px">
 				<hbox id="RefId" >
-				 <label value="Selectionner un territoire" class="titre" />
+				 	<label id="titreRub" value="Selectionner un territoire" class="titre" />
+					<label id="idRub" value="-1" class="titreLiens" hidden="true"/>
 				</hbox>
-				<label id="idRub" value="-1"/>
 				<hbox id='treeRub' class="BoiteV" context="popterre" ></hbox>
 			</vbox>
 				<splitter collapse="before" resizeafter="farthest">

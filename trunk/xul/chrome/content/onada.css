@@ -55,6 +55,10 @@ window{
 	margin:0px 0px 0px 0px;
 }
 
+.titreLiens:hover {
+	color: #000000;
+	text-decoration: underline;
+}
 .ariane 
 {
 	background-color:#FFFFFF;
@@ -97,6 +101,36 @@ window{
   color                 : purple;
 }
 
+
+.text-link2
+{
+  color                 : #FFFFFF;
+  text-decoration       : none;
+}
+
+.text-link2:focus
+{
+  color                 : #FFFFFF;
+  text-decoration       : none;
+}
+
+.text-link2:hover
+{
+  color                 : #FFFFFF;
+  text-decoration       : underline;
+  cursor                : pointer;
+} 
+
+.text-link2:hover:active
+{
+  color                 : #FFFFFF;
+  text-decoration       : underline;
+} 
+
+.text-link2[visited="true"] 
+{
+  color                 : purple;
+}
 
 .FormBox
 {
@@ -156,18 +190,18 @@ window{
 	font-size: 12px !important;
 	font-weight:bold;
 	font-family: arial, verdana, sans-serif !important;
-	background-color:#FF9900;
+	background-color: #73BE1E;
 }
 
 treechildren::-moz-tree-col 
 {
   widht: 150px;
-  background-color:#FF6666;
+	background-color: #73BE1E;
 }
 
 treechildren::-moz-tree-row 
 {
-  background-color:#FF6600;
+	background-color: #73BE1E;
 }
 
 .footer 

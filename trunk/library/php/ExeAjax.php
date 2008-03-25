@@ -20,11 +20,17 @@
 		$id = -1;
 
 	switch ($fonction) {
+		case 'Synchroniser':
+			//pour tester la synchronisation en local
+			// le site = $objSiteSync
+			// en prod c'est $objSite
+			$resultat = Synchroniser($objSiteSync);
+			break;
 		case 'GetFilAriane':
 			$resultat = GetFilAriane(array($_GET['titre'],$_GET['typeDrc'],$_GET['typeDst']),$id);
 			break;
 		case 'GetTree':
-			$resultat = GetTree($_GET['type'],$cols,$id);
+			$resultat = GetTree($_GET['type'],$cols,$id,$objSite);
 			break;
 		case 'GetTabForm':
 			$resultat = GetTabForm($_GET['type'],$id);
@@ -54,6 +60,11 @@
 
 	echo  utf8_encode($resultat);	
 
+function Synchroniser($objSite){
+	return GetTree("terre",-1,-1,$objSite);
+	
+}
+	
 	function GetFilAriane($jsParam, $id){
 		global $objSite;
 		
@@ -124,8 +135,7 @@
 		return utf8_decode("donnée supprimée = ".$val);
 	}
 	
-	function GetTree($type,$Cols,$id){
-		global $objSite;
+	function GetTree($type,$Cols,$id,$objSite){
 		
 		//récupération des colonnes
 		$Xpath = "/XmlParams/XmlParam[@nom='".$objSite->scope['ParamNom']."']/Querys/Query[@fonction='GetTreeChildren_".$type."']/col";

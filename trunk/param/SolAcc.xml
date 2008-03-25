@@ -660,7 +660,7 @@ INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form 
 				<where> WHERE id_form = -idGrille- </where>
 			</Query>
 			<Query fonction="Grille_AddQuestion">
-				<select>SELECT fd.id_form, '59' FormRep, a.id_article, fdc1.valeur ref, fdc2.valeur question, '1' valdef, fdc3.valeur typecon, fdc4.valeur droit </select>
+				<select>SELECT fd.id_form, '59' FormRep, a.id_article, fdc1.valeur ref, fdc2.valeur question, '124' valdef, fdc3.valeur typecon, fdc4.valeur droit </select>
 				<from> FROM spip_articles a
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = 54
@@ -741,7 +741,19 @@ LIMIT 0 , 1
  				</where>
 			</Query>
 		</Querys>
-
-
 	</XmlParam>
+	<XmlParam nom="Synchronise">
+		<Querys>
+			<Query fonction="GetMotsClef">
+				<select>SELECT DISTINCT m.id_groupe, m.id_mot, m.titre </select>
+				<from> FROM spip_mots m </from>
+			</Query>
+			<Query fonction="GetMotsClef">
+				<select>SELECT COUNT(id_mot) </select>
+				<from> FROM spip_mots m </from>
+				<where> WHERE m.id_groupe =-idGroupe- AND m.titre =-titre- </where>
+			</Query>
+		</Querys>
+	</XmlParam>
+	
 </XmlParams>
