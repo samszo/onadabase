@@ -227,6 +227,8 @@ function Synchroniser($objSite){
 		
 		if($trs=="EspaceInt")
 			AddNewEspaceGen(66, $id, "ParamGenEspace");
+		if($trs=="EspaceExt")
+			AddNewEspaceGenExt(63, $id, "ParamGenEspace");
 		
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
@@ -276,6 +278,36 @@ function Synchroniser($objSite){
 		
 	}
 	
+	function AddNewEspaceGenExt($idRubSrc, $idRubDst, $trs){
+		global $objSite;
+		
+		//ajoute une sous-rubrique espace gen
+		$g = new Granulat($idRubDst,$objSite);
+		$grille = new Grille($objSite);
+		//$idGen = $g->SetNewEnfant("Paramètres généraux espace");
+		//$gGen = new Granulat($idGen,$objSite);
+		
+		//ajoute une sous-rubrique espace gen->Cheminement extérieur
+		$id = $g->SetNewEnfant("Cheminement extérieur");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(64,$id);
+		
+		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
+		$id = $g->SetNewEnfant("Equipements et dispositifs de commande");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(628,$id);
+				
+		//ajoute une sous-rubrique espace gen->Sol extérieur
+		$id = $g->SetNewEnfant("Sol extérieur");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(65,$id);
+				
+		//header('Content-type: application/vnd.mozilla.xul+xml');
+		//$xul = "<box>".$xul."</box>";
+
+		return "OK";
+		
+	}
 	
 	function AddPlacemark($idRubDst, $kml){
 		global $objSite;

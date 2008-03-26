@@ -94,10 +94,11 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
 		</popup>
 		<popup id="popetab" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
-			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
 			<menuitem label="Voir le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
+			<menuitem label="Voir le(s) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
+			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
+			
 		</popup>
 		<popup id="popEtab" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
@@ -122,22 +123,27 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
 			<menu label="Voir les objets">
 				<menupopup>
-					<menuitem label="Palier Ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paliers Ascenseurs','palierascenseur','PalierAscenseur');"/>
 					<menuitem label="Escalier" oncommand="RefreshEcran(document.getElementById('idRub').value,'Escaliers','escalier','Escalier');"/>
 					<menuitem label="Escalier mécannique" oncommand="RefreshEcran(document.getElementById('idRub').value,'Escaliers mécanniques','escameca','EscaMeca');"/>
+					<menuitem label="Palier Ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paliers Ascenseurs','palierascenseur','PalierAscenseur');"/>
 					<menuitem label="Porte" oncommand="RefreshEcran(document.getElementById('idRub').value,'Portes','porte','Porte');"/>
+					<menuitem label="Tous" oncommand="RefreshEcran(document.getElementById('idRub').value,'Tous les objets','objetint','ObjetInt');"/>
 				</menupopup>
 			</menu>
 			<menu label="Ajouter un objet">
 				<menupopup>
-					<menuitem label="Palier Ascenseur" oncommand="AddNewGrille('PalierAscenseur');"/>
+					<menuitem label="Objet Intérieur" oncommand="AddNewGrille('ObjetInt');"/>
 					<menuitem label="Escalier" oncommand="AddNewGrille('Escalier');"/>
 					<menuitem label="Escalier mécannique" oncommand="AddNewGrille('EscaMeca');"/>
+					<menuitem label="Palier Ascenseur" oncommand="AddNewGrille('PalierAscenseur');"/>
 					<menuitem label="Porte" oncommand="AddNewGrille('Porte');"/>
 				</menupopup>
 			</menu>
 
 
+		</popup>
+		<popup id="popobjetint" onpopupshowing="javascript:;">
+			<menuitem label="Voir les paramètres généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres généraux','objetgen','ObjetGen');"/>
 		</popup>
 		<popup id="popespaceint" onpopupshowing="javascript:;">
 			<menuitem label="Voir les paramètres généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres généraux','espacegen','EspaceGen');"/>
@@ -164,7 +170,6 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		</popup>
 		<popup id="popespaceext" onpopupshowing="javascript:;">
 			<menuitem label="Voir les paramètres généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
-			<menuitem label="Voir le(s) paramètre(s) spécifique(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres spécifiques','espaceextparamspe','EspaceExtParamSpe');"/>
 		</popup>
 		<popup id="popSyncSrc" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter les objets local au serveur" oncommand="SyncAjout(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
