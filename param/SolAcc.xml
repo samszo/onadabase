@@ -91,6 +91,20 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 35
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Niveau');"/>
 			</Query>
 			
+			<Query fonction="GetTreeChildren_objetint">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> FROM spip_rubriques r
+INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 63
+
+				</from>
+				<where def="9"> WHERE id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ObjetInt');"/>
+			</Query>
+			
 			<Query fonction="GetTreeChildren_espaceint">
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
@@ -116,6 +130,20 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 				</from>
 				<where> WHERE id_parent = -parent- </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceGen');"/>
+			</Query>
+			
+			<Query fonction="GetTreeChildren_objetgen">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>				
+				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =59
+				</from>
+				<where> WHERE id_parent = -parent- </where>				
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ObjetGen');"/>
 			</Query>
 			
 			<Query fonction="GetTreeChildren_espacespe">
@@ -146,14 +174,29 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 58
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Parcelle');"/>
 			</Query>
 			
+			<Query fonction="GetTreeChildren_tousObjets">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> FROM spip_rubriques r
+				
+				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+				</from>
+				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Tous');"/>
+			</Query>
+			
 			<Query fonction="GetTreeChildren_porte">
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
 				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
 				<from> FROM spip_rubriques r
-INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
-INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
-INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+				INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot = 37
+				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
 				<where def="9"> WHERE r.id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Porte');"/>
@@ -164,9 +207,10 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<col tag="titre"/>
 				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
 				<from> FROM spip_rubriques r
-INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
-INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
-INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+				INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot = 36
+				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
 				<where def="9"> WHERE r.id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Escalier');"/>
@@ -177,10 +221,10 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<col tag="titre"/>
 				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
 				<from> FROM spip_rubriques r
-INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot = 126
-INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
-INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
-INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+				INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot = 126
+				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
 				<where def="9"> WHERE r.id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','PalierAscenseur');"/>
@@ -191,9 +235,10 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<col tag="titre"/>
 				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
 				<from> FROM spip_rubriques r
-INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
-INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
-INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+				INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot = 38
+				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
 				<where def="9"> WHERE r.id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EscaMeca');"/>
@@ -241,7 +286,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 61
 			<Query fonction="GetTreeChildren_espaceextparamgen">
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>				
-				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
 				<from> FROM spip_rubriques r
 INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
@@ -364,6 +409,18 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<dst>Art</dst>
 			</Query>
 			
+			<Query fonction="Grille_GetXulTabFormObjetInt">
+				<select>SELECT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 63
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+			
 			<Query fonction="Grille_GetXulTabFormPorte">
 				<select>SELECT DISTINCT a.id_article id, a.titre</select>
 				<from> 
@@ -461,7 +518,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 			</Query>
 			
 			<Query fonction="Grille_GetXulTabFormEspaceExtParamGen">
-				<select>SELECT a.id_article id, a.titre</select>
+				<select>SELECT DISTINCT a.id_article id, a.titre</select>
 				<from> 
 					FROM spip_rubriques r
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
@@ -509,6 +566,18 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 			</Query>
 			
 			<Query fonction="Grille_GetXulTabFormEspaceGen">
+				<select>SELECT DISTINCT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+			
+			<Query fonction="Grille_GetXulTabFormObjetGen">
 				<select>SELECT DISTINCT a.id_article id, a.titre</select>
 				<from> 
 					FROM spip_rubriques r
@@ -694,12 +763,26 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ" srcId="58;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ" srcId="35;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="35;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
+		
+		<workflow srcObj="grille;champ" srcId="61;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
+		<workflow srcObj="grille;champ" srcId="61;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
+		<workflow srcObj="grille;champ" srcId="63;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
+		<workflow srcObj="grille;champ" srcId="63;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
+		
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="58" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="59" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="56" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="60" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="54" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="55" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="57" />
+		
+		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
+		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="78" />
+		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="79" />
+
+		
 		<Querys>
 			<Query fonction="update_ArtTitre">
 				<update>UPDATE spip_articles </update>

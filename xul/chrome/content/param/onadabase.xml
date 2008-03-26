@@ -29,6 +29,10 @@
 		<NoVerif>Veillez choisir un niveau</NoVerif>
 		<TitreFormSaisi>Créer un nouveau niveau</TitreFormSaisi>
 	</Param>
+	<Param nom="AddObjObjetInt" id="48" >
+		<NoVerif>Veuillez choisir un objet intérieur</NoVerif>
+		<TitreFormSaisi>Créer un objet intérieur</TitreFormSaisi>
+	</Param>
 	<Param nom="AddObjEspaceInt" id="49" >
 		<NoVerif>Veillez choisir un espace intérieur</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace intérieur</TitreFormSaisi>
