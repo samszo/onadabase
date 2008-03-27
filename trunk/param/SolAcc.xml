@@ -751,6 +751,8 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		</Querys>
 	</XmlParam>
 	<XmlParam nom="Workflow">
+	
+		<!-- Mise à jour des noms des articles et rubriques -->
 		<workflow srcObj="grille;champ" srcId="55;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ" srcId="55;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="53;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
@@ -769,15 +771,18 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ" srcId="63;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="63;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		
+		<!-- Espaces intérieurs spécifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="58" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="59" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="56" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="60" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="54" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="55" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="57" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="56" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="57" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="59" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="60" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="58" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="54" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_7" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1018" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_8" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="55" />
 		
+		<!-- Espaces extérieurs spécifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="78" />
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="79" />

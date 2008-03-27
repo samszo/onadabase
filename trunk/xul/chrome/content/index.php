@@ -101,8 +101,8 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			
 		</popup>
 		<popup id="popEtab" onpopupshowing="javascript:;">
-			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
+			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
 		</popup>
 		<popup id="popespace" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) espace(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces','espace','Espace');"/>
@@ -139,9 +139,19 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 					<menuitem label="Porte" oncommand="AddNewGrille('Porte');"/>
 				</menupopup>
 			</menu>
-
-
 		</popup>
+		<popup id="popNiveau" onpopupshowing="javascript:;">
+			<menuitem label="Ajouter un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
+			<menu label="Ajouter un objet">
+				<menupopup>
+					<menuitem label="Objet Intérieur" oncommand="AddNewGrille('ObjetInt');"/>
+					<menuitem label="Escalier" oncommand="AddNewGrille('Escalier');"/>
+					<menuitem label="Escalier mécannique" oncommand="AddNewGrille('EscaMeca');"/>
+					<menuitem label="Palier Ascenseur" oncommand="AddNewGrille('PalierAscenseur');"/>
+					<menuitem label="Porte" oncommand="AddNewGrille('Porte');"/>
+				</menupopup>
+			</menu>
+		</popup>	
 		<popup id="popobjetint" onpopupshowing="javascript:;">
 			<menuitem label="Voir les paramètres généraux" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres généraux','objetgen','ObjetGen');"/>
 		</popup>
@@ -159,6 +169,17 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 					<menuitem label="Porte" oncommand="RefreshEcran(document.getElementById('idRub').value,'Portes','porte','Porte');"/>
 				</menupopup>
 			</menu>
+			<menu label="Ajouter un objet">
+				<menupopup>
+					<menuitem label="Palier Ascenseur" oncommand="AddNewGrille('PalierAscenseur');"/>
+					<menuitem label="Escalier" oncommand="AddNewGrille('Escalier');"/>
+					<menuitem label="Escalier mécannique" oncommand="AddNewGrille('EscaMeca');"/>
+					<menuitem label="Porte" oncommand="AddNewGrille('Porte');"/>
+				</menupopup>
+			</menu>
+		</popup>
+		<popup id="popParcelle" onpopupshowing="javascript:;">
+			<menuitem label="Ajouter un espace extérieur" oncommand="AddNewGrille('EspaceExt');"/>
 			<menu label="Ajouter un objet">
 				<menupopup>
 					<menuitem label="Palier Ascenseur" oncommand="AddNewGrille('PalierAscenseur');"/>
