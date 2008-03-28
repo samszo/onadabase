@@ -56,6 +56,10 @@
 		case 'AddNewGrille':
 			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type']);
 			break;
+		case 'NewRubrique':
+			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
+			$resultat = NewRubrique($idRubDst);
+			break;
 	}
 
 	echo  utf8_encode($resultat);	
@@ -229,7 +233,15 @@ function Synchroniser($objSite){
 			AddNewEspaceGen(66, $id, "ParamGenEspace");
 		if($trs=="EspaceExt")
 			AddNewEspaceGenExt(63, $id, "ParamGenEspace");
+		if($trs=="ObjetInt") {
+			
+			/*$idArt = $g->SetNewArticle($g->titre." ".date('j/m/y - H:i:s'));
+			
+				echo ":GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
+			//ajoute une nouvelle donnee
+			$idDon = $grille->AddDonnee($id, $idRubDst, false, $idArt);*/
 		
+		}
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
 
@@ -307,6 +319,32 @@ function Synchroniser($objSite){
 
 		return "OK";
 		
+	}
+	
+	function NewRubrique($idRubDst) {
+		global $objSite;
+		
+		$mot = 60; // id mot clef Ilot;
+				
+		if ($idRubDst==-1) {
+				$idRubDst = 9; // id rubrique département
+				$mot = 59; // id mot clef Commune
+		}
+		if ($idRubDst==9) {
+				$mot = 59; // id mot clef Commune
+		}
+		
+		// pour récupérer le parent
+		$g = new Granulat($idRubDst,$objSite);
+		// pour créer un nouvel enfant
+		$idGen = $g->SetNewEnfant("Enfant test");
+		
+		$g->SetMotClef($mot,$idGen);
+		
+		// pour renvoyer la mise à jour du tree
+		$tree = GetTree("terre",-1,-1,$objSite);
+		
+		return $tree;
 	}
 	
 	function AddPlacemark($idRubDst, $kml){

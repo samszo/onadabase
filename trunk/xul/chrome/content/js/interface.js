@@ -370,6 +370,21 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 	
 }
 
+function GetElementIdFromAjax(idDst) {
+	
+	try {
+		//alert("ChargeFilArianeFromAjax IN "+idDst+"\n");
+		
+		var doc = document.getElementById('treeRub');
+			
+		var url = urlExeAjax+"?f=NewRubrique&idRubDst="+idDst;
+		//alert("ChargeTreeFromAjax url "+url+"\n");
+		
+		AppendResult(url, doc);
+	
+	} catch(ex2){alert(":GetElementIdFromAjax:"+ex2+" url="+url);}
+}
+
 function ChargeTreeFromKml(file,parentitem)
 {
   try {
