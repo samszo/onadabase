@@ -92,17 +92,21 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un établissement" oncommand="AddNewGrille('Etab');"/>
 			<menuitem label="Voir le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
 			<menuitem label="Ajouter un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
+			<menuitem label="Ajouter un territoire" oncommand="GetElementIdFromAjax(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
-			<menuitem label="Voir le(s) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
+			<menuitem label="Voir la(les) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
 			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
 			
 		</popup>
 		<popup id="popEtab" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
 			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
+		</popup>
+		<popup id="popvoirie" onpopupshowing="javascript:;">
+			<menuitem label="Voir les éléments de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');"/>
 		</popup>
 		<popup id="popespace" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) espace(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces','espace','Espace');"/>
