@@ -132,6 +132,20 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceGen');"/>
 			</Query>
 			
+			<Query fonction="GetTreeChildren_elementvoirie">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>				
+				<select>SELECT DISTINCT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =59
+				</from>
+				<where> WHERE id_parent = -parent- </where>				
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ElementVoirie');"/>
+			</Query>
+			
 			<Query fonction="GetTreeChildren_objetgen">
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>				
@@ -577,6 +591,18 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<dst>Art</dst>
 			</Query>
 			
+			<Query fonction="Grille_GetXulTabFormElementVoirie">
+				<select>SELECT DISTINCT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+			
 			<Query fonction="Grille_GetXulTabFormObjetGen">
 				<select>SELECT DISTINCT a.id_article id, a.titre</select>
 				<from> 
@@ -770,6 +796,8 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ" srcId="61;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ" srcId="63;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="63;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
+		<workflow srcObj="grille;champ" srcId="62;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
+		<workflow srcObj="grille;champ" srcId="62;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		
 		<!-- Espaces intérieurs spécifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
@@ -786,8 +814,17 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="78" />
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="79" />
-
 		
+		<!-- Eléments de voirie -->
+		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="675" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="676" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="677" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="679" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="674" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="680" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_7" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="678" />		
+				
 		<Querys>
 			<Query fonction="update_ArtTitre">
 				<update>UPDATE spip_articles </update>
