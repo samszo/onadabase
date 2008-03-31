@@ -825,18 +825,29 @@ class Grille{
 				$control .= $this->GetChoixVal($row,'multiple',$MultiSelect);
 				break;
 			case 'select':
-				//récupération des js
-				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='radio']";
-				$js = $this->site->GetJs($Xpath, array($id));
-				//construction du control
-				$control .= '<groupbox>';
-				//$control .= '<caption label="'.$row['titre'].'"/>';
-				$control .= '<radiogroup id="'.$id.'" '.$js.' >';
-				$control .= '<hbox>';
-				$control .= $this->GetChoixVal($row);
-				$control .= '</hbox>';
-				$control .= "</radiogroup>";
-				$control .= '</groupbox>';
+				//prise en compte de l'affichage liste
+				if($row['extra_info']=="liste"){
+					//récupération des js
+					$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='menu']";
+					$js = $this->site->GetJs($Xpath, array($id));
+					//construction du control
+					$control .= '<menulist id="'.$id.'" '.$js.' ><menupopup >';
+					$control .= $this->GetChoixVal($row,'menuitem');				
+					$control .= '</menupopup></menulist>';
+				}else{				
+					//récupération des js
+					$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='radio']";
+					$js = $this->site->GetJs($Xpath, array($id));
+					//construction du control
+					$control .= '<groupbox>';
+					//$control .= '<caption label="'.$row['titre'].'"/>';
+					$control .= '<radiogroup id="'.$id.'" '.$js.' >';
+					$control .= '<hbox>';
+					$control .= $this->GetChoixVal($row);
+					$control .= '</hbox>';
+					$control .= "</radiogroup>";
+					$control .= '</groupbox>';
+				}
 				break;
 			case 'mot':
 				//récupération des js
@@ -881,7 +892,7 @@ class Grille{
 		$where = str_replace("-extra_info-", $row['extra_info'], $where);
 		$where = str_replace("-valeur-", $row['valeur'], $where);
 		$where = str_replace("-multiSelect-", $multiSelect, $where);
-		
+				
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
 		if($this->trace)
@@ -897,7 +908,8 @@ class Grille{
 				$select = 'true';
 			
 			if($this->trace)
-				echo "type ".$type." "."select ".$select." ".$row['valeur']."==".$r['choix']."<br/>";
+				echo "extra_info ".$row['extra_info']." type ".$type." "."select ".$select." ".$row['valeur']."==".$r['choix']."<br/>";
+						
 			switch ($type) {
 				case 'radio':
 					$control .= "<radio id='".$r['choix']."' selected='".$select."' label=\"".$this->site->XmlParam->XML_entities($r["titre"])."\"/>";
