@@ -217,7 +217,7 @@ function Synchroniser($objSite){
 	
 	function AddNewGrille($idRubSrc, $idRubDst, $trs){
 		global $objSite;
-		
+		echo "ExeAjax:AddNewGrille:".$idRubSrc.", ".$idRubDst.", ".$trs."<br/>";
 		$g = new Granulat($idRubDst,$objSite);
 		$id = $g->SetNewEnfant($trs." Sans Nom ".date('j/m/y - H:i:s'));
 		//ajoute une sous-rubrique

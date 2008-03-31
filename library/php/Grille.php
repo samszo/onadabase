@@ -11,7 +11,7 @@ class Grille{
 
   function __construct($site, $id=-1, $complet=true) {
 	//echo "new Site $sites, $id, $scope<br/>";
-	$this->trace = false;
+	$this->trace = true;
 
     $this->site = $site;
     $this->id = $id;
@@ -900,10 +900,10 @@ class Grille{
 				echo "type ".$type." "."select ".$select." ".$row['valeur']."==".$r['choix']."<br/>";
 			switch ($type) {
 				case 'radio':
-					$control .= "<radio id='".$r['choix']."' selected='".$select."' label='".$this->site->XmlParam->XML_entities($r["titre"])."'/>";
+					$control .= "<radio id='".$r['choix']."' selected='".$select."' label=\"".$this->site->XmlParam->XML_entities($r["titre"])."\"/>";
 					break;
 				case 'menuitem':
-					$control .= "<menuitem id='".$r['choix']."' value='".$r['choix']."' selected='".$select."' label='".$this->site->XmlParam->XML_entities($r['titre'])."'/>";
+					$control .= "<menuitem id='".$r['choix']."' value='".$r['choix']."' selected='".$select."' label=\"".$this->site->XmlParam->XML_entities($r['titre'])."\"/>";
 					break;
 				case 'multiple':
 					if($multiSelect=="")
@@ -912,7 +912,7 @@ class Grille{
 					$id = 'val'.DELIM.$row["grille"].DELIM.$row["id_donnee"].DELIM.$row["champ"].DELIM.$row["id_article"].DELIM.$r['choix'];
 					$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='multiple']";
 					$js = $this->site->GetJs($Xpath, array($id));
-					$control .= "<checkbox ".$js." id='".$id."' checked='".$select."' label='".$this->site->XmlParam->XML_entities($r['titre'])."'/>";
+					$control .= "<checkbox ".$js." id='".$id."' checked='".$select."' label=\"".$this->site->XmlParam->XML_entities($r['titre'])."\"/>";
 					break;
 			}
 		}
