@@ -244,6 +244,7 @@ class Grille{
 			if($this->trace)
 				echo "Grille:AddQuestionReponse:Liste question".$sql."<br/>";
 			$first=true;
+			$rowQo = -1;
 			while ($rowQ =  $dbQ->fetch_assoc($rowsQ)) {
 				if($first){
 					//ajoute le mot clef type de controle à la rubrique
@@ -252,19 +253,23 @@ class Grille{
 				}
 				//vérifie si le contrôle est cohérent par rapport au parent
 				if($this->GereCoheDroit($rowQ, $droit)){
-					//ajoute une nouvelle donnée réponse pour la question
-					$idDon = $g->GetIdDonnee($rowQ["FormRep"],-1,true);
-					if($this->trace)
-						echo "Grille:AddQuestionReponse:ajoute une nouvelle donnée réponse pour la question".$idDon."<br/>";
-					//ajoute la question
-					$r = array("champ"=>"ligne_2","valeur"=>$rowQ["question"]);
-					$this->SetChamp($r,$idDon,false);
-					//ajoute la référence
-					$r = array("champ"=>"ligne_1","valeur"=>$rowQ["ref"]);
-					$this->SetChamp($r,$idDon,false);
-					//ajoute la réponse par défaut
-					$r = array("champ"=>"mot_1","valeur"=>$rowQ["valdef"]);
-					$this->SetChamp($r,$idDon,false);					
+					//prise en compte des doublons suite à l'attribution de plusieurs droits
+					if($rowQo != $rowQ["ref"]){
+						//ajoute une nouvelle donnée réponse pour la question
+						$idDon = $g->GetIdDonnee($rowQ["FormRep"],-1,true);
+						if($this->trace)
+							echo "Grille:AddQuestionReponse:ajoute une nouvelle donnée réponse pour la question".$idDon."<br/>";
+						//ajoute la question
+						$r = array("champ"=>"ligne_2","valeur"=>$rowQ["question"]);
+						$this->SetChamp($r,$idDon,false);
+						//ajoute la référence
+						$r = array("champ"=>"ligne_1","valeur"=>$rowQ["ref"]);
+						$this->SetChamp($r,$idDon,false);
+						//ajoute la réponse par défaut
+						$r = array("champ"=>"mot_1","valeur"=>$rowQ["valdef"]);
+						$this->SetChamp($r,$idDon,false);					
+						$rowQo = $rowQ["ref"];
+					}
 				}
 			}
 		}
