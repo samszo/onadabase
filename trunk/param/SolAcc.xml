@@ -278,7 +278,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<from> FROM spip_rubriques r
 INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
-INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
+INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 65
 				</from>
 				<where def="9"> WHERE r.id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','CabineAscenseur');"/>
@@ -477,7 +477,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					FROM spip_rubriques r
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
-					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 65
 				</from>
 				<where> WHERE r.id_rubrique = -id- </where>
 				<dst>Art</dst>
