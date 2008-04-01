@@ -276,12 +276,7 @@ function Synchroniser($objSite){
 		$id = $g->SetNewEnfant("Eclairage");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(71,$id);
-		
-		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
-		$id = $g->SetNewEnfant("Equipements et dispositifs de commande");
-		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(70,$id);
-				
+					
 		//ajoute une sous-rubrique espace gen->Pentes et ressauts
 		$id = $g->SetNewEnfant("Pentes et ressauts");
 		//ajoute les QuestionsRéponses
