@@ -115,12 +115,12 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		<popup id="popbat" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
-			<menuitem label="Voir la(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','cabineascenseur','CabineAscenseur');"/>
-			<menuitem label="Ajouter la(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('CabineAscenseur');"/>
+			<menuitem label="Voir la(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>
+			<menuitem label="Ajouter la(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('ObjetIntBat');"/>
 		</popup>
 		<popup id="popBat" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
-			<menuitem label="Ajouter la(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('CabineAscenseur');"/>
+			<menuitem label="Ajouter la(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('ObjetIntBat');"/>
 			
 		</popup>
 		<popup id="popniveau" onpopupshowing="javascript:;">
@@ -134,8 +134,8 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un objet intérieur" oncommand="AddNewGrille('ObjetInt');"/>
 		</popup>
 		
-		<popup id="popcabineascenseur" onpopupshowing="javascript:;">
-			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetintbat','ObjetIntBat');"/>
+		<popup id="popobjetintbat" onpopupshowing="javascript:;">
+			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');"/>
 		</popup>
 			
 		<popup id="popobjetint" onpopupshowing="javascript:;">
