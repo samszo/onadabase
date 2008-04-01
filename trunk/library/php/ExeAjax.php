@@ -221,8 +221,17 @@ function Synchroniser($objSite){
 		$g = new Granulat($idRubDst,$objSite);
 		$id = $g->SetNewEnfant($trs." Sans Nom ".date('j/m/y - H:i:s'));
 		//ajoute une sous-rubrique
-				
+		//alert("AddNewGrille  IN Src "+$idRubSrc+" Dst "+$idRubDst+" trs "+$trs+" n");	
+		
 		$grille = new Grille($objSite);
+		
+		/*if($trs=="CabineAscenseur") {
+			//AddNewObjetIntBat(597, $id, "ObjetIntBat");
+			//alert("AddNewGrille  IN "+type+"\n");
+			$idArt = $g->SetNewArticle($g->titre." Controle ".date('j/m/y - H:i:s'));
+			$idDon = $grille->AddDonnee($id, $grille, false, $idArt);
+		}*/
+		
 		$grille->AddGrilles($idRubSrc, $id);
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse($idRubSrc,$id);
@@ -233,7 +242,7 @@ function Synchroniser($objSite){
 			AddNewEspaceGen(66, $id, "ParamGenEspace");
 		if($trs=="EspaceExt")
 			AddNewEspaceGenExt(63, $id, "ParamGenEspace");
-		if($trs=="ObjetInt") {
+		if($trs=="ObjetIntBat") {
 			
 			/*$idArt = $g->SetNewArticle($g->titre." ".date('j/m/y - H:i:s'));
 			
@@ -242,11 +251,16 @@ function Synchroniser($objSite){
 			$idDon = $grille->AddDonnee($id, $idRubDst, false, $idArt);*/
 		
 		}
+		
+		if($trs=="ObjetInt") {
+			//AddNewObjetInt(1167, $id, "ParamObjetInt");
+			//$g->SetMotClef($mot,$id);
+		}
+		
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
 
-		return $xul;
-		
+		return $xul;	
 	}
 
 	function AddNewEspaceGen($idRubSrc, $idRubDst, $trs){
@@ -300,6 +314,43 @@ function Synchroniser($objSite){
 		//$gGen = new Granulat($idGen,$objSite);
 		
 		//ajoute une sous-rubrique espace gen->Cheminement extérieur
+		$id = $g->SetNewEnfant("Palier ascenseur");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(51,$id);
+		
+		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
+		$id = $g->SetNewEnfant("Escalier");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(52,$id);
+				
+		//ajoute une sous-rubrique espace gen->Sol extérieur
+		$id = $g->SetNewEnfant("Escalier mécanique");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(53,$id);
+
+		//ajoute une sous-rubrique espace gen->Sol extérieur
+		$id = $g->SetNewEnfant("Porte");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(50,$id);
+				
+		
+		//header('Content-type: application/vnd.mozilla.xul+xml');
+		//$xul = "<box>".$xul."</box>";
+
+		return "OK";
+		
+	}
+	
+	function AddNewObjetIntBat($idRubSrc, $idRubDst, $trs){
+		global $objSite;
+		
+		//ajoute une sous-rubrique espace gen
+		$g = new Granulat($idRubDst,$objSite);
+		$grille = new Grille($objSite);
+		//$idGen = $g->SetNewEnfant("Paramètres généraux espace");
+		//$gGen = new Granulat($idGen,$objSite);
+		
+		//ajoute une sous-rubrique espace gen->Cheminement extérieur
 		$id = $g->SetNewEnfant("Cheminement extérieur");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(64,$id);
@@ -313,7 +364,28 @@ function Synchroniser($objSite){
 		$id = $g->SetNewEnfant("Sol extérieur");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(65,$id);
-				
+						
+		//header('Content-type: application/vnd.mozilla.xul+xml');
+		//$xul = "<box>".$xul."</box>";
+
+		return "OK";
+		
+	}
+	
+	function AddNewObjetInt($idRubSrc, $idRubDst, $trs){
+		global $objSite;
+		
+		//ajoute une sous-rubrique espace gen
+		$g = new Granulat($idRubDst,$objSite);
+		$grille = new Grille($objSite);
+		//$idGen = $g->SetNewEnfant("Paramètres généraux espace");
+		//$gGen = new Granulat($idGen,$objSite);
+		
+		//ajoute une sous-rubrique espace gen->Cheminement extérieur
+		$id = $g->SetNewEnfant("Cabine d'ascenseur");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(613,$id);
+						
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
 
