@@ -17,11 +17,11 @@ function shp2kml($filename,$name,$desc,$orig,$output)
 		<Placemark>
   			<name><?php echo($record->dbf_data[$name]); ?></name>
   			<description><?php echo(
-				'SHAPE_ID : '.str_replace(' ','',$record->dbf_data[$desc[0]]).' - '
-				.'MAT_LIGNE : '.$record->dbf_data[$desc[1]].' - ' 
+				'NUMERO : '.str_replace(' ','',$record->dbf_data[$desc[0]]).' - '
+				.'SENS : '.$record->dbf_data[$desc[1]].' - ' 
 				); 
-				?></description>
-
+				?>
+			</description>
   			<Style>
     				<PolyStyle>
      					<color>44af93f3</color>
@@ -33,7 +33,6 @@ function shp2kml($filename,$name,$desc,$orig,$output)
     	  				<color>ffffffff</color>
     				</LineStyle>
   			</Style>
-
   			<MultiGeometry>
 <?php
 		$toto = $record->shp_data;
@@ -66,11 +65,31 @@ function shp2kml($filename,$name,$desc,$orig,$output)
 		}
 ?>
   			</MultiGeometry>
-		</Placemark>
+		
 
 <?php
+		if (sizeof($toto)==0){
+			$toto = $record->shp_data;
+			
+			$tata = Lambert2WGS84($orig,$toto['x'],$toto['y']);
+?>		
+			<Point>
+				<coordinates>
+<?php		
+			echo (" " . $tata['long'] . ", " . $tata['lat'] . ", 0 \n");
+?>			
+				</coordinates>
+			</Point>	
+<?php
+		}
+	
+?>
+		</Placemark>
+<?php
+	
 	}	
 ?>
+		
 	</Document> 
 </kml>
 <?php		
