@@ -125,6 +125,35 @@ function AddNewGrille(type){
   } catch(ex2){alert("AddNewGrille::"+ex2+" "+type);;}
 }
 
+function AddNewRubrique(idDst,motClef) {
+	
+	try {
+		
+		//récupère les paramètres
+		var Xpath ="/Params/Param[@nom='AddObj"+motClef+"']";
+		var iterator = xmlParam.evaluate(Xpath, xmlParam, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+		var n = iterator.iterateNext();
+		var id = n.attributes["id"].value;
+		
+		//alert("AddNewRubrique IN "+"id "+id+" idDst "+idDst+" motclef "+motClef+"\n");
+		
+		var doc = document.getElementById('FormSaisi');//treeRub FormSaisi
+		//purge les formulaires déjà affiché
+		while(doc.hasChildNodes())
+			doc.removeChild(doc.firstChild);
+			
+		var url = urlExeAjax+"?f=NewRubrique&idRubSrc="+id+"&idRubDst="+idDst+"&motClef="+motClef;
+		//alert("AddNewRubrique url "+url+"\n");
+		
+		AppendResult(url, doc);
+		
+		var doc = document.getElementById('FormSaisi');
+		ChargeTabboxFromAjax('idRub','FormSaisi','Terre')
+	
+	} catch(ex2){alert(":AddNewRubrique:"+ex2+" url="+url);}
+}
+
+
 function SetVal(idDoc){
   try {
 	var verif = true;
@@ -368,21 +397,6 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
    
    } catch(ex2){dump(":ChargeTabboxFromAjax:"+ex2);}
 	
-}
-
-function GetElementIdFromAjax(idDst) {
-	
-	try {
-		//alert("ChargeFilArianeFromAjax IN "+idDst+"\n");
-		
-		var doc = document.getElementById('treeRub');
-			
-		var url = urlExeAjax+"?f=NewRubrique&idRubDst="+idDst;
-		//alert("ChargeTreeFromAjax url "+url+"\n");
-		
-		AppendResult(url, doc);
-	
-	} catch(ex2){alert(":GetElementIdFromAjax:"+ex2+" url="+url);}
 }
 
 function ChargeTreeFromKml(file,parentitem)
