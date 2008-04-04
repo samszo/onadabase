@@ -92,7 +92,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un établissement" oncommand="AddNewGrille('Etab');"/>
 			<menuitem label="Voir le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
 			<menuitem label="Ajouter un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
-			<menuitem label="Ajouter un territoire" oncommand="GetElementIdFromAjax(document.getElementById('idRub').value);"/>
+			<menuitem label="Ajouter un ilot" oncommand="AddNewRubrique(document.getElementById('idRub').value,'Ilot');"/>
 		</popup>
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>

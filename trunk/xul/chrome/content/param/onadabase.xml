@@ -5,6 +5,17 @@
 		<NoVerif>Veillez choisir un territoire</NoVerif>
 		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
 	</Param>
+	
+	<Param nom="AddObjCommune" id="1453" >
+		<NoVerif>Veillez choisir un territoire</NoVerif>
+		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjIlot" id="1455" >
+		<NoVerif>Veillez choisir un territoire</NoVerif>
+		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
+	</Param>
+	
+	
 	<Param nom="AddObjEtab" id="45" >
 		<NoVerif>Veillez choisir un territoire</NoVerif>
 		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>

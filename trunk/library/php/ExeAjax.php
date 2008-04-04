@@ -58,14 +58,14 @@
 			break;
 		case 'NewRubrique':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
-			$resultat = NewRubrique($idRubDst);
+			$resultat = NewRubrique($idRubSrc, $idRubDst, $motClef);
 			break;
 	}
 
 	echo  utf8_encode($resultat);	
 
-function Synchroniser($objSite){
-	return GetTree("terre",-1,-1,$objSite);
+	function Synchroniser($objSite){
+		return GetTree("terre",-1,-1,$objSite);
 	
 }
 	
@@ -215,7 +215,7 @@ function Synchroniser($objSite){
 		
 	}
 	
-	function AddNewGrille($idRubSrc, $idRubDst, $trs){
+	function AddNewGrille($idRubSrc, $idRubDst, $trs, $login){
 		global $objSite;
 		echo "ExeAjax:AddNewGrille:".$idRubSrc.", ".$idRubDst.", ".$trs."<br/>";
 		$g = new Granulat($idRubDst,$objSite);
@@ -298,6 +298,7 @@ function Synchroniser($objSite){
 		return "OK";
 		
 	}
+	
 	
 	function AddNewEspaceGenExt($idRubSrc, $idRubDst, $trs){
 		global $objSite;
@@ -388,28 +389,32 @@ function Synchroniser($objSite){
 		
 	}
 	
-	function NewRubrique($idRubDst) {
+	function NewRubrique($idRubSrc, $idRubDst, $motClef) {
 		global $objSite;
-		
-		$mot = 60; // id mot clef Ilot;
-				
-		if ($idRubDst==-1) {
+						
+		if ($motClef=="Commune") {
 				$idRubDst = 9; // id rubrique département
 				$mot = 59; // id mot clef Commune
 		}
-		if ($idRubDst==9) {
-				$mot = 59; // id mot clef Commune
+		if ($motClef=="Ilot") {
+				$mot = 60; // id mot clef Ilot
 		}
 		
 		// pour récupérer le parent
 		$g = new Granulat($idRubDst,$objSite);
+		$idGen = $g->SetNewEnfant($motClef." Sans Nom ".date('j/m/y - H:i:s'));
+		
+		
+		$grille = new Grille($objSite);
+		
+		$grille->AddGrilles($idRubSrc, $idGen);
 		// pour créer un nouvel enfant
-		$idGen = $g->SetNewEnfant("Enfant test");
+		//$xul = $grille->GetXulTab("Terre", $idgen);
 		
 		$g->SetMotClef($mot,$idGen);
 		
 		// pour renvoyer la mise à jour du tree
-		$tree = GetTree("terre",-1,-1,$objSite);
+		$tree = GetTree('terre',-1,-1,$objSite);
 		
 		return $tree;
 	}
