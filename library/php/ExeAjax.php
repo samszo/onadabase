@@ -58,7 +58,7 @@
 			break;
 		case 'NewRubrique':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
-			$resultat = NewRubrique($idRubSrc, $idRubDst, $motClef);
+			$resultat = NewRubrique($idRubSrc, $idRubDst);
 			break;
 	}
 
@@ -299,7 +299,6 @@
 		
 	}
 	
-	
 	function AddNewEspaceGenExt($idRubSrc, $idRubDst, $trs){
 		global $objSite;
 		
@@ -389,34 +388,27 @@
 		
 	}
 	
-	function NewRubrique($idRubSrc, $idRubDst, $motClef) {
+	function NewRubrique($idRubSrc, $idRubDst) {
 		global $objSite;
-						
-		if ($motClef=="Commune") {
-				$idRubDst = 9; // id rubrique département
-				$mot = 59; // id mot clef Commune
-		}
-		if ($motClef=="Ilot") {
-				$mot = 60; // id mot clef Ilot
-		}
-		
+								
 		// pour récupérer le parent
 		$g = new Granulat($idRubDst,$objSite);
-		$idGen = $g->SetNewEnfant($motClef." Sans Nom ".date('j/m/y - H:i:s'));
 		
+		// pour créer un nouvel enfant
+		$idGen = $g->SetNewEnfant($motClef." Sans Nom ".date('j/m/y - H:i:s'));
 		
 		$grille = new Grille($objSite);
 		
 		$grille->AddGrilles($idRubSrc, $idGen);
-		// pour créer un nouvel enfant
-		//$xul = $grille->GetXulTab("Terre", $idgen);
 		
-		$g->SetMotClef($mot,$idGen);
+		$xul = $grille->GetXulTab('Terre', $idGen);
+		
+		//if ($mot != -1) $g->SetMotClef($mot,$idGen);
 		
 		// pour renvoyer la mise à jour du tree
 		$tree = GetTree('terre',-1,-1,$objSite);
 		
-		return $tree;
+		return $xul;
 	}
 	
 	function AddPlacemark($idRubDst, $kml){

@@ -125,30 +125,47 @@ function AddNewGrille(type){
   } catch(ex2){alert("AddNewGrille::"+ex2+" "+type);;}
 }
 
-function AddNewRubrique(idDst,motClef) {
+function AddNewRubrique(idDst) {
 	
 	try {
+		var verif = true;
 		
 		//récupère les paramètres
-		var Xpath ="/Params/Param[@nom='AddObj"+motClef+"']";
+		var Xpath ="/Params/Param[@nom='AddObjTerritoire']";
 		var iterator = xmlParam.evaluate(Xpath, xmlParam, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
 		var n = iterator.iterateNext();
 		var id = n.attributes["id"].value;
+		var messNoVerif = n.childNodes[1].textContent;
+		var TitreFormSaisi =  n.childNodes[3].textContent;
 		
 		//alert("AddNewRubrique IN "+"id "+id+" idDst "+idDst+" motclef "+motClef+"\n");
 		
+		//var dst = document.getElementById('idRub').value;
+		var login = document.getElementById('login').value;
+		if(idDst=="?"){
+			alert(messNoVerif);
+			verif = false;
+		}
+		if(idDst=="-1"){
+			alert(messNoVerif);
+			verif = false;
+		}
+		
 		var doc = document.getElementById('FormSaisi');//treeRub FormSaisi
 		//purge les formulaires déjà affiché
+		
+		document.getElementById("TitreFormSaisi").value=TitreFormSaisi;
 		while(doc.hasChildNodes())
 			doc.removeChild(doc.firstChild);
 			
-		var url = urlExeAjax+"?f=NewRubrique&idRubSrc="+id+"&idRubDst="+idDst+"&motClef="+motClef;
+		if(verif){
+			var url = urlExeAjax+"?f=NewRubrique&idRubSrc="+id+"&idRubDst="+idDst;
+			AppendResult(url, doc);
+		}
 		//alert("AddNewRubrique url "+url+"\n");
 		
-		AppendResult(url, doc);
-		
-		var doc = document.getElementById('FormSaisi');
-		ChargeTabboxFromAjax('idRub','FormSaisi','Terre')
+		//var doc = document.getElementById('treeRub');
+		//ChargeTreeFromAjax('idRub','treeRub','Terre')
 	
 	} catch(ex2){alert(":AddNewRubrique:"+ex2+" url="+url);}
 }

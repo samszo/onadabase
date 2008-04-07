@@ -81,7 +81,17 @@ class Grille{
 						//renvoie le formulaire
 						return $xul;
 					}
-					break;					
+					break;	
+				case "AddNewMotClef":	
+					if($this->trace)
+						echo "Grille:GereWorkflow:AddNewMotClef ".$row['valeur']."==".$wf['srcCheckVal']."<br/>";	
+					if($row['valeur']==$wf['srcCheckVal']){	
+						$gra = new Granulat($id,$this->site);	
+						if($wf['trsObjet']=="motclef" ){
+							$gra->SetMotClef($wf['trsId'],$id);
+						}	
+					}
+					break;	
 				default:								
 					if($this->trace)
 						echo "//workflow path query ".$wf['dstQuery']."<br/>";
@@ -528,7 +538,6 @@ class Grille{
 	}	
 	
 	function GetXulTab($src, $id, $dst="Rub", $recur = false){
-
 
 		//chaque ligne est un onglet
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetXulTabForm".$dst."']";
