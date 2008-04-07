@@ -18,7 +18,7 @@
 				<col tag="titre"/>
 				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
 				<from> FROM spip_rubriques r
-					INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot IN (54,56,57,58,59,60)
+					INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot IN (54,56,57,58,59,60,138,139,146)
 				</from>
 				<where def="9"> WHERE id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Terre');"/>
@@ -871,6 +871,18 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		<!-- Objets batiment -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
 		<workflow srcObj="grille;champ;valeur" srcId="65;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="613" />
+		
+		<!-- Mot clef territoire -->	
+		
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="138" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="138" />
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="59" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="59" />
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="57" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="57" />
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="60" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="60" />
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="58" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="58" />
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="139" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="139" />
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="54" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="54" />
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="146" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="146" />
+		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="56" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="56" />
 							
 		<Querys>
 			<Query fonction="update_ArtTitre">
