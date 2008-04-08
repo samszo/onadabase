@@ -288,6 +288,7 @@ class Site{
 	function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 	{
 	  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
+	  // evite le double caractere \'' 
 	  if (get_magic_quotes_gpc()) $theValue = str_replace("'","''",$theValue);
 	  $theValue = str_replace("\"","''",$theValue);
 	  //$theValue = htmlentities($theValue);
