@@ -837,9 +837,9 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		
 		<!-- Espaces extérieurs spécifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
-		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="78" />
-		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="79" />
-		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1091" />
+		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="78" />
+		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="79" />
+		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1091" />
 		
 		<!-- Eléments de voirie -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
@@ -872,8 +872,7 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
 		<workflow srcObj="grille;champ;valeur" srcId="65;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="613" />
 		
-		<!-- Mot clef territoire -->	
-		
+		<!-- Mot clef territoire -->		
 		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="138" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="138" />
 		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="59" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="59" />
 		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="57" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="57" />
