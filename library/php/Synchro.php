@@ -27,17 +27,54 @@ Class Synchro{
 		return $this->xml->xpath($Xpath);
 	}
 	
-	public function GetCount($Xpath){
-		
-		if($this->trace)
-			echo 'XmlParam GetCount du xpath '.$Xpath.'<br/>';
-		return count($this->xml->xpath($Xpath));
-	}
-	
-	public function XML_entities($str)
+	public function GetNew($titre,$idGroupe)
 	{
-	    return preg_replace(array("'&'", "'\"'", "'<'", "'>'"), array('&#38;', '&#34;','&lt;','&gt;'), $str);
+		$id = $this->VerifExist($titre);
+		if($id==-1){
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetNewMC']";
+			if($this->trace)
+				echo "MotClef:GetNew:Xpath=".$Xpath."<br/>";
+			$Q = $this->site->XmlParam->GetElements($Xpath);
+			$set = str_replace("-titre-", $this->site->GetSQLValueString($titre, "text"), $Q[0]->set);
+			$set = str_replace("-idGroupe-", $idGroupe, $set);
+			$sql = $Q[0]->insert.$set;
+			if($this->trace)
+				echo "MotClef:GetNew:sql=".$sql."<br/>";
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+			$db->connect();
+			$db->query($sql);
+			$id = mysql_insert_id();
+			$db->close();
+		}
+		if($this->trace)
+			echo "MotClef:GetNew:id=".$id."<br/>";
+		return $id;
+		
 	}
-	
+
+	public function VerifExist($titre)
+	{
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='VerifExistMC']";
+		if($this->trace)
+			echo "MotClef:VerifExist:Xpath=".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-titre-", $this->site->GetSQLValueString($titre, "text"), $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		if($this->trace)
+			echo "MotClef:VerifExist:sql=".$sql."<br/>";
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$req = $db->query($sql);
+		$db->close();
+		if ($r = $db->fetch_assoc($req)){
+			$id = $r['id_mot']; 
+		} else {
+			$id=-1;
+		}
+		
+		return $id;
+		
+	}
+			
 }
 ?>
