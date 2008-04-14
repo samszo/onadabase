@@ -830,10 +830,10 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="59" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="60" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_7" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="58" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_8" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1078" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_9" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="54" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_10" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1018" />
-		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_11" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="55" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_10" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1078" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_11" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="54" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_12" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1018" />
+		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_13" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="55" />
 		
 		<!-- Espaces extérieurs spécifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
@@ -938,5 +938,20 @@ LIMIT 0 , 1
 			</Query>
 		</Querys>
 	</XmlParam>
-	
+	<XmlParam nom="Synchronise2">
+		<Querys>
+			<Query fonction="GetRubriquesAuteur">
+				<select>SELECT r.id_auteur , r.id_rubrique </select>
+				<from> FROM spip_auteurs_rubriques r </from>
+				<where> WHERE r.id_auteur =-idAuteur- </where>
+			</Query>
+		</Querys>
+		<Querys>
+			<Query fonction="GetRubriquesTitre">
+				<select>SELECT r.id_rubrique , r.titre </select>
+				<from> FROM spip_rubriques r </from>
+				<where> WHERE r.id_rubrique =-idRubrique- </where>
+			</Query>
+		</Querys>
+	</XmlParam>
 </XmlParams>

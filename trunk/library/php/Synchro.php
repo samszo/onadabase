@@ -75,6 +75,21 @@ Class Synchro{
 		return $id;
 		
 	}
+	
+	public function Verif($idAuteur=6) {
+		
+		$sql = "SELECT id_rubrique, titre
+		FROM spip_auteurs_rubriques
+		ORDER BY titre
+		WHERE id_rubrique = ".$idAuteur
+		;//LIMIT 0 , 93";
+
+		$DB = new mysql($siteDst->infos["SQL_HOST"], $siteDst->infos["SQL_LOGIN"], $siteDst->infos["SQL_PWD"], $siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+	}
 			
 }
 ?>

@@ -63,7 +63,7 @@ class Grille{
 						if($wf['trsObjet']=="controles" ){
 							$id = $gra->SetNewEnfant($gTrs->titre." ".date('j/m/y - H:i:s'));
 							$this->AddQuestionReponse($wf['trsId'],$id);
-							if($wf['trsId']=="50"){ // Porte
+							if($wf['trsId']=="50" || $wf['trsId']=="74" ){ // Porte
 								$id1 = $gra->SetNewEnfant("Face 1 ".date('j/m/y - H:i:s'));
 								$this->AddQuestionReponse(1342,$id1);
 								$id2 = $gra->SetNewEnfant("Face 2 ".date('j/m/y - H:i:s'));

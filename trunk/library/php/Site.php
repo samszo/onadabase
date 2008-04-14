@@ -94,6 +94,28 @@ class Site{
     	
     }
     
+    public function  Synchronise2($siteSrc, $siteDst=-1, $idAuteur=6){
+    	
+    	
+    	if($siteDst==-1)
+			$siteDst=$this->id;
+    	
+		//récupère les rubriques de l'auteur
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesAuteur']";
+		if($this->trace)
+			echo "Site:Synchronise2:Xpath=".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-idAuteur-", $idAuteur, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($siteDst->infos["SQL_HOST"], $siteDst->infos["SQL_LOGIN"], $siteDst->infos["SQL_PWD"], $siteDst->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		if($this->trace)
+			echo "Site:Synchronise2:sql=".$sql."<br/>";
+			
+    }
+    
     public function EstParent($id)
 	{
 		$arrParent = split("[".DELIM."]", $this->GetParentIds());
