@@ -97,10 +97,12 @@
 		while ($row =  $db->fetch_assoc($rows)) {
 				echo $row['id_rubrique'];
 				
+				$g = new Granulat($row['id_rubrique'],$siteDst);
+				echo $g->titre;
 				/*
 				 * Récupère le titre de la rubrique
 				 */
-				
+				/*
 				$Xpath2 = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesTitre']";
 				echo "Site:Synchronise2:Xpath=".$Xpath2."<br/>";
 				$Q2 = $siteDst->XmlParam->GetElements($Xpath2);
@@ -115,7 +117,7 @@
 				while ($row2 =  $db2->fetch_assoc($rows2)) {
 					echo $row2['titre'];
 				}
-				
+				*/
 				/*
 				 * Crée une nouvelle rubrique
 				 * 
@@ -275,7 +277,12 @@
 		
 	}
 	
+<<<<<<< .mine
+	function AddNewGrille($idRubSrc, $idRubDst, $trs)
+		{
+=======
 	function AddNewGrille($idRubSrc, $idRubDst, $trs, $login){
+>>>>>>> .r56
 		global $objSite;
 		echo "ExeAjax:AddNewGrille:".$idRubSrc.", ".$idRubDst.", ".$trs."<br/>";
 		$g = new Granulat($idRubDst,$objSite);
