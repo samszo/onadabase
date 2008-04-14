@@ -80,11 +80,13 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		//initialise le paramètrage du site
 		var lienAdminSpip = "<?php echo $objSite->infos["lienAdminSpip"]; ?>";
 		var urlExeAjax = "<?php echo $objSite->infos["urlExeAjax"]; ?>";
+		var urlExeAjax2 = "<?php echo $objSite->infos["urlExeAjax2"]; ?>";
 		var xmlParam = GetXmlUrlToDoc("<?php echo $objSite->infos["jsXulParam"]; ?>");
 		var synclienAdminSpip = "<?php echo $objSiteSync->infos["lienAdminSpip"]; ?>";
 		var syncurlExeAjax = "<?php echo $objSiteSync->infos["urlExeAjax"]; ?>";
 		var syncxmlParam = GetXmlUrlToDoc("<?php echo $objSiteSync->infos["jsXulParam"]; ?>");
 		var urlSite = "<?php echo $objSite->infos["urlSite"]; ?>";
+		var urlSynchro = "<?php echo $objSite->infos["urlSynchro"]; ?>";
      </script>
 
 	<popupset >
