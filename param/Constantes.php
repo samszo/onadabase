@@ -11,7 +11,7 @@
 	require_once(TT_CLASS_BASE."AllClass.php");
 
   define ("DEFSITE", "local2");
-  define ("SYNCSITE", "local2");
+  define ("SYNCSITE", "mundi");
   
   $DB_OPTIONS = array (
 		'ERROR_DISPLAY' => true
@@ -64,7 +64,8 @@ $SiteLocal2 = array(
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
 	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
-	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml"	
+	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",
+	"urlSite" => "http://localhost/onadabase/library/php/Site.php",	
 	); 
 $SiteNaos = array(
 	"SQL_LOGIN" => "naossfr3", 
@@ -102,7 +103,8 @@ $SiteNaos = array(
 	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRRWuADP5IHMsclz4StI_c8lb9zkohTyT7mGzubP9DAdxQrlDe2AW8dGTw",
 	"lienAdminSpip" => "http://www.mundilogiweb.com/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php",
-	"jsXulParam" => "http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml"	
+	"jsXulParam" => "http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml",	
+	"urlSite" => "http://www.mundilogiweb.com/onadabase/xul/chrome/library/php/Site.php"	
 	); 
 	
 $SITES = array(

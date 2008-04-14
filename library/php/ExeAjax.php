@@ -54,11 +54,15 @@
 			$resultat = AddXmlDonnee($_GET['url']);
 			break;
 		case 'AddNewGrille':
-			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type']);
+			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type'], $_GET['login']);
 			break;
 		case 'NewRubrique':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
 			$resultat = NewRubrique($idRubSrc, $idRubDst);
+			break;
+		case 'Synchronise2':
+			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
+			$resultat = Synchronise2($siteSrc, $siteDst=-1, $idAuteur=6);
 			break;
 	}
 
@@ -69,6 +73,62 @@
 	
 }
 	
+	function  Synchronise2($siteSrc, $siteDst=-1, $idAuteur=6){
+    	
+		global $objSite;
+		global $objSiteSync; //Mundi
+		
+    	if($siteDst==-1)
+			$siteDst=$objSite;
+    	
+		//récupère les rubriques de l'auteur
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesAuteur']";
+		//if($this->trace)
+			echo "Site:Synchronise2:Xpath=".$Xpath."<br/>";
+		$Q = $siteDst->XmlParam->GetElements($Xpath);
+		$where = str_replace("-idAuteur-", $idAuteur, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($siteDst->infos["SQL_HOST"], $siteDst->infos["SQL_LOGIN"], $siteDst->infos["SQL_PWD"], $siteDst->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		//if($this->trace)
+			echo "Site:Synchronise2:sql=".$sql."<br/>";
+		while ($row =  $db->fetch_assoc($rows)) {
+				echo $row['id_rubrique'];
+				
+				/*
+				 * Récupère le titre de la rubrique
+				 */
+				
+				$Xpath2 = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesTitre']";
+				echo "Site:Synchronise2:Xpath=".$Xpath2."<br/>";
+				$Q2 = $siteDst->XmlParam->GetElements($Xpath2);
+				$where2 = str_replace("-idRubrique-", $row['id_rubrique'], $Q2[0]->where);
+				$sql2 = $Q2[0]->select.$Q2[0]->from.$where2;
+				$db2 = new mysql ($siteDst->infos["SQL_HOST"], $siteDst->infos["SQL_LOGIN"], $siteDst->infos["SQL_PWD"], $siteDst->infos["SQL_DB"], $dbOptions);
+				$db2->connect();
+				$rows2 = $db2->query($sql2);
+				$db2->close();
+				//if($this->trace)
+				echo "Site:Synchronise2:sql=".$sql2."<br/>";
+				while ($row2 =  $db2->fetch_assoc($rows2)) {
+					echo $row2['titre'];
+				}
+				
+				/*
+				 * Crée une nouvelle rubrique
+				 * 
+				  $sql = "INSERT INTO spip_rubriques
+				SET titre = ".$objSite->GetSQLValueString($titre, "text");
+				
+				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"], $DB_OPTIONS);
+				$req = $DB->query($sql);
+				$newId = mysql_insert_id();
+				$DB->close();*/
+		}
+    }
+
 	function GetFilAriane($jsParam, $id){
 		global $objSite;
 		
@@ -276,7 +336,12 @@
 		$id = $g->SetNewEnfant("Eclairage");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(71,$id);
-					
+
+		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
+		$id = $g->SetNewEnfant("Commandes");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(70,$id);
+		
 		//ajoute une sous-rubrique espace gen->Pentes et ressauts
 		$id = $g->SetNewEnfant("Pentes et ressauts");
 		//ajoute les QuestionsRéponses
@@ -309,25 +374,14 @@
 		//$gGen = new Granulat($idGen,$objSite);
 		
 		//ajoute une sous-rubrique espace gen->Cheminement extérieur
-		$id = $g->SetNewEnfant("Palier ascenseur");
+		$id = $g->SetNewEnfant("Cheminement");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(51,$id);
-		
-		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
-		$id = $g->SetNewEnfant("Escalier");
-		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(52,$id);
-				
+		$grille->AddQuestionReponse(64,$id);
+						
 		//ajoute une sous-rubrique espace gen->Sol extérieur
-		$id = $g->SetNewEnfant("Escalier mécanique");
+		$id = $g->SetNewEnfant("Sol extérieur");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(53,$id);
-
-		//ajoute une sous-rubrique espace gen->Sol extérieur
-		$id = $g->SetNewEnfant("Porte");
-		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(50,$id);
-				
+		$grille->AddQuestionReponse(65,$id);
 		
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";

@@ -84,6 +84,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		var synclienAdminSpip = "<?php echo $objSiteSync->infos["lienAdminSpip"]; ?>";
 		var syncurlExeAjax = "<?php echo $objSiteSync->infos["urlExeAjax"]; ?>";
 		var syncxmlParam = GetXmlUrlToDoc("<?php echo $objSiteSync->infos["jsXulParam"]; ?>");
+		var urlSite = "<?php echo $objSite->infos["urlSite"]; ?>";
      </script>
 
 	<popupset >
@@ -183,7 +184,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<label value="Auteur du diagnostic :" class="menubartext"/>
 			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
 			<button id="btnSync" label="Synchroniser" onclick="Synchroniser()"/>
-		
+			<button id="btnSync2" label="SynchroniserTest" onclick="Synchroniser2()"/>
 		</hbox>	
 		
 		<hbox id="nav-toolbar" >

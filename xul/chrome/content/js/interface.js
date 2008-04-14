@@ -91,6 +91,16 @@ function Synchroniser(){
 	
 }
 
+function Synchroniser2() {
+	try {
+		var doc = document.getElementById("synctreeRub");
+		var url = urlExeAjax2+"?f=Synchronise2";
+		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
+		AppendResult(url2,doc);
+		
+	} catch(ex2){alert("Synchronise2::"+ex2+" " +"url="+url);;}
+}
+
 function AddNewGrille(type){
   try {
 	var verif = true;
