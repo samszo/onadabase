@@ -609,6 +609,23 @@ class Granulat
 		return 'GetLogo<br/>';
 	}
 
+	public function GetMotClef() {
+		//récupère lid du granulat
+		$sql = "SELECT id_mot, id_rubrique
+			FROM `spip_mots_rubriques`
+			WHERE id_rubrique =".$this->id;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+				
+		$valeur="";
+		while($r = $DB->fetch_assoc($req)) {
+			$valeur = $r['id_mot'];
+		}
+		
+		return $valeur;
+	}
 
 }
 

@@ -96,7 +96,8 @@ function Synchroniser2() {
 		var doc = document.getElementById("synctreeRub");
 		var url = urlExeAjax2+"?f=Synchronise2";
 		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
-		AppendResult(url2,doc);
+		var url3 = urlExeAjax+"?f=Synchronise2";
+		AppendResult(url3,doc);
 		
 	} catch(ex2){alert("Synchronise2::"+ex2+" " +"url="+url);;}
 }

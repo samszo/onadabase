@@ -97,8 +97,8 @@ Class Synchro{
 		global $objSite;
 		//global $objSiteSync; //Mundi
 		
-    	if($siteDst==-1)
-			$siteDst=$objSite;
+    	/*if($siteDst==-1)
+			$siteDst=$objSite;*/
     	
 		//récupère les rubriques de l'auteur
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesAuteur']";
@@ -116,8 +116,48 @@ Class Synchro{
 		while ($row =  $db->fetch_assoc($rows)) {
 				echo $row['id_rubrique'];
 				
-				$g = new Granulat($row['id_rubrique'],$siteDst);
+				/*$g = new Granulat($row['id_rubrique'],$siteDst);
 				echo $g->titre;
+				echo " ".$g->GetMotClef()." ";*/
+				
+				// Site local
+				$gSrc = new Granulat($row['id_rubrique'],$objSite);
+				
+				// Création Xml		
+				$dom = new DomDocument("1.0");
+				
+				$nouveauDocument = $dom->createElement("document");
+				$dom->appendChild($nouveauDocument);
+				$document = $dom->firstChild;
+				
+				$nouvelleRubrique = $dom->createElement("rubrique");
+				$nouveauMotClef = $dom->createElement("motclef");
+								
+				$nomRubrique = $dom->createTextNode($gSrc->titre);
+				$nouvelleRubrique->setAttribute("id", $gSrc->id);
+				
+				$idMotClef = $dom->createTextNode($gSrc->GetMotClef());
+				
+				$nouvelleRubrique->appendChild($nomRubrique);
+				$nouveauMotClef->appendChild($idMotClef);
+				
+				$document->appendChild($nouvelleRubrique);
+				
+				$Rub = $document->lastChild;	
+				$Rub->appendChild($nouveauMotClef);
+				
+				$document->appendChild($Rub);
+				
+				$arrliste = $gSrc->GetListeEnfants();
+				for ($i = 0; $i < sizeof($arrliste); $i++){
+					$this->GetChildren($arrliste[$i]['id'], $dom);
+				}
+				
+			    $url = PathRoot."/param/synchro.xml";
+				//$url = "C:\wamp\www\onadabase\param\synchro.xml";			
+				if ($trace) echo $dom->saveXML();
+				$dom->save($url);
+				
 				/*
 				 * Récupère le titre de la rubrique
 				 */
@@ -148,6 +188,49 @@ Class Synchro{
 				$newId = mysql_insert_id();
 				$DB->close();*/
 		}
+	}
+	
+	public function GetChildren($idRub, $dom) {
+		
+		global $objSite;
+		
+		$gSrc = new Granulat($idRub,$objSite);
+		//echo " ".$gSrc->GetMotClef()." ";
+		
+		$nouvelleRubrique = $dom->createElement("rubrique");
+		$nouveauMotClef = $dom->createElement("motclef");
+		
+		$nomRubrique = $dom->createTextNode($gSrc->titre);
+		$nouvelleRubrique->setAttribute("id", $gSrc->id);
+		
+		$idMotClef = $dom->createTextNode($gSrc->GetMotClef());
+		
+		$nouvelleRubrique->appendChild($nomRubrique);
+		$nouveauMotClef->appendChild($idMotClef);
+					
+		$document = $dom->firstChild;
+		$document->appendChild($nouvelleRubrique);
+
+		//echo $dom->saveXML();
+		//$listeRubrique = $dom->getElementsByTagName('rubrique');
+		//$Rub = $listeRubrique->item($index);
+		$Rub = $document->lastChild;
+		$Rub->appendChild($nouveauMotClef);
+
+		//$document = $dom->firstChild;
+		$document->appendChild($Rub);
+		
+		$arrliste = $gSrc->GetListeEnfants();
+		for ($i = 0; $i < sizeof($arrliste); $i++) {
+			//echo " GG ".$arrliste[$i]['id'];
+			$this->GetChildren($arrliste[$i]['id'], $dom);
+		}
+	}
+	
+	public function GetXmlSrc() {
+		
+		$url = PathRoot."/param/synchro.xml";
+		
 	}
 			
 }
