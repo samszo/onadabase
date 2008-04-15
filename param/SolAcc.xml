@@ -845,11 +845,11 @@ INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND f
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
 		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="675" />
 		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="676" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="677" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="679" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="674" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="680" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_7" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="678" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="679" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="677" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_7" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="674" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_8" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="678" />
+		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_9" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="680" />
 			
 		<!-- Objets niveau intérieur -->	
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
