@@ -779,7 +779,7 @@ INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form =
 INNER JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee AND fdc1.champ = 'ligne_1'
 INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee AND fdc2.champ = 'texte_1'
 INNER JOIN spip_forms_donnees_champs fdc3 ON fdc3.id_donnee = fd.id_donnee AND fdc3.champ = 'mot_1'
-INNER JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fdc4.champ = 'multiple_2'
+LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fdc4.champ = 'multiple_2'
 				</from>
 				<where> WHERE a.id_rubrique =-idRubSrc- AND a.statut = 'publie'</where>
 			</Query>
