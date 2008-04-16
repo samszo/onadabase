@@ -212,10 +212,24 @@ treechildren::-moz-tree-row
 	color:#FFFFFF;
 }
 
+textbox
+{
+	font-size: 16px ;
+}
+
+menulist
+{
+	font-size: 16px ;
+}
+
+radio
+{
+	font-size: 16px ;
+}
 
 
-
-
-
-
+label.labelForm
+{
+	font-size: 16px ;
+}
 
