@@ -691,7 +691,7 @@ class Grille{
 			switch ($idGrille) {
 				case $this->site->infos["GRILLE_REG_LEG"]:
 					//construstion de la règle législative
-					$labels .= '<label control="first" multiligne="true" value="'.$r['titre'].'"/>';
+					$labels .= '<label class="labelForm" control="first" multiligne="true" value="'.$r['titre'].'"/>';
 					$controls .= $this->GetXulRegLeg($idDoc, $r);
 					break;					
 				default:
@@ -704,7 +704,7 @@ class Grille{
 						//conserve la valeur
 						$MultiSelect .= "'".$r['valeur']."',";
 					}else{
-						$labels .= '<label control="first" multiligne="true" value="'.$r['titre'].'"/>';
+						$labels .= '<label class="labelForm" control="first" multiligne="true" value="'.$r['titre'].'"/>';
 						if(substr($r['champ'], 0, 8)=='multiple'){
 							if($this->trace)
 								echo "GetXulForm début construction du multiple<br/>";
