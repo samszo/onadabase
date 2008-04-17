@@ -201,7 +201,93 @@ class Granulat
 		return $artId; 
 
 	}
+	
+	function GetArticleInfo($extraSql=""){
+		//récupère pour la rubrique l'article ayant les condition de extra
+		$sql = "SELECT a.id_article ,a.titre, a.date, a.maj
+			FROM spip_rubriques r
+				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique  
+			WHERE r.id_rubrique = ".$this->id." ".$extraSql;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			$arrliste2[$i] = array("id"=>$data['id_article'], "titre"=>$data['titre'], "date"=>$data['date'], "maj"=>$data['maj']);
+			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
+			$i ++;
+		}
+
+		return $arrliste2; 
+			
+	}
   
+	function GetFormId($idArticle) {
+		
+		$sql = "SELECT fa.id_form ,fa.id_article
+			FROM spip_forms_articles fa
+				
+			WHERE fa.id_article = ".$idArticle;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+			
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			
+			$idForm = $data['id_form'];
+			//echo ' IDDD '.$idForm;		
+			$i ++;
+		}
+		
+		return $idForm; 	
+	}
+	
+	function GetIdDonneesTable($idGrille, $idArticle) {
+		
+		$sql = "SELECT fd.id_donnee
+				FROM spip_forms_donnees_articles da 
+				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = ".$idGrille."
+				WHERE da.id_article = ".$idArticle;
+			
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			$arrliste[$i] = array("id"=>$data['id_donnee']);
+			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
+			$i ++;
+		}
+
+		return $arrliste;		
+	}
+	
+	function GetInfosDonnee($idDonnee) {
+		
+		$sql = "SELECT id_donnee, champ, valeur, maj
+				FROM `spip_forms_donnees_champs`
+				WHERE `id_donnee` =".$idDonnee;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			$arrliste[$i] = array("id"=>$data['id_donnee'], "champ"=>$data['champ'], "valeur"=>$data['valeur'], "maj"=>$data['maj']);
+			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
+			$i ++;
+		}
+
+		return $arrliste;	
+		
+	}
+	
   function GetIdDonnee($formId, $artId=-1, $doublon=false){
 
 		if($artId==-1)

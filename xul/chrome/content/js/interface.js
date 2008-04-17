@@ -64,7 +64,7 @@ function GetXmlUrlToDoc(url){
 
 }
 
-function Synchroniser(){
+/*function Synchroniser(){
 
   try {
   	var btn = document.getElementById("btnSync");
@@ -89,17 +89,28 @@ function Synchroniser(){
 	
   } catch(ex2){alert("Synchroniser::"+ex2+" "+type);;}
 	
-}
+}*/
 
-function Synchroniser2() {
+function SynchroniserExport() {
 	try {
 		var doc = document.getElementById("synctreeRub");
-		var url = urlExeAjax2+"?f=Synchronise2";
-		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
-		var url3 = urlExeAjax+"?f=Synchronise2";
+		var type = "export";
+		var url3 = urlExeAjax+"?f=Synchronise&type="+type;
 		AppendResult(url3,doc);
 		
-	} catch(ex2){alert("Synchronise2::"+ex2+" " +"url="+url);;}
+	} catch(ex2){alert("SynchroniserExport::"+ex2+" " +"url="+url3);;}
+}
+
+function SynchroniserImport() {
+	try {
+		var doc = document.getElementById("synctreeRub");
+		var type = "import";
+		var url = urlExeAjax2+"?f=Synchronise&type="+type;
+		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
+
+		AppendResult(url2,doc);
+		
+	} catch(ex2){alert("SynchroniserImport::"+ex2+" " +"url="+url2);;}
 }
 
 function AddNewGrille(type){
@@ -366,7 +377,7 @@ function ChargeFilArianeFromAjax(idSrc, idDst, titre,typeSrc,typeDst)
 {
   try {
 	//alert("ChargeFilArianeFromAjax IN "+idSrc+", "+idDst+"\n");
-
+	
 	var doc = document.getElementById(idDst);
 
 	var url = urlExeAjax+"?f=GetFilAriane&id="+idSrc+"&titre="+titre+"&typeSrc="+typeSrc+"&typeDst="+typeDst;

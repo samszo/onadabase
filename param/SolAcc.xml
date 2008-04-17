@@ -20,7 +20,7 @@
 				<from> FROM spip_rubriques r
 					INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot IN (54,56,57,58,59,60,138,139,146)
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="1942"> WHERE id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Terre');"/>
 			</Query>
 			
