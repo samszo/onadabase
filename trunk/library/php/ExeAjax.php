@@ -20,12 +20,12 @@
 		$id = -1;
 
 	switch ($fonction) {
-		case 'Synchroniser':
+		/*case 'Synchroniser':
 			//pour tester la synchronisation en local
 			// le site = $objSiteSync
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
-			break;
+			break;*/
 		case 'GetFilAriane':
 			$resultat = GetFilAriane(array($_GET['titre'],$_GET['typeDrc'],$_GET['typeDst']),$id);
 			break;
@@ -60,26 +60,27 @@
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
 			$resultat = NewRubrique($idRubSrc, $idRubDst);
 			break;
-		case 'Synchronise2':
+		case 'Synchronise':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
-			$resultat = Synchronise2($siteSrc, $siteDst=-1, $idAuteur=6);
+			$resultat = Synchronise($siteSrc, $siteDst=-1, $idAuteur=6, $_GET['type']);
 			break;
 	}
 
 	echo  utf8_encode($resultat);	
 
-	function Synchroniser($objSite){
+	/*function Synchroniser($objSite){
 		return GetTree("terre",-1,-1,$objSite);
 	
-}
+}*/
 	
-	function  Synchronise2($siteSrc, $siteDst=-1, $idAuteur=6){
+	function  Synchronise($siteSrc, $siteDst=-1, $idAuteur=6, $type){
     	
 		global $objSite;
 		global $objSiteSync; //Mundi
-		
+		    	
+		echo $type;
     	$synchro = new Synchro($objSiteSync, $objSite);
-    	$synchro->synchronise($objSiteSync, $objSite);
+    	$synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
     }
 
 	function GetFilAriane($jsParam, $id){

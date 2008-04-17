@@ -185,13 +185,13 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<label id="idAuteur" value="<?php echo $idAuteur; ?>" class="menubartext"/>
 			<label value="Auteur du diagnostic :" class="menubartext"/>
 			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
-			<button id="btnSync" label="Synchroniser" onclick="Synchroniser()"/>
-			<button id="btnSync2" label="SynchroniserTest" onclick="Synchroniser2()"/>
+			<button id="btnSync" label="Synchroniser Import" onclick="SynchroniserImport()"/>
+			<button id="btnSync2" label="Synchroniser Export" onclick="SynchroniserExport()"/>
 		</hbox>	
 		
 		<hbox id="nav-toolbar" >
 			<label id="tbbAccueil" value="Accueil" class="text-link" />
-			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(9,'Territoires','terre','terre');"/>
+			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(1942,'Territoires','terre','terre');"/>
 		</hbox>
 		<hbox id="tbFilAriane" />
 		
