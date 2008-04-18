@@ -57,8 +57,7 @@
 			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type'], $_GET['login']);
 			break;
 		case 'NewRubrique':
-			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
-			$resultat = NewRubrique($idRubSrc, $idRubDst);
+			$resultat = NewRubrique($_GET['$idRubSrc'], $_GET['$idRubDst']);
 			break;
 		case 'Synchronise':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
