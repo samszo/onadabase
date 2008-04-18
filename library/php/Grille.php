@@ -72,18 +72,20 @@ class Grille{
 								$this->AddQuestionReponse($this->site->infos["RUB_PORTE_FACE2"],$id2);
 							}
 						}else{
-							$idArt = $gra->SetNewArticle($gTrs->titre." ".date('j/m/y - H:i:s'));
-							if($this->trace)
-								echo "Grille:GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
-							//ajoute une nouvelle donnee
-							$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
 							//gestion pour le signalement problème
 							if($wf['trsId']==$this->site->infos["GRILLE_SIG_PROB"]){
 								$ref = $this->GetValeur($donId,"ligne_1");
+								$idArt = $gra->SetNewArticle($ref." ".date('j/m/y - H:i:s'));
+								//ajoute une nouvelle donnee
+								$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
 								if($this->trace)
 									echo "Grille:GereWorkflow://gestion pour le signalement problème ".$ref."<br/>";
 								$row=array("champ"=>"ligne_3","valeur"=>$ref);
 								$this->SetChamp($row,$idDon);
+							}else{
+								$idArt = $gra->SetNewArticle($gTrs->titre." ".date('j/m/y - H:i:s'));
+								//ajoute une nouvelle donnee
+								$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);	
 							}
 							//récupère le formulaire xul
 							$xul = $this->GetXulForm($idDon,$wf['trsId']);
