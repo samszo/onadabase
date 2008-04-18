@@ -204,10 +204,11 @@ class Granulat
 	
 	function GetArticleInfo($extraSql=""){
 		//récupère pour la rubrique l'article ayant les condition de extra
-		$sql = "SELECT a.id_article ,a.titre, a.date, a.maj
+		$sql = "SELECT a.id_article ,a.titre, a.date, a.maj, a.statut
 			FROM spip_rubriques r
-				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique  
-			WHERE r.id_rubrique = ".$this->id." ".$extraSql;
+				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique	
+			WHERE r.id_rubrique = ".$this->id." ".$extraSql."
+				";
 		//echo $sql."<br/>";
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
 		$req = $DB->query($sql);

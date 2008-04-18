@@ -131,78 +131,87 @@ Class Synchro{
 				$document = $dom->firstChild;
 				
 				$nouvelleRubrique = $dom->createElement("rubrique");
-				$nouveauMotClef = $dom->createElement("motclef");
-				$nouvelArticle = $dom->createElement("article");
-				$nouvellesDonnees = $dom->createElement("donnees");
-				$nouvelleGrille = $dom->createElement("grille");
-				$nouveauxChamps = $dom->createElement("champs");		
+				$nouveauMotClef = $dom->createElement("motclef");				
 				
-				
-				
-				$arrlisteArticle = $gSrc->GetArticleInfo();
-				//echo ' id arr '.$arrlisteArticle[0]['id'];
-				//echo ' titre arr '.$arrlisteArticle[0]['titre'];
-				$nouvelArticle->setAttribute("id", $arrlisteArticle[0]['id']);
-				$nomArticle = $dom->createTextNode($arrlisteArticle[0]['titre']);
-				
-				$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[0]['id']);
-				$idGrille = $dom->createTextNode($idNumeroGrille);			
-
 				$nomRubrique = $dom->createTextNode($gSrc->titre);
 				$nouvelleRubrique->setAttribute("id", $gSrc->id);
 				$nouvelleRubrique->setAttribute("IdParent", $gSrc->IdParent);
-				
+					
 				$idMotClef = $dom->createTextNode($gSrc->GetMotClef());
-				
+					
 				$nouvelleRubrique->appendChild($nomRubrique);
 				$nouveauMotClef->appendChild($idMotClef);
-				$nouvelArticle->appendChild($nomArticle);
-				$nouvelleGrille->appendChild($idGrille);
 				
-				$nouvellesDonnees->appendChild($nouvelleGrille);
-				
-				$arrlisteGrilles = $gSrc->GetIdDonneesTable($idNumeroGrille, $arrlisteArticle[0]['id']);
-				
-				//echo '$arrlisteGrilles->lenght '.$arrlisteGrilles->lenght." ";
-				
-				/*for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
-					echo 'Id donnee '.$arrlisteGrilles[$i]['id'];
-				}*/
-				
-				$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[0]['id']);
-				for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-					$nouveauChamp = $dom->createElement("champ");
-					$nomChamp = $dom->createTextNode($arrlisteDonnee[$j]['champ']);
-					$nouveauChamp->appendChild($nomChamp);	
-					$nouveauxChamps->appendChild($nouveauChamp);
-					$nouvellesDonnees->appendChild($nouveauxChamps);					
-				}
+				$document->appendChild($nouvelleRubrique);
 					
-				for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
-					$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[$i]['id']);
-					$nouvelleDonnee = $dom->createElement("donnee");
-					/*for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-						echo 'Id champ '.$arrlisteDonnee[$j]['champ'];
+					$Rub = $document->lastChild;	
+					$Rub->appendChild($nouveauMotClef);
+					
+				
+				$arrlisteArticle = $gSrc->GetArticleInfo("AND a.statut='prepa'");
+				//echo ' id arr '.$arrlisteArticle[0]['id'];
+				//echo ' titre arr '.$arrlisteArticle[0]['titre'];
+				
+				for ($k=0; $k<sizeof($arrlisteArticle); $k++) {
+					
+					$nouvellesDonnees = $dom->createElement("donnees");
+					$nouvelleGrille = $dom->createElement("grille");
+					$nouveauxChamps = $dom->createElement("champs");
+					$nouvelArticle = $dom->createElement("article");
+					$nouvelArticle->setAttribute("id", $arrlisteArticle[$k]['id']);
+					$nomArticle = $dom->createTextNode($arrlisteArticle[$k]['titre']);
+					
+					$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[$k]['id']);
+					$idGrille = $dom->createTextNode($idNumeroGrille);			
+	
+
+					$nouvelArticle->appendChild($nomArticle);
+					$nouvelleGrille->appendChild($idGrille);
+					
+					$nouvellesDonnees->appendChild($nouvelleGrille);
+					
+					$arrlisteGrilles = $gSrc->GetIdDonneesTable($idNumeroGrille, $arrlisteArticle[$k]['id']);
+					
+					//echo '$arrlisteGrilles->lenght '.$arrlisteGrilles->lenght." ";
+					
+					/*for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
+						echo 'Id donnee '.$arrlisteGrilles[$i]['id'];
 					}*/
 					
+					$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[0]['id']);
 					for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-						$nouvelleValeur = $dom->createElement("valeur");
-						$nomValeur = $dom->createTextNode($arrlisteDonnee[$j]['valeur']);
-						$nouvelleValeur->appendChild($nomValeur);	
-						$nouvelleDonnee->appendChild($nouvelleValeur);
+						$nouveauChamp = $dom->createElement("champ");
+						$nomChamp = $dom->createTextNode($arrlisteDonnee[$j]['champ']);
+						$nouveauChamp->appendChild($nomChamp);	
+						$nouveauxChamps->appendChild($nouveauChamp);
+						$nouvellesDonnees->appendChild($nouveauxChamps);					
 					}
-					$nouvellesDonnees->appendChild($nouvelleDonnee);					
+						
+					for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
+						$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[$i]['id']);
+						$nouvelleDonnee = $dom->createElement("donnee");
+						/*for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
+							echo 'Id champ '.$arrlisteDonnee[$j]['champ'];
+						}*/
+						
+						for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
+							$nouvelleValeur = $dom->createElement("valeur");
+							$nomValeur = $dom->createTextNode($arrlisteDonnee[$j]['valeur']);
+							$nouvelleValeur->appendChild($nomValeur);	
+							$nouvelleDonnee->appendChild($nouvelleValeur);
+						}
+						$nouvellesDonnees->appendChild($nouvelleDonnee);					
+					}
+								
+					
+					
+					$nouvelArticle->appendChild($nouvellesDonnees);
+					
+					$Rub->appendChild($nouvelArticle);
+					
 				}
-							
-				$document->appendChild($nouvelleRubrique);
 				
-				$Rub = $document->lastChild;	
-				$Rub->appendChild($nouveauMotClef);
-				
-				
-				$nouvelArticle->appendChild($nouvellesDonnees);
-				
-				$Rub->appendChild($nouvelArticle);
+	
 				
 				$document->appendChild($Rub);
 				
@@ -265,72 +274,81 @@ Class Synchro{
 		
 		$nouvelleRubrique = $dom->createElement("rubrique");
 		$nouveauMotClef = $dom->createElement("motclef");
-		$nouvelArticle = $dom->createElement("article");
-		$nouvellesDonnees = $dom->createElement("donnees");
-		$nouvelleGrille = $dom->createElement("grille");
-		$nouveauxChamps = $dom->createElement("champs");
-		
-		$arrlisteArticle = $gSrc->GetArticleInfo();
-		$nouvelArticle->setAttribute("id", $arrlisteArticle[0]['id']);
-		$nomArticle = $dom->createTextNode($arrlisteArticle[0]['titre']);
-		
-		//echo ' ID FORM '.$gSrc->GetFormId($arrlisteArticle[0]['id']); 
-		$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[0]['id']);
-		$idGrille = $dom->createTextNode($idNumeroGrille);
-		
+
 		$nomRubrique = $dom->createTextNode($gSrc->titre);
 		$nouvelleRubrique->setAttribute("id", $gSrc->id);
 		$nouvelleRubrique->setAttribute("IdParent", $gSrc->IdParent);
-		
+			
 		$idMotClef = $dom->createTextNode($gSrc->GetMotClef());
-		
+			
 		$nouvelleRubrique->appendChild($nomRubrique);
 		$nouveauMotClef->appendChild($idMotClef);
-		$nouvelleGrille->appendChild($idGrille);
-		$nouvelArticle->appendChild($nomArticle);
-
-		$nouvellesDonnees->appendChild($nouvelleGrille);
-		$arrlisteGrilles = $gSrc->GetIdDonneesTable($idNumeroGrille, $arrlisteArticle[0]['id']);
-		
-		$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[0]['id']);
-		for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-			$nouveauChamp = $dom->createElement("champ");
-			$nomChamp = $dom->createTextNode($arrlisteDonnee[$j]['champ']);
-			$nouveauChamp->appendChild($nomChamp);	
-			$nouveauxChamps->appendChild($nouveauChamp);
-			$nouvellesDonnees->appendChild($nouveauxChamps);					
-		}
-					
-		for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
-			$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[$i]['id']);
-			$nouvelleDonnee = $dom->createElement("donnee");
-					/*for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-						echo 'Id champ '.$arrlisteDonnee[$j]['champ'];
-					}*/
-				
-			for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-				$nouvelleValeur = $dom->createElement("valeur");
-				$nomValeur = $dom->createTextNode($arrlisteDonnee[$j]['valeur']);
-				$nouvelleValeur->appendChild($nomValeur);	
-				$nouvelleDonnee->appendChild($nouvelleValeur);	
-									
-			}
-			$nouvellesDonnees->appendChild($nouvelleDonnee);		
-		}		
 		
 		$document = $dom->firstChild;
 		$document->appendChild($nouvelleRubrique);
-
-		//echo $dom->saveXML();
-		//$listeRubrique = $dom->getElementsByTagName('rubrique');
-		//$Rub = $listeRubrique->item($index);
+	
+			//echo $dom->saveXML();
+			//$listeRubrique = $dom->getElementsByTagName('rubrique');
+			//$Rub = $listeRubrique->item($index);
 		$Rub = $document->lastChild;
-		$Rub->appendChild($nouveauMotClef);
+		$Rub->appendChild($nouveauMotClef);		
 		
+		$arrlisteArticle = $gSrc->GetArticleInfo("AND a.statut='prepa'");
 		
-		$nouvelArticle->appendChild($nouvellesDonnees);
+		for ($k=0; $k<sizeof($arrlisteArticle); $k++) {
 		
-		$Rub->appendChild($nouvelArticle);
+			$nouvellesDonnees = $dom->createElement("donnees");
+			$nouvelleGrille = $dom->createElement("grille");
+			$nouveauxChamps = $dom->createElement("champs");
+			$nouvelArticle = $dom->createElement("article");
+			$nouvelArticle->setAttribute("id", $arrlisteArticle[$k]['id']);
+			$nomArticle = $dom->createTextNode($arrlisteArticle[$k]['titre']);
+			
+			//echo ' ID FORM '.$gSrc->GetFormId($arrlisteArticle[0]['id']); 
+			$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[$k]['id']);
+			$idGrille = $dom->createTextNode($idNumeroGrille);
+			
+
+			$nouvelleGrille->appendChild($idGrille);
+			$nouvelArticle->appendChild($nomArticle);
+	
+			$nouvellesDonnees->appendChild($nouvelleGrille);
+			$arrlisteGrilles = $gSrc->GetIdDonneesTable($idNumeroGrille, $arrlisteArticle[$k]['id']);
+			
+			$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[0]['id']);
+			for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
+				$nouveauChamp = $dom->createElement("champ");
+				$nomChamp = $dom->createTextNode($arrlisteDonnee[$j]['champ']);
+				$nouveauChamp->appendChild($nomChamp);	
+				$nouveauxChamps->appendChild($nouveauChamp);
+				$nouvellesDonnees->appendChild($nouveauxChamps);					
+			}
+						
+			for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
+				$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[$i]['id']);
+				$nouvelleDonnee = $dom->createElement("donnee");
+						/*for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
+							echo 'Id champ '.$arrlisteDonnee[$j]['champ'];
+						}*/
+					
+				for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
+					$nouvelleValeur = $dom->createElement("valeur");
+					$nomValeur = $dom->createTextNode($arrlisteDonnee[$j]['valeur']);
+					$nouvelleValeur->appendChild($nomValeur);	
+					$nouvelleDonnee->appendChild($nouvelleValeur);	
+										
+				}
+				$nouvellesDonnees->appendChild($nouvelleDonnee);		
+			}		
+			
+
+			
+			
+			$nouvelArticle->appendChild($nouvellesDonnees);
+			
+			$Rub->appendChild($nouvelArticle);
+		
+		}
 		
 		//$document = $dom->firstChild;
 		$document->appendChild($Rub);
