@@ -10,8 +10,8 @@
 	// Include the class files.
 	require_once(TT_CLASS_BASE."AllClass.php");
 
-  define ("DEFSITE", "local2");
-  define ("SYNCSITE", "mundi");
+  define ("DEFSITE", "mundi");
+  define ("SYNCSITE", "local1");
   
   $DB_OPTIONS = array (
 		'ERROR_DISPLAY' => true
@@ -22,7 +22,8 @@
   define ("jsPathRoot",PathRoot."/library/js/");
 
   define ("XmlParam",PathRoot."/param/SolAcc.xml");
-
+  //define ("XmlParam","http://www.naoss.fr:81/mundigo/param/SolAcc.xml");
+  
   define('EOL', "\r\n");
 
 
@@ -37,6 +38,11 @@ $SiteLocal1 = array(
 	"GRILLE_GEO" => 1,
 	"GRILLE_REG_LEG" => 52,
 	"GRILLE_REP_CON" => 59,
+	"GRILLE_SIG_PROB" => 60,
+	"RUB_PORTE1" => 50,
+	"RUB_PORTE2" => 74,
+	"RUB_PORTE_FACE1" => 1342,
+	"RUB_PORTE_FACE2" => 1341,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
@@ -57,6 +63,11 @@ $SiteLocal2 = array(
 	"GRILLE_GEO" => 1,
 	"GRILLE_REG_LEG" => 52,
 	"GRILLE_REP_CON" => 59,
+	"GRILLE_SIG_PROB" => 60,
+	"RUB_PORTE1" => 50,
+	"RUB_PORTE2" => 74,
+	"RUB_PORTE_FACE1" => 1342,
+	"RUB_PORTE_FACE2" => 1341,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
@@ -78,12 +89,20 @@ $SiteNaos = array(
 	"GRILLE_GEO" => 1,
 	"GRILLE_REG_LEG" => 52,
 	"GRILLE_REP_CON" => 59,
+	"GRILLE_SIG_PROB" => 60,
+	"RUB_PORTE1" => 50,
+	"RUB_PORTE2" => 74,
+	"RUB_PORTE_FACE1" => 1342,
+	"RUB_PORTE_FACE2" => 1341,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"gmKey" => gmKey
-	); 
+	"gmKey" => gmKey,
+	"lienAdminSpip" => "http://www.naoss.fr:81/mundigo/spip/ecrire",
+	"urlExeAjax" => "http://www.naoss.fr:81/mundigo/library/php/ExeAjax.php",
+	"jsXulParam" => "http://www.naoss.fr:81/mundigo/xul/chrome/content/param/onadabase.xml"	
+); 
 
 	$SiteMundi = array(
 	"SQL_LOGIN" => "mundilogcai", 
@@ -96,6 +115,11 @@ $SiteNaos = array(
 	"GRILLE_GEO" => 1,
 	"GRILLE_REG_LEG" => 52,
 	"GRILLE_REP_CON" => 59,
+	"GRILLE_SIG_PROB" => 60,
+	"RUB_PORTE1" => 50,
+	"RUB_PORTE2" => 74,
+	"RUB_PORTE_FACE1" => 1342,
+	"RUB_PORTE_FACE2" => 1341,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,

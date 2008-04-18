@@ -58,23 +58,33 @@ class Grille{
 					if($row['valeur']==$wf['srcCheckVal']){						
 						//récupération du granulat
 						$gra = new Granulat($id,$this->site);
-						$gTrs = new Granulat($wf['trsId'],$this->site);
 						
 						if($wf['trsObjet']=="controles" ){
+							$gTrs = new Granulat($wf['trsId'],$this->site);
 							$id = $gra->SetNewEnfant($gTrs->titre." ".date('j/m/y - H:i:s'));
 							$this->AddQuestionReponse($wf['trsId'],$id);
-							if($wf['trsId']=="50" || $wf['trsId']=="74" ){ // Porte
+							if($wf['trsId']==$this->site->infos["RUB_PORTE1"] 
+								|| $wf['trsId']==$this->site->infos["RUB_PORTE1"] )
+									{ // Porte
 								$id1 = $gra->SetNewEnfant("Face 1 ".date('j/m/y - H:i:s'));
-								$this->AddQuestionReponse(1342,$id1);
+								$this->AddQuestionReponse($this->site->infos["RUB_PORTE_FACE1"],$id1);
 								$id2 = $gra->SetNewEnfant("Face 2 ".date('j/m/y - H:i:s'));
-								$this->AddQuestionReponse(1341,$id2);
+								$this->AddQuestionReponse($this->site->infos["RUB_PORTE_FACE2"],$id2);
 							}
 						}else{
 							$idArt = $gra->SetNewArticle($gTrs->titre." ".date('j/m/y - H:i:s'));
 							if($this->trace)
-								echo ":GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
+								echo "Grille:GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
 							//ajoute une nouvelle donnee
 							$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
+							//gestion pour le signalement problème
+							if($wf['trsId']==$this->site->infos["GRILLE_SIG_PROB"]){
+								$ref = $this->GetValeur($donId,"ligne_1");
+								if($this->trace)
+									echo "Grille:GereWorkflow://gestion pour le signalement problème ".$ref."<br/>";
+								$row=array("champ"=>"ligne_3","valeur"=>$ref);
+								$this->SetChamp($row,$idDon);
+							}
 							//récupère le formulaire xul
 							$xul = $this->GetXulForm($idDon,$wf['trsId']);
 						}
