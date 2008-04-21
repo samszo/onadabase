@@ -57,7 +57,7 @@
 			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type'], $_GET['login']);
 			break;
 		case 'NewRubrique':
-			$resultat = NewRubrique($_GET['$idRubSrc'], $_GET['$idRubDst']);
+			$resultat = NewRubrique($_GET['idRubSrc'], $_GET['idRubDst']);
 			break;
 		case 'Synchronise':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
@@ -398,12 +398,15 @@
 	
 	function NewRubrique($idRubSrc, $idRubDst) {
 		global $objSite;
-								
+
+		
+		echo '$idRubSrc '.$idRubSrc;
+		echo '$idRubDst '.$idRubDst;
 		// pour récupérer le parent
 		$g = new Granulat($idRubDst,$objSite);
 		
 		// pour créer un nouvel enfant
-		$idGen = $g->SetNewEnfant($motClef." Sans Nom ".date('j/m/y - H:i:s'));
+		$idGen = $g->SetNewEnfant("Territoire Sans Nom ".date('j/m/y - H:i:s'));
 		
 		$grille = new Grille($objSite);
 		
