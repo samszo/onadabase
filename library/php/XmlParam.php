@@ -45,6 +45,13 @@ Class XmlParam{
 		//$str = str_replace("'","''",$str);
 	    return preg_replace(array("'&'", "'\"'", "'<'", "'>'"), array('&#38;', '&#34;','&lt;','&gt;'), $str);
 	}
-	
+
+	public function getAttribute($element, $name){
+        foreach($element->attributes() as $key=>$val){
+            if($key == $name){
+                return (string)$val;
+            }// end if
+        }// end foreach
+    }// end function getAttribute
 }
 ?>
