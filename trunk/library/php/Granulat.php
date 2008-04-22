@@ -13,17 +13,19 @@ class Granulat
   public $arrDoc;
   public $TitreParent;
   public $IdParent;
+  public $trace;
   
   private $site;
   
 
-  function __tostring() {
+  	function __tostring() {
     return "Cette classe permet de définir et manipuler un granulat : .<br/>";
     }
 
-  function __construct($id, $site, $complet=true) {
+  	function __construct($id, $site, $complet=true) {
 
     //echo "$id, $site login=".$site["SQL_LOGIN"]."<br/>";
+    $this->trace = true;
 	$this->id = $id;
     $this->site = $site;
 	if($complet){
@@ -32,24 +34,161 @@ class Granulat
 	}
   }
 
-  function SetAuteur($newId,$objet){
-
-  	//pas de création d'auteur pour les rubriques
-  	if($objet=="rubrique")
-  		return;
-  		
-  	if($this->site->scope["login"]!=-1){
-			//association de l'article à l'auteur
-			$sql = "INSERT INTO spip_auteurs_".$objet."s (id_".$objet.",id_auteur)
-				SELECT ".$newId.", id_auteur FROM spip_auteurs where login='".$this->site->scope["login"]."'";					
-			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
-			$req = $DB->query($sql);
-			$DB->close();
-	}
-  	
-  }
+  	public function getAttribute($name){
+        foreach($this->xml->attributes() as $key=>$val){
+            if($key == $name){
+                return (string)$val;
+            }// end if
+        }// end foreach
+    }// end function getAttribute
   
-  function SetNewEnfant($titre,$id=-1){
+  	function AddXmlFile($xmlSrc) {
+  		
+  		if($this->trace)
+			echo "Granulat/AddXmlFile IN //récuparation de la définition des données ".$xmlSrc."<br/>";
+		$xml = new XmlParam($xmlSrc);		
+		
+		$Xpath = "/documents/rubrique";
+		
+		$nodePrincipal = $xml->GetElements($Xpath);
+		$idRub = $xml->getAttribute($nodePrincipal[0], 'id');
+		if($this->trace)
+			echo "Granulat/AddXmlFile/- récupération de l'identifiant de la rubrique ".$idRub."<br/>";
+			
+		$Xpath = $Xpath."/rubrique";
+		$rubriques = $xml->GetElements($Xpath);
+		
+		/*if($this->trace)
+			print_r($rubriques);*/
+		
+		$g = new Granulat($idRub, $this->site); 
+		if ($nodePrincipal->article != "") $g->SetNewArticle(utf8_decode($nodePrincipal->article));
+		
+		$i = 0;
+		foreach($rubriques as $rubrique)
+		{
+			/**/
+			//récuparation du granulat
+			
+			$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
+  			$g->SetMotClef($rubrique->motclef, $idEnfant);
+  			   			
+			$g->GetChildren($xml, $idEnfant, $rubriques[$i]->rubrique, $rubriques[$i]->article);
+			$i++;
+		}
+  	}
+  
+  	function GetChildren($xml, $idParent, $rubriques, $articles) {
+  		
+  		//$rubriques = $xml->GetElements($Xpath);
+  		/*if($this->trace)
+			print_r($rubriques);
+			print_r($articles);
+		* */
+  		$i = 0;
+  		$g = new Granulat($idParent, $this->site); 
+  		
+  		foreach($articles as $article) {
+  			$idArt = $g->SetNewArticle(utf8_decode($article));
+  			$donnees = $article->donnees;
+  			$idGrille = $donnees->grille;
+  			$idAuteur = $article->auteur;
+  			$champs = $donnees->champs;
+  			
+  			$g->AddAuteur($idArt, $idAuteur);
+  			
+  			
+  			if($this->trace)
+  					print_r($donnees->donnee);
+  					
+  			foreach($donnees->donnee as $donnee){
+  				$j=0;
+  				if($this->trace)
+  					print_r($donnee->valeur);
+
+  				$idDon = $g->GetIdDonnee($idGrille, $idArt, true);
+				if($this->trace)
+					echo "Granulat/AddXmlFile/- création de la donnee ".$idDon."<br/>";	
+  				
+				foreach($donnee->valeur as $valeur) {
+					if($valeur!='non'){
+						$valeur=utf8_decode($valeur);
+						$champ = $champs[0]->champ[$j];
+						if($this->trace)
+							echo "Granulat/AddXmlFile/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+						if(substr($champ,0,8)=="multiple"){
+							$valeur=$champ;
+						//attention il ne doit pas y avoir plus de 10 choix
+							$champ=substr($champ,0,-2);
+						}
+						if($this->trace) {
+							echo "Granulat/AddXmlFile/-- récupération du type de champ ".$champ."<br/>";
+							echo "Granulat/AddXmlFile/-- récupération de la valeur du champ ".$valeur."<br/>";
+						}
+						$row = array('champ'=>$champ, 'valeur'=>$valeur);
+						
+						$grille = new Grille($g->site);
+						if($this->trace)
+							echo "Granulat/AddXmlFile/--- création du champ <br/>";
+						$grille->SetChamp($row, $idDon, false);
+						
+					}
+					$j++;
+				}
+  			}	
+  		}
+  		
+  		foreach($rubriques as $rubrique) {
+  			$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
+  			$g->SetMotClef($rubrique->motclef, $idEnfant);
+  			$g->GetChildren($xml, $idEnfant, $rubriques[$i]->rubrique, $rubriques[$i]->article);
+  			$i++;
+  		}
+  		
+  		
+  	}
+  	
+  	function SetAuteur($newId,$objet){
+
+	  	//pas de création d'auteur pour les rubriques
+	  	if($objet=="rubrique")
+	  		return;
+	  		
+	  	if($this->site->scope["login"]!=-1){
+				//association de l'article à l'auteur
+				$sql = "INSERT INTO spip_auteurs_".$objet."s (id_".$objet.",id_auteur)
+					SELECT ".$newId.", id_auteur FROM spip_auteurs where login='".$this->site->scope["login"]."'";					
+				$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+				$req = $DB->query($sql);
+				$DB->close();
+		}
+  	
+  	}
+  
+  	function AddAuteur($idArt, $idAuteur) {
+  		$sql = "INSERT INTO spip_auteurs_articles (id_auteur, id_article) VALUES (".$idAuteur.", ".$idArt."	)"	;	
+ 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+  	}
+  	
+  	function GetAuteurArticle($idArt) {
+	  
+		//association de l'article à l'auteur
+		$sql = "SELECT id_auteur, id_article FROM spip_auteurs_articles a WHERE a.id_article=".$idArt;					
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if ($r = $DB->fetch_assoc($req)){
+			$idAuteur = $r['id_auteur']; 
+			echo ' AUTEUR '.$idAuteur;
+		}
+		
+		return $idAuteur;
+  	}
+  
+  	function SetNewEnfant($titre,$id=-1){
 
 	if($id==-1)
 		$id=$this->id;
@@ -67,7 +206,7 @@ class Granulat
   
   }
   
-  function SetNewArticle($titre,$id=-1){
+  	function SetNewArticle($titre,$id=-1){
 
 	if($id==-1)
 		$id=$this->id;
@@ -90,26 +229,26 @@ class Granulat
   
   }
 
-  function SetMotClef($id_mot,$id=-1){
+  	function SetMotClef($id_mot,$id=-1){
 
 	if($id==-1)
 		$id=$this->id;
 	
 	//ajoute un nouveau mot clef
-	$sql = "INSERT INTO spip_mots_rubriques
-		SET id_mot = ".$id_mot.", id_rubrique=".$id;
-	
-	$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
-	$req = $DB->query($sql);
-	$newId = mysql_insert_id();
-	$DB->close();
-	
+	if ($id_mot != ""){
+		$sql = "INSERT INTO spip_mots_rubriques
+				SET id_mot = ".$id_mot.", id_rubrique=".$id;
+			
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$newId = mysql_insert_id();
+		$DB->close();
+	} else $newId = -1;
 	return $newId;
   
   }
   
-  
-  function GetGeo($id=-1) {
+  	function GetGeo($id=-1) {
 		
 		if($id==-1)
 			$id = $this->id;
@@ -172,8 +311,7 @@ class Granulat
 
 		}
   
-  
-  function GetArticle($extraSql=""){
+	function GetArticle($extraSql=""){
 		//récupère pour la rubrique l'article ayant les condition de extra
 		$sql = "SELECT a.id_article
 			FROM spip_rubriques r
@@ -202,6 +340,9 @@ class Granulat
 
 	}
 	
+	/*
+	 * Retourne un tableau contenant l'id de l'article, le titre, les dates de création et de mise à jour pour une rubrique
+	 */
 	function GetArticleInfo($extraSql=""){
 		//récupère pour la rubrique l'article ayant les condition de extra
 		$sql = "SELECT a.id_article ,a.titre, a.date, a.maj, a.statut
@@ -225,6 +366,9 @@ class Granulat
 			
 	}
   
+	/*
+	 * Retourne l'id de la grille pour un article
+	 */
 	function GetFormId($idArticle) {
 		
 		$sql = "SELECT fa.id_form ,fa.id_article
@@ -247,6 +391,9 @@ class Granulat
 		return $idForm; 	
 	}
 	
+	/*
+	 * Retourne l'ensemble des id de données d'une grille donnée pour un article 
+	 */
 	function GetIdDonneesTable($idGrille, $idArticle) {
 		
 		$sql = "SELECT fd.id_donnee
@@ -268,6 +415,9 @@ class Granulat
 		return $arrliste;		
 	}
 	
+	/*
+	 * Retourne le tableau contenant l'id, le champ, la valeur et la date de mise à jour d'une donnée
+	 */
 	function GetInfosDonnee($idDonnee) {
 		
 		$sql = "SELECT id_donnee, champ, valeur, maj
@@ -289,7 +439,7 @@ class Granulat
 		
 	}
 	
-  function GetIdDonnee($formId, $artId=-1, $doublon=false){
+	function GetIdDonnee($formId, $artId=-1, $doublon=false){
 
 		if($artId==-1)
 			$artId = $this->GetArticle();
@@ -337,7 +487,7 @@ class Granulat
 
 	}
   
-  function GetLiens($rReq=false){
+	function GetLiens($rReq=false){
 	
 		//récupère la commune du granulat
 		$sql = "SELECT nom_site, url_site
@@ -359,7 +509,7 @@ class Granulat
 		return $valeur;
 	}
 
-  function GetCommuneId($id=-1){
+	function GetCommuneId($id=-1){
 
 	if($id==-1)
 		$id=$this->id;
@@ -390,8 +540,7 @@ class Granulat
   
   }
 
-	
-  function GetCommune($champ="titre",$complet=false){
+	function GetCommune($champ="titre",$complet=false){
 	
 		//récupère la commune du granulat
 		$sql = "SELECT rCom.titre, rCom.id_rubrique
@@ -441,7 +590,6 @@ class Granulat
 		return $Scope;
 		
 	}
-
 
 	public function EstParent($id)
 	{
@@ -602,7 +750,6 @@ class Granulat
 		return $req;
 	}
 	
-
 	public function GetDocs()
 	{
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
@@ -642,6 +789,9 @@ class Granulat
 		return $arrliste;
 	}
 
+	/*
+	 * Retourne un tableau des enfants d'une rubrique contenant l'id, le titre et le descriptif des rubriques
+	 */
 	public function GetListeEnfants()
 	{
 		$sql = "SELECT id_rubrique, titre, descriptif

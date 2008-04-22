@@ -63,6 +63,9 @@
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
 			$resultat = Synchronise($siteSrc, $siteDst=-1, $idAuteur=6, $_GET['type']);
 			break;
+		case 'AddXmlFile':
+			$resultat = AddXmlFile($_GET['url']);
+			break;
 	}
 
 	echo  utf8_encode($resultat);	
@@ -99,7 +102,17 @@
 		$url = PathRoot."/param/controles.xml";
 		$g->AddXmlDonnee($url);
 	}
-				
+
+	function AddXmlFile($url) {
+		
+		echo "ExeAjax:AddXmlFile:<br/>";
+		global $objSite;
+		$gra = new Granulat(-1,$objSite);
+		$url = PathRoot."/param/synchroExport.xml";
+		$gra->AddXmlFile($url);
+		
+	}
+	
 	function GetCurl($url)
 	{
 	

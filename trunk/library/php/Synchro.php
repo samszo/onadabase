@@ -133,9 +133,9 @@ Class Synchro{
 				$nouvelleRubrique = $dom->createElement("rubrique");
 				$nouveauMotClef = $dom->createElement("motclef");				
 				
-				$nomRubrique = $dom->createTextNode($gSrc->titre);
+				$nomRubrique = $dom->createTextNode(utf8_encode($gSrc->titre));
 				$nouvelleRubrique->setAttribute("id", $gSrc->id);
-				$nouvelleRubrique->setAttribute("IdParent", $gSrc->IdParent);
+				$nouvelleRubrique->setAttribute("idParent", $gSrc->IdParent);
 					
 				$idMotClef = $dom->createTextNode($gSrc->GetMotClef());
 					
@@ -158,13 +158,16 @@ Class Synchro{
 					$nouvelleGrille = $dom->createElement("grille");
 					$nouveauxChamps = $dom->createElement("champs");
 					$nouvelArticle = $dom->createElement("article");
+					$nouvelAuteur = $dom->createElement("auteur");
 					$nouvelArticle->setAttribute("id", $arrlisteArticle[$k]['id']);
-					$nomArticle = $dom->createTextNode($arrlisteArticle[$k]['titre']);
+					$nomArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['titre']));
 					
+					$nomAuteur = $dom->createTextNode($gSrc->GetAuteurArticle($arrlisteArticle[$k]['id']));
+					$nouvelAuteur->appendChild($nomAuteur);
 					$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[$k]['id']);
 					$idGrille = $dom->createTextNode($idNumeroGrille);			
 	
-
+					
 					$nouvelArticle->appendChild($nomArticle);
 					$nouvelleGrille->appendChild($idGrille);
 					
@@ -196,7 +199,7 @@ Class Synchro{
 						
 						for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
 							$nouvelleValeur = $dom->createElement("valeur");
-							$nomValeur = $dom->createTextNode($arrlisteDonnee[$j]['valeur']);
+							$nomValeur = $dom->createTextNode(utf8_encode($arrlisteDonnee[$j]['valeur']));
 							$nouvelleValeur->appendChild($nomValeur);	
 							$nouvelleDonnee->appendChild($nouvelleValeur);
 						}
@@ -204,7 +207,7 @@ Class Synchro{
 					}
 								
 					
-					
+					$nouvelArticle->appendChild($nouvelAuteur);
 					$nouvelArticle->appendChild($nouvellesDonnees);
 					
 					$Rub->appendChild($nouvelArticle);
@@ -217,7 +220,7 @@ Class Synchro{
 				
 				$arrliste = $gSrc->GetListeEnfants();
 				for ($i = 0; $i < sizeof($arrliste); $i++){
-					$this->GetChildren($arrliste[$i]['id'], $dom);
+					$this->GetChildren($arrliste[$i]['id'], $dom, $Rub);
 				}
 				
 			    //$url = PathRoot."/param/synchro.xml";
@@ -265,7 +268,7 @@ Class Synchro{
 		}
 	}
 	
-	public function GetChildren($idRub, $dom) {
+	public function GetChildren($idRub, $dom, $parent) {
 		
 		global $objSite;
 		
@@ -275,22 +278,22 @@ Class Synchro{
 		$nouvelleRubrique = $dom->createElement("rubrique");
 		$nouveauMotClef = $dom->createElement("motclef");
 
-		$nomRubrique = $dom->createTextNode($gSrc->titre);
+		$nomRubrique = $dom->createTextNode(utf8_encode($gSrc->titre));
 		$nouvelleRubrique->setAttribute("id", $gSrc->id);
-		$nouvelleRubrique->setAttribute("IdParent", $gSrc->IdParent);
+		$nouvelleRubrique->setAttribute("idParent", $gSrc->IdParent);
 			
 		$idMotClef = $dom->createTextNode($gSrc->GetMotClef());
 			
 		$nouvelleRubrique->appendChild($nomRubrique);
 		$nouveauMotClef->appendChild($idMotClef);
 		
-		$document = $dom->firstChild;
-		$document->appendChild($nouvelleRubrique);
+		//$document = $dom->firstChild;
+		$parent->appendChild($nouvelleRubrique);
 	
 			//echo $dom->saveXML();
 			//$listeRubrique = $dom->getElementsByTagName('rubrique');
 			//$Rub = $listeRubrique->item($index);
-		$Rub = $document->lastChild;
+		$Rub = $parent->lastChild;
 		$Rub->appendChild($nouveauMotClef);		
 		
 		$arrlisteArticle = $gSrc->GetArticleInfo("AND a.statut='prepa'");
@@ -301,17 +304,25 @@ Class Synchro{
 			$nouvelleGrille = $dom->createElement("grille");
 			$nouveauxChamps = $dom->createElement("champs");
 			$nouvelArticle = $dom->createElement("article");
+			$nouvelAuteur = $dom->createElement("auteur");
+			
 			$nouvelArticle->setAttribute("id", $arrlisteArticle[$k]['id']);
-			$nomArticle = $dom->createTextNode($arrlisteArticle[$k]['titre']);
+			$nomArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['titre']));
 			
 			//echo ' ID FORM '.$gSrc->GetFormId($arrlisteArticle[0]['id']); 
 			$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[$k]['id']);
+			echo ' ARTICLE '.$arrlisteArticle[$k]['id'];
+			echo ' GRILLE '.$idNumeroGrille;
+			
 			$idGrille = $dom->createTextNode($idNumeroGrille);
 			
 
 			$nouvelleGrille->appendChild($idGrille);
 			$nouvelArticle->appendChild($nomArticle);
 	
+			$nomAuteur = $dom->createTextNode($gSrc->GetAuteurArticle($arrlisteArticle[$k]['id']));
+			$nouvelAuteur->appendChild($nomAuteur);
+			
 			$nouvellesDonnees->appendChild($nouvelleGrille);
 			$arrlisteGrilles = $gSrc->GetIdDonneesTable($idNumeroGrille, $arrlisteArticle[$k]['id']);
 			
@@ -333,7 +344,7 @@ Class Synchro{
 					
 				for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
 					$nouvelleValeur = $dom->createElement("valeur");
-					$nomValeur = $dom->createTextNode($arrlisteDonnee[$j]['valeur']);
+					$nomValeur = $dom->createTextNode(utf8_encode($arrlisteDonnee[$j]['valeur']));
 					$nouvelleValeur->appendChild($nomValeur);	
 					$nouvelleDonnee->appendChild($nouvelleValeur);	
 										
@@ -343,7 +354,7 @@ Class Synchro{
 			
 
 			
-			
+			$nouvelArticle->appendChild($nouvelAuteur);
 			$nouvelArticle->appendChild($nouvellesDonnees);
 			
 			$Rub->appendChild($nouvelArticle);
@@ -351,12 +362,12 @@ Class Synchro{
 		}
 		
 		//$document = $dom->firstChild;
-		$document->appendChild($Rub);
+		$parent->appendChild($Rub);
 		
 		$arrliste = $gSrc->GetListeEnfants();
 		for ($i = 0; $i < sizeof($arrliste); $i++) {
 			//echo " GG ".$arrliste[$i]['id'];
-			$this->GetChildren($arrliste[$i]['id'], $dom);
+			$this->GetChildren($arrliste[$i]['id'], $dom, $Rub);
 		}
 	}
 	

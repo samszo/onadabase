@@ -22,7 +22,6 @@ function OuvreLienAdmin(idRub){
 	
 }
 
-
 function SetLienAdmin(idRub){
 	
 	var lien = document.getElementById("LienAdmin");
@@ -104,11 +103,16 @@ function SynchroniserExport() {
 function SynchroniserImport() {
 	try {
 		var doc = document.getElementById("synctreeRub");
-		var type = "import";
+		/*var type = "import";
 		var url = urlExeAjax2+"?f=Synchronise&type="+type;
 		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
 
-		AppendResult(url2,doc);
+		AppendResult(url2,doc);*/
+		
+		var doc = document.getElementById("synctreeRub");
+		var type = "export";
+		var url3 = urlExeAjax+"?f=AddXmlFile";
+		AppendResult(url3,doc);
 		
 	} catch(ex2){alert("SynchroniserImport::"+ex2+" " +"url="+url2);;}
 }
@@ -191,7 +195,6 @@ function AddNewRubrique(idDst) {
 	
 	} catch(ex2){alert(":AddNewRubrique:"+ex2+" url="+url);}
 }
-
 
 function SetVal(idDoc){
   try {
@@ -389,8 +392,6 @@ function ChargeFilArianeFromAjax(idSrc, idDst, titre,typeSrc,typeDst)
 	
 }
 
-
-
 function ChargeTreeFromAjax(idSrc,idDst,type)
 {
   try {
@@ -537,7 +538,6 @@ function GetFichierKml()
  
 }
 
-
 function lecture(url) {
   try {
   //url : adresse chrome:// ou http://, absolue ou relative
@@ -560,7 +560,6 @@ function lecture(url) {
    return doc;
   } catch(ex2){ alert("lecture::"+ex2); }
 }
-
 
 function GetFichier(type)
 {
