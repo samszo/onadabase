@@ -6,7 +6,7 @@ Class Synchro{
 	private $siteDst;
 	
 	function __construct($siteSrc, $siteDst) {
-		$this->trace = true;
+		$this->trace = TRACE;
 		$this->siteSrc = $siteSrc;
 		$this->siteDst = $siteDst;
 		
@@ -138,7 +138,9 @@ Class Synchro{
 				echo $dom->saveXML();
 				echo $url;
 			}
-			$dom->save($url);
+			//$dom->save($url);
+			$dom->saveXML();
+			
 		}
 	}
 	

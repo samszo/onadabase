@@ -24,9 +24,11 @@ class Granulat
 
   	function __construct($id, $site, $complet=true) {
 
-    //echo "$id, $site login=".$site["SQL_LOGIN"]."<br/>";
-    $this->trace = true;
-	$this->id = $id;
+    $this->trace = TRACE;
+	if($this->trace)
+	    echo "$id, $site <br/>";
+	
+    $this->id = $id;
     $this->site = $site;
 	if($complet){
 		$this->GetProps();
@@ -703,7 +705,8 @@ class Granulat
 	{
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
 		$DB->connect();
-		//charge les propiétés du granulat
+		if($this->trace)
+			echo "//charge les propiétés du granulat $this->id -<br/>";
 		$sql = "SELECT r.titre rtitre, r.id_rubrique, r.descriptif, r.texte
 				, rp.titre rptitre, rp.id_rubrique rpid
 				, a.texte atexte, a.chapo , a.descriptif adesc, a.ps, a.extra, a.date
