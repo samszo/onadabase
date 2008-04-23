@@ -221,7 +221,16 @@ Class Synchro{
 						/*for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
 							echo 'Id champ '.$arrlisteDonnee[$j]['champ'];
 						}*/
-					
+				$nouvelleDateDonnee = $dom->createElement("date");
+				$nouvelleMajDonnee =$dom->createElement("maj");
+				$dateDonnee =  $dom->createTextNode($arrlisteGrilles[$i]['date']);
+				$majDonnee =  $dom->createTextNode($arrlisteGrilles[$i]['maj']);
+				$nouvelleDateDonnee->appendChild($dateDonnee);
+				$nouvelleMajDonnee->appendChild($majDonnee);
+				
+				$nouvelleDonnee->appendChild($nouvelleDateDonnee);
+				$nouvelleDonnee->appendChild($nouvelleMajDonnee);
+				
 				for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
 					$nouvelleValeur = $dom->createElement("valeur");
 					$nomValeur = $dom->createTextNode(utf8_encode($arrlisteDonnee[$j]['valeur']));

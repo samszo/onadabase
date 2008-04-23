@@ -109,7 +109,7 @@ class Granulat
   				if($this->trace)
   					print_r($donnee->valeur);
 
-  				$idDon = $g->GetIdDonnee($idGrille, $idArt, true);
+  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
 				if($this->trace)
 					echo "Granulat/AddXmlFile/- création de la donnee ".$idDon."<br/>";	
   				
@@ -418,7 +418,7 @@ class Granulat
 	 */
 	function GetIdDonneesTable($idGrille, $idArticle) {
 		
-		$sql = "SELECT fd.id_donnee
+		$sql = "SELECT fd.id_donnee, fd.date, fd.maj
 				FROM spip_forms_donnees_articles da 
 				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = ".$idGrille."
 				WHERE da.id_article = ".$idArticle;
@@ -429,7 +429,7 @@ class Granulat
 		
 		$i = 0;
 		while($data = $DB->fetch_assoc($req)) {
-			$arrliste[$i] = array("id"=>$data['id_donnee']);
+			$arrliste[$i] = array("id"=>$data['id_donnee'], "date"=>$data['date'], "maj"=>$data['maj']);
 			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
 			$i ++;
 		}
@@ -509,6 +509,35 @@ class Granulat
 
 	}
   
+	function AddIdDonnee($formId, $artId=-1, $date, $maj) {
+		
+		if($artId==-1)
+			$artId = $this->GetArticle();
+
+		//attache le form à l'article
+		$sql = "INSERT INTO `spip_forms_articles` (id_form, id_article)
+				VALUES (".$formId.",".$artId.")";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		//création de la donnée du formulaire
+		$sql = "INSERT INTO `spip_forms_donnees` (`id_form`, `date`, `maj`, `confirmation`, `statut`, `rang`)
+				VALUES (".$formId.", '".$date."', '".$maj."', 'valide', 'prop', 1)";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$donId = mysql_insert_id();
+		$DB->close();
+		//attache la donnée à l'article
+		$sql = "INSERT INTO `spip_forms_donnees_articles` (`id_donnee`, `id_article`)
+				VALUES (".$donId.", ".$artId.")";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		//echo "-- création de la donnée ".$donId." \n<br/>"; 
+		
+		return $donId;
+	}
+	
 	function GetLiens($rReq=false){
 	
 		//récupère la commune du granulat
