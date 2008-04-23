@@ -80,7 +80,8 @@
 		global $objSite;
 		global $objSiteSync; //Mundi
 		    	
-		echo $type;
+		if(TRACE)
+			echo $type;
     	$synchro = new Synchro($objSiteSync, $objSite);
     	$synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
     }
