@@ -10,7 +10,9 @@
 	// Include the class files.
 	require_once(TT_CLASS_BASE."AllClass.php");
 
-  define ("DEFSITE", "mundi");
+  define ("TRACE", true);
+
+  define ("DEFSITE", "local1");
   define ("SYNCSITE", "local1");
   
   $DB_OPTIONS = array (
