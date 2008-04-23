@@ -89,12 +89,15 @@ class Granulat
   		$g = new Granulat($idParent, $this->site); 
   		
   		foreach($articles as $article) {
-  			$idArt = $g->SetNewArticle(utf8_decode($article));
+  			
   			$donnees = $article->donnees;
   			$idGrille = $donnees->grille;
   			$idAuteur = $article->auteur;
   			$champs = $donnees->champs;
+  			$date = $article->date;
+  			$maj = $article->maj;
   			
+  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
   			$g->AddAuteur($idArt, $idAuteur);
   			
   			
@@ -182,9 +185,7 @@ class Granulat
 		
 		if ($r = $DB->fetch_assoc($req)){
 			$idAuteur = $r['id_auteur']; 
-			echo ' AUTEUR '.$idAuteur;
 		}
-		
 		return $idAuteur;
   	}
   
@@ -229,6 +230,27 @@ class Granulat
   
   }
 
+  	function SetNewArticleComplet($titre, $date, $maj, $id=-1) {
+  		if($id==-1)
+			$id=$this->id;
+	
+		//ajoute un nouvel enfant
+		$sql = "INSERT INTO spip_articles
+			SET titre = ".$this->site->GetSQLValueString($titre, "text")
+				.", statut='prepa'
+				, date =".$date
+				.", maj = ".$maj
+				.", id_rubrique=".$id;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$newId = mysql_insert_id();
+		$DB->close();
+	
+		$this->SetAuteur($newId,'article');
+		
+		return $newId;
+  	}
   	function SetMotClef($id_mot,$id=-1){
 
 	if($id==-1)

@@ -114,157 +114,31 @@ Class Synchro{
 		if($this->trace)
 			echo "Site:Synchronise2:sql=".$sql."<br/>";
 		while ($row =  $db->fetch_assoc($rows)) {
+			if($this->trace)
 				echo $row['id_rubrique'];
 				
-				/*$g = new Granulat($row['id_rubrique'],$siteDst);
-				echo $g->titre;
-				echo " ".$g->GetMotClef()." ";*/
-				
-				// Site local
-				$gSrc = new Granulat($row['id_rubrique'],$objSite);
-				
-				// Création Xml		
-				$dom = new DomDocument("1.0");
-				
-				$nouveauDocument = $dom->createElement("documents");
-				$dom->appendChild($nouveauDocument);
-				$document = $dom->firstChild;
-				
-				$nouvelleRubrique = $dom->createElement("rubrique");
-				$nouveauMotClef = $dom->createElement("motclef");				
-				
-				$nomRubrique = $dom->createTextNode(utf8_encode($gSrc->titre));
-				$nouvelleRubrique->setAttribute("id", $gSrc->id);
-				$nouvelleRubrique->setAttribute("idParent", $gSrc->IdParent);
-					
-				$idMotClef = $dom->createTextNode($gSrc->GetMotClef());
-					
-				$nouvelleRubrique->appendChild($nomRubrique);
-				$nouveauMotClef->appendChild($idMotClef);
-				
-				$document->appendChild($nouvelleRubrique);
-					
-					$Rub = $document->lastChild;	
-					$Rub->appendChild($nouveauMotClef);
-					
-				
-				$arrlisteArticle = $gSrc->GetArticleInfo("AND a.statut='prepa'");
-				//echo ' id arr '.$arrlisteArticle[0]['id'];
-				//echo ' titre arr '.$arrlisteArticle[0]['titre'];
-				
-				for ($k=0; $k<sizeof($arrlisteArticle); $k++) {
-					
-					$nouvellesDonnees = $dom->createElement("donnees");
-					$nouvelleGrille = $dom->createElement("grille");
-					$nouveauxChamps = $dom->createElement("champs");
-					$nouvelArticle = $dom->createElement("article");
-					$nouvelAuteur = $dom->createElement("auteur");
-					$nouvelArticle->setAttribute("id", $arrlisteArticle[$k]['id']);
-					$nomArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['titre']));
-					
-					$nomAuteur = $dom->createTextNode($gSrc->GetAuteurArticle($arrlisteArticle[$k]['id']));
-					$nouvelAuteur->appendChild($nomAuteur);
-					$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[$k]['id']);
-					$idGrille = $dom->createTextNode($idNumeroGrille);			
-	
-					
-					$nouvelArticle->appendChild($nomArticle);
-					$nouvelleGrille->appendChild($idGrille);
-					
-					$nouvellesDonnees->appendChild($nouvelleGrille);
-					
-					$arrlisteGrilles = $gSrc->GetIdDonneesTable($idNumeroGrille, $arrlisteArticle[$k]['id']);
-					
-					//echo '$arrlisteGrilles->lenght '.$arrlisteGrilles->lenght." ";
-					
-					/*for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
-						echo 'Id donnee '.$arrlisteGrilles[$i]['id'];
-					}*/
-					
-					$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[0]['id']);
-					for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-						$nouveauChamp = $dom->createElement("champ");
-						$nomChamp = $dom->createTextNode($arrlisteDonnee[$j]['champ']);
-						$nouveauChamp->appendChild($nomChamp);	
-						$nouveauxChamps->appendChild($nouveauChamp);
-						$nouvellesDonnees->appendChild($nouveauxChamps);					
-					}
+			// Création Xml		
+			$dom = new DomDocument("1.0");
+			
+			// Site local
+			$nouveauDocument = $dom->createElement("documents");
+			$dom->appendChild($nouveauDocument);	
+			$document = $dom->firstChild;
 						
-					for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
-						$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[$i]['id']);
-						$nouvelleDonnee = $dom->createElement("donnee");
-						/*for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-							echo 'Id champ '.$arrlisteDonnee[$j]['champ'];
-						}*/
-						
-						for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-							$nouvelleValeur = $dom->createElement("valeur");
-							$nomValeur = $dom->createTextNode(utf8_encode($arrlisteDonnee[$j]['valeur']));
-							$nouvelleValeur->appendChild($nomValeur);	
-							$nouvelleDonnee->appendChild($nouvelleValeur);
-						}
-						$nouvellesDonnees->appendChild($nouvelleDonnee);					
-					}
-								
-					
-					$nouvelArticle->appendChild($nouvelAuteur);
-					$nouvelArticle->appendChild($nouvellesDonnees);
-					
-					$Rub->appendChild($nouvelArticle);
-					
-				}
-				
-	
-				
-				$document->appendChild($Rub);
-				
-				$arrliste = $gSrc->GetListeEnfants();
-				for ($i = 0; $i < sizeof($arrliste); $i++){
-					$this->GetChildren($arrliste[$i]['id'], $dom, $Rub);
-				}
-				
-			    //$url = PathRoot."/param/synchro.xml";
-			     
-			    if ($type == "export") $url = PathRoot."/param/synchroExport.xml";
-			    else $url = PathRoot."/param/synchroImport.xml";
+			$this->GetChildren($row['id_rubrique'], $dom, $document);
+			
+			  //$url = PathRoot."/param/synchro.xml";
+			   
+			if ($type == "export") $url = PathRoot."/param/synchroExport.xml";
+			else $url = PathRoot."/param/synchroImport.xml";
 				//$url = "C:\wamp\www\onadabase\param\synchro.xml";	
 					
-				if ($this->trace) {
-					//echo 'type : '.$type;
-					echo $dom->saveXML();
-					echo $url;
-				}
-				$dom->save($url);
-				
-				/*
-				 * Récupère le titre de la rubrique
-				 */
-				/*
-				$Xpath2 = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesTitre']";
-				echo "Site:Synchronise2:Xpath=".$Xpath2."<br/>";
-				$Q2 = $siteDst->XmlParam->GetElements($Xpath2);
-				$where2 = str_replace("-idRubrique-", $row['id_rubrique'], $Q2[0]->where);
-				$sql2 = $Q2[0]->select.$Q2[0]->from.$where2;
-				$db2 = new mysql ($siteDst->infos["SQL_HOST"], $siteDst->infos["SQL_LOGIN"], $siteDst->infos["SQL_PWD"], $siteDst->infos["SQL_DB"], $dbOptions);
-				$db2->connect();
-				$rows2 = $db2->query($sql2);
-				$db2->close();
-				//if($this->trace)
-				echo "Site:Synchronise2:sql=".$sql2."<br/>";
-				while ($row2 =  $db2->fetch_assoc($rows2)) {
-					echo $row2['titre'];
-				}
-				*/
-				/*
-				 * Crée une nouvelle rubrique
-				 * 
-				  $sql = "INSERT INTO spip_rubriques
-				SET titre = ".$objSite->GetSQLValueString($titre, "text");
-				
-				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"], $DB_OPTIONS);
-				$req = $DB->query($sql);
-				$newId = mysql_insert_id();
-				$DB->close();*/
+			if ($this->trace) {
+				//echo 'type : '.$type;
+				echo $dom->saveXML();
+				echo $url;
+			}
+			$dom->save($url);
 		}
 	}
 	
@@ -305,21 +179,27 @@ Class Synchro{
 			$nouveauxChamps = $dom->createElement("champs");
 			$nouvelArticle = $dom->createElement("article");
 			$nouvelAuteur = $dom->createElement("auteur");
+			$nouvelleDate = $dom->createElement("date");
+			$nouvelleMaj = $dom->createElement("maj");
 			
 			$nouvelArticle->setAttribute("id", $arrlisteArticle[$k]['id']);
 			$nomArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['titre']));
+			$dateArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['date']));
+			$majArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['maj']));
 			
 			//echo ' ID FORM '.$gSrc->GetFormId($arrlisteArticle[0]['id']); 
 			$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[$k]['id']);
-			echo ' ARTICLE '.$arrlisteArticle[$k]['id'];
-			echo ' GRILLE '.$idNumeroGrille;
+			//echo ' ARTICLE '.$arrlisteArticle[$k]['id'];
+			//echo ' GRILLE '.$idNumeroGrille;
 			
 			$idGrille = $dom->createTextNode($idNumeroGrille);
 			
-
 			$nouvelleGrille->appendChild($idGrille);
 			$nouvelArticle->appendChild($nomArticle);
-	
+			
+			$nouvelleDate->appendChild($dateArticle);
+			$nouvelleMaj->appendChild($majArticle);
+			
 			$nomAuteur = $dom->createTextNode($gSrc->GetAuteurArticle($arrlisteArticle[$k]['id']));
 			$nouvelAuteur->appendChild($nomAuteur);
 			
@@ -352,8 +232,8 @@ Class Synchro{
 				$nouvellesDonnees->appendChild($nouvelleDonnee);		
 			}		
 			
-
-			
+			$nouvelArticle->appendChild($nouvelleDate);
+			$nouvelArticle->appendChild($nouvelleMaj);
 			$nouvelArticle->appendChild($nouvelAuteur);
 			$nouvelArticle->appendChild($nouvellesDonnees);
 			
