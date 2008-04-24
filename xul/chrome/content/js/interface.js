@@ -97,6 +97,13 @@ function SynchroniserExport() {
 		var url3 = urlExeAjax+"?f=Synchronise&type="+type;
 		AppendResult(url3,doc);
 		
+		//var xml = path;
+		//path = "http://www.mundilogiweb.com/onadabase/param/synchroExport.xml"
+		/*path = "/home.10.28/mundilog/www/onadabase/param/synchroExport.xml"
+		var url = urlExeAjax2+"?f=AddXmlFile&url="+path;
+		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
+		AppendResult(url2,doc);*/
+		
 	} catch(ex2){alert("SynchroniserExport::"+ex2+" " +"url="+url3);;}
 }
 
@@ -104,7 +111,7 @@ function SynchroniserImport() {
 	try {
 		var doc = document.getElementById("synctreeRub");
 		/*var type = "import";
-		var url = urlExeAjax2+"?f=Synchronise&type="+type;
+		var url = urlExeAjax2+"?f=AddXmlFile&url="+type;
 		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
 
 		AppendResult(url2,doc);*/

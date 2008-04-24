@@ -139,8 +139,8 @@ Class Synchro{
 				echo $url;
 			}
 			//$dom->save($url);
-			$dom->saveXML();
-			
+			$xmlSrc = $dom->saveXML();
+			return $xmlSrc;
 		}
 	}
 	

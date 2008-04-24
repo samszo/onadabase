@@ -16,15 +16,16 @@ Class XmlParam{
 	public $trace;
 	private $xml;
 
-	function __construct($FicXml) {
+	function __construct($FicXml = -1) {
 		$this->trace = false;
-
-	    $this->FicXml = $FicXml;
-		if($this->trace)
-			echo "On charge les paramètres : ".$FicXml."<br/>\n";
-		if ($xml = simplexml_load_file($FicXml))
-			$this->xml = $xml;
 		
+		if ($FicXml !=-1) {
+		    $this->FicXml = $FicXml;
+			if($this->trace)
+				echo "On charge les paramètres : ".$FicXml."<br/>\n";
+			if ($xml = simplexml_load_file($FicXml))
+				$this->xml = $xml;
+		}
 	}
 	
 	public function GetElements($Xpath){
@@ -53,5 +54,11 @@ Class XmlParam{
             }// end if
         }// end foreach
     }// end function getAttribute
+    
+    public function SetSite($xmlString){
+    	if ($xml = simplexml_load_string($xmlString))
+    		$this->xml = $xml;
+    }
+    
 }
 ?>
