@@ -48,7 +48,10 @@ class Granulat
   		
   		if($this->trace)
 			echo "Granulat/AddXmlFile IN //récuparation de la définition des données ".$xmlSrc."<br/>";
-		$xml = new XmlParam($xmlSrc);		
+		$xml = new XmlParam();	
+		$xml->SetSite($xmlSrc);	
+		
+		//$xml = simplexml_load_string($xmlSrc);
 		
 		$Xpath = "/documents/rubrique";
 		
