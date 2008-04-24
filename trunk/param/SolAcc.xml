@@ -839,8 +839,9 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		
 		<!-- Espaces extérieurs spécifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="78" />
-		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="79" />
-		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1091" />
+		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="2170" />
+		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="79" />
+		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1091" />
 		
 		<!-- Eléments de voirie -->
 		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="675" />
