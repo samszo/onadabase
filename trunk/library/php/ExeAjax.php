@@ -63,8 +63,8 @@
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
 			$resultat = Synchronise($siteSrc, $siteDst=-1, $idAuteur=6, $_GET['type']);
 			break;
-		case 'AddXmlFile':
-			$resultat = AddXmlFile($_GET['src']);
+		case 'SynchroImport':
+			$resultat = SynchroImport($_POST['src']);
 			break;
 	}
 
@@ -81,14 +81,16 @@
 		global $objSiteSync; //Mundi
 		    	
 		if(TRACE)
-			echo $type;
-    	$synchro = new Synchro($objSiteSync, $objSite);
-    	//$xmlSrc = $synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
-    	//$synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
-    	$xmlSrc="http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php?f=AddXmlFile&src=<?xml version=\"1.0\"?><documents><rubrique id=\"1058\" idParent=\"114\">Troncon nord<motclef></motclef><article id=\"1416\">Troncon nord<date>2008-04-23 10:09:46</date><maj>2008-04-23 10:09:46</maj><auteur>5</auteur><donnees><grille>62</grille><champs><champ>ligne_2</champ><champ>ligne_3</champ><champ>ligne_4</champ><champ>ligne_5</champ><champ>ligne_1</champ><champ>select_1</champ></champs><donnee><date>2008-04-15 16:42:02</date><maj>2008-04-15 16:42:02</maj><valeur></valeur><valeur></valeur><valeur></valeur><valeur></valeur><valeur>Troncon nord</valeur><valeur>select_1_7</valeur></donnee></donnees></article><rubrique id=\"2032\" idParent=\"1058\">Cheminement sur la voirie 21/04/08 - 13:44:58<motclef>130</motclef><article id=\"1644\">Cheminement sur la voirie 21/04/08 - 13:44:58<date>2008-04-21 13:44:58</date><maj>2008-04-22 14:47:26</maj><auteur>5</auteur><donnees><grille>59</grille><champs><champ>ligne_2</champ><champ>ligne_1</champ><champ>mot_1</champ></champs><donnee><date>2008-04-21 13:44:58</date><maj>2008-04-21 13:44:58</maj><valeur>Le sol n'est pas meuble</valeur><valeur>cr_voirie_chem_01</valeur><valeur>2</valeur></donnee><donnee><date>2008-04-21 13:44:58</date><maj>2008-04-21 13:44:58</maj><valeur>Le revetement n'est pas glissant</valeur><valeur>cr_voirie_chem_02</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Le cheminement ne comporte pas d'obstacles au sol</valeur><valeur>cr_voirie_chem_03</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>S'il existe sur le cheminement des obstacles en porte--faux alors ils laissent un passage libre = 220 cm de haut</valeur><valeur>cr_voirie_chem_04</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>S'il existe sur le cheminement des obstacles en saillie latrale de plus de 15 cm laissant un passage libre inf 220 cm de hauteur, alors ils sont rappels par un ment bas installe au max 40 cm du sol ou par une surpaisseur au sol d'au moins 3 cm</valeur><valeur>cr_voirie_chem_05</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Prsence d'un guide tactilement et visuellement constrat le long du cheminement</valeur><valeur>cr_voirie_chem_06</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>La largeur du cheminement est = 140 cm sans obstacle</valeur><valeur>cr_voirie_chem_07</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Si absence de murs et d'obstacles de part et d'autre du cheminement alors sa largeur est =  120 cm</valeur><valeur>cr_voirie_chem_08</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Le devers est infrieur ou gal2%</valeur><valeur>cr_voirie_chem_09</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Pente infrieure  5%</valeur><valeur>cr_voirie_chem_10</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Si impossibilit technique alors pente infrieure  8% sur une distance infrieure ougale 2 m</valeur><valeur>cr_voirie_chem_11</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Si impossibilit technique alors pente infrieure  12% sur une distance infrieure ougale  50 cm</valeur><valeur>cr_voirie_chem_12</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Si pente suprieure 4% alors palier de repos en bas</valeur><valeur>cr_voirie_chem_13</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Si pente suprieure  4% alors palier de repos en haut</valeur><valeur>cr_voirie_chem_14</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Si cheminement pentu continu alors palier de repos tous les 10 m</valeur><valeur>cr_voirie_chem_15</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:44:59</date><maj>2008-04-21 13:44:59</maj><valeur>Si cheminement pentu continu alors prsence d'un main courante ergonomique et constrate</valeur><valeur>cr_voirie_chem_16</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Le palier est horizontal</valeur><valeur>cr_voirie_chem_17</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Le palier mesure 120 x 140 cm sans obstacle</valeur><valeur>cr_voirie_chem_18</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Un palier de repos prsent chaque bifurcation du cheminement</valeur><valeur>cr_voirie_chem_19</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Un palier de repos prsent chaque bifurcation du cheminement possde un espace de manoeuvre de 200 cm de diamtre</valeur><valeur>cr_voirie_chem_20</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Si rupture de niveau de plus de 40 cm alors garde-corps le long de la rupture de niveau</valeur><valeur>cr_voirie_chem_21</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Le garde au corps est contrast par rapport l'environnement, plein et continu jusqu'au sol</valeur><valeur>cr_voirie_chem_22</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Un ressaut est infrieure ou gal  2 cm</valeur><valeur>cr_voirie_chem_23</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Un ressaut est infrieur ou gal 4 cm si il est en chanfrein1/3</valeur><valeur>cr_voirie_chem_24</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>La distance entre 2 ressauts est infrieure ou gale  250 cm</valeur><valeur>cr_voirie_chem_25</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-21 13:45:00</date><maj>2008-04-21 13:45:00</maj><valeur>Absence de pente 'pas d'ne' </valeur><valeur>cr_voirie_chem_26</valeur><valeur>124</valeur></donnee></donnees></article></rubrique><rubrique id=\"2039\" idParent=\"1058\">Passage pitons 22/04/08 - 14:54:52<motclef>133</motclef><article id=\"1655\">Passage pitons 22/04/08 - 14:54:52<date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><auteur>5</auteur><donnees><grille>59</grille><champs><champ>ligne_2</champ><champ>ligne_1</champ><champ>mot_1</champ></champs><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>Prsence d'un 'bateau' au droit de chaque traverse</valeur><valeur>cr_voirie_piton_01</valeur><valeur>2</valeur></donnee><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>Le 'bateau' a une largeur=  120 cm</valeur><valeur>cr_voirie_piton_02</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>Le 'bateau' a une largeur =  140 cm</valeur><valeur>cr_voirie_piton_03</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>Le 'bateau' respecte les rgles des pentes et des ressauts</valeur><valeur>cr_voirie_piton_04</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>Si la largeur du trottoir le permet, un passage horizontal d'au moins 80 cm est rserv au droit des traverses pour pitons entre la pente du plan inclin vers la chausse et le cadre bti ou tout autre obstacle</valeur><valeur>cr_voirie_piton_05</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>Si la largeur du trottoir le permet, un espace de manoeuvre de 200 cm de diamtre est rserv au droit des traverses pour pitons entre la pente du plan inclin vers la chausse et le cadre ti ou tout autre obstacle</valeur><valeur>cr_voirie_piton_06</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>Prence d'une bande d'veil de vigilance au droit des traverses</valeur><valeur>cr_voirie_piton_07</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>La bande d'veil de vigilance a une largeur de 42 cm</valeur><valeur>cr_voirie_piton_08</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:52</date><maj>2008-04-22 14:54:52</maj><valeur>La bande d'veil de vigilance est situe  50 cm du bord du trottoir</valeur><valeur>cr_voirie_piton_09</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:53</date><maj>2008-04-22 14:54:53</maj><valeur>Les passages pour pitons possdent un marquage rglementaire (bandes contrastes de 50 cm)</valeur><valeur>cr_voirie_piton_10</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:53</date><maj>2008-04-22 14:54:53</maj><valeur>Le passage pour pitons est visuellement constrat (permet d'en dtecter les limites)</valeur><valeur>cr_voirie_pton_11</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:53</date><maj>2008-04-22 14:54:53</maj><valeur>Le passage pour pitons est tactilement constrat (permet d'en dtecter les limites)</valeur><valeur>cr_voirie_piton_12</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:53</date><maj>2008-04-22 14:54:53</maj><valeur>Les signaux pour pitons sont complts par des dispositifs permettant aux dficients visuels de connatre les priodes durant lesquelles il est possible de traverser</valeur><valeur>cr_voirie_piton_13</valeur><valeur>124</valeur></donnee><donnee><date>2008-04-22 14:54:53</date><maj>2008-04-22 14:54:53</maj><valeur>Si un cheminement pour pitons comporte une chicane, sans alternative, alors il permet le passage d'un fauteuil roulant d'un gabarit de 80 x 130 cm</valeur><valeur>cr_voirie_piton_14</valeur><valeur>124</valeur></donnee></donnees></article><article id=\"1656\">cr_voirie_piton_01 22/04/08 - 14:56:07<date>2008-04-22 14:56:07</date><maj>2008-04-22 14:56:07</maj><auteur>5</auteur><donnees><grille>60</grille><champs><champ>ligne_3</champ><champ>ligne_1</champ><champ>ligne_2</champ><champ>mot_1</champ><champ>texte_1</champ><champ>ligne_4</champ><champ>texte_2</champ><champ>mot_2</champ></champs><donnee><date>2008-04-22 14:56:07</date><maj>2008-04-22 14:56:07</maj><valeur>cr_voirie_piton_01</valeur><valeur>hth</valeur><valeur>hhh</valeur><valeur>141</valeur><valeur>ttt</valeur><valeur>ttjjj</valeur><valeur>ooll</valeur><valeur>2</valeur></donnee></donnees></article></rubrique><rubrique id=\"2036\" idParent=\"1058\">Test<motclef></motclef><rubrique id=\"2038\" idParent=\"2036\">Sous test<motclef></motclef></rubrique></rubrique></rubrique></documents>";
-    	$url = $objSiteSync->infos["urlExeAjax"]."?f=AddXmlFile&src=".$xmlSrc;
-    	echo $url;
-    	echo GetCurl($url);
+			echo "ExeAjax:Synchronise:$siteSrc, $siteDst, $idAuteur, $type<br/>";
+
+		$synchro = new Synchro($objSiteSync, $objSite);
+    	$xmlSrc = $synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
+    	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport";
+		if(TRACE)
+			echo "ExeAjax:Synchronise:url=$url<br/>";
+		$data = array('src' => $xmlSrc);
+		
+    	PostCurl($url,$data);
     	
     }
 
@@ -103,20 +105,23 @@
 	
 	function AddXmlDonnee($url)
 	{
-		echo "ExeAjax:AddXmlDonnee:<br/>";
+		if(TRACE)
+			echo "ExeAjax:AddXmlDonnee:<br/>";
 		global $objSite;
 		$g = new Grille($objSite);
 		$url = PathRoot."/param/controles.xml";
 		$g->AddXmlDonnee($url);
 	}
 
-	function AddXmlFile($src) {
+	function SynchroImport($src) {
 		
-		echo "ExeAjax:AddXmlFile:<br/>";
+		$src = str_replace("\\","",$src); 
+		if(TRACE)
+			echo "ExeAjax:ImportSynchro:src=$src<br/>";
 		global $objSite;
-		$gra = new Granulat(-1,$objSite);
+		$sync = new Synchro($objSite,-1);
 		//$url = PathRoot."/param/synchroExport.xml";
-		$gra->AddXmlFile($src);
+		$sync->import($src);
 		
 	}
 	
@@ -143,6 +148,30 @@
 
 		return $sResult;
 	
+	}
+	
+	
+	function PostCurl($url,$data)
+	{
+		
+		if(TRACE)
+			echo "ExeAjax:PostCurl:url=$url<br/>";
+		$curl = curl_init();
+		
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_POST, 1);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		$page = curl_exec($curl);
+		if(TRACE){
+			$arrInfos = curl_getinfo($curl);
+			echo "ExeAjax:PostCurl:getinfo=".print_r($arrInfos)."<br/>";
+			echo "ExeAjax:PostCurl:page=".$page."<br/>";
+			
+		}
+		curl_close($curl);
+		
+		return $page; 
 	}
 	
 	function SetVal($idGrille,$idDon,$champ,$val){

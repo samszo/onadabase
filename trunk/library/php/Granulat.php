@@ -35,53 +35,7 @@ class Granulat
 		$this->GetDocs();
 	}
   }
-
-  	public function getAttribute($name){
-        foreach($this->xml->attributes() as $key=>$val){
-            if($key == $name){
-                return (string)$val;
-            }// end if
-        }// end foreach
-    }// end function getAttribute
-  
-  	function AddXmlFile($xmlSrc) {
-  		
-  		if($this->trace)
-			echo "Granulat/AddXmlFile IN //récuparation de la définition des données ".$xmlSrc."<br/>";
-		$xml = new XmlParam();	
-		$xml->SetSite($xmlSrc);	
-		
-		//$xml = simplexml_load_string($xmlSrc);
-		
-		$Xpath = "/documents/rubrique";
-		
-		$nodePrincipal = $xml->GetElements($Xpath);
-		$idRub = $xml->getAttribute($nodePrincipal[0], 'id');
-		if($this->trace)
-			echo "Granulat/AddXmlFile/- récupération de l'identifiant de la rubrique ".$idRub."<br/>";
-			
-		$Xpath = $Xpath."/rubrique";
-		$rubriques = $xml->GetElements($Xpath);
-		
-		/*if($this->trace)
-			print_r($rubriques);*/
-		
-		$g = new Granulat($idRub, $this->site); 
-		if ($nodePrincipal->article != "") $g->SetNewArticle(utf8_decode($nodePrincipal->article));
-		
-		$i = 0;
-		foreach($rubriques as $rubrique)
-		{
-			/**/
-			//récuparation du granulat
-			
-			$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
-  			$g->SetMotClef($rubrique->motclef, $idEnfant);
-  			   			
-			$g->GetChildren($xml, $idEnfant, $rubriques[$i]->rubrique, $rubriques[$i]->article);
-			$i++;
-		}
-  	}
+ 
   
   	function GetChildren($xml, $idParent, $rubriques, $articles) {
   		
