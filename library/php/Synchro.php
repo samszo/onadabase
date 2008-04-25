@@ -143,6 +143,48 @@ Class Synchro{
 			return $xmlSrc;
 		}
 	}
+
+	
+  	function import($xmlSrc) {
+  		
+  		if($this->trace)
+			echo "Synchro:ImportSynchro //récuparation de la définition des données ".$xmlSrc."<br/>";
+		$xml = new XmlParam(-1,$xmlSrc);	
+		
+		//$xml = simplexml_load_string($xmlSrc);
+		
+		$Xpath = "/documents/rubrique";
+		
+		$nodePrincipal = $xml->GetElements($Xpath);
+		$idRub = $nodePrincipal[0]['id'];
+		if($this->trace)
+			echo "Synchro:ImportSynchro:idRub ".$idRub."<br/>";
+		$idRub = $xml->getAttribute($nodePrincipal[0], 'id');
+		if($this->trace)
+			echo "Synchro:AddXmlFile/- récupération de l'identifiant de la rubrique ".$idRub."<br/>";
+			
+		$Xpath = $Xpath."/rubrique";
+		$rubriques = $xml->GetElements($Xpath);
+		
+		/*if($this->trace)
+			print_r($rubriques);*/
+		
+		$g = new Granulat($idRub, $this->siteSrc); 
+		if ($nodePrincipal->article != "") $g->SetNewArticle(utf8_decode($nodePrincipal->article));
+		
+		$i = 0;
+		foreach($rubriques as $rubrique)
+		{
+			/**/
+			//récuparation du granulat
+			
+			$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
+  			$g->SetMotClef($rubrique->motclef, $idEnfant);
+  			   			
+			$g->GetChildren($xml, $idEnfant, $rubriques[$i]->rubrique, $rubriques[$i]->article);
+			$i++;
+		}
+  	}
 	
 	public function GetChildren($idRub, $dom, $parent) {
 		

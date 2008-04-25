@@ -16,7 +16,7 @@ Class XmlParam{
 	public $trace;
 	private $xml;
 
-	function __construct($FicXml = -1) {
+	function __construct($FicXml = -1, $src=-1) {
 		$this->trace = false;
 		
 		if ($FicXml !=-1) {
@@ -25,6 +25,9 @@ Class XmlParam{
 				echo "On charge les paramètres : ".$FicXml."<br/>\n";
 			if ($xml = simplexml_load_file($FicXml))
 				$this->xml = $xml;
+		}else{
+			if ($xml = simplexml_load_string($src))
+    			$this->xml = $xml;	
 		}
 	}
 	
@@ -55,10 +58,6 @@ Class XmlParam{
         }// end foreach
     }// end function getAttribute
     
-    public function SetSite($xmlString){
-    	if ($xml = simplexml_load_string($xmlString))
-    		$this->xml = $xml;
-    }
     
 }
 ?>
