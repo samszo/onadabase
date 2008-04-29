@@ -113,36 +113,35 @@ Class Synchro{
 		$db->close();
 		if($this->trace)
 			echo "Site:Synchronise2:sql=".$sql."<br/>";
+		
+		// Création Xml
+		if ($type == "export") $url = PathRoot."/param/synchroExport.xml";
+		else $url = PathRoot."/param/synchroImport.xml";
+		if($this->trace)
+			echo $url;
+			
+		$dom = new DomDocument("1.0");
+		$nouveauDocument = $dom->createElement("documents");
+		$dom->appendChild($nouveauDocument);	
+		
 		while ($row =  $db->fetch_assoc($rows)) {
 			if($this->trace)
 				echo $row['id_rubrique'];
 				
-			// Création Xml		
-			$dom = new DomDocument("1.0");
-			
-			// Site local
-			$nouveauDocument = $dom->createElement("documents");
-			$dom->appendChild($nouveauDocument);	
-			$document = $dom->firstChild;
+			$document = $dom->lastChild; //firstChild
 						
 			$this->GetChildren($row['id_rubrique'], $dom, $document);
-			
-			  //$url = PathRoot."/param/synchro.xml";
-			   
-			if ($type == "export") $url = PathRoot."/param/synchroExport.xml";
-			else $url = PathRoot."/param/synchroImport.xml";
-				//$url = "C:\wamp\www\onadabase\param\synchro.xml";	
-					
+				
 			if ($this->trace) {
 				//echo 'type : '.$type;
 				echo $dom->saveXML();
-				echo $url;
 			}
 			$xmlSrc = $dom->save($url);
 			
 			//$xmlSrc = $dom->saveXML();
 			//return $url;
 		}
+		return $url;
 	}
 
 	
@@ -160,10 +159,6 @@ Class Synchro{
 		$idRub = $nodePrincipal[0]['id'];
 		if($this->trace)
 			echo "Synchro:ImportSynchro:idRub ".$idRub."<br/>";
-		
-		$idRub = $nodePrincipal[0]["id"];
-		if($this->trace)
-			echo "Synchro:AddXmlFile/- récupération de l'identifiant de la rubrique ".$idRub."<br/>";
 			
 		$Xpath = $Xpath."/rubrique";
 		$rubriques = $xml->GetElements($Xpath);
