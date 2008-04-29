@@ -138,9 +138,10 @@ Class Synchro{
 				echo $dom->saveXML();
 				echo $url;
 			}
-			//$dom->save($url);
-			$xmlSrc = $dom->saveXML();
-			return $xmlSrc;
+			$xmlSrc = $dom->save($url);
+			
+			//$xmlSrc = $dom->saveXML();
+			//return $url;
 		}
 	}
 
@@ -149,7 +150,7 @@ Class Synchro{
   		
   		if($this->trace)
 			echo "Synchro:ImportSynchro //récuparation de la définition des données ".$xmlSrc."<br/>";
-		$xml = new XmlParam(-1,$xmlSrc);	
+		$xml = new XmlParam($xmlSrc, -1);	
 		
 		//$xml = simplexml_load_string($xmlSrc);
 		
@@ -159,7 +160,8 @@ Class Synchro{
 		$idRub = $nodePrincipal[0]['id'];
 		if($this->trace)
 			echo "Synchro:ImportSynchro:idRub ".$idRub."<br/>";
-		$idRub = $xml->getAttribute($nodePrincipal[0], 'id');
+		
+		$idRub = $nodePrincipal[0]["id"];
 		if($this->trace)
 			echo "Synchro:AddXmlFile/- récupération de l'identifiant de la rubrique ".$idRub."<br/>";
 			
@@ -185,7 +187,10 @@ Class Synchro{
 			$i++;
 		}
   	}
-	
+
+/*
+ * Parcourt récursivement les enfants afin de créer l'objet dom de l'xml (correspondant à l'export)
+ */
 	public function GetChildren($idRub, $dom, $parent) {
 		
 		global $objSite;

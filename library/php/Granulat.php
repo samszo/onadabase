@@ -36,7 +36,9 @@ class Granulat
 	}
   }
  
-  
+/*
+ * Parcourt récursivement les enfants afin de créer l'arborescence des rubriques et articles dans spip (correspondant à l'import)  
+ */ 
   	function GetChildren($xml, $idParent, $rubriques, $articles) {
   		
   		//$rubriques = $xml->GetElements($Xpath);
