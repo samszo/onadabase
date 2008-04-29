@@ -84,13 +84,14 @@
 			echo "ExeAjax:Synchronise:$siteSrc, $siteDst, $idAuteur, $type<br/>";
 
 		$synchro = new Synchro($objSiteSync, $objSite);
-    	$xmlSrc = $synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
+    	$synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
     	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport";
 		if(TRACE)
 			echo "ExeAjax:Synchronise:url=$url<br/>";
-		$data = array('src' => $xmlSrc);
+		/*$data = array('src' => $xmlSrc);
 		
-    	PostCurl($url,$data);
+    	PostCurl($url,$data);*/  
+		UploadCurl($xmlUrl, $url);
     	
     }
 
@@ -115,9 +116,23 @@
 
 	function SynchroImport($src) {
 		
-		$src = str_replace("\\","",$src); 
-		if(TRACE)
-			echo "ExeAjax:ImportSynchro:src=$src<br/>";
+		//$src = str_replace("\\","",$src); 
+		if(TRACE){
+			//echo "ExeAjax:ImportSynchro:src=$src<br/>";
+			print_r($_POST);
+			print_r($_FILES);
+		}	
+		
+		if ((isset($_FILES['file']['name'])&&($_FILES['nom_du_fichier']['error'] == UPLOAD_ERR_OK))) {
+			if(TRACE){
+				echo "PATH = ".PathRoot."/param/";
+			}
+			$chemin_destination = PathRoot."/param/";
+			move_uploaded_file($_FILES['file']['tmp_name'], $chemin_destination.$_FILES['file']['name']);
+		}
+		
+		$src = $chemin_destination.$_FILES['file']['name'];
+		echo "SRC = ".$src;
 		global $objSite;
 		$sync = new Synchro($objSite,-1);
 		//$url = PathRoot."/param/synchroExport.xml";
@@ -171,7 +186,21 @@
 		}
 		curl_close($curl);
 		
+		
+		
 		return $page; 
+	}
+	
+	function UploadCurl($urlLocal, $url) {
+		
+		$ch = curl_init(); 
+		$data = array('name' => 'Test', 'file' => '@'.$urlLocal); 
+		//print_r($data);
+		curl_setopt($ch, CURLOPT_URL, $url); 
+		curl_setopt($ch, CURLOPT_POST, 1); 
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
+		curl_exec($ch);
+		
 	}
 	
 	function SetVal($idGrille,$idDon,$champ,$val){
