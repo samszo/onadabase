@@ -84,7 +84,7 @@
 			echo "ExeAjax:Synchronise:$siteSrc, $siteDst, $idAuteur, $type<br/>";
 
 		$synchro = new Synchro($objSiteSync, $objSite);
-    	$synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
+    	$xmlUrl = $synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
     	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport";
 		if(TRACE)
 			echo "ExeAjax:Synchronise:url=$url<br/>";
