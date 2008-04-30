@@ -155,31 +155,87 @@ Class Synchro{
 		
 		$Xpath = "/documents/rubrique";
 		
-		$nodePrincipal = $xml->GetElements($Xpath);
-		$idRub = $nodePrincipal[0]['id'];
-		if($this->trace)
-			echo "Synchro:ImportSynchro:idRub ".$idRub."<br/>";
+		$nodesPrincipaux = $xml->GetElements($Xpath);
+		//$k = 0;
+		foreach($nodesPrincipaux as $node) {
+			$idRub = $node['id'];
+			if($this->trace)
+				echo "Synchro:ImportSynchro:idRub ".$idRub."<br/>";
+				
+			//$Xpath = $Xpath."/rubrique";
+			//$rubriques = $xml->GetElements($Xpath);
+			$rubriques = $node->rubrique;
+
+			$g = new Granulat($idRub, $this->siteSrc); 
 			
-		$Xpath = $Xpath."/rubrique";
-		$rubriques = $xml->GetElements($Xpath);
-		
-		/*if($this->trace)
-			print_r($rubriques);*/
-		
-		$g = new Granulat($idRub, $this->siteSrc); 
-		if ($nodePrincipal->article != "") $g->SetNewArticle(utf8_decode($nodePrincipal->article));
-		
-		$i = 0;
-		foreach($rubriques as $rubrique)
-		{
-			/**/
-			//récuparation du granulat
+			// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
+			if (!$node->article) {
+
+				$article = $node->article;
+				$donnees = $article->donnees;
+	  			$idGrille = $donnees->grille;
+	  			
+	  			$idAuteur = $article->auteur;
+	  			$champs = $donnees->champs;
+	  			$date = $article->date;
+	  			$maj = $article->maj;
+	  			
+	  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
+	  			$g->AddAuteur($idArt, $idAuteur);	
+	  			
+	  			if($this->trace)
+	  					print_r($donnees->donnee);
+	  					
+	  			foreach($donnees->donnee as $donnee){
+	  				$j=0;
+	  				if($this->trace)
+	  					print_r($donnee->valeur);
+	
+	  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
+					if($this->trace)
+						echo "Granulat/AddXmlFile/- création de la donnee ".$idDon."<br/>";	
+	  				
+					foreach($donnee->valeur as $valeur) {
+						if($valeur!='non'){
+							$valeur=utf8_decode($valeur);
+							$champ = $champs[0]->champ[$j];
+							if($this->trace)
+								echo "Granulat/AddXmlFile/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+							if(substr($champ,0,8)=="multiple"){
+								$valeur=$champ;
+							//attention il ne doit pas y avoir plus de 10 choix
+								$champ=substr($champ,0,-2);
+							}
+							if($this->trace) {
+								echo "Granulat/AddXmlFile/-- récupération du type de champ ".$champ."<br/>";
+								echo "Granulat/AddXmlFile/-- récupération de la valeur du champ ".$valeur."<br/>";
+							}
+							$row = array('champ'=>$champ, 'valeur'=>$valeur);
+							
+							$grille = new Grille($g->site);
+							if($this->trace)
+								echo "Granulat/AddXmlFile/--- création du champ <br/>";
+							$grille->SetChamp($row, $idDon, false);
+							
+						}
+						$j++;
+					}
+	  			}	
+				
+			}
 			
-			$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
-  			$g->SetMotClef($rubrique->motclef, $idEnfant);
-  			   			
-			$g->GetChildren($xml, $idEnfant, $rubriques[$i]->rubrique, $rubriques[$i]->article);
-			$i++;
+			$i = 0;
+			foreach($rubriques as $rubrique)
+			{
+				/**/
+				//récuparation du granulat
+				
+				$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
+	  			$g->SetMotClef($rubrique->motclef, $idEnfant);
+	  			   			
+				$g->GetChildren($xml, $idEnfant, $rubriques[$i]->rubrique, $rubriques[$i]->article);
+				$i++;
+			}
 		}
   	}
 
