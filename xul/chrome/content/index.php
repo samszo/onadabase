@@ -23,7 +23,7 @@ function ChercheAbo ($login, $mdp, $objSite)
 	   //$link = mysql_connect("mysql5-5", "mundilogcai", "CnVjzGxb")  or die("Impossible de se connecter : " . mysql_error());	
 		// Sélection de la base de données
 		//mysql_select_db("mundilogcai", $link);	
-	
+
 		$link = mysql_connect($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"]) or die("Impossible de se connecter : " . mysql_error());	
 		// Sélection de la base de données
 		//mysql_select_db("solacc", $link);	
@@ -39,12 +39,13 @@ function ChercheAbo ($login, $mdp, $objSite)
 		{
 			while($resultat = mysql_fetch_assoc($req))
 				{	
-					$_SESSION['IdAuteur'] = $resultat->id_auteur;
-					$_SESSION['NomSess'] = $resultat->nom;
-					$_SESSION['EmailSess'] = $resultat->email;
-					$_SESSION['LoginSess'] = $resultat->login;	
+					$_SESSION['IdAuteur'] = $resultat['id_auteur'];
+					$_SESSION['NomSess'] = $resultat['nom'];
+					$_SESSION['EmailSess'] = $resultat['email'];
+					$_SESSION['LoginSess'] = $resultat['login'];	
 					$_SESSION['IpSess'] = $_SERVER['REMOTE_ADDR'];
 				}
+			
 		}
 		else
 		{
@@ -54,6 +55,7 @@ function ChercheAbo ($login, $mdp, $objSite)
 	}
 
 ChercheAbo ($login, $mdp, $objSite);
+$idAuteur=$_SESSION['IdAuteur'];
 
 header ("Content-type: application/vnd.mozilla.xul+xml; charset=iso-8859-15");
 header ("title: Saisi des diagnosics d'accessibilité");
@@ -87,7 +89,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		var syncxmlParam = GetXmlUrlToDoc("<?php echo $objSiteSync->infos["jsXulParam"]; ?>");
 		var urlSite = "<?php echo $objSite->infos["urlSite"]; ?>";
 		var urlSynchro = "<?php echo $objSite->infos["urlSynchro"]; ?>";
-		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";
+		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";	
      </script>
 
 	<popupset >
@@ -181,9 +183,9 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 	<vbox  flex="1" style="overflow:auto">
 	
 		<hbox class="menubar">
-		
 			<image src="images/logo.png" />
-			<label id="idAuteur" value="<?php echo $idAuteur; ?>" class="menubartext"/>
+			<label id="idAuteur" value="<?php echo $_SESSION['IdAuteur']; ?>" class="menubartext"/>
+			<script type="text/javascript">document.getElementById('idAuteur').style.visibility="hidden";</script>
 			<label value="Auteur du diagnostic :" class="menubartext"/>
 			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
 			<button id="btnSync" label="Synchroniser Import" onclick="SynchroniserImport()"/>

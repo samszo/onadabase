@@ -94,7 +94,9 @@ function SynchroniserExport() {
 	try {
 		var doc = document.getElementById("synctreeRub");
 		var type = "export";
-		var url3 = urlExeAjax+"?f=Synchronise&type="+type;
+		var idAuteur = document.getElementById('idAuteur').value;
+		
+		var url3 = urlExeAjax+"?f=Synchronise&type="+type+'&idAuteur='+idAuteur;
 		AppendResult(url3,doc);
 		
 		//var xml = path;
@@ -139,6 +141,7 @@ function AddNewGrille(type){
 	
 	var dst = document.getElementById('idRub').value;
 	var login = document.getElementById('login').value;
+	
 	if(dst=="?"){
 		alert(messNoVerif);
 		verif = false;
