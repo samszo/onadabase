@@ -61,7 +61,7 @@
 			break;
 		case 'Synchronise':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
-			$resultat = Synchronise($siteSrc, $siteDst=-1, $idAuteur=6, $_GET['type']);
+			$resultat = Synchronise($siteSrc, $siteDst=-1, $_GET['idAuteur'], $_GET['type']);
 			break;
 		case 'SynchroImport':
 			$resultat = SynchroImport($_POST['src']);
@@ -75,7 +75,7 @@
 	
 }*/
 	
-	function  Synchronise($siteSrc, $siteDst=-1, $idAuteur=6, $type){
+	function  Synchronise($siteSrc, $siteDst=-1, $idAuteur, $type){
     	
 		global $objSite;
 		global $objSiteSync; //Mundi

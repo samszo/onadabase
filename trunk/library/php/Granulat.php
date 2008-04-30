@@ -212,6 +212,7 @@ class Granulat
 		
 		return $newId;
   	}
+  	
   	function SetMotClef($id_mot,$id=-1){
 
 	if($id==-1)
