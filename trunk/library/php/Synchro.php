@@ -91,6 +91,25 @@ Class Synchro{
 		$DB->close();
 		
 	}
+
+	public function AddHistoriqueSynchro($xmlSrc, $idAuteur) {
+		
+		$doc = new DOMDocument();
+		$doc->load($xmlSrc);
+		//echo $doc->saveXML();
+		
+		$src = $doc->saveXML();
+		$sql = "INSERT INTO `spip_synchro_historique` (`id_auteur`, `synchro_xml`)
+				VALUES (".$idAuteur.', \''.$src.'\')';
+		//print_r("siteSrc ".$this->siteSrc);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		
+		$DB->close();
+		if($this->trace)
+			echo "Synchro:AddHistoriqueSynchro // Terminé";
+	}
 	
 	public function Synchronise($siteSrc, $siteDst, $idAuteur=6, $type) {
 		
@@ -103,7 +122,7 @@ Class Synchro{
 		//récupère les rubriques de l'auteur
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesAuteur']";
 		if($this->trace)
-			echo "Site:Synchronise2:Xpath=".$Xpath."<br/>";
+			echo "Synchro:Synchronise:Xpath=".$Xpath."<br/>";
 		$Q = $siteDst->XmlParam->GetElements($Xpath);
 		$where = str_replace("-idAuteur-", $idAuteur, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
@@ -112,13 +131,12 @@ Class Synchro{
 		$rows = $db->query($sql);
 		$db->close();
 		if($this->trace)
-			echo "Site:Synchronise2:sql=".$sql."<br/>";
+			echo "Synchro:Synchronise:sql=".$sql."<br/>";
 		
-		// Création Xml
 		if ($type == "export") $url = PathRoot."/param/synchroExport.xml";
 		else $url = PathRoot."/param/synchroImport.xml";
 		if($this->trace)
-			echo $url;
+			echo "Synchro:Synchronise:url // Création Xml ".$url;
 			
 		$dom = new DomDocument("1.0");
 		$nouveauDocument = $dom->createElement("documents");
@@ -133,11 +151,9 @@ Class Synchro{
 			$this->GetChildren($row['id_rubrique'], $dom, $document);
 				
 			if ($this->trace) {
-				//echo 'type : '.$type;
 				echo $dom->saveXML();
 			}
-			$xmlSrc = $dom->save($url);
-			
+			$xmlSrc = $dom->save($url);	
 			//$xmlSrc = $dom->saveXML();
 			//return $url;
 		}
@@ -148,11 +164,9 @@ Class Synchro{
   	function import($xmlSrc) {
   		
   		if($this->trace)
-			echo "Synchro:ImportSynchro //récuparation de la définition des données ".$xmlSrc."<br/>";
+			echo "Synchro:import //récuparation de la définition des données ".$xmlSrc."<br/>";
 		$xml = new XmlParam($xmlSrc, -1);	
-		
-		//$xml = simplexml_load_string($xmlSrc);
-		
+				
 		$Xpath = "/documents/rubrique";
 		
 		$nodesPrincipaux = $xml->GetElements($Xpath);
@@ -160,10 +174,8 @@ Class Synchro{
 		foreach($nodesPrincipaux as $node) {
 			$idRub = $node['id'];
 			if($this->trace)
-				echo "Synchro:ImportSynchro:idRub ".$idRub."<br/>";
+				echo "Synchro:import:idRub ".$idRub."<br/>";
 				
-			//$Xpath = $Xpath."/rubrique";
-			//$rubriques = $xml->GetElements($Xpath);
 			$rubriques = $node->rubrique;
 
 			$g = new Granulat($idRub, $this->siteSrc); 
@@ -193,28 +205,28 @@ Class Synchro{
 	
 	  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
 					if($this->trace)
-						echo "Granulat/AddXmlFile/- création de la donnee ".$idDon."<br/>";	
+						echo "Synchro/import - création de la donnee ".$idDon."<br/>";	
 	  				
 					foreach($donnee->valeur as $valeur) {
 						if($valeur!='non'){
 							$valeur=utf8_decode($valeur);
 							$champ = $champs[0]->champ[$j];
 							if($this->trace)
-								echo "Granulat/AddXmlFile/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+								echo "Synchro/import --- gestion des champs multiples ".substr($champ,0,8)."<br/>";
 							if(substr($champ,0,8)=="multiple"){
 								$valeur=$champ;
 							//attention il ne doit pas y avoir plus de 10 choix
 								$champ=substr($champ,0,-2);
 							}
 							if($this->trace) {
-								echo "Granulat/AddXmlFile/-- récupération du type de champ ".$champ."<br/>";
-								echo "Granulat/AddXmlFile/-- récupération de la valeur du champ ".$valeur."<br/>";
+								echo "Synchro/import -- récupération du type de champ ".$champ."<br/>";
+								echo "Synchro/import -- récupération de la valeur du champ ".$valeur."<br/>";
 							}
 							$row = array('champ'=>$champ, 'valeur'=>$valeur);
 							
 							$grille = new Grille($g->site);
 							if($this->trace)
-								echo "Granulat/AddXmlFile/--- création du champ <br/>";
+								echo "Synchro/import --- création du champ <br/>";
 							$grille->SetChamp($row, $idDon, false);
 							
 						}
