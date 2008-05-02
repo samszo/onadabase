@@ -64,7 +64,7 @@
 			$resultat = Synchronise($siteSrc, $siteDst=-1, $_GET['idAuteur'], $_GET['type']);
 			break;
 		case 'SynchroImport':
-			$resultat = SynchroImport($_POST['src']);
+			$resultat = SynchroImport($_GET['idAuteur']);
 			break;
 	}
 
@@ -85,13 +85,14 @@
 
 		$synchro = new Synchro($objSiteSync, $objSite);
     	$xmlUrl = $synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
-    	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport";
+    	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport&idAuteur=".$idAuteur;
 		if(TRACE)
 			echo "ExeAjax:Synchronise:url=$url<br/>";
 		/*$data = array('src' => $xmlSrc);
 		
     	PostCurl($url,$data);*/  
 		UploadCurl($xmlUrl, $url);
+		
     	
     }
 
@@ -114,30 +115,33 @@
 		$g->AddXmlDonnee($url);
 	}
 
-	function SynchroImport($src) {
+	function SynchroImport($idAuteur) {
 		
+		global $objSite;
 		//$src = str_replace("\\","",$src); 
 		if(TRACE){
-			//echo "ExeAjax:ImportSynchro:src=$src<br/>";
+			echo "ExeAjax:SynchroImport:idAuteur=$idAuteur<br/>";
 			print_r($_POST);
 			print_r($_FILES);
 		}	
 		
 		if ((isset($_FILES['file']['name'])&&($_FILES['nom_du_fichier']['error'] == UPLOAD_ERR_OK))) {
 			if(TRACE){
-				echo "PATH = ".PathRoot."/param/";
+				echo "ExeAjax:SynchroImport:PATH = ".PathRoot."/param/";
 			}
 			$chemin_destination = PathRoot."/param/";
 			move_uploaded_file($_FILES['file']['tmp_name'], $chemin_destination.$_FILES['file']['name']);
+			
+			$src = $chemin_destination.$_FILES['file']['name'];
+			if(TRACE){
+				echo "ExeAjax:SynchroImport:urlSRC = ".$src;
+			}
+			
+			$sync = new Synchro($objSite,-1);
+			//$url = PathRoot."/param/synchroExport.xml";
+			$sync->import($src);
+			$sync->AddHistoriqueSynchro($src, $idAuteur);
 		}
-		
-		$src = $chemin_destination.$_FILES['file']['name'];
-		echo "SRC = ".$src;
-		global $objSite;
-		$sync = new Synchro($objSite,-1);
-		//$url = PathRoot."/param/synchroExport.xml";
-		$sync->import($src);
-		
 	}
 	
 	function GetCurl($url)
@@ -477,9 +481,10 @@
 	function NewRubrique($idRubSrc, $idRubDst) {
 		global $objSite;
 
-		
-		echo '$idRubSrc '.$idRubSrc;
-		echo '$idRubDst '.$idRubDst;
+		if(TRACE) {
+			echo 'ExeAjax:NewRubrique:idRubSrc '.$idRubSrc;
+			echo 'ExeAjax:NewRubrique:idRubDst '.$idRubDst;
+		}
 		// pour récupérer le parent
 		$g = new Granulat($idRubDst,$objSite);
 		
