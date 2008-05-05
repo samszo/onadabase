@@ -66,6 +66,9 @@
 		case 'SynchroImport':
 			$resultat = SynchroImport($_GET['idAuteur']);
 			break;
+		case 'Clean':
+			$resultat = Clean($_GET['deb'], $_GET['fin']);
+			break;
 	}
 
 	echo  utf8_encode($resultat);	
@@ -75,7 +78,7 @@
 	
 }*/
 	
-	function  Synchronise($siteSrc, $siteDst=-1, $idAuteur, $type){
+	function Synchronise($siteSrc, $siteDst=-1, $idAuteur, $type){
     	
 		global $objSite;
 		global $objSiteSync; //Mundi
@@ -168,7 +171,6 @@
 		return $sResult;
 	
 	}
-	
 	
 	function PostCurl($url,$data)
 	{
@@ -520,5 +522,146 @@
 
 		return "donnée créé = ".$idDon;
 		
+	}
+
+	/*
+	 * Permet de nettoyer la base de données des données non utilisées, en précisant la plage d'articles à explorer
+	 * 
+	 */
+	function Clean($deb, $fin) {
+		echo 'CLEAN </BR>';
+		for ($i=$deb; $i<=$fin; $i++) {
+			$idArticleFantome = GetArticleFantome($i);
+			if ($idArticleFantome != -1) {
+				echo "idArticleFantome = ".$idArticleFantome."</BR>";
+				$arrListeDonnees = GetIdDonnees($idArticleFantome) ;
+				
+				if($arrListeDonnees !=null) {
+					foreach ($arrListeDonnees as $donnee) {
+						echo "/// idDonnee = ".$donnee['id']."</BR>";
+						DelFormsDonneesChamps($donnee['id']);
+						echo "/// +++ Suppression champ idDonnee = ".$donnee['id']."</BR>";
+						DelFormsDonnees($donnee['id']);
+						echo "/// +++ Suppression idDonnee = ".$donnee['id']."</BR>";
+					}
+				}
+				DelFormsDonneesArticles($idArticleFantome);
+				DelFormsArticles($idArticleFantome);
+				echo "Suppression idArticle = ".$idArticleFantome."</BR>";
+			} 
+		}
+		echo 'FIN CLEAN </BR>';
+	}
+	
+	/*
+	 * Récupére l'article nécessitant la vérification de la présence de données inutilisées
+	 * 
+	 */
+	function GetArticleFantome($idArticle, $extraSql="") {
+		global $objSite;
+		
+		$sql = "SELECT a.id_article ,a.titre, a.date, a.maj, a.statut
+			FROM spip_articles a
+			WHERE a.id_article = ".$idArticle." ".$extraSql."
+				";
+		//echo $sql."<br/>";
+		$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if($data = $DB->fetch_assoc($req)) {
+			return -1;
+		}
+
+		return $idArticle; 
+	}
+	
+	/*
+	 * Efface les données d'un article précis dans la table spip_forms_articles
+	 * 
+	 */
+	function DelFormsArticles($idArticle) {
+		global $objSite;
+		
+		$sql = "DELETE 
+				FROM spip_forms_articles 
+				WHERE id_article = ".$idArticle;
+		//echo $sql."<br/>";
+		$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Efface les champs d'une donnée précise dans la table spip_forms_donnees_champs
+	 * 
+	 */
+	function DelFormsDonneesChamps($idDonnee) {
+		global $objSite;
+		
+		$sql = "DELETE 
+				FROM spip_forms_donnees_champs 
+				WHERE id_donnee = ".$idDonnee;
+		//echo $sql."<br/>";
+		$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Efface les données d'un article précis dans la table spip_forms_donnees_articles
+	 * 
+	 */
+	function DelFormsDonneesArticles($idArticle) {
+		global $objSite;
+		
+		$sql = "DELETE 
+				FROM spip_forms_donnees_articles 
+				WHERE id_article = ".$idArticle;
+		//echo $sql."<br/>";
+		$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Efface une donnée précise de la table spip_forms_donnees
+	 * 
+	 */
+	function DelFormsDonnees($idDonnee) {
+		global $objSite;
+		
+		$sql = "DELETE 
+				FROM spip_forms_donnees 
+				WHERE id_donnee = ".$idDonnee;
+		//echo $sql."<br/>";
+		$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Renvoie un tableau des id de données d'un article précis
+	 * 
+	 */
+	function GetIdDonnees($idArticle) {
+		global $objSite;
+		
+		$sql = "SELECT da.id_donnee
+				FROM spip_forms_donnees_articles da 
+				WHERE da.id_article = ".$idArticle;
+			
+		$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			$arrliste[$i] = array("id"=>$data['id_donnee']);
+			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
+			$i ++;
+		}
+
+		return $arrliste;		
 	}
 ?>
