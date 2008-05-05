@@ -377,6 +377,141 @@ Class Synchro{
 		$url = PathRoot."/param/synchro.xml";
 		
 	}
+
+	/*
+	 * Permet de nettoyer la base de données des données non utilisées, en précisant la plage d'articles à explorer
+	 * 
+	 */
+	function Clean($deb, $fin) {
+		echo 'CLEAN </BR>';
+		for ($i=$deb; $i<=$fin; $i++) {
+			$idArticleFantome = $this->GetArticleFantome($i);
+			if ($idArticleFantome != -1) {
+				echo "idArticleFantome = ".$idArticleFantome."</BR>";
+				$arrListeDonnees = $this->GetIdDonnees($idArticleFantome) ;
+				
+				if($arrListeDonnees !=null) {
+					foreach ($arrListeDonnees as $donnee) {
+						echo "/// idDonnee = ".$donnee['id']."</BR>";
+						$this->DelFormsDonneesChamps($donnee['id']);
+						echo "/// +++ Suppression champ idDonnee = ".$donnee['id']."</BR>";
+						$this->DelFormsDonnees($donnee['id']);
+						echo "/// +++ Suppression idDonnee = ".$donnee['id']."</BR>";
+					}
+				}
+				$this->DelFormsDonneesArticles($idArticleFantome);
+				$this->DelFormsArticles($idArticleFantome);
+				echo "Suppression idArticle = ".$idArticleFantome."</BR>";
+			} 
+		}
+		echo 'FIN CLEAN </BR>';
+	}
+	
+	/*
+	 * Récupére l'article nécessitant la vérification de la présence de données inutilisées
+	 * 
+	 */
+	function GetArticleFantome($idArticle, $extraSql="") {
+	
+		$sql = "SELECT a.id_article 
+			FROM spip_articles a
+			WHERE a.id_article = ".$idArticle." ".$extraSql."
+				";
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if($data = $DB->fetch_assoc($req)) {
+			return -1;
+		}
+
+		return $idArticle; 
+	}
+	
+	/*
+	 * Efface les données d'un article précis dans la table spip_forms_articles
+	 * 
+	 */
+	function DelFormsArticles($idArticle) {
+
+		$sql = "DELETE 
+				FROM spip_forms_articles 
+				WHERE id_article = ".$idArticle;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Efface les champs d'une donnée précise dans la table spip_forms_donnees_champs
+	 * 
+	 */
+	function DelFormsDonneesChamps($idDonnee) {
+
+		$sql = "DELETE 
+				FROM spip_forms_donnees_champs 
+				WHERE id_donnee = ".$idDonnee;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Efface les données d'un article précis dans la table spip_forms_donnees_articles
+	 * 
+	 */
+	function DelFormsDonneesArticles($idArticle) {
+
+		$sql = "DELETE 
+				FROM spip_forms_donnees_articles 
+				WHERE id_article = ".$idArticle;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Efface une donnée précise de la table spip_forms_donnees
+	 * 
+	 */
+	function DelFormsDonnees($idDonnee) {
+	
+		$sql = "DELETE 
+				FROM spip_forms_donnees 
+				WHERE id_donnee = ".$idDonnee;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Renvoie un tableau des id de données d'un article précis
+	 * 
+	 */
+	function GetIdDonnees($idArticle) {
+
+		$sql = "SELECT da.id_donnee
+				FROM spip_forms_donnees_articles da 
+				WHERE da.id_article = ".$idArticle;
 			
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			$arrliste[$i] = array("id"=>$data['id_donnee']);
+			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
+			$i ++;
+		}
+
+		return $arrliste;		
+	}
+	
 }
 ?>
