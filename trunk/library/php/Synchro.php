@@ -111,15 +111,14 @@ Class Synchro{
 			echo "Synchro:AddHistoriqueSynchro // Terminé";
 	}
 	
-	public function Synchronise($siteSrc, $siteDst, $idAuteur=6) {
-		
+	public function Synchronise($siteSrc, $siteDst, $idAuteur=6) {	
 		global $objSite;
 		//global $objSiteSync; //Mundi
     	
 		//récupère les rubriques de l'auteur
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesAuteur']";
 		if($this->trace)
-			echo "Synchro:Synchronise:Xpath=".$Xpath."<br/>";
+			echo "Synchro:Synchronise:Xpath=".$Xpath."<BR/>";
 		$Q = $siteDst->XmlParam->GetElements($Xpath);
 		$where = str_replace("-idAuteur-", $idAuteur, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
@@ -128,27 +127,28 @@ Class Synchro{
 		$rows = $db->query($sql);
 		$db->close();
 		if($this->trace)
-			echo "Synchro:Synchronise:sql=".$sql."<br/>";
+			echo "Synchro:Synchronise:sql=".$sql."<BR/>";
 		
 		$url = PathRoot."/param/synchroExport.xml";
 		
 		if($this->trace)
-			echo "Synchro:Synchronise:url // Création Xml ".$url;
+			echo "Synchro:Synchronise:url // Création Xml ".$url."<BR/>";
 			
 		$dom = new DomDocument("1.0");
 		$nouveauDocument = $dom->createElement("documents");
 		$dom->appendChild($nouveauDocument);	
+		$dom->save($url);	
 		
 		while ($row =  $db->fetch_assoc($rows)) {
 			if($this->trace)
-				echo $row['id_rubrique'];
+				echo "Synchro:Synchronise:id_rubrique ".$row['id_rubrique']."<BR/>";
 				
 			$document = $dom->lastChild; //firstChild
 						
 			$this->GetChildren($row['id_rubrique'], $dom, $document);
 				
 			if ($this->trace) {
-				echo $dom->saveXML();
+				echo "Synchro:Synchronise:XML Tree ".$dom->saveXML()."<BR/>";
 			}
 			$xmlSrc = $dom->save($url);	
 		}
@@ -165,7 +165,7 @@ Class Synchro{
 		$Xpath = "/documents/rubrique";
 		
 		$nodesPrincipaux = $xml->GetElements($Xpath);
-		//$k = 0;
+		
 		foreach($nodesPrincipaux as $node) {
 			$idRub = $node['id'];
 			if($this->trace)
@@ -223,16 +223,13 @@ Class Synchro{
 							if($this->trace)
 								echo "Synchro/import --- création du champ <br/>";
 							$grille->SetChamp($row, $idDon, false);
-							
 						}
 						$j++;
 					}
-	  			}	
-				
+	  			}		
 			}
 			
-			foreach($rubriques as $rubrique)
-			{
+			foreach($rubriques as $rubrique) {
 				//récuparation du granulat
 				$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
 	  			$g->SetMotClef($rubrique->motclef, $idEnfant);
@@ -267,9 +264,6 @@ Class Synchro{
 		//$document = $dom->firstChild;
 		$parent->appendChild($nouvelleRubrique);
 	
-			//echo $dom->saveXML();
-			//$listeRubrique = $dom->getElementsByTagName('rubrique');
-			//$Rub = $listeRubrique->item($index);
 		$Rub = $parent->lastChild;
 		$Rub->appendChild($nouveauMotClef);		
 		
@@ -290,10 +284,7 @@ Class Synchro{
 			$dateArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['date']));
 			$majArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['maj']));
 			
-			//echo ' ID FORM '.$gSrc->GetFormId($arrlisteArticle[0]['id']); 
 			$idNumeroGrille = $gSrc->GetFormId($arrlisteArticle[$k]['id']);
-			//echo ' ARTICLE '.$arrlisteArticle[$k]['id'];
-			//echo ' GRILLE '.$idNumeroGrille;
 			
 			$idGrille = $dom->createTextNode($idNumeroGrille);
 			
@@ -321,9 +312,7 @@ Class Synchro{
 			for ($i=0; $i<sizeof($arrlisteGrilles); $i++) {
 				$arrlisteDonnee = $gSrc->GetInfosDonnee($arrlisteGrilles[$i]['id']);
 				$nouvelleDonnee = $dom->createElement("donnee");
-						/*for ($j=0; $j<sizeof($arrlisteDonnee); $j++) {
-							echo 'Id champ '.$arrlisteDonnee[$j]['champ'];
-						}*/
+
 				$nouvelleDateDonnee = $dom->createElement("date");
 				$nouvelleMajDonnee =$dom->createElement("maj");
 				$dateDonnee =  $dom->createTextNode($arrlisteGrilles[$i]['date']);
@@ -338,8 +327,7 @@ Class Synchro{
 					$nouvelleValeur = $dom->createElement("valeur");
 					$nomValeur = $dom->createTextNode(utf8_encode($arrlisteDonnee[$j]['valeur']));
 					$nouvelleValeur->appendChild($nomValeur);	
-					$nouvelleDonnee->appendChild($nouvelleValeur);	
-										
+					$nouvelleDonnee->appendChild($nouvelleValeur);						
 				}
 				$nouvellesDonnees->appendChild($nouvelleDonnee);		
 			}		
@@ -350,7 +338,6 @@ Class Synchro{
 			$nouvelArticle->appendChild($nouvellesDonnees);
 			
 			$Rub->appendChild($nouvelArticle);
-		
 		}
 		
 		//$document = $dom->firstChild;
@@ -358,7 +345,6 @@ Class Synchro{
 		
 		$arrliste = $gSrc->GetListeEnfants();
 		for ($i = 0; $i < sizeof($arrliste); $i++) {
-			//echo " GG ".$arrliste[$i]['id'];
 			$this->GetChildren($arrliste[$i]['id'], $dom, $Rub);
 		}
 	}
