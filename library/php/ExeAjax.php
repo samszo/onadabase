@@ -61,7 +61,7 @@
 			break;
 		case 'Synchronise':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
-			$resultat = Synchronise($siteSrc, $siteDst=-1, $_GET['idAuteur'], $_GET['type']);
+			$resultat = Synchronise($siteSrc, $siteDst=-1, $_GET['idAuteur']);
 			break;
 		case 'SynchroImport':
 			$resultat = SynchroImport($_GET['idAuteur']);
@@ -72,31 +72,22 @@
 	}
 
 	echo  utf8_encode($resultat);	
-
-	/*function Synchroniser($objSite){
-		return GetTree("terre",-1,-1,$objSite);
 	
-}*/
-	
-	function Synchronise($siteSrc, $siteDst=-1, $idAuteur, $type){
+	function Synchronise($siteSrc, $siteDst=-1, $idAuteur){
     	
 		global $objSite;
 		global $objSiteSync; //Mundi
 		    	
 		if(TRACE)
-			echo "ExeAjax:Synchronise:$siteSrc, $siteDst, $idAuteur, $type<br/>";
+			echo "ExeAjax:Synchronise:$siteSrc, $siteDst, $idAuteur<br/>";
 
 		$synchro = new Synchro($objSiteSync, $objSite);
-    	$xmlUrl = $synchro->synchronise($objSiteSync, $objSite, $idAuteur, $type);
+    	$xmlUrl = $synchro->synchronise($objSiteSync, $objSite, $idAuteur);
     	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport&idAuteur=".$idAuteur;
 		if(TRACE)
 			echo "ExeAjax:Synchronise:url=$url<br/>";
-		/*$data = array('src' => $xmlSrc);
-		
-    	PostCurl($url,$data);*/  
+
 		UploadCurl($xmlUrl, $url);
-		
-    	
     }
 
 	function GetFilAriane($jsParam, $id){
@@ -118,10 +109,9 @@
 		$g->AddXmlDonnee($url);
 	}
 
-	function SynchroImport($idAuteur) {
-		
+	function SynchroImport($idAuteur) {	
 		global $objSite;
-		//$src = str_replace("\\","",$src); 
+		
 		if(TRACE){
 			echo "ExeAjax:SynchroImport:idAuteur=$idAuteur<br/>";
 			print_r($_POST);
@@ -141,7 +131,6 @@
 			}
 			
 			$sync = new Synchro($objSite,-1);
-			//$url = PathRoot."/param/synchroExport.xml";
 			$sync->import($src);
 			$sync->AddHistoriqueSynchro($src, $idAuteur);
 		}

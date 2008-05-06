@@ -63,67 +63,15 @@ function GetXmlUrlToDoc(url){
 
 }
 
-/*function Synchroniser(){
-
-  try {
-  	var btn = document.getElementById("btnSync");
-  	if(btn.getAttribute("label")=="Synchroniser"){
-		var doc = document.getElementById("synctreeRub");
-		var url = syncurlExeAjax+"?f=Synchroniser";
-		//rend visible les blocs de synchro
-		AppendResult(url,doc);
-		document.getElementById("syncV1").setAttribute("hidden","false");
-		document.getElementById("syncSplit").setAttribute("hidden","false");
-		document.getElementById("syncV2").setAttribute("hidden","false");
-		document.getElementById("treeRub").setAttribute("context","popSyncSrc");
-		document.getElementById("synctreeRub").setAttribute("context","popSyncDst");
-		btn.setAttribute("label","Terminer la synchronisation");
-  	}else{
-		document.getElementById("syncV1").setAttribute("hidden","true");
-		document.getElementById("syncSplit").setAttribute("hidden","true");
-		document.getElementById("syncV2").setAttribute("hidden","true");
-		document.getElementById("treeRub").setAttribute("context","popterre");
-		btn.setAttribute("label","Synchroniser");  		
-  	}
-	
-  } catch(ex2){alert("Synchroniser::"+ex2+" "+type);;}
-	
-}*/
-
-function SynchroniserExport() {
+function SynchroniserExportImport() {
 	try {
 		var doc = document.getElementById("synctreeRub");
-		var type = "export";
 		var idAuteur = document.getElementById('idAuteur').value;
 		
-		var url3 = urlExeAjax+"?f=Synchronise&type="+type+'&idAuteur='+idAuteur;
+		var url3 = urlExeAjax+"?f=Synchronise&idAuteur="+idAuteur;
 		AppendResult(url3,doc);
 		
-		//var xml = path;
-		//path = "http://www.mundilogiweb.com/onadabase/param/synchroExport.xml"
-		/*path = "/home.10.28/mundilog/www/onadabase/param/synchroExport.xml"
-		var url = urlExeAjax2+"?f=AddXmlFile&url="+path;
-		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
-		AppendResult(url2,doc);*/
-		
-	} catch(ex2){alert("SynchroniserExport::"+ex2+" " +"url="+url3);;}
-}
-
-function SynchroniserImport() {
-	try {
-		var doc = document.getElementById("synctreeRub");
-		/*var type = "import";
-		var url = urlExeAjax2+"?f=AddXmlFile&url="+type;
-		var url2 = urlExeAjax+"?f=GetCurl&url="+url;
-
-		AppendResult(url2,doc);*/
-		
-		var doc = document.getElementById("synctreeRub");
-		var type = "export";
-		var url3 = urlExeAjax+"?f=AddXmlFile";
-		AppendResult(url3,doc);
-		
-	} catch(ex2){alert("SynchroniserImport::"+ex2+" " +"url="+url2);;}
+	} catch(ex2){alert("SynchroniserExportImport::"+ex2+" " +"url="+url3);;}
 }
 
 function AddNewGrille(type){
