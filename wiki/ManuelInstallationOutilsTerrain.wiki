@@ -3,7 +3,7 @@
 
   * WAMP (2.0) puis le lancer wamp.
 
-  * Google Earth (facultatif)
+  * GoogleEarth (facultatif)
 
   * FileZilla : créer un nouveau site
     # Serveur ftp          : ftp.mundilogiweb.com  ou ftp.90plan.ovh.net
