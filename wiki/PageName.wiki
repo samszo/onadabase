@@ -1,0 +1,35 @@
+= Manuel d'installation des outils de terrain =
+== Installation des utilitaires ==
+
+  * WAMP (2.0) puis le lancer wamp.
+
+  * Google Earth (facultatif)
+
+  * FileZilla : créer un nouveau site
+    # Serveur ftp          : ftp.mundilogiweb.com  ou ftp.90plan.ovh.net
+    # Login ou utilisateur : mundilog
+    # Mot de passe         : WwJ4d69L
+
+  * Firefox
+
+== Installation de l'application Onadabase ==
+
+  *  Installation de la base de données :
+    #   dans phpMyadmin, créer une nouvelle base de données (onadabase)
+    #   comme la base de données est volumineuse, on préférera utiliser bigdump pour importer la base (c:/wamp/www/bigdump/bigdump.php)
+
+  *  Installation des fichiers de spip et de l’application
+    #   Télécharger grâce à Filezilla le dossier www/onadabase dans Wamp/www/onadabase.
+    #   Supprimer le fichier inc_connect.php. Aller sur http://localhost/spip/ecrire/ et suiver les différentes étapes. Login admin : root sans mot de passe. Base à importer : onadabase.
+    #   Modifier le fichier c:/wamp/www/onadabase/param/Constantes.php
+  {{{  
+     define ("DEFSITE", "local2");  
+     define ("SYNCSITE", "mundi");
+   }}}
+    #   Pour lancer en local, aller sur http://localhost/onadabase/xul/chrome/content/index.php.
+
+== Application Onadabase ==
+
+    *   Vérifier que curl est installé (PHP/PHP extensions/php_curl)
+    *   Vérifier l'activation des privilèges : http://xulfr.org/wiki/ApplisWeb/ActiverLesPrivileges
+
