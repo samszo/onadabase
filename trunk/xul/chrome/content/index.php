@@ -188,8 +188,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<script type="text/javascript">document.getElementById('idAuteur').style.visibility="hidden";</script>
 			<label value="Auteur du diagnostic :" class="menubartext"/>
 			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
-			<button id="btnSync" label="Synchroniser Import" onclick="SynchroniserImport()"/>
-			<button id="btnSync2" label="Synchroniser Export" onclick="SynchroniserExport()"/>
+			<button id="btnSync" label="Synchroniser" onclick="SynchroniserExportImport()"/>
 		</hbox>	
 		
 		<hbox id="nav-toolbar" >

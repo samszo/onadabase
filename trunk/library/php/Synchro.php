@@ -111,13 +111,10 @@ Class Synchro{
 			echo "Synchro:AddHistoriqueSynchro // Terminé";
 	}
 	
-	public function Synchronise($siteSrc, $siteDst, $idAuteur=6, $type) {
+	public function Synchronise($siteSrc, $siteDst, $idAuteur=6) {
 		
 		global $objSite;
 		//global $objSiteSync; //Mundi
-		
-    	/*if($siteDst==-1)
-			$siteDst=$objSite;*/
     	
 		//récupère les rubriques de l'auteur
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesAuteur']";
@@ -133,8 +130,8 @@ Class Synchro{
 		if($this->trace)
 			echo "Synchro:Synchronise:sql=".$sql."<br/>";
 		
-		if ($type == "export") $url = PathRoot."/param/synchroExport.xml";
-		else $url = PathRoot."/param/synchroImport.xml";
+		$url = PathRoot."/param/synchroExport.xml";
+		
 		if($this->trace)
 			echo "Synchro:Synchronise:url // Création Xml ".$url;
 			
@@ -154,8 +151,6 @@ Class Synchro{
 				echo $dom->saveXML();
 			}
 			$xmlSrc = $dom->save($url);	
-			//$xmlSrc = $dom->saveXML();
-			//return $url;
 		}
 		return $url;
 	}
@@ -236,17 +231,13 @@ Class Synchro{
 				
 			}
 			
-			$i = 0;
 			foreach($rubriques as $rubrique)
 			{
-				/**/
 				//récuparation du granulat
-				
 				$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
 	  			$g->SetMotClef($rubrique->motclef, $idEnfant);
 	  			   			
-				$g->GetChildren($xml, $idEnfant, $rubriques[$i]->rubrique, $rubriques[$i]->article);
-				$i++;
+				$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article);
 			}
 		}
   	}
