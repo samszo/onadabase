@@ -7,8 +7,8 @@
 
   * FileZilla : créer un nouveau site
     # Serveur ftp          : ftp.mundilogiweb.com  ou ftp.90plan.ovh.net
-    # Login ou utilisateur : mundilog
-    # Mot de passe         : WwJ4d69L
+    # Login ou utilisateur : XXXXX
+    # Mot de passe         : XXXXX
 
   * Firefox
 
