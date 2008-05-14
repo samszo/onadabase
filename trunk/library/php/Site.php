@@ -312,7 +312,7 @@ class Site{
 	  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
 	  // evite le double caractere \'' 
 	  if (get_magic_quotes_gpc()) $theValue = str_replace("'","''",$theValue);
-	  $theValue = str_replace("\"","''",$theValue);
+	  if (!get_magic_quotes_gpc()) $theValue = str_replace("\"","''",$theValue);
 	  //$theValue = htmlentities($theValue);
 	  //echo $theValue."<br/>";
 
