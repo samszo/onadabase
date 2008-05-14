@@ -529,11 +529,11 @@ Class Synchro{
 	}
 
 	/*
-	 * Permet de nettoyer la base de données des données non utilisées, en précisant la plage d'articles à explorer
+	 * Permet de nettoyer la base de données des données non utilisées des articles, en précisant la plage d'articles à explorer
 	 * 
 	 */
-	function Clean($deb, $fin) {
-		echo 'CLEAN </BR>';
+	function CleanArticle($deb, $fin) {
+		echo 'CLEAN Article</BR>';
 		for ($i=$deb; $i<=$fin; $i++) {
 			$idArticleFantome = $this->GetArticleFantome($i);
 			if ($idArticleFantome != -1) {
@@ -555,7 +555,24 @@ Class Synchro{
 				echo "Suppression idArticle = ".$idArticleFantome."</BR>";
 			} 
 		}
-		echo 'FIN CLEAN </BR>';
+		echo 'FIN CLEAN Article</BR>';
+	}
+	
+/*
+	 * Permet de nettoyer la base de données des données non utilisées des rubriques, en précisant la plage d'articles à explorer
+	 * 
+	 */
+	function CleanRubrique($deb, $fin) {
+		echo 'CLEAN Rubrique</BR>';
+		for ($i=$deb; $i<=$fin; $i++) {
+			$idRubriqueFantome = $this->GetRubriqueFantome($i);
+			if ($idRubriqueFantome != -1) {
+				echo "idRubriqueFantome = ".$idRubriqueFantome."</BR>";
+				$this->DelMotsRubriques($idRubriqueFantome) ;
+				echo "Suppression idRubrique = ".$idRubriqueFantome."</BR>";
+			} 
+		}
+		echo 'FIN CLEAN Rubrique</BR>';
 	}
 	
 	/*
@@ -578,6 +595,43 @@ Class Synchro{
 		}
 
 		return $idArticle; 
+	}
+	
+	/*
+	 * Récupére la rubrique nécessitant la vérification de la présence de données inutilisées
+	 * 
+	 */
+	function GetRubriqueFantome($idRubrique, $extraSql="") {
+	
+		$sql = "SELECT a.id_rubrique 
+			FROM spip_rubriques a
+			WHERE a.id_rubrique = ".$idRubrique." ".$extraSql."
+				";
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if($data = $DB->fetch_assoc($req)) {
+			return -1;
+		}
+
+		return $idRubrique; 
+	}
+	
+	/*
+	 * Efface les données d'un article précis dans la table spip_forms_articles
+	 * 
+	 */
+	function DelMotsRubriques($idRubrique) {
+
+		$sql = "DELETE 
+				FROM spip_mots_rubriques 
+				WHERE id_rubrique = ".$idRubrique;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
 	}
 	
 	/*

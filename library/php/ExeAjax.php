@@ -66,8 +66,11 @@
 		case 'SynchroImport':
 			$resultat = SynchroImport($_GET['idAuteur']);
 			break;
-		case 'Clean':
-			$resultat = Clean($_GET['deb'], $_GET['fin']);
+		case 'CleanArticle':
+			$resultat = CleanArticle($_GET['deb'], $_GET['fin']);
+			break;
+		case 'CleanRubrique':
+			$resultat = CleanRubrique($_GET['deb'], $_GET['fin']);
 			break;
 	}
 
@@ -580,14 +583,25 @@
 	}
 
 	/*
-	 * Nettoye les deonnées articles inutilisées
+	 * Nettoye les données des articles inutilisées
 	 * 
 	 */
-	function Clean($deb, $fin) {
+	function CleanArticle($deb, $fin) {
 		global $objSite;
 		
 		$synchro = new Synchro($objSite, -1);
-		$synchro->Clean($deb, $fin);
+		$synchro->CleanArticle($deb, $fin);
+	}
+	
+	/*
+	 * Nettoye les données des rubriques inutilisées
+	 * 
+	 */
+	function CleanRubrique($deb, $fin) {
+		global $objSite;
+		
+		$synchro = new Synchro($objSite, -1);
+		$synchro->CleanRubrique($deb, $fin);
 	}
 	
 ?>
