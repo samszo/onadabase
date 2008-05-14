@@ -91,7 +91,139 @@ Class Synchro{
 		$DB->close();
 		
 	}
-
+	
+	/*
+	 * Parcourt un fichier xml afin de mettre à jour les identifiants des rubriques et articles
+	 * 
+	 */
+	public function Actualise($xmlString) {
+		
+		$doc = new DOMDocument();
+		$doc->loadXML($xmlString);
+		
+		//$xml = new XmlParam(-1, $xmlString);	
+				
+		$XpathRub = "rub";
+		$XpathArt = "art";
+		
+		$nodesPrincipaux = $doc->getElementsByTagName($XpathRub);
+		
+		foreach($nodesPrincipaux as $node) {
+			$idRubOld = $node->getAttribute('oldId');
+			$idRubNew = $node->getAttribute('newId');
+			if($this->trace) {
+				echo "Synchro:Actualise:idRubOld ".$idRubOld."<br/>";
+				echo "Synchro:Actualise:idRubNew ".$idRubNew."<br/>";
+			}	
+			$this->UpdateIdRub($idRubOld, $idRubNew);
+		}
+		
+		$nodesPrincipaux = $doc->getElementsByTagName($XpathArt);
+		
+		foreach($nodesPrincipaux as $node) {
+			$idArtOld = $node->getAttribute('oldId');
+			$idArtNew = $node->getAttribute('newId');
+			if($this->trace) {
+				echo "Synchro:Actualise:idArtOld ".$idArtOld."<br/>";
+				echo "Synchro:Actualise:idArtNew ".$idArtNew."<br/>";
+			}	
+			$this->UpdateIdArt($idArtOld, $idArtNew);
+		}
+		$path = PathRoot."/param/synchroImport.xml";
+		$xmlScr = $doc->save($path);
+		//$this->import($path);
+		return $path;
+		
+	}
+	
+	/*
+	 * Met à jour les identifiants des rubriques dans les tables spip_rubriques, spip_mots_rubriques et spip_articles 
+	 * 
+	 */
+	public function UpdateIdRub($idRubOld, $idRubNew) {
+		
+		if($this->trace)
+			echo "Synchro:UpdateIdRub:idRubNew ".$idRubNew;
+		
+		$sql = "UPDATE `spip_rubriques`
+				SET id_rubrique = ".$idRubNew."
+				WHERE id_rubrique = ".$idRubOld;
+		
+		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_mots_rubriques`
+				SET id_rubrique = ".$idRubNew."
+				WHERE id_rubrique = ".$idRubOld;
+		
+		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_articles`
+				SET id_rubrique = ".$idRubNew."
+				WHERE id_rubrique = ".$idRubOld;
+		
+		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Met à jour les identifiants des articles dans les tables spip_articles, spip_forms_articles, spip_forms_donnees_articles et spip_auteurs_articles
+	 * 
+	 */
+	public function UpdateIdArt($idArtOld, $idArtNew) {
+		
+		if($this->trace)
+			echo "Synchro:UpdateIdArt:idArtNew ".$idArtNew;
+		
+		$sql = "UPDATE `spip_articles`
+				SET id_article = ".$idArtNew."
+				WHERE id_article = ".$idArtOld;
+		
+		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_forms_articles`
+				SET id_article = ".$idArtNew."
+				WHERE id_article = ".$idArtOld;
+		
+		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_forms_donnees_articles`
+				SET id_article = ".$idArtNew."
+				WHERE id_article = ".$idArtOld;
+		
+		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_auteurs_articles`
+				SET id_article = ".$idArtNew."
+				WHERE id_article = ".$idArtOld;
+		
+		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+	}
+	
+	/*
+	 * Enregistre le contenu de fichier xml de l'import dans la table spip_synchro_historique
+	 * 
+	 */
 	public function AddHistoriqueSynchro($xmlSrc, $idAuteur) {
 		
 		$doc = new DOMDocument();
@@ -100,7 +232,7 @@ Class Synchro{
 		
 		$src = $doc->saveXML();
 		$sql = "INSERT INTO `spip_synchro_historique` (`id_auteur`, `synchro_xml`)
-				VALUES (".$idAuteur.', \''.$src.'\')';
+				VALUES (".$idAuteur.", ".$this->siteSrc->GetSQLValueString($src, "text").")";
 		//print_r("siteSrc ".$this->siteSrc);
 		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
 		//$DB->connect();
@@ -108,9 +240,13 @@ Class Synchro{
 		
 		$DB->close();
 		if($this->trace)
-			echo "Synchro:AddHistoriqueSynchro // Terminé";
+			echo "Synchro:AddHistoriqueSynchro // Termine";
 	}
 	
+	/*
+	 * Génére un fichier xml des rubriques administrées, retourne le chemin vers ce fichier
+	 * 
+	 */
 	public function Synchronise($siteSrc, $siteDst, $idAuteur=6) {	
 		global $objSite;
 		//global $objSiteSync; //Mundi
@@ -146,17 +282,26 @@ Class Synchro{
 			$document = $dom->lastChild; //firstChild
 						
 			$this->GetChildren($row['id_rubrique'], $dom, $document);
-				
-			if ($this->trace) {
-				echo "Synchro:Synchronise:XML Tree ".$dom->saveXML()."<BR/>";
-			}
-			$xmlSrc = $dom->save($url);	
 		}
+		$xmlSrc = $dom->save($url);	
+		if ($this->trace) {
+			echo "Synchro:Synchronise:XML Tree ".$dom->saveXML()."<BR/>";
+		}
+		
 		return $url;
 	}
 
-	
+	/*
+	 * Permet d'importer dans la base rubriques et articles à partir d'un fichier xml, 
+	 * génére aussi de l'xml pour la mise à jour des identifiants des rubriques et articles
+	 * 
+	 */
   	function import($xmlSrc) {
+  		
+  		$dom = new DOMDocument("1.0");
+		$nouvelleRacine = $dom->createElement("documents");
+		$dom->appendChild($nouvelleRacine);	
+		$racine = $dom->lastChild;
   		
   		if($this->trace)
 			echo "Synchro:import //récuparation de la définition des données ".$xmlSrc."<br/>";
@@ -168,75 +313,103 @@ Class Synchro{
 		
 		foreach($nodesPrincipaux as $node) {
 			$idRub = $node['id'];
+			$idParent = $node['idParent'];
 			if($this->trace)
-				echo "Synchro:import:idRub ".$idRub."<br/>";
-				
+				echo "Synchro:import:idRub ".$idRub." idParent ".$idParent."<br/>";
+							
 			$rubriques = $node->rubrique;
 
 			$g = new Granulat($idRub, $this->siteSrc); 
 			
-			// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
-			if (!$node->article) {
-
-				$article = $node->article;
-				$donnees = $article->donnees;
-	  			$idGrille = $donnees->grille;
-	  			
-	  			$idAuteur = $article->auteur;
-	  			$champs = $donnees->champs;
-	  			$date = $article->date;
-	  			$maj = $article->maj;
-	  			
-	  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
-	  			$g->AddAuteur($idArt, $idAuteur);	
-	  			
-	  			if($this->trace)
-	  					print_r($donnees->donnee);
-	  					
-	  			foreach($donnees->donnee as $donnee){
-	  				$j=0;
-	  				if($this->trace)
-	  					print_r($donnee->valeur);
-	
-	  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
-					if($this->trace)
-						echo "Synchro/import - création de la donnee ".$idDon."<br/>";	
-	  				
-					foreach($donnee->valeur as $valeur) {
-						if($valeur!='non'){
-							$valeur=utf8_decode($valeur);
-							$champ = $champs[0]->champ[$j];
-							if($this->trace)
-								echo "Synchro/import --- gestion des champs multiples ".substr($champ,0,8)."<br/>";
-							if(substr($champ,0,8)=="multiple"){
-								$valeur=$champ;
-							//attention il ne doit pas y avoir plus de 10 choix
-								$champ=substr($champ,0,-2);
-							}
-							if($this->trace) {
-								echo "Synchro/import -- récupération du type de champ ".$champ."<br/>";
-								echo "Synchro/import -- récupération de la valeur du champ ".$valeur."<br/>";
-							}
-							$row = array('champ'=>$champ, 'valeur'=>$valeur);
-							
-							$grille = new Grille($g->site);
-							if($this->trace)
-								echo "Synchro/import --- création du champ <br/>";
-							$grille->SetChamp($row, $idDon, false);
-						}
-						$j++;
-					}
-	  			}		
+			if ($g->VerifExistRubrique($idRub)==-1) {
+				$gra = new Granulat($idParent, $this->siteSrc); 
+				$idEnfant = $gra->SetNewEnfant(utf8_decode($node));
+	  			$gra->SetMotClef($node->motclef, $idEnfant);
+	  			$this->UpdateIdRub($idEnfant, $idRub);
 			}
 			
+			// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
+			if ($node->article) {
+				if ($g->VerifExistArticle($node->article["id"])==-1) {
+	
+					$nouvelArt = $dom->createElement("art");
+					$nouvelArt->setAttribute("oldId", $article['id']);
+				
+					$article = $node->article;
+					$donnees = $article->donnees;
+		  			$idGrille = $donnees->grille;
+		  			
+		  			$idAuteur = $article->auteur;
+		  			$champs = $donnees->champs;
+		  			$date = $article->date;
+		  			$maj = $article->maj;
+		  			
+		  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
+		  			$g->AddAuteur($idArt, $idAuteur);	
+		  			
+		  			$nouvelArt->setAttribute("newId", $idArt);
+		  			$dom->lastChild->appendChild($nouvelArt);
+		  			
+		  			if($this->trace)
+		  					print_r($donnees->donnee);
+		  					
+		  			foreach($donnees->donnee as $donnee){
+		  				$j=0;
+		  				if($this->trace)
+		  					print_r($donnee->valeur);
+		
+		  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
+						if($this->trace)
+							echo "Synchro/import - création de la donnee ".$idDon."<br/>";	
+		  				
+						foreach($donnee->valeur as $valeur) {
+							if($valeur!='non'){
+								$valeur=utf8_decode($valeur);
+								$champ = $champs[0]->champ[$j];
+								if($this->trace)
+									echo "Synchro/import --- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+								if(substr($champ,0,8)=="multiple"){
+									$valeur=$champ;
+								//attention il ne doit pas y avoir plus de 10 choix
+									$champ=substr($champ,0,-2);
+								}
+								if($this->trace) {
+									echo "Synchro/import -- récupération du type de champ ".$champ."<br/>";
+									echo "Synchro/import -- récupération de la valeur du champ ".$valeur."<br/>";
+								}
+								$row = array('champ'=>$champ, 'valeur'=>$valeur);
+								
+								$grille = new Grille($this->siteSrc);
+								if($this->trace)
+									echo "Synchro/import --- création du champ <br/>";
+								$grille->SetChamp($row, $idDon, false);
+							}
+							$j++;
+						}
+		  			}
+		  		$this->UpdateIdArt($idArt, $node->article["id"]);		
+				}
+			}
+				
 			foreach($rubriques as $rubrique) {
 				//récuparation du granulat
-				$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
-	  			$g->SetMotClef($rubrique->motclef, $idEnfant);
-	  			   			
-				$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article);
+				
+				if ($g->VerifExistRubrique($rubrique['id'])==-1) {
+					$nouvelleRub = $dom->createElement("rub");
+					$nouvelleRub->setAttribute("oldId", $rubrique['id']);
+					
+					$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
+	  				$g->SetMotClef($rubrique->motclef, $idEnfant);
+	  				
+	  				$nouvelleRub->setAttribute("newId", $idEnfant);
+	  				$racine->appendChild($nouvelleRub);
+	  				
+				} else $idEnfant = $rubrique['id'];
+				
+				$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom);
 			}
 		}
+		return $dom->saveXML();
   	}
 
 /*
@@ -378,6 +551,7 @@ Class Synchro{
 				}
 				$this->DelFormsDonneesArticles($idArticleFantome);
 				$this->DelFormsArticles($idArticleFantome);
+				$this->DelAuteursArticles($idArticleFantome);
 				echo "Suppression idArticle = ".$idArticleFantome."</BR>";
 			} 
 		}
@@ -460,6 +634,21 @@ Class Synchro{
 		$sql = "DELETE 
 				FROM spip_forms_donnees 
 				WHERE id_donnee = ".$idDonnee;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	/*
+	 * Efface les données d'un article précis de la table spip_auteurs_articles
+	 * 
+	 */
+	function DelAuteursArticles($idArticle) {
+		
+		$sql = "DELETE 
+				FROM spip_auteurs_articles 
+				WHERE id_article = ".$idArticle;
 		//echo $sql."<br/>";
 		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
 		$req = $DB->query($sql);

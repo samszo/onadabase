@@ -70,8 +70,10 @@ function SynchroniserExportImport() {
 		
 		var url3 = urlExeAjax+"?f=Synchronise&idAuteur="+idAuteur;
 		AppendResult(url3,doc);
-		
-	} catch(ex2){alert("SynchroniserExportImport::"+ex2+" " +"url="+url3);;}
+		alert("Synchronisation terminée");
+	} catch(ex2){
+		alert("SynchroniserExportImport::"+ex2+" " +"url="+url3);
+	}
 }
 
 function AddNewGrille(type){

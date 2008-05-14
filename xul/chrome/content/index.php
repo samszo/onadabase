@@ -184,11 +184,16 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 	
 		<hbox class="menubar">
 			<image src="images/logo.png" />
-			<label id="idAuteur" value="<?php echo $_SESSION['IdAuteur']; ?>" class="menubartext"/>
+			<label id="idAuteur" value="<?php echo $_SESSION['IdAuteur'];?>" class="menubartext"/>
 			<script type="text/javascript">document.getElementById('idAuteur').style.visibility="hidden";</script>
 			<label value="Auteur du diagnostic :" class="menubartext"/>
 			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
 			<button id="btnSync" label="Synchroniser" onclick="SynchroniserExportImport()"/>
+			<script type="text/javascript">
+				if ("<?php echo $_SERVER['REMOTE_ADDR']?>"!="127.0.0.1") {
+					document.getElementById('btnSync').style.visibility="hidden";
+				}
+			</script>
 		</hbox>	
 		
 		<hbox id="nav-toolbar" >

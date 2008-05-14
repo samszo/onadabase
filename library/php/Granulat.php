@@ -39,7 +39,7 @@ class Granulat
 /*
  * Parcourt récursivement les enfants afin de créer l'arborescence des rubriques et articles dans spip (correspondant à l'import)  
  */ 
-  	function GetChildren($xml, $idParent, $rubriques, $articles) {
+  	function GetChildren($xml, $idParent, $rubriques, $articles, $dom) {
   		
   		//$rubriques = $xml->GetElements($Xpath);
   		/*if($this->trace)
@@ -51,66 +51,126 @@ class Granulat
   		
   		foreach($articles as $article) {
   			
-  			$donnees = $article->donnees;
-  			$idGrille = $donnees->grille;
-  			$idAuteur = $article->auteur;
-  			$champs = $donnees->champs;
-  			$date = $article->date;
-  			$maj = $article->maj;
-  			
-  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
-  			$g->AddAuteur($idArt, $idAuteur);
-  			
-  			
-  			if($this->trace)
-  					print_r($donnees->donnee);
-  					
-  			foreach($donnees->donnee as $donnee){
-  				$j=0;
-  				if($this->trace)
-  					print_r($donnee->valeur);
-
-  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
-				if($this->trace)
-					echo "Granulat/AddXmlFile/- création de la donnee ".$idDon."<br/>";	
+  			if ($g->VerifExistArticle($article['id'])==-1) { 
   				
-				foreach($donnee->valeur as $valeur) {
-					if($valeur!='non'){
-						$valeur=utf8_decode($valeur);
-						$champ = $champs[0]->champ[$j];
-						if($this->trace)
-							echo "Granulat/AddXmlFile/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
-						if(substr($champ,0,8)=="multiple"){
-							$valeur=$champ;
-						//attention il ne doit pas y avoir plus de 10 choix
-							$champ=substr($champ,0,-2);
+	  			$nouvelArt = $dom->createElement("art");
+				$nouvelArt->setAttribute("oldId", $article['id']);
+	  			
+	  			$donnees = $article->donnees;
+	  			$idGrille = $donnees->grille;
+	  			$idAuteur = $article->auteur;
+	  			$champs = $donnees->champs;
+	  			$date = $article->date;
+	  			$maj = $article->maj;
+	  			
+	  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
+	  			$g->AddAuteur($idArt, $idAuteur);
+	  			
+	  			$nouvelArt->setAttribute("newId", $idArt);
+		  		$dom->lastChild->appendChild($nouvelArt);
+	  			
+	  			if($this->trace)
+	  					print_r($donnees->donnee);
+	  					
+	  			foreach($donnees->donnee as $donnee){
+	  				$j=0;
+	  				if($this->trace)
+	  					print_r($donnee->valeur);
+	
+	  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
+					if($this->trace)
+						echo "Granulat/AddXmlFile/- création de la donnee ".$idDon."<br/>";	
+	  				
+					foreach($donnee->valeur as $valeur) {
+						if($valeur!='non'){
+							$valeur=utf8_decode($valeur);
+							$champ = $champs[0]->champ[$j];
+							if($this->trace)
+								echo "Granulat/AddXmlFile/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+							if(substr($champ,0,8)=="multiple"){
+								$valeur=$champ;
+							//attention il ne doit pas y avoir plus de 10 choix
+								$champ=substr($champ,0,-2);
+							}
+							if($this->trace) {
+								echo "Granulat/AddXmlFile/-- récupération du type de champ ".$champ."<br/>";
+								echo "Granulat/AddXmlFile/-- récupération de la valeur du champ ".$valeur."<br/>";
+							}
+							$row = array('champ'=>$champ, 'valeur'=>$valeur);
+							
+							$grille = new Grille($g->site);
+							if($this->trace)
+								echo "Granulat/AddXmlFile/--- création du champ <br/>";
+							$grille->SetChamp($row, $idDon, false);
+							
 						}
-						if($this->trace) {
-							echo "Granulat/AddXmlFile/-- récupération du type de champ ".$champ."<br/>";
-							echo "Granulat/AddXmlFile/-- récupération de la valeur du champ ".$valeur."<br/>";
-						}
-						$row = array('champ'=>$champ, 'valeur'=>$valeur);
-						
-						$grille = new Grille($g->site);
-						if($this->trace)
-							echo "Granulat/AddXmlFile/--- création du champ <br/>";
-						$grille->SetChamp($row, $idDon, false);
-						
+						$j++;
 					}
-					$j++;
-				}
-  			}	
+	  			}
+  			} 	
   		}
   		
   		foreach($rubriques as $rubrique) {
-  			$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
-  			$g->SetMotClef($rubrique->motclef, $idEnfant);
-  			$g->GetChildren($xml, $idEnfant, $rubriques[$i]->rubrique, $rubriques[$i]->article);
-  			$i++;
+  			
+  			if ($g->VerifExistRubrique($rubrique['id'])==-1) {
+	  			$nouvelleRub = $dom->createElement("rub");
+				$nouvelleRub->setAttribute("oldId", $rubrique['id']);
+	  			
+	  			$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
+	  			$g->SetMotClef($rubrique->motclef, $idEnfant);
+	  			
+	  			$nouvelleRub->setAttribute("newId", $idEnfant);
+		  		$dom->lastChild->appendChild($nouvelleRub);
+  			} else $idEnfant = $rubrique['id'];
+	  			
+  			$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom);
+  			//$i++;  //$rubriques[$i]->rubrique, $rubriques[$i]->article
   		}
   		
   		
   	}
+  	
+  	/*
+  	 * Vérifie l'existence d'une rubrique dans la table spip_rubriques, retourne -1 si la rubrique n'est pas trouvée
+  	 * 
+  	 */
+	public function VerifExistRubrique($idRub) {
+		
+		$sql = "SELECT id_rubrique
+				FROM spip_rubriques
+				WHERE id_rubrique = ".$idRub
+		;//LIMIT 0 , 93";
+
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if($data = $DB->fetch_assoc($req)) {
+			return $data['id_rubrique'];
+		} else return -1;
+	}
+	
+	/*
+  	 * Vérifie l'existence d'un article dans la table spip_articles, retourne -1 si l'article n'est pas trouvé
+	 * 	 * 
+	 */
+	public function VerifExistArticle($idArt) {
+		
+		$sql = "SELECT id_article
+				FROM spip_articles
+				WHERE id_article = ".$idArt
+		;//LIMIT 0 , 93";
+
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if($data = $DB->fetch_assoc($req)) {
+			return $data['id_article'];
+		} else return -1;
+	}
   	
   	function SetAuteur($newId,$objet){
 
@@ -879,6 +939,5 @@ class Granulat
 	}
 
 }
-
 
 ?>

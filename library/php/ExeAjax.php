@@ -18,7 +18,7 @@
 		$id = $_GET['id'];
 	else
 		$id = -1;
-
+		
 	switch ($fonction) {
 		/*case 'Synchroniser':
 			//pour tester la synchronisation en local
@@ -73,6 +73,12 @@
 
 	echo  utf8_encode($resultat);	
 	
+	/*
+	 * Synchronise le local avec le serveur,
+	 * récupère les nouvelles données du serveur,
+	 * actualise les id rubriques et articles
+	 * et import les nouvelles rubriques et articles du serveur
+	 */
 	function Synchronise($siteSrc, $siteDst=-1, $idAuteur){
     	
 		global $objSite;
@@ -81,13 +87,38 @@
 		if(TRACE)
 			echo "ExeAjax:Synchronise:$siteSrc, $siteDst, $idAuteur<br/>";
 
-		$synchro = new Synchro($objSiteSync, $objSite);
+		$synchro = new Synchro($objSite, $objSite);
     	$xmlUrl = $synchro->synchronise($objSiteSync, $objSite, $idAuteur);
     	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport&idAuteur=".$idAuteur;
 		if(TRACE)
 			echo "ExeAjax:Synchronise:url=$url<br/>";
 
-		UploadCurl($xmlUrl, $url);
+		$page = UploadCurl($xmlUrl, $url);
+		
+		$posDeb = strrpos($page, "<?xml version=\"1.0\"?>");
+		$posFin = strrpos($page, "</documents>");
+		if(TRACE){
+			//echo "ExeAjax:Synchronise:PAGE ::: ".$page;
+			echo "ExeAjax:Synchronise:posDeb ".$posDeb;
+			echo "ExeAjax:Synchronise:posFin ".$posFin;
+		}
+		
+		if ($posFin === false) {
+			$posFin = strrpos($page, "<documents/>");
+			if(TRACE){
+				echo "ExeAjax:Synchronise:posFin ".$posFin;
+			}
+		}
+		
+		if ($posDeb !== false) {
+			if ($posFin !== false) {
+				$xmlString = substr($page, $posDeb, $posFin);
+				if(TRACE)
+					echo "ExeAjax:Synchronise:xmlString=".$xmlString." FIN ExeAjax:Synchronise:xmlString";
+					$path = $synchro->Actualise($xmlString);
+					$synchro->import($path);
+			}
+		}
     }
 
 	function GetFilAriane($jsParam, $id){
@@ -109,11 +140,18 @@
 		$g->AddXmlDonnee($url);
 	}
 
+	/*
+	 * Récupère le fichier uploadé, 
+	 * réalise l'import sur le serveur 
+	 * et synchronise les nouvelles rubriques et articles du serveur
+	 * 
+	 */
 	function SynchroImport($idAuteur) {	
 		global $objSite;
+		global $objSiteSync;
 		
 		if(TRACE){
-			echo "ExeAjax:SynchroImport:idAuteur=$idAuteur<br/>";
+			echo "ExeAjax:SynchroImport:idAuteur=".$idAuteur."<br/>";
 			print_r($_POST);
 			print_r($_FILES);
 		}	
@@ -131,8 +169,28 @@
 			}
 			
 			$sync = new Synchro($objSite,-1);
-			$sync->import($src);
+			$reponseSynch = $sync->import($src);
 			$sync->AddHistoriqueSynchro($src, $idAuteur);
+			
+			$doc = new DOMDocument();
+			$doc->loadXML($reponseSynch);
+			
+			$doc2 = new DOMDocument();
+			$xmlUrl = $sync->synchronise($objSiteSync, $objSite, $idAuteur);
+			$doc2->load($xmlUrl);
+
+			//$node = $doc->importNode($doc2->firstChild, true);
+			//$doc2->getElementsByTagName("documents")->item(0)
+			//$nodePrincipaux = $node->childNodes;
+			$nodePrincipaux = $doc2->firstChild->childNodes;
+			foreach ($nodePrincipaux as $enfant) {
+				$nodeEnfant = $doc->importNode($enfant, true);
+				$doc->firstChild->appendChild($nodeEnfant);
+			}	
+			
+			echo "ExeAjax:SynchroImport:SOURCE = ".$doc->saveXML(); // Ne pas mettre dans les traces
+			
+			//echo $reponseSynch;
 		}
 	}
 	
@@ -177,15 +235,15 @@
 			$arrInfos = curl_getinfo($curl);
 			echo "ExeAjax:PostCurl:getinfo=".print_r($arrInfos)."<br/>";
 			echo "ExeAjax:PostCurl:page=".$page."<br/>";
-			
 		}
 		curl_close($curl);
-		
-		
-		
 		return $page; 
 	}
 	
+	/*
+	 * Upload un fichier
+	 * 
+	 */
 	function UploadCurl($urlLocal, $url) {
 		
 		$ch = curl_init(); 
@@ -194,8 +252,16 @@
 		curl_setopt($ch, CURLOPT_URL, $url); 
 		curl_setopt($ch, CURLOPT_POST, 1); 
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
-		curl_exec($ch);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$page = curl_exec($ch);
 		
+		if(TRACE){
+			$arrInfos = curl_getinfo($ch);
+			echo "ExeAjax:UploadCurl:getinfo=".print_r($arrInfos)."<br/>";
+			echo "ExeAjax:UploadCurl:page=".$page."<br/>";
+		}
+		curl_close($ch);
+		return $page;
 	}
 	
 	function SetVal($idGrille,$idDon,$champ,$val){
@@ -288,7 +354,7 @@
 		return $xul;
 		
 	}
-
+	
 	function AddGrilles($idRubSrc, $idRubDst, $login, $redon){
 		global $objSite;
 		$g = new Grille($objSite);
@@ -349,7 +415,7 @@
 
 		return $xul;	
 	}
-
+	
 	function AddNewEspaceGen($idRubSrc, $idRubDst, $trs){
 		global $objSite;
 		
@@ -495,7 +561,7 @@
 		
 		return $xul;
 	}
-	
+		
 	function AddPlacemark($idRubDst, $kml){
 		global $objSite;
 		$g = new Grille($objSite);
@@ -513,6 +579,10 @@
 		
 	}
 
+	/*
+	 * Nettoye les deonnées articles inutilisées
+	 * 
+	 */
 	function Clean($deb, $fin) {
 		global $objSite;
 		
