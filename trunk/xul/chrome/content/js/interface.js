@@ -486,8 +486,8 @@ function evaluateXPath(aNode, aExpr) {
 function GetFichierKml()
 {
 	numFic ++;
-	//fichierCourant = GetFichier("kml");
-	fichierCourant = document.getElementById("NomFichier").value;
+	fichierCourant = GetFichier("kml");
+	//fichierCourant = document.getElementById("NomFichier").value;
 	
 	if(fichierCourant){
 		document.getElementById("NomFichier").value = fichierCourant;
@@ -526,6 +526,7 @@ function GetFichier(type)
 	
   try {
 	
+	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
 	var nsIFilePicker = Components.interfaces.nsIFilePicker;
 	var fp = Components.classes["@mozilla.org/filepicker;1"]
 	        .createInstance(nsIFilePicker);

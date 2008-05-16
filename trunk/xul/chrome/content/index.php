@@ -71,7 +71,6 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
     persist="screenX screenY width height"
     orient="horizontal"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-    onload="ChargeTreeFromAjax('idRub','treeRub','terre');"
 >
 
 <script type="application/x-javascript" src="js/interface.js" />
@@ -253,6 +252,10 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		</hbox>	
 		
 	</vbox>
+
+<script type="application/x-javascript" >
+   ChargeTreeFromAjax('idRub','treeRub','terre');
+</script>
 
 </window>
 

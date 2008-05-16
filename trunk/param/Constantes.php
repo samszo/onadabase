@@ -10,10 +10,10 @@
 	// Include the class files.
 	require_once(TT_CLASS_BASE."AllClass.php");
 
-  define ("TRACE", true);
+  define ("TRACE", false);
 
-  define ("DEFSITE", "local1");
-  define ("SYNCSITE", "local1");
+  define ("DEFSITE", "local2");
+  define ("SYNCSITE", "mundi");
   
   $DB_OPTIONS = array (
 		'ERROR_DISPLAY' => true
@@ -52,7 +52,9 @@ $SiteLocal1 = array(
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
 	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
-	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml"	
+	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",	
+	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
+	"urlLibPhp" => "http://localhost/onadabase/library/php/"
 	); 
 $SiteLocal2 = array(
 	"SQL_LOGIN" => "root", 
@@ -75,10 +77,12 @@ $SiteLocal2 = array(
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
-	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
+	"lienAdminSpip" => "http://localhost/onadabase/spip1/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",
 	"urlSite" => "http://localhost/onadabase/library/php/Site.php",	
+	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
+	"urlLibPhp" => "http://localhost/onadabase/library/php/"
 	); 
 $SiteNaos = array(
 	"SQL_LOGIN" => "naossfr3", 
@@ -103,7 +107,9 @@ $SiteNaos = array(
 	"gmKey" => gmKey,
 	"lienAdminSpip" => "http://www.naoss.fr:81/mundigo/spip/ecrire",
 	"urlExeAjax" => "http://www.naoss.fr:81/mundigo/library/php/ExeAjax.php",
-	"jsXulParam" => "http://www.naoss.fr:81/mundigo/xul/chrome/content/param/onadabase.xml"	
+	"jsXulParam" => "http://www.naoss.fr:81/mundigo/xul/chrome/content/param/onadabase.xml",	
+	"urlCarto" => "http://www.naoss.fr:81/mundigo/design/BlocCarte.php",
+	"urlLibPhp" => "http://www.naoss.fr:81/mundigo/library/php/"
 ); 
 
 	$SiteMundi = array(
@@ -130,7 +136,9 @@ $SiteNaos = array(
 	"lienAdminSpip" => "http://www.mundilogiweb.com/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml",	
-	"urlSite" => "http://www.mundilogiweb.com/onadabase/xul/chrome/library/php/Site.php"	
+	"urlSite" => "http://www.mundilogiweb.com/onadabase/xul/chrome/library/php/Site.php",	
+	"urlCarto" => "http://www.mundilogiweb.com/onadabase/design/BlocCarte.php",
+	"urlLibPhp" => "http://www.mundilogiweb.com/onadabase/library/php/"	
 	); 
 	
 $SITES = array(
