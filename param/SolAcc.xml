@@ -374,6 +374,8 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 		</Querys>
 		
 	</XmlParam>
+	
+	
 	<XmlParam nom="GetTabForm">
 		<Querys>
 			<Query fonction="Grille_GetRubDon">
@@ -791,6 +793,19 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 				<where> WHERE dc.id_donnee = -id- AND dc.champ ='-champ-'	</where>
 			</Query>
 
+			<Query fonction="Grille_GetXulTabPanelsSignalementProbleme">
+				<select>SELECT a.id_article idArt, a.titre, fd.id_donnee id</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 60
+				</from>
+				<where> WHERE r.id_rubrique = -src- </where>
+				<dst>Form</dst>
+			</Query>
+
+
 		</Querys>
 	</XmlParam>
 	<XmlParam nom="Workflow">
@@ -881,6 +896,9 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="146" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="146" />
 		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="56" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="56" />
 							
+		<!-- Gestion de l'affichage des onglets liés -->		
+		<workflow srcObj="TabForm;Type" srcId="GetXulTabForm;EspaceExtParamGen" dstQuery="AddNewTab" />
+
 		<Querys>
 			<Query fonction="update_ArtTitre">
 				<update>UPDATE spip_articles </update>
@@ -904,6 +922,9 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 			</Query>
 		</Querys>
 	</XmlParam>
+	
+	
+	<!-- Gestion de la cohérence des droits -->		
 	<XmlParam nom="CoheDroit">
 	<CoheDroit srcId="57" srcChamp="select_1" srcCheckVal="select_1_1" dstId="54" dstCheckVal="multiple_2_1"  />
 	<CoheDroit srcId="57" srcChamp="select_1" srcCheckVal="select_1_2" dstId="54" dstCheckVal="multiple_2_2"  />

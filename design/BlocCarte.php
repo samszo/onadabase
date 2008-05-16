@@ -10,14 +10,14 @@ $arrGeo = $g->GetGeo();
 //print_r($arrGeo);
 
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html >
   <head>
 
 	<script src="http://maps.google.com/maps?file=api&v=2.x&key=<?php echo $objSite->infos["gmKey"]; ?>" type="text/javascript"></script>
 <script src="../library/js/GoogleCarto3.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-	var pathRoot = 'http://www.mundilogiweb.com/onadabase/library/php/';
+	var pathRoot = '<?php echo $objSite->infos["urlLibPhp"]; ?>';
 	var deflat = <?php echo $arrGeo['lat']; ?>;
 	var deflng = <?php echo $arrGeo['lng']; ?>;
 	var defzoom = <?php echo $arrGeo['zoom']; ?>;
@@ -27,13 +27,13 @@ $arrGeo = $g->GetGeo();
 	var mapQuery = 'admin';
 	var site = '<?php echo $objSite->id; ?>';
 	var alpha = 'a';
-	MiniCarte = false;
+	MiniCarte = true;
 
 </script>
   </head>
   <body onload="initPage()" onunload="GUnload()" >
 
-		<div id='map' style="height:600px;width:350px;" ></div>
+		<div id='map' style="height:200px;width:300px;" ></div>
 
   </body>
 </html>

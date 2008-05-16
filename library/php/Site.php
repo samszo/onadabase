@@ -15,7 +15,7 @@ class Site{
   function __construct($sites, $id, $scope, $complet=true) {
 
   	//echo "new Site $sites, $id, $scope<br/>";
-    $this->trace = true;
+    $this->trace = TRACE;
   	
     $this->sites = $sites;
     $this->id = $id;

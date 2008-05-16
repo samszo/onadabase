@@ -11,7 +11,7 @@ class Grille{
 
   function __construct($site, $id=-1, $complet=true) {
 	//echo "new Site $sites, $id, $scope<br/>";
-	$this->trace = true;
+	$this->trace = TRACE;
 
     $this->site = $site;
     $this->id = $id;
@@ -26,7 +26,11 @@ class Grille{
     }
 
     function GetObjId($donId,$obj) {
-    	$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetId".$obj."']";
+		if($this->trace)
+			echo "Grille:GetObjId://récupère l'identifiant de l'objet ".$obj." ".$donId."<br/>";
+
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetId".$obj."']";
+    	
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-id-", $donId, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
@@ -38,20 +42,24 @@ class Grille{
 		return $row["id"];
     	
     }
-    
+        
     function GereWorkflow($row, $donId) {
 
-    	
+    	$xul="";
     	$Xpath = "/XmlParams/XmlParam/workflow[@srcId='".$row['grille'].";".$row['champ']."']";
 		if($this->trace)
 			echo "Grille:GereWorkflow:récupère les paramètre du workflow à exécuter ".$Xpath."<br/>";
     	$wfs = $this->site->XmlParam->GetElements($Xpath);
 		foreach($wfs as $wf)
 		{
-			$id = $this->GetObjId($donId,$wf['dstObj']);
-			if($this->trace)
-				echo "//récupère l'identifiant de l'objet ".$wf['dstObj']." ".$id."<br/>";
+			//vérifie s'il faut récupérer l'identifiant de l'objet de destination
+			if($wf['dstObj'])
+				$id = $this->GetObjId($donId,$wf['dstObj']);
+
 			switch ($wf['dstQuery']) {
+				case "AddNewTab":
+					$xul = $this->GetXulTabPanels($row['idRub'],$this->site->infos["GRILLE_SIG_PROB"],"SignalementProbleme");
+					break;	
 				case "AddNewArtGrille":
 					if($this->trace)
 						echo "Grille:GereWorkflow:AddNewArtGrille ".$row['valeur']."==".$wf['srcCheckVal']."<br/>";					
@@ -121,6 +129,10 @@ class Grille{
 				break;
 			}								
 		}
+		
+		if($this->trace)
+			echo "Grille:GereWorflow:xul=".$xul."<br/>";
+		return $xul;
 		
 	}	
 
@@ -516,7 +528,7 @@ class Grille{
 		$values = str_replace("'-val-'", $this->site->GetSQLValueString($row["valeur"],"text"), $values);
 		$sql = $Q[0]->insert.$values;
 		if($this->trace)
-			echo $sql."<br/>";
+			echo $this->site->infos["SQL_DB"]." ".$sql."<br/>";
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
 		$db->connect();
 		$result = $db->query($sql);
@@ -571,6 +583,7 @@ class Grille{
 		$i=0;
 		while ($r =  $db->fetch_assoc($result)) {
 			$tabbox .= '<tab id="tab'.$r["id"].'" label="'.$r["titre"].'" />';
+			//vérifie s'il faut créer un formulaire ou un sous onglet
 			if($Q[0]->dst=='Form')
 				$tabpanels .= $this->GetXulTabPanels($r["idArt"], $r["id"],'Form',$recur);
 			else
@@ -578,10 +591,20 @@ class Grille{
 			$i++;
 		}
 		
+		//prise en compte des onglets liés par le workflow
+		$row = array("idRub"=>$id,"grille"=>"GetXulTabForm","champ"=>$dst);
+		$WFtabpanels = $this->GereWorkflow($row,-1);
+		if($WFtabpanels!=""){
+			$tabbox .= '<tab id="tabWF'.$r["id"].'" label="Signalement(s) problème(s)" />';
+			
+		}
+		
+		
 		if($i!=0){
 			$tabbox .= '</tabs>';
 			$tabbox .= '<tabpanels>';
 			$tabbox .= $tabpanels;
+			$tabbox .= $WFtabpanels;
 			$tabbox .= '</tabpanels>';
 			$tabbox .= '</tabbox>';
 		}else
@@ -614,7 +637,7 @@ class Grille{
 			$tabpanel .= $this->GetXulTab($src, $id, $dst, $recur);
 		
 		//ajoute les groupbox pour chaque article
-		If($id==$this->site->infos["GRILLE_REP_CON"]){
+		if($id==$this->site->infos["GRILLE_REP_CON"]){
 			$tabpanel .='<grid flex="1">';
 			//on cache la colonne de référence	
 			$tabpanel .='<columns>';	
@@ -625,27 +648,47 @@ class Grille{
 			$tabpanel .='<rows>';	
 			$tabpanel .='<row><label value="Référence" hidden="true" /><label value="Question"/><label value="Réponse"/></row>';	
 		}
+		if($id==$this->site->infos["GRILLE_SIG_PROB"]){
+			$tabpanel .='<vbox flex="1">';
+		}
 		while($r = $db->fetch_assoc($req)) {
 			//$tabpanel .= '<groupbox >';	
 			//$tabpanel .= '<caption label="'.$r["titre"].'"/>';
 			if($Q[0]->dst=='Form'){
-				//ajoute les données de chaque article
-				$tabpanel .= $this->GetXulForm($r["id"], $id);
+				//pour le signalement d'un problème
+				if($id==$this->site->infos["GRILLE_SIG_PROB"]){
+					$tabpanel .='<hbox>';
+					$tabpanel .='<vbox>';
+					//ajoute le nom de l'article 
+					$tabpanel .='<label value="'.$r["titre"].'" />';
+					//ajoute la carte 
+					$tabpanel .= $this->GetXulCarto(-1,$src);
+					$tabpanel .='</vbox>';
+					//ajoute les données de chaque article
+					$tabpanel .= $this->GetXulForm($r["id"], $id);
+					$tabpanel .='</hbox>';
+				}else{
+					//ajoute les données de chaque article
+					$tabpanel .= $this->GetXulForm($r["id"], $id);
+				}
 			}else{
 				//ajoute la tabbox de destination
 				$tabpanel .= $this->GetXulTab($src, $r["id"], $Q[0]->dst, $recur);	
 			}
 		}
-		If($id==$this->site->infos["GRILLE_REP_CON"]){
+		if($id==$this->site->infos["GRILLE_REP_CON"]){
 			$tabpanel .='</rows>';	
 			$tabpanel .='</grid>';	
+		}
+		if($id==$this->site->infos["GRILLE_SIG_PROB"]){
+			$tabpanel .='</vbox>';
 		}
 		$tabpanel .= '</tabpanel>';
 
 		return $tabpanel;
 	}
 
-  function GetRubDon($idDon) {
+  	function GetRubDon($idDon) {
   
   
 		//requête pour récupérer la rubrique de la donnée
@@ -776,11 +819,15 @@ class Grille{
 	
 	}
 	
-	function GetXulCarto($idDon)
+	function GetXulCarto($idDon,$idRub=-1)
 	{
-	
-		return	"<iframe height='550px' width='450px' src='http://www.mundilogiweb.com/onadabase/design/BlocCarte.php?id=".$this->GetRubDon($idDon)."'  id='BrowerGlobal' />";
-	
+		$xul="";
+		if($idRub!=-1)
+			$xul = "<iframe height='300px' width='350px' src='".$this->site->infos["urlCarto"]."?id=".$idRub."'  id='BrowerGlobal' />";
+		else
+			$xul = "<iframe height='550px' width='450px' src='".$this->site->infos["urlCarto"]."?id=".$this->GetRubDon($idDon)."'  id='BrowerGlobal' />";
+		
+		return	$xul;	
 	
 	}
 
