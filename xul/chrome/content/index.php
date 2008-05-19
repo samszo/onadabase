@@ -173,8 +173,14 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		<popup id="popSyncSrc" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter les objets local au serveur" oncommand="SyncAjout(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
 		</popup>
-		<popup id="popSyncDst" onpopupshowing="javascript:;">
-			<menuitem label="Récupérer les objets du serveur" oncommand="SyncAjout(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
+		<popup id="popEspaceExtParamGen" onpopupshowing="javascript:;">
+			<menuitem label="Voir les problèmes signalés" oncommand="RefreshEcran(document.getElementById('idRub').value,'Signalements problèmes','aucun','SignalementProbleme');"/>
+		</popup>
+		<popup id="popEspaceGen" onpopupshowing="javascript:;">
+			<menuitem label="Voir les problèmes signalés" oncommand="RefreshEcran(document.getElementById('idRub').value,'Signalements problèmes','aucun','SignalementProbleme');"/>
+		</popup>
+		<popup id="popObjetGen" onpopupshowing="javascript:;">
+			<menuitem label="Voir les problèmes signalés" oncommand="RefreshEcran(document.getElementById('idRub').value,'Signalements problèmes','aucun','SignalementProbleme');"/>
 		</popup>
 	</popupset>
 

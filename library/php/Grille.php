@@ -937,6 +937,17 @@ class Grille{
 				$control .= $this->GetChoixVal($row,'menuitem');				
 				$control .= '</menupopup></menulist>';
 				break;
+			case 'fichier':
+				//récupération des js
+				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='fichier']";
+				$js = $this->site->GetJs($Xpath, array($id));
+				//construction du control
+				$control .= '<button id="btn'.$id.'" label="Parcourir" '.$js.' />';
+				//récupération des js
+				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='textbox']";
+				$js = $this->site->GetJs($Xpath, array($id));
+				$control .= '<textbox  '.$js.' multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
+				break;
 			default:
 				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='textbox']";
 				$js = $this->site->GetJs($Xpath, array($id));

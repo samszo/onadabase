@@ -72,9 +72,62 @@
 		case 'CleanRubrique':
 			$resultat = CleanRubrique($_GET['deb'], $_GET['fin']);
 			break;
+		case 'AddDocToArt':
+			//$resultat = AddDocToArt($_GET['path'], $_GET['idArt'], $_GET['doc']);
+			$resultat = AddDocToArt($_GET['idDoc']);
+			break;
+		default:
+			//$resultat = AddDocToArt();
 	}
 
 	echo  utf8_encode($resultat);	
+	
+	/*
+		ajoute un document à un article 
+	*/
+	function AddDocToArt($idDoc){
+		
+		global $objSite;
+		
+		$arrIdDoc = split("[".DELIM."]",$idDoc);
+
+		if(TRACE){
+			echo "ExeAjax:AddDocToArt:POST<br/>";
+			print_r($_POST);
+			echo "ExeAjax:AddDocToArt:FILES<br/>";
+			print_r($_FILES);
+			echo "ExeAjax:AddDocToArt:idDoc".$idDoc."<br/>";
+			print_r($arrIdDoc);
+		}	
+
+		//construction du fichier de destination
+		$FicDst = $arrIdDoc[4]."_".$arrIdDoc[2]."_".date('j-m-y_H-i-s').substr($_FILES['filename']['name'],-4,4);
+		
+		//déplace le fichier dans le répertoire spip
+		move_uploaded_file($_FILES['filename']['tmp_name'], $objSite->infos["pathUpload"].$FicDst);
+		if(TRACE)
+			echo "ExeAjax:AddDocToArt:FicDst".$FicDst."<br/>";
+
+		//construction du nouveau document en fonction du type
+		$doc = new Document($objSite);
+		switch (substr($_FILES['filename']['name'],-3,3)) {
+			case 'kml':
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>75
+					,'desc'=>''
+					,'fichier'=>'IMG/kml/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>0
+					,'hauteur'=>0
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
+		}
+		$doc->AddNew($row);
+		
+	}
+	
 	
 	/*
 	 * Synchronise le local avec le serveur,
