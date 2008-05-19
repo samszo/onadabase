@@ -32,6 +32,68 @@ function AppendResult(url,doc,ajoute) {
    } catch(ex2){alert(ex2);dump("::"+ex2);}
 }
 
+function UploadFile(url, file){
+	
+	 /*
+	  * http://xulfr.org/wiki/ApplisWeb/Request
+	  */
+	
+	
+	 const BOUNDARY = "111222111"; //ce qui va nous servir de délimiteur
+	
+	 const MULTI    = "@mozilla.org/io/multiplex-input-stream;1";
+	 const FINPUT   = "@mozilla.org/network/file-input-stream;1";
+	 const STRINGIS = "@mozilla.org/io/string-input-stream;1";
+	 const BUFFERED = "@mozilla.org/network/buffered-input-stream;1";
+	
+	 const nsIMultiplexInputStream = Components.interfaces.nsIMultiplexInputStream;
+	 const nsIFileInputStream      = Components.interfaces.nsIFileInputStream;
+	 const nsIStringInputStream    = Components.interfaces.nsIStringInputStream;
+	 const nsIBufferedInputStream  = Components.interfaces.nsIBufferedInputStream;
+	
+	 /* 1 */
+	 var mis = Components.classes[MULTI].createInstance(nsIMultiplexInputStream);
+	
+	 /* 2 */
+	 var fin = Components.classes[FINPUT].createInstance(nsIFileInputStream);
+	 fin.init(file, 0x01, 0444, null); //fic est un objet de type fichier
+	 var buf = Components.classes[BUFFERED].createInstance(nsIBufferedInputStream);
+	 buf.init(fin, 4096);
+	
+	 /* 3 */
+	 var hsis = Components.classes[STRINGIS].createInstance(nsIStringInputStream);
+	 var sheader = new String();
+	 sheader += "\r\n";
+	 sheader += "--" + BOUNDARY + "\r\nContent-disposition: form-data;name=\"addfile\"\r\n\r\n1";
+	 sheader += "\r\n" + "--" + BOUNDARY + "\r\n"
+	 sheader += "Content-disposition: form-data;name=\"filename\";filename=\"" + file.leafName + "\"\r\n";
+	 sheader += "Content-Type: application/octet-stream\r\n";
+	 sheader += "Content-Length: " + file.fileSize+"\r\n\r\n";
+	 hsis.setData(sheader, sheader.length);
+	
+	 /* 4 */
+	 var endsis = Components.classes[STRINGIS].createInstance(nsIStringInputStream);
+	 var bs = new String("\r\n--" + BOUNDARY + "--\r\n");
+	 endsis.setData(bs, bs.length);
+	
+	 /* 5 */
+	 mis.appendStream(hsis);
+	 mis.appendStream(buf);
+	 mis.appendStream(endsis);
+	
+	 /* 6 */
+	 var xmlr = new XMLHttpRequest();
+	 xmlr.open("POST", url, false);  //À faire : remplacer par l'URL correcte
+	 xmlr.setRequestHeader("Content-Length", mis.available() - 2 );
+	 //Je ne sais pas pouquoi -2, je dois faire une erreur quelque part
+	 xmlr.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+	
+	 /* 8 */
+	 xmlr.send(mis);	
+		
+}
+
+
 function GetResult(url) {
   try {
 	dump("GetResult IN "+url+"\n");

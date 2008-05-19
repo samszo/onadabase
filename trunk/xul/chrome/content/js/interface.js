@@ -279,54 +279,56 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 {
   try {	
 	document.getElementById('idRub').value=id;
-	//gestion du menu contextuel du tree
-	var cont = document.getElementById('treeRub');
-	cont.setAttribute("context","pop"+typeSrc);
 	
 	//récupération des objets  du serveur
-	ChargeTreeFromAjax('idRub','treeRub',typeSrc);
-	ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
-	ChargeFilArianeFromAjax(id,'tbFilAriane',titre,typeSrc,typeDst);
-	
-	//gestion de menu contextuel du formulaire
-	if(document.getElementById('dataBox').childNodes.length>0){
-		var fs = document.getElementById('FormSaisi');
-		fs.setAttribute("context","pop"+typeDst);
+	if(typeSrc!="aucun"){
+		ChargeTreeFromAjax('idRub','treeRub',typeSrc);
+		ChargeFilArianeFromAjax(id,'tbFilAriane',titre,typeSrc,typeDst);
 	}
+	ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
+	
+	//gestion du menu contextuel du tree
+	var cont = document.getElementById('treeRub');
+	if(typeSrc!="aucun")
+		cont.setAttribute("context","pop"+typeSrc);
+	else
+		cont.setAttribute("context","pop"+typeDst);
 	
 	
 	//vérifie la présence su fil d'ariane
-	var tb=document.getElementById("nav-toolbar");
-	var tbb=document.getElementById("tbb"+typeSrc);
-	if(!tbb){
-		//ajoute un fil ariane sous forme de bouton
-		/*
-		tbb = document.createElement("toolbarbutton");
-		tbb.setAttribute("id","tbb"+typeSrc);
-		tbb.setAttribute("label",titre);
-		tbb.setAttribute("class","toolbarbutton");
-		*/
-		//ajoute un fil ariane sous forme de label
-		tbb = document.createElement("label");
-		tbb.setAttribute("id","tbb"+typeSrc);
-		tbb.setAttribute("value",titre);
-		tbb.setAttribute("class","text-link");		
-		tbb.setAttribute("onclick","RefreshEcran("+id+",'"+titre+"','"+typeSrc+"','"+typeDst+"');");
-		tb.appendChild(tbb);
-		//met à jour le titre tree
-		document.getElementById("titreRub").value = "Sélectionner un(e) des "+titre;
-	}else{
-		//récupère la place du tbb
-		j = -1;		 
-		for (var i = 0; i < tb.childNodes.length; i++) {
-			if(tb.childNodes[i].id=="tbb"+typeSrc)
-				j = i+1;		 
-		}
-		if(j!=-1){
-			//supprime les enfants après le tbb
-			nb = tb.childNodes.length
-			for (var i = j; i < nb; i++) {
-				tb.removeChild(tb.childNodes[j]);
+	if(typeSrc!="aucun"){
+		var tb=document.getElementById("nav-toolbar");
+		var tbb=document.getElementById("tbb"+typeSrc);
+		if(!tbb){
+			//ajoute un fil ariane sous forme de bouton
+			/*
+			tbb = document.createElement("toolbarbutton");
+			tbb.setAttribute("id","tbb"+typeSrc);
+			tbb.setAttribute("label",titre);
+			tbb.setAttribute("class","toolbarbutton");
+			*/
+			//ajoute un fil ariane sous forme de label
+			tbb = document.createElement("label");
+			tbb.setAttribute("id","tbb"+typeSrc);
+			tbb.setAttribute("value",titre);
+			tbb.setAttribute("class","text-link");		
+			tbb.setAttribute("onclick","RefreshEcran("+id+",'"+titre+"','"+typeSrc+"','"+typeDst+"');");
+			tb.appendChild(tbb);
+			//met à jour le titre tree
+			document.getElementById("titreRub").value = "Sélectionner un(e) des "+titre;
+		}else{
+			//récupère la place du tbb
+			j = -1;		 
+			for (var i = 0; i < tb.childNodes.length; i++) {
+				if(tb.childNodes[i].id=="tbb"+typeSrc)
+					j = i+1;		 
+			}
+			if(j!=-1){
+				//supprime les enfants après le tbb
+				nb = tb.childNodes.length
+				for (var i = j; i < nb; i++) {
+					tb.removeChild(tb.childNodes[j]);
+				}
 			}
 		}
 	}
@@ -382,6 +384,12 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 	
 	//ajoute le lien vers spip admin
 	//SetLienAdmin(document.getElementById("idRub").value);	
+
+	//gestion de menu contextuel du formulaire
+	if(document.getElementById('dataBox').childNodes.length>0){
+		var fs = document.getElementById('FormSaisi');
+		fs.setAttribute("context","pop"+type);
+	}
 	
 	var doc = document.getElementById(idDst);
 	var id = document.getElementById(idSrc).value;
@@ -483,18 +491,19 @@ function evaluateXPath(aNode, aExpr) {
 
 }
 
-function GetFichierKml()
+function GetFichierKml(doc)
 {
-	numFic ++;
+	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
 	fichierCourant = GetFichier("kml");
 	//fichierCourant = document.getElementById("NomFichier").value;
 	
 	if(fichierCourant){
-		document.getElementById("NomFichier").value = fichierCourant;
-		document.getElementById('wSaisiDiag').canAdvance=true;
-		ChargeTreeFromKml(fichierCourant,'TreeRoot');
+		document.getElementById(doc).value = fichierCourant.path;
+		//document.getElementById('wSaisiDiag').canAdvance=true;
+		//ChargeTreeFromKml(fichierCourant,'TreeRoot');
+		UploadFile(urlExeAjax+"?f=AddDocToArt&idDoc="+doc, fichierCourant);
 	}else
-		document.getElementById("NomFichier").value = "Impossible de continuer si aucun fichier n'est sélectionné !";
+		document.getElementById(doc).value = "Aucun fichier n'est sélectionné !";
  
 }
 

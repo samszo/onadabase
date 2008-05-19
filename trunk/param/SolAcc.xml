@@ -657,6 +657,19 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<where> WHERE r.id_rubrique = -id- </where>
 				<dst>Art</dst>
 			</Query>
+
+			<Query fonction="Grille_GetXulTabFormSignalementProbleme">
+				<select>SELECT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 60
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+
 			
 			<Query fonction="Grille_GetXulTabFormGrille">
 				<select>SELECT f.id_form id, f.titre, fda.id_article idArt </select>
@@ -696,6 +709,7 @@ INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
 				<js evt="onselect" type="radio" function="SetVal('-param0-');"/>
 				<js evt="oncommand" type="multiple" function="SetVal('-param0-');"/>
 				<js evt="oncommand" type="menu" function="SetVal('-param0-');"/>
+				<js evt="onclick" type="fichier" function="GetFichierKml('-param0-');"/>
 			</Query>
 			
 			<Query fonction="Grille_GetChoixselect">
@@ -793,17 +807,6 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 				<where> WHERE dc.id_donnee = -id- AND dc.champ ='-champ-'	</where>
 			</Query>
 
-			<Query fonction="Grille_GetXulTabPanelsSignalementProbleme">
-				<select>SELECT a.id_article idArt, a.titre, fd.id_donnee id</select>
-				<from> 
-					FROM spip_rubriques r
-					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
-					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
-					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 60
-				</from>
-				<where> WHERE r.id_rubrique = -src- </where>
-				<dst>Form</dst>
-			</Query>
 
 
 		</Querys>
@@ -897,7 +900,7 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="56" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="56" />
 							
 		<!-- Gestion de l'affichage des onglets liés -->		
-		<workflow srcObj="TabForm;Type" srcId="GetXulTabForm;EspaceExtParamGen" dstQuery="AddNewTab" />
+		<workflow srcObj="TabForm;Type" srcId="GetXulTabForm;EspaceExtParamGenkkkk" dstQuery="AddNewTab" />
 
 		<Querys>
 			<Query fonction="update_ArtTitre">
@@ -944,19 +947,6 @@ LIMIT 0 , 1
 			</Query>
 		</Querys>
 	</XmlParam>
-	<XmlParam nom="Synchronise">
-		<Querys>
-			<Query fonction="GetMotsClef">
-				<select>SELECT DISTINCT m.id_groupe, m.id_mot, m.titre </select>
-				<from> FROM spip_mots m </from>
-			</Query>
-			<Query fonction="GetMotsClef">
-				<select>SELECT COUNT(id_mot) </select>
-				<from> FROM spip_mots m </from>
-				<where> WHERE m.id_groupe =-idGroupe- AND m.titre =-titre- </where>
-			</Query>
-		</Querys>
-	</XmlParam>
 	<XmlParam nom="Synchronise2">
 		<Querys>
 			<Query fonction="GetRubriquesAuteur">
@@ -964,8 +954,6 @@ LIMIT 0 , 1
 				<from> FROM spip_auteurs_rubriques r </from>
 				<where> WHERE r.id_auteur =-idAuteur- </where>
 			</Query>
-		</Querys>
-		<Querys>
 			<Query fonction="GetRubriquesTitre">
 				<select>SELECT r.id_rubrique , r.titre </select>
 				<from> FROM spip_rubriques r </from>
@@ -973,4 +961,17 @@ LIMIT 0 , 1
 			</Query>
 		</Querys>
 	</XmlParam>
+	<XmlParam nom="Documents">
+		<Querys>
+			<Query fonction="AddNewDoc">
+				<insert>INSERT INTO `spip_documents` (`id_type`, `titre`, `date`, `descriptif`, `fichier`, `taille`, `largeur`, `hauteur`, `mode`, `distant`, `idx`, `maj`) </insert>
+				<values> VALUES (-type-, '-titre-', now(), '-desc-', '-fichier-', -taille-, -largeur-, -hauteur-, 'document', 'non', 'oui', now())</values>
+			</Query>
+			<Query fonction="AddNewArtDoc">
+				<insert>INSERT INTO spip_documents_articles (id_article, id_document) </insert>
+				<values> VALUES (-idArt-, -idDoc-)</values>
+			</Query>
+		</Querys>
+	</XmlParam>
+	
 </XmlParams>

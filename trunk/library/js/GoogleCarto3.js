@@ -1,4 +1,4 @@
-Ôªø//<![CDATA[
+//<![CDATA[
 var http = getHTTPObject();
 function getHTTPObject() {
   xmlhttp = null;
@@ -7,7 +7,7 @@ function getHTTPObject() {
       xmlhttp = new XMLHttpRequest();
    else if(window.ActiveXObject) // Internet Explorer
       xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-   else { // XMLHttpRequest non support√© par le navigateur
+   else { // XMLHttpRequest non supportÈ par le navigateur
       alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest...");
       return;
    }
@@ -40,11 +40,11 @@ function showAddress(address, id) {
 	  function(point) {
 		if (!point) {
 		  alert(address + " not found");
-		  document.getElementById('err'+id).innerHTML += " pas trouv√©e";
+		  document.getElementById('err'+id).innerHTML += " pas trouvÈe";
 		} else {
 		  url = pathRoot+"ExecDonneeCarto.php?site="+site+"&f=sauve_marker&action=Modifier&id="+id+"&lat="+point.lat()+"&lng="+point.lng()+"&zoommin=10&zoommax=18&type=Satellite&adresse="+address;
 		  GetResultFonction(url, 'err'+id);
-		  document.getElementById('result'+id).innerHTML += "trouv√©e";
+		  document.getElementById('result'+id).innerHTML += "trouvÈe";
 		  //AjaxRequest(url,'result'+id);
 		}
 	  }
@@ -59,12 +59,12 @@ function GetResultFonction(url, div) {
  	http.onreadystatechange = function() {
 		if(http.readyState == 4){
 	   		//alert(http.responseText);
-			results = http.responseText.split("¬ß");
+			results = http.responseText.split("ß");
 			//alert(results.length);
 			if(results.length<2) {// Internet Explorer
    				//alert(div);
 				document.getElementById(div).innerHTML = http.responseText;
-			} else { // XMLHttpRequest non support√© par le navigateur
+			} else { // XMLHttpRequest non supportÈ par le navigateur
 				for (i=0; i<results.length; i=i+1) {
 			   		//alert(divs[i] + ' ' + results[i]);
 					document.getElementById(divs[i]).innerHTML = results[i];
@@ -128,9 +128,9 @@ function GetMarkers(id, query) {
 		+ '&northEastLat=' + northEast.lat()
 		+ '&southWestLng=' + southWest.lng()
 		+ '&northEastLng=' + northEast.lng();
-	//gestion des th√©mes
+	//gestion des thÈmes
 	if(query=='themes') {
-		//gestion de la coche des th√©mes
+		//gestion de la coche des thÈmes
 		i = document.themesTopos.elements.length;
 		for (var m=0;m<i;m++)
 		{
@@ -155,7 +155,7 @@ function GetMarkers(id, query) {
 	//loadDiv = document.getElementById("loadDiv");
 	//loadDiv.style.display = 'block';
 
-	//attent la r√©ponse
+	//attent la rÈponse
 	write_line('GetMarkers url ' + url);
 	p = new XMLHttpRequest();
 	p.onload = null;
@@ -164,18 +164,16 @@ function GetMarkers(id, query) {
 	p.send(null);
 
 	if (p.status != "200" ){
-	      alert("R√©ception erreur " + p.status);
+	      alert("RÈception erreur " + p.status);
 	}else{
 			//cache le loading
 			//loadDiv.style.display = 'none';
 			//eval(http.responseText);
 			liste = p.responseText.split('*');
 
-			//traitement de la r√©ponse
+			//traitement de la rÈponse
 			write_line(liste,'green');
-			var i=liste.length;
-			//alert(i);
-			var zu = (i-1)/11;
+			var i=1;
 			for (var m=0;m<i;m++)
 			{
 					write_line('GetMarkers i = ' + i);
@@ -218,186 +216,18 @@ function GetMarkers(id, query) {
 						zoommin = parseInt(zoommin);
 
 						write_line('Markers INFO ' + query + ' | ' + n + ' | ' + id_rubrique + ' | ' + lat + ' | ' + lng + ' | ' + zoommin + ' | ' + zoommax + ' | ' + adresse);
-					//construction de la carte suivant le type de requ√™te
+					//construction de la carte suivant le type de requÍte
 					switch (query)
 					{
-					  case 'admin':
-							//if(id_rubrique) {
-								if(n==0) {
-									if(lat!='')
-										var point = new GLatLng(lat,lng);
-									else
-										var point = map.getCenter();
-									write_line('admin - point ' + point, 'red');
-									var marker = new GMarker(point, {draggable: true});
-									map.addOverlay(marker);
-									marker.marker_id = n;
-									for (var eventName in markerEvents)
-									{
-										addShowEvent(marker, 'marker[n]<', eventName, 'green', markerEvents[eventName]);
-									}
-									write_line('added overlay ' + marker.marker_id, 'red');
-									//contenu admin
-									contenu_topic = '<form name="marker" >';
-									contenu_topic += '<input type="hidden" name="id" value="' + id_rubrique + '" />';
-									contenu_topic += 'Titre : ' + titre + '';
-									contenu_topic += '<br/>';
-									contenu_topic += 'Lat : <input size="10" type="text" name="lat" value="' + point.lat() + '" />';
-									contenu_topic += ' ';
-									contenu_topic += 'Lng : <input size="10" type="text" name="lng" value="' + point.lng() + '" />';
-									contenu_topic += '<br/>';
-									contenu_topic += 'zoom min : <input size="2" type="text" name="zoommin" value="' + zoommin + '" />';
-									contenu_topic += ' ';
-									contenu_topic += 'zoom max : <input size="2" type="text" name="zoommax" value="' + zoommax + '" />';
-									contenu_topic += '<br/>';
-									contenu_topic += 'Type : <input type="text" name="type" value="' + cartotype + '" />';
-									contenu_topic += '<br/>';
-									contenu_topic += 'Adresse : <input type="text" name="adresse" value="' + adresse + '" />';
-									contenu_topic += '<br/>';
-									contenu_topic += '<input type="button" name="Submit" value="Modifier" onclick="SauveMarker(' + id_rubrique + ')" />';
-									contenu_topic +='<input type="button" name="GL" value="Geolocaliser" onclick="showAddress(window.document.marker.adresse.value,' + id_rubrique + ')" />';
-									contenu_topic +='<div id="result' + id_rubrique + '" ></div><div id="err' + id_rubrique + '" ></div>';
-									contenu_topic += '</form>';
-									//GESTION DU DRAG & DROP
-									GEvent.addListener(marker, "dragstart", function() {
-									  map.closeInfoWindow();
-									  });
-									//GEvent.addListener(marker, "dragend", function() {
-									//  window.document.forms["marker"].lat.value=point.lat();
-									//  });
-									GEvent.addListener(marker, "dragend", function() {
-									  marker.openInfoWindowHtml(contenu_topic);
-									  p = marker.getPoint();
-									  window.document.forms["marker"].lat.value=p.lat();
-									  window.document.forms["marker"].lng.value=p.lng();
-									  window.document.forms["marker"].zoommin.value=map.getZoom();
-									  window.document.forms["marker"].zoommax.value=17;
-									  window.document.forms["marker"].type.value=map.getCurrentMapType().getName();
-									  });
-									//construction des onglets
-									var infoTabs = new Array(new GInfoWindowTab("Topic",contenu_topic));
-									marker_info[n]=infoTabs;
-									marker.openInfoWindowTabsHtml(infoTabs);
-									//attribut le type de carte
-									GetMapType(cartotype);
-									GetRubKml(id_rubrique,query,urlKml);
-									
-									write_line('zoommin ' + zoommin, 'red');
-									
-									map.setCenter(new GLatLng(lat, lng), zoommin);
-									
-									//map.setZoom(zoommin);
-								}
-							//}
-					   break;
 					  case 'idFiche':
 							if(lat!='') {
 								var point = new GLatLng(lat,lng);
-								//var marker = new GMarker(point,icon);
-								var marker = new GMarker(point);
-								//gestion d'affichage des markers suivant le zoom
-								//mgr.addMarker(marker, 0,  18); conserve tous les markers
-								map.addOverlay(marker);
-								marker.marker_id = n;
-								for (var eventName in markerEvents)
-								{
-									addShowEvent(marker, 'marker[n]<', eventName, 'green', markerEvents[eventName]);
-								}
-								write_line('added overlay ' + marker.marker_id, 'red');
-								write_line('point ' + point, 'green');
-								//centre la carte sur le premier markers
-								if(n==0)
-									map.setCenter(new GLatLng(lat, lng), zoommin);
-								//gestion des liens de navigation
-								if(localisation){
-									write_line('localisation.substr(0, 7) ' + localisation.substr(0, 7), 'green');
-									if(localisation.substr(0, 7)=="http://")
-									   marker_info[n]=localisation;
-								}else
-								   marker_info[n]="";
-								//gestion des tab
-								//marker_info[n]= GetInfoTab(image,lien,titre,localisation,txt);
-
-								//attribut le type de carte
-								GetMapType(cartotype);
-								//charge le kml
-								GetRubKml(id_rubrique,query,urlKml);
-							}
-					    break;
-					  case 'idFicheRN':
-							if(lat!='') {
-								var point = new GLatLng(lat,lng);
+								//centre la carte
 								map.setCenter(new GLatLng(lat, lng), zoommin);
 								//attribut le type de carte
 								GetMapType(cartotype);
 								//charge le kml
 								GetRubKml(id_rubrique,query,urlKml);
-							}
-					    break;
-					  case 'themes':
-							if(lat!='') {
-								var point = new GLatLng(lat,lng);
-								var marker = new GMarker(point);
-								//gestion d'affichage des markers suivant le zoom
-								//mgr.addMarker(marker, 0,  18);
-								map.addOverlay(marker);
-								marker.marker_id = n;
-								for (var eventName in markerEvents)
-								{
-									addShowEvent(marker, 'marker[n]<', eventName, 'green', markerEvents[eventName]);
-								}
-								write_line('added overlay ' + marker.marker_id, 'red');
-								write_line('point ' + point, 'green');
-								//contenu topic
-								var contenu_topic ='<div class="BlocGranulatGM">';
-								contenu_topic += '<div class="BlocGranulatImg">'+image+'</div>';
-								contenu_topic += '<div class="BlocGranulatTopic"><a href="'+lien+'">'+titre+'</a></div>';
-								contenu_topic += '<div class="BlocGranulatNotice">'+txt+'</div>';
-								contenu_topic += '<div class="BlocGranulatTopos">'+localisation+'</div>';
-								contenu_topic += '</div>';
-								//fin contenu topic
-								//construction des onglets
-								var infoTabs = new Array(new GInfoWindowTab("Topic",contenu_topic));
-								marker_info[n]=infoTabs;
-							}
-					    break;
-					  default:
-							if(lat!='') {
-								var point = new GLatLng(lat,lng);
-								var marker = new GMarker(point);
-								//gestion d'affichage des markers suivant le zoom
-								//mgr.addMarker(marker, 0,  18);
-								map.addOverlay(marker);
-								marker.marker_id = n;
-								for (var eventName in markerEvents)
-								{
-									addShowEvent(marker, 'marker[n]<', eventName, 'green', markerEvents[eventName]);
-								}
-								write_line('added overlay ' + marker.marker_id, 'red');
-								write_line('point ' + point, 'green');
-								//contenu topic
-								contenu_topic = image
-								contenu_topic += '<a href="'+lien+'">'+titre+'</a>';
-								var infoTabs = new Array(new GInfoWindowTab("Topic",contenu_topic));
-								marker_info[n]=infoTabs;
-
-								//ajoute l'√©v√©nement mouse over au markers
-								/*
-								GEvent.addListener(marker, "mouseover", function() {
-								  marker.openInfoWindowHtml(marker.marker_id);
-								  });
-								  */
-								
-								
-								//gestion des liens de navigation
-							   //marker_info[n]=lien;
-								if(id==id_rubrique) {
-									//marker.openInfoWindowTabsHtml(infoTabs);
-									//attribut le type de carte
-									GetMapType(cartotype);
-									GetRubKml(id_rubrique,query,urlKml);
-									map.setCenter(new GLatLng(lat, lng), zoommin);
-								}
 							}
 					    break;
 					}
@@ -409,7 +239,7 @@ function GetMarkers(id, query) {
 	//mgr.refresh();
 	//bug ie sur chargement kml
    	//if(window.XMLHttpRequest){ // Firefox
-		//charge le kml du d√©partement
+		//charge le kml du dÈpartement
 		//var geoXmlDep = new GGeoXml("http://ns39182.ovh.net/kml/dordogne.kml");
 		//write_line('geoXml: '+geoXml,'red');
 	    //map.addOverlay(geoXmlDep);
@@ -448,10 +278,11 @@ function GetRubKml(id, query, url){
 		//calcul de l'url un flux kml
 		//url = pathRoot+'ExecDonneeCarto.php?f=get_rub_kml&site='+site+'&id='+id+'&query='+query;
 	//url = 'http://www.mundilogiweb.com/onadabase/spip/IMG/kml/Gare_Lille_Flandre_a_Rue_Negrier_59800_Lille.kml';
+	alert("GetRubKml:"+url);
 	if(url){
 		urls = url.split('<>');
-		//alert(results.length);
 		if(urls.length<2) {
+			alert("GetRubKml::"+url);
 			geoXmlRub = new GGeoXml(url);
 			map.addOverlay(geoXmlRub);
 			write_line('GetRubKml url ' + url,'red');
@@ -778,7 +609,7 @@ function initMap() {
 
 		/*
 		var copyCollection = new GCopyrightCollection('IGN:SCAN25');
-		var copyright = new GCopyright(1, new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)), 0, "¬©2007 IGN");
+		var copyright = new GCopyright(1, new GLatLngBounds(new GLatLng(-90, -180), new GLatLng(90, 180)), 0, "©2007 IGN");
 		copyCollection.addCopyright(copyright);
 
 		var tilelayers = [new GTileLayer(copyCollection, 0, 17)];
@@ -793,11 +624,16 @@ function initMap() {
 		map.setMapType(defType);
 
  		//console.log('mapQuery: '+mapQuery);
-		//r√©cup√®re les coordonn√©es des markers √† afficher par rapport √† l'identifiant et la requ√™te
-		GetMarkers(idRub,mapQuery);
+		//rÈcupËre les coordonnÈes des markers ‡ afficher par rapport ‡ l'identifiant et la requÍte
+		//GetMarkers(idRub,mapQuery);
+		
 		//GetMarkers(idRub, 'idFicheEnfant');
 		//charge le kml
 		//GetRubKml(idRub,mapQuery);
+
+		var geoXmlRub = new GGeoXml('http://www.mundilogiweb.com/onadabase/spip/IMG/kml/1811_18560_19-05-08_08-57-25.kml');
+		map.addOverlay(geoXmlRub);
+				
 
 		GEvent.addListener(map, 'click', map_click_handler);
 		GEvent.addListener(map, 'moveend', function() {write_line('moveend: '+map.getCenter(),'#0000ff')});
@@ -825,6 +661,7 @@ function initMap() {
 				//GetRubKml(idRub,"commune");
 		});
 		GEvent.addListener(map, 'maptypechanged', function() {write_line('maptype: '+map.getCurrentMapType().getName(),'#0000ff')});
+
 	}
 
 
@@ -834,7 +671,7 @@ function CustomGetTileUrl(a,b) {
 		var f = "";
 		//var f = "/maps/?x="+a.x+"&y="+a.y+"&zoom="+z;
 		//var f = "../MesGoogleCarte/IMG_2728.JPG";
-		//v√©rifie la premi√®re image
+		//vÈrifie la premiËre image
 		f = "MesGoogleCarte/map/SC25_TOUR_L93_"+a.x+"_"+a.y+"_"+z+".gif";
 		write_line('CustomGetTileUrl f ' + f);
 		//alert(z+" : "+f);
