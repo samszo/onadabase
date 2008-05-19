@@ -57,7 +57,7 @@
 			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type'], $_GET['login']);
 			break;
 		case 'NewRubrique':
-			$resultat = NewRubrique($_GET['idRubSrc'], $_GET['idRubDst']);
+			$resultat = NewRubrique($_GET['idRubSrc'], $_GET['idRubDst'], $_GET['idAuteur']);
 			break;
 		case 'Synchronise':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
@@ -591,7 +591,7 @@
 		
 	}
 	
-	function NewRubrique($idRubSrc, $idRubDst) {
+	function NewRubrique($idRubSrc, $idRubDst, $idAuteur) {
 		global $objSite;
 
 		if(TRACE) {
@@ -607,6 +607,11 @@
 		$grille = new Grille($objSite);
 		
 		$grille->AddGrilles($idRubSrc, $idGen);
+		
+		$gra = new Granulat($idGen, $objSite);
+		
+		$idArticle = $gra->GetArticle();
+		$gra->AddAuteur($idArticle, $idAuteur);
 		
 		$xul = $grille->GetXulTab('Terre', $idGen);
 		

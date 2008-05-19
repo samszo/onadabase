@@ -143,9 +143,10 @@ function AddNewRubrique(idDst) {
 		document.getElementById("TitreFormSaisi").value=TitreFormSaisi;
 		while(doc.hasChildNodes())
 			doc.removeChild(doc.firstChild);
-			
+		
+		var idAuteur = document.getElementById('idAuteur').value;	
 		if(verif){
-			var url = urlExeAjax+"?f=NewRubrique&idRubSrc="+id+"&idRubDst="+idDst;
+			var url = urlExeAjax+"?f=NewRubrique&idRubSrc="+id+"&idRubDst="+idDst+"&idAuteur="+idAuteur;
 			AppendResult(url, doc);
 		}
 		//alert("AddNewRubrique url "+url+"\n");

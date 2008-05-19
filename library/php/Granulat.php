@@ -64,9 +64,11 @@ class Granulat
 	  			$maj = $article->maj;
 	  			
 	  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
-	  			$g->AddAuteur($idArt, $idAuteur);
+	  			if ($idAuteur!= "") $g->AddAuteur($idArt, $idAuteur);
 	  			
 	  			$nouvelArt->setAttribute("newId", $idArt);
+	  			$nouvelArt->setAttribute("newRub", $g->id);
+	  			
 		  		$dom->lastChild->appendChild($nouvelArt);
 	  			
 	  			if($this->trace)
@@ -107,6 +109,7 @@ class Granulat
 						$j++;
 					}
 	  			}
+	  		$g->UpdateIdArt($idArt, $article['id'], $article['idRub']);
   			} 	
   		}
   		
@@ -120,7 +123,11 @@ class Granulat
 	  			$g->SetMotClef($rubrique->motclef, $idEnfant);
 	  			
 	  			$nouvelleRub->setAttribute("newId", $idEnfant);
+	  			$nouvelleRub->setAttribute("parentId", $idParent);
 		  		$dom->lastChild->appendChild($nouvelleRub);
+		  		
+		  		$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
+	  				
   			} else $idEnfant = $rubrique['id'];
 	  			
   			$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom);
@@ -172,6 +179,102 @@ class Granulat
 		} else return -1;
 	}
   	
+		
+	/*
+	 * Met à jour les identifiants des rubriques dans les tables spip_rubriques, spip_mots_rubriques et spip_articles 
+	 * 
+	 */
+	public function UpdateIdRub($idRubOld, $idRubNew, $idParent) {
+		
+		if($this->trace)
+			echo "Synchro:UpdateIdRub:idRubNew ".$idRubNew;
+		
+		$sql = "UPDATE `spip_rubriques`
+				SET id_rubrique = ".$idRubNew."
+				WHERE id_rubrique = ".$idRubOld;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_rubriques`
+				SET id_parent = ".$idParent."
+				WHERE id_rubrique = ".$idRubNew;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_mots_rubriques`
+				SET id_rubrique = ".$idRubNew."
+				WHERE id_rubrique = ".$idRubOld;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+	}
+	
+	/*
+	 * Met à jour les identifiants des articles dans les tables spip_articles, spip_forms_articles, spip_forms_donnees_articles et spip_auteurs_articles
+	 * 
+	 */
+	public function UpdateIdArt($idArtOld, $idArtNew, $idRubNew) {
+		
+		if($this->trace)
+			echo "Synchro:UpdateIdArt:idArtNew ".$idArtNew;
+		
+		$sql = "UPDATE `spip_articles`
+				SET id_article = ".$idArtNew."
+				WHERE id_article = ".$idArtOld;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_forms_articles`
+				SET id_article = ".$idArtNew."
+				WHERE id_article = ".$idArtOld;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_forms_donnees_articles`
+				SET id_article = ".$idArtNew."
+				WHERE id_article = ".$idArtOld;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_auteurs_articles`
+				SET id_article = ".$idArtNew."
+				WHERE id_article = ".$idArtOld;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$sql = "UPDATE `spip_articles`
+				SET id_rubrique = ".$idRubNew."
+				WHERE id_article = ".$idArtNew;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+	}
+	
+	
   	function SetAuteur($newId,$objet){
 
 	  	//pas de création d'auteur pour les rubriques
@@ -415,11 +518,28 @@ class Granulat
 	 */
 	function GetFormId($idArticle) {
 		
-		$sql = "SELECT fa.id_form ,fa.id_article
-			FROM spip_forms_articles fa
+		$sql = "SELECT fa.id_donnee ,fa.id_article
+			FROM spip_forms_donnees_articles fa
 				
 			WHERE fa.id_article = ".$idArticle;
-		//echo $sql."<br/>";
+		//echo $sql."<br/>"; spip_forms_articles
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+			
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			
+			$idDonnee = $data['id_donnee'];
+			//echo ' IDDD '.$idForm;		
+			$i ++;
+		}
+		
+		$sql = "SELECT fd.id_form ,fd.id_donnee
+			FROM spip_forms_donnees fd
+				
+			WHERE fd.id_donnee = ".$idDonnee;
+		//echo $sql."<br/>"; spip_forms_articles
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
 		$req = $DB->query($sql);
 		$DB->close();
@@ -537,11 +657,12 @@ class Granulat
 			$artId = $this->GetArticle();
 
 		//attache le form à l'article
-		$sql = "INSERT INTO `spip_forms_articles` (id_form, id_article)
+		/*$sql = "INSERT INTO `spip_forms_articles` (id_form, id_article)
 				VALUES (".$formId.",".$artId.")";
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
 		$req = $DB->query($sql);
-		$DB->close();
+		$DB->close();*/
+			
 		//création de la donnée du formulaire
 		$sql = "INSERT INTO `spip_forms_donnees` (`id_form`, `date`, `maj`, `confirmation`, `statut`, `rang`)
 				VALUES (".$formId.", '".$date."', '".$maj."', 'valide', 'prop', 1)";
