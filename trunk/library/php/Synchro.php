@@ -108,14 +108,18 @@ Class Synchro{
 		
 		$nodesPrincipaux = $doc->getElementsByTagName($XpathRub);
 		
+		$g = new Granulat(0, $this->siteSrc);
+		
 		foreach($nodesPrincipaux as $node) {
 			$idRubOld = $node->getAttribute('oldId');
 			$idRubNew = $node->getAttribute('newId');
+			$idRubParent = $node->getAttribute('parentId');
 			if($this->trace) {
 				echo "Synchro:Actualise:idRubOld ".$idRubOld."<br/>";
 				echo "Synchro:Actualise:idRubNew ".$idRubNew."<br/>";
+				echo "Synchro:Actualise:idRubParent ".$idRubParent."<br/>";
 			}	
-			$this->UpdateIdRub($idRubOld, $idRubNew);
+			$g->UpdateIdRub($idRubOld, $idRubNew, $idRubParent);
 		}
 		
 		$nodesPrincipaux = $doc->getElementsByTagName($XpathArt);
@@ -123,100 +127,18 @@ Class Synchro{
 		foreach($nodesPrincipaux as $node) {
 			$idArtOld = $node->getAttribute('oldId');
 			$idArtNew = $node->getAttribute('newId');
+			$idArtRub = $node->getAttribute('newRub');
 			if($this->trace) {
 				echo "Synchro:Actualise:idArtOld ".$idArtOld."<br/>";
 				echo "Synchro:Actualise:idArtNew ".$idArtNew."<br/>";
+				echo "Synchro:Actualise:idArtRub ".$idArtRub."<br/>";
 			}	
-			$this->UpdateIdArt($idArtOld, $idArtNew);
+			$g->UpdateIdArt($idArtOld, $idArtNew, $idArtRub);
 		}
 		$path = PathRoot."/param/synchroImport.xml";
 		$xmlScr = $doc->save($path);
 		//$this->import($path);
 		return $path;
-		
-	}
-	
-	/*
-	 * Met à jour les identifiants des rubriques dans les tables spip_rubriques, spip_mots_rubriques et spip_articles 
-	 * 
-	 */
-	public function UpdateIdRub($idRubOld, $idRubNew) {
-		
-		if($this->trace)
-			echo "Synchro:UpdateIdRub:idRubNew ".$idRubNew;
-		
-		$sql = "UPDATE `spip_rubriques`
-				SET id_rubrique = ".$idRubNew."
-				WHERE id_rubrique = ".$idRubOld;
-		
-		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
-		//$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
-		
-		$sql = "UPDATE `spip_mots_rubriques`
-				SET id_rubrique = ".$idRubNew."
-				WHERE id_rubrique = ".$idRubOld;
-		
-		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
-		//$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
-		
-		$sql = "UPDATE `spip_articles`
-				SET id_rubrique = ".$idRubNew."
-				WHERE id_rubrique = ".$idRubOld;
-		
-		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
-		//$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
-	}
-	
-	/*
-	 * Met à jour les identifiants des articles dans les tables spip_articles, spip_forms_articles, spip_forms_donnees_articles et spip_auteurs_articles
-	 * 
-	 */
-	public function UpdateIdArt($idArtOld, $idArtNew) {
-		
-		if($this->trace)
-			echo "Synchro:UpdateIdArt:idArtNew ".$idArtNew;
-		
-		$sql = "UPDATE `spip_articles`
-				SET id_article = ".$idArtNew."
-				WHERE id_article = ".$idArtOld;
-		
-		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
-		//$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
-		
-		$sql = "UPDATE `spip_forms_articles`
-				SET id_article = ".$idArtNew."
-				WHERE id_article = ".$idArtOld;
-		
-		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
-		//$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
-		
-		$sql = "UPDATE `spip_forms_donnees_articles`
-				SET id_article = ".$idArtNew."
-				WHERE id_article = ".$idArtOld;
-		
-		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
-		//$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
-		
-		$sql = "UPDATE `spip_auteurs_articles`
-				SET id_article = ".$idArtNew."
-				WHERE id_article = ".$idArtOld;
-		
-		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"], $DB_OPTIONS);
-		//$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
 		
 	}
 	
@@ -325,7 +247,7 @@ Class Synchro{
 				$gra = new Granulat($idParent, $this->siteSrc); 
 				$idEnfant = $gra->SetNewEnfant(utf8_decode($node));
 	  			$gra->SetMotClef($node->motclef, $idEnfant);
-	  			$this->UpdateIdRub($idEnfant, $idRub);
+	  			$gra->UpdateIdRub($idEnfant, $idRub, $idParent);
 			}
 			
 			// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
@@ -345,9 +267,10 @@ Class Synchro{
 		  			$maj = $article->maj;
 		  			
 		  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
-		  			$g->AddAuteur($idArt, $idAuteur);	
+		  			if($idAuteur!="") $g->AddAuteur($idArt, $idAuteur);	
 		  			
 		  			$nouvelArt->setAttribute("newId", $idArt);
+		  			$nouvelArt->setAttribute("newRub", $g->id);
 		  			$dom->lastChild->appendChild($nouvelArt);
 		  			
 		  			if($this->trace)
@@ -387,7 +310,7 @@ Class Synchro{
 							$j++;
 						}
 		  			}
-		  		$this->UpdateIdArt($idArt, $node->article["id"]);		
+		  		$g->UpdateIdArt($idArt, $node->article["id"], $node->article["idRub"]);		
 				}
 			}
 				
@@ -402,7 +325,10 @@ Class Synchro{
 	  				$g->SetMotClef($rubrique->motclef, $idEnfant);
 	  				
 	  				$nouvelleRub->setAttribute("newId", $idEnfant);
+	  				$nouvelleRub->setAttribute("parentId", $idRub);
 	  				$racine->appendChild($nouvelleRub);
+	  				
+	  				$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
 	  				
 				} else $idEnfant = $rubrique['id'];
 				
@@ -453,6 +379,7 @@ Class Synchro{
 			$nouvelleMaj = $dom->createElement("maj");
 			
 			$nouvelArticle->setAttribute("id", $arrlisteArticle[$k]['id']);
+			$nouvelArticle->setAttribute("idRub", $gSrc->id);
 			$nomArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['titre']));
 			$dateArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['date']));
 			$majArticle = $dom->createTextNode(utf8_encode($arrlisteArticle[$k]['maj']));
