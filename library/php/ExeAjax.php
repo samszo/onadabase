@@ -172,7 +172,6 @@
 				if(TRACE)
 					echo "ExeAjax:Synchronise:xmlString=".$xmlString." FIN ExeAjax:Synchronise:xmlString";
 					$path = $synchro->Actualise($xmlString);
-					$synchro->UpdateAdminRub($path);
 					$synchro->import($path);
 			}
 		}
@@ -226,9 +225,7 @@
 			}
 			
 			$sync = new Synchro($objSite,-1);
-			
-			$sync->UpdateAdminRub($src);
-			
+						
 			$reponseSynch = $sync->import($src);
 			$sync->AddHistoriqueSynchro($src, $idAuteur);
 			

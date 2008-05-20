@@ -132,9 +132,7 @@ class Granulat
 	  			
   			$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom);
   			//$i++;  //$rubriques[$i]->rubrique, $rubriques[$i]->article
-  		}
-  		
-  		
+  		}	
   	}
   	
   	/*
@@ -215,16 +213,7 @@ class Granulat
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
-		
-		$sql = "UPDATE `spip_auteurs_rubriques`
-				SET id_rubrique = ".$idRubNew."
-				WHERE id_rubrique = ".$idRubOld;
-		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
-		//$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
-		
+				
 	}
 	
 	/*
@@ -283,6 +272,20 @@ class Granulat
 		
 	}
 	
+	
+	public function GetIdAdmin($idRub) {
+		
+		$sql = "SELECT id_auteur, id_rubrique FROM spip_auteurs_rubriques a WHERE a.id_rubrique=".$idRub;					
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if ($r = $DB->fetch_assoc($req)){
+			$idAuteur = $r['id_auteur']; 
+		}
+		return $idAuteur;
+		
+	}
 	
   	function SetAuteur($newId,$objet){
 

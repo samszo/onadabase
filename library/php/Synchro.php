@@ -202,11 +202,6 @@ Class Synchro{
 				echo "Synchro:Synchronise:id_rubrique ".$row['id_rubrique']."<BR/>";
 				
 			$document = $dom->lastChild; //firstChild
-			$nouveauAdminRub = $dom->createElement("admin");
-			$nouveauAdminRub->setAttribute("idRub", $row['id_rubrique']);
-			$nouveauAdminRub->setAttribute("idAut", $row['id_auteur']);
-			
-			$document->appendChild($nouveauAdminRub);
 			
 			$this->GetChildren($row['id_rubrique'], $dom, $document);
 		}
@@ -241,9 +236,13 @@ Class Synchro{
 		foreach($nodesPrincipaux as $node) {
 			$idRub = $node['id'];
 			$idParent = $node['idParent'];
+			$idAdmin = $node['idAdmin'];
+			
 			if($this->trace)
-				echo "Synchro:import:idRub ".$idRub." idParent ".$idParent."<br/>";
-							
+				echo "Synchro:import:idRub ".$idRub." idParent ".$idParent." idAdmin ".$idAdmin."<br/>";
+
+			if ($idAdmin !="") $this->UpdateAdminRub($idRub, $idAdmin);
+			
 			$rubriques = $node->rubrique;
 
 			$g = new Granulat($idRub, $this->siteSrc); 
@@ -343,34 +342,27 @@ Class Synchro{
 		return $dom->saveXML();
   	}
 
-  	public function UpdateAdminRub($xmlSrc) {
-  		
-  		$xml = new XmlParam($xmlSrc, -1);	
-  		$XpathAdmin = "/documents/admin";
-		$nodesAdmin = $xml->GetElements($XpathAdmin);
-		
-		foreach($nodesAdmin as $nodeAdm) {
-					
-			$sql = "SELECT id_rubrique, id_auteur
-					FROM spip_auteurs_rubriques 
-					WHERE id_rubrique = ".$nodeAdm['idRub']." AND id_auteur = ".$nodeAdm['idAut'];
+  	public function UpdateAdminRub($idRub, $idAut) {
+  		 		
+  		$sql = "SELECT id_rubrique, id_auteur
+				FROM spip_auteurs_rubriques 
+				WHERE id_rubrique = ".$idRub." AND id_auteur = ".$idAut;
 			//echo $sql."<br/>";
-			$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
-			$req = $DB->query($sql);
-			$DB->close();
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+
+		if ($DB->num_rows($req) == 0) {
+			
+			$sql2 = "INSERT INTO `spip_auteurs_rubriques`  (`id_rubrique`, `id_auteur`)
+					VALUES (".$idRub.", ".$idAut.")";
 		
-			if ($DB->num_rows($req) == 0) {
-			
-				$sql2 = "INSERT INTO `spip_auteurs_rubriques`  (`id_rubrique`, `id_auteur`)
-						VALUES (".$nodeAdm['idRub'].", ".$nodeAdm['idAut'].")";
-			
-				if($this->trace)
-					echo $sql2."<br/>";
-					
-				$DB2 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
-				$req = $DB2->query($sql2);
-				$DB2->close();
-			}
+			if($this->trace)
+				echo $sql2."<br/>";
+				
+			$DB2 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+			$req = $DB2->query($sql2);
+			$DB2->close();
 		}
   	}
   	
@@ -390,7 +382,8 @@ Class Synchro{
 		$nomRubrique = $dom->createTextNode(utf8_encode($gSrc->titre));
 		$nouvelleRubrique->setAttribute("id", $gSrc->id);
 		$nouvelleRubrique->setAttribute("idParent", $gSrc->IdParent);
-			
+		$nouvelleRubrique->setAttribute("idAdmin", $gSrc->GetIdAdmin($gSrc->id));
+		
 		$idMotClef = $dom->createTextNode($gSrc->GetMotClef());
 			
 		$nouvelleRubrique->appendChild($nomRubrique);
