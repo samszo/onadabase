@@ -216,6 +216,15 @@ class Granulat
 		$req = $DB->query($sql);
 		$DB->close();
 		
+		$sql = "UPDATE `spip_auteurs_rubriques`
+				SET id_rubrique = ".$idRubNew."
+				WHERE id_rubrique = ".$idRubOld;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
 	}
 	
 	/*
