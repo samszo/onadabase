@@ -202,7 +202,12 @@ Class Synchro{
 				echo "Synchro:Synchronise:id_rubrique ".$row['id_rubrique']."<BR/>";
 				
 			$document = $dom->lastChild; //firstChild
-						
+			$nouveauAdminRub = $dom->createElement("admin");
+			$nouveauAdminRub->setAttribute("idRub", $row['id_rubrique']);
+			$nouveauAdminRub->setAttribute("idAut", $row['id_auteur']);
+			
+			$document->appendChild($nouveauAdminRub);
+			
 			$this->GetChildren($row['id_rubrique'], $dom, $document);
 		}
 		$xmlSrc = $dom->save($url);	
@@ -228,7 +233,7 @@ Class Synchro{
   		if($this->trace)
 			echo "Synchro:import //récuparation de la définition des données ".$xmlSrc."<br/>";
 		$xml = new XmlParam($xmlSrc, -1);	
-				
+		
 		$Xpath = "/documents/rubrique";
 		
 		$nodesPrincipaux = $xml->GetElements($Xpath);
@@ -338,6 +343,37 @@ Class Synchro{
 		return $dom->saveXML();
   	}
 
+  	public function UpdateAdminRub($xmlSrc) {
+  		
+  		$xml = new XmlParam($xmlSrc, -1);	
+  		$XpathAdmin = "/documents/admin";
+		$nodesAdmin = $xml->GetElements($XpathAdmin);
+		
+		foreach($nodesAdmin as $nodeAdm) {
+					
+			$sql = "SELECT id_rubrique, id_auteur
+					FROM spip_auteurs_rubriques 
+					WHERE id_rubrique = ".$nodeAdm['idRub']." AND id_auteur = ".$nodeAdm['idAut'];
+			//echo $sql."<br/>";
+			$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+			$req = $DB->query($sql);
+			$DB->close();
+		
+			if ($DB->num_rows($req) == 0) {
+			
+				$sql2 = "INSERT INTO `spip_auteurs_rubriques`  (`id_rubrique`, `id_auteur`)
+						VALUES (".$nodeAdm['idRub'].", ".$nodeAdm['idAut'].")";
+			
+				if($this->trace)
+					echo $sql2."<br/>";
+					
+				$DB2 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+				$req = $DB2->query($sql2);
+				$DB2->close();
+			}
+		}
+  	}
+  	
 /*
  * Parcourt récursivement les enfants afin de créer l'objet dom de l'xml (correspondant à l'export)
  */
