@@ -366,6 +366,26 @@ Class Synchro{
 		}
   	}
   	
+	public function GetAdminRub($idAut) {
+  		 		
+  		$sql = "SELECT id_rubrique, id_auteur
+				FROM spip_auteurs_rubriques 
+				WHERE id_auteur = ".$idAut;
+			//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			$arrliste[$i] = array("id_rubrique"=>$data['id_rubrique'], "id_auteur"=>$data['id_auteur']);
+			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
+			$i ++;
+		}
+
+		return $arrliste;
+  	}
+  	
 /*
  * Parcourt récursivement les enfants afin de créer l'objet dom de l'xml (correspondant à l'export)
  */

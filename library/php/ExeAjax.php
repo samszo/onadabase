@@ -76,6 +76,10 @@
 			//$resultat = AddDocToArt($_GET['path'], $_GET['idArt'], $_GET['doc']);
 			$resultat = AddDocToArt($_GET['idDoc']);
 			break;
+		case 'GetAdminRub':
+			//$resultat = AddDocToArt($_GET['path'], $_GET['idArt'], $_GET['doc']);
+			$resultat = AddDocToArt($_GET['idAuteur']);
+			break;
 		default:
 			//$resultat = AddDocToArt();
 	}
@@ -141,9 +145,20 @@
 		global $objSiteSync; //Mundi
 		    	
 		if(TRACE)
-			echo "ExeAjax:Synchronise:$siteSrc, $siteDst, $idAuteur<br/>";
+			echo "ExeAjax:Synchronise:idAuteur $idAuteur<br/>";
 
-		$synchro = new Synchro($objSite, $objSite);
+		$urlAdmin = $objSiteSync->infos["urlExeAjax"]."?f=GetAdminRub&idAuteur=".$idAuteur;
+		
+		if(TRACE)
+			echo "ExeAjax:Synchronise:urlAdmin=$urlAdmin<br/>";
+		
+		$pageDebut = GetCurl($urlAdmin);
+		$arrliste = unserialize($pageDebut);
+		
+		if(TRACE)
+			echo "ExeAjax:Synchronise:liste=$arrliste<br/>";
+		
+		/*$synchro = new Synchro($objSite, $objSite);
     	$xmlUrl = $synchro->synchronise($objSiteSync, $objSite, $idAuteur);
     	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport&idAuteur=".$idAuteur;
 		if(TRACE)
@@ -174,7 +189,7 @@
 					$path = $synchro->Actualise($xmlString);
 					$synchro->import($path);
 			}
-		}
+		}*/
     }
 
 	function GetFilAriane($jsParam, $id){
@@ -251,6 +266,17 @@
 		}
 	}
 	
+	function GetAdminRub($idAuteur) {
+		global $objSite;
+		
+		echo 'ICI';
+		$sync = new Synchro($objSite,-1);
+		$arrliste = $sync->GetAdminRub($idAuteur);
+		print_r($arrliste);
+		echo serialize($arrliste);
+	}
+	
+	
 	function GetCurl($url)
 	{
 	
@@ -267,8 +293,16 @@
 		//echo "<br/>";
 		//fin ajout samszo
 
+		
 		// request URL
 		$sResult = curl_exec($oCurl);
+		
+		if(TRACE){
+			$arrInfos = curl_getinfo($oCurl);
+			echo "ExeAjax:GetCurl:getinfo=".print_r($arrInfos)."<br/>";
+			echo "ExeAjax:GetCurl:page=".$sResult."<br/>";
+		}
+		
 		// close session
 		curl_close($oCurl);
 
