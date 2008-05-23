@@ -233,112 +233,115 @@ Class Synchro{
 		
 		$nodesPrincipaux = $xml->GetElements($Xpath);
 		
-		foreach($nodesPrincipaux as $node) {
-			$idRub = $node['id'];
-			$idParent = $node['idParent'];
-			$idAdmin = $node['idAdmin'];
+		if ($nodesPrincipaux!=false) {
+			foreach($nodesPrincipaux as $node) {
+				$idRub = $node['id'];
+				$idParent = $node['idParent'];
+				$idAdmin = $node['idAdmin'];
 			
-			if($this->trace)
-				echo "Synchro:import:idRub ".$idRub." idParent ".$idParent." idAdmin ".$idAdmin."<br/>";
+				if($this->trace)
+					echo "Synchro:import:idRub ".$idRub." idParent ".$idParent." idAdmin ".$idAdmin."<br/>";
 
-			if ($idAdmin !="") $this->UpdateAdminRub($idRub, $idAdmin);
+				if ($idAdmin !="") $this->UpdateAdminRub($idRub, $idAdmin);
 			
-			$rubriques = $node->rubrique;
+				$rubriques = $node->rubrique;
 
-			$g = new Granulat($idRub, $this->siteSrc); 
+				$g = new Granulat($idRub, $this->siteSrc); 
 			
-			if ($g->VerifExistRubrique($idRub)==-1) {
-				$gra = new Granulat($idParent, $this->siteSrc); 
-				$idEnfant = $gra->SetNewEnfant(utf8_decode($node));
-	  			$gra->SetMotClef($node->motclef, $idEnfant);
-	  			$gra->UpdateIdRub($idEnfant, $idRub, $idParent);
-			}
+				if ($g->VerifExistRubrique($idRub, $idParent)==-1) {
+					$gra = new Granulat($idParent, $this->siteSrc); 
+					$idEnfant = $gra->SetNewEnfant(utf8_decode($node));
+	  				$gra->SetMotClef($node->motclef, $idEnfant);
+	  				$gra->UpdateIdRub($idEnfant, $idRub, $idParent);
+				}
 			
-			// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
-			if ($node->article) {
-				if ($g->VerifExistArticle($node->article["id"])==-1) {
-	
-					$nouvelArt = $dom->createElement("art");
-					$nouvelArt->setAttribute("oldId", $article['id']);
-				
-					$article = $node->article;
-					$donnees = $article->donnees;
-		  			$idGrille = $donnees->grille;
-		  			
-		  			$idAuteur = $article->auteur;
-		  			$champs = $donnees->champs;
-		  			$date = $article->date;
-		  			$maj = $article->maj;
-		  			
-		  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
-		  			if($idAuteur!="") $g->AddAuteur($idArt, $idAuteur);	
-		  			
-		  			$nouvelArt->setAttribute("newId", $idArt);
-		  			$nouvelArt->setAttribute("newRub", $g->id);
-		  			$dom->lastChild->appendChild($nouvelArt);
-		  			
-		  			if($this->trace)
-		  					print_r($donnees->donnee);
-		  					
-		  			foreach($donnees->donnee as $donnee){
-		  				$j=0;
-		  				if($this->trace)
-		  					print_r($donnee->valeur);
+				// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
+				if ($node->article) {
+					if ($g->VerifExistArticle($node->article["id"], $node->$article['idRub'])==-1) {
 		
-		  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
-						if($this->trace)
-							echo "Synchro/import - création de la donnee ".$idDon."<br/>";	
-		  				
-						foreach($donnee->valeur as $valeur) {
-							if($valeur!='non'){
-								$valeur=utf8_decode($valeur);
-								$champ = $champs[0]->champ[$j];
-								if($this->trace)
-									echo "Synchro/import --- gestion des champs multiples ".substr($champ,0,8)."<br/>";
-								if(substr($champ,0,8)=="multiple"){
-									$valeur=$champ;
-								//attention il ne doit pas y avoir plus de 10 choix
-									$champ=substr($champ,0,-2);
+						$nouvelArt = $dom->createElement("art");
+						$nouvelArt->setAttribute("oldId", $article['id']);
+					
+						$article = $node->article;
+						$donnees = $article->donnees;
+			  			$idGrille = $donnees->grille;
+			  			
+			  			$idAuteur = $article->auteur;
+			  			$champs = $donnees->champs;
+			  			$date = $article->date;
+			  			$maj = $article->maj;
+			  			
+			  			$idArt = $g->SetNewArticleComplet(utf8_decode($article), $date, $maj);
+			  			if($idAuteur!="") $g->AddAuteur($idArt, $idAuteur);	
+			  			
+			  			$nouvelArt->setAttribute("newId", $idArt);
+			  			$nouvelArt->setAttribute("newRub", $g->id);
+			  			$dom->lastChild->appendChild($nouvelArt);
+			  			
+			  			if($this->trace)
+			  					print_r($donnees->donnee);
+		  					
+			  			foreach($donnees->donnee as $donnee){
+			  				$j=0;
+			  				if($this->trace)
+			  					print_r($donnee->valeur);
+			
+			  				$idDon = $g->AddIdDonnee($idGrille, $idArt, $donnee->date, $donnee->maj);
+							if($this->trace)
+								echo "Synchro/import - création de la donnee ".$idDon."<br/>";	
+			  				
+							foreach($donnee->valeur as $valeur) {
+								if($valeur!='non'){
+									$valeur=utf8_decode($valeur);
+									$champ = $champs[0]->champ[$j];
+									if($this->trace)
+										echo "Synchro/import --- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+									if(substr($champ,0,8)=="multiple"){
+										$valeur=$champ;
+									//attention il ne doit pas y avoir plus de 10 choix
+										$champ=substr($champ,0,-2);
+									}
+									if($this->trace) {
+										echo "Synchro/import -- récupération du type de champ ".$champ."<br/>";
+										echo "Synchro/import -- récupération de la valeur du champ ".$valeur."<br/>";
+									}
+									$row = array('champ'=>$champ, 'valeur'=>$valeur);
+									
+									$grille = new Grille($this->siteSrc);
+									if($this->trace)
+										echo "Synchro/import --- création du champ <br/>";
+									$grille->SetChamp($row, $idDon, false);
 								}
-								if($this->trace) {
-									echo "Synchro/import -- récupération du type de champ ".$champ."<br/>";
-									echo "Synchro/import -- récupération de la valeur du champ ".$valeur."<br/>";
-								}
-								$row = array('champ'=>$champ, 'valeur'=>$valeur);
-								
-								$grille = new Grille($this->siteSrc);
-								if($this->trace)
-									echo "Synchro/import --- création du champ <br/>";
-								$grille->SetChamp($row, $idDon, false);
+								$j++;
 							}
-							$j++;
-						}
-		  			}
-		  		$g->UpdateIdArt($idArt, $node->article["id"], $node->article["idRub"]);		
+			  			}
+			  		$g->UpdateIdArt($idArt, $node->article["id"], $node->article["idRub"]);		
+					}
+				}
+					
+				foreach($rubriques as $rubrique) {
+					//récuparation du granulat
+					
+					if ($g->VerifExistRubrique($rubrique['id'], $rubrique['idParent'])==-1) {
+						$nouvelleRub = $dom->createElement("rub");
+						$nouvelleRub->setAttribute("oldId", $rubrique['id']);
+						
+						$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
+	  					$g->SetMotClef($rubrique->motclef, $idEnfant);
+	  					
+	  					$nouvelleRub->setAttribute("newId", $idEnfant);
+	  					$nouvelleRub->setAttribute("parentId", $idRub);
+	  					$racine->appendChild($nouvelleRub);
+	  					
+	  					$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
+	  					
+					} else $idEnfant = $rubrique['id'];
+					
+					$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom);
 				}
 			}
-				
-			foreach($rubriques as $rubrique) {
-				//récuparation du granulat
-				
-				if ($g->VerifExistRubrique($rubrique['id'])==-1) {
-					$nouvelleRub = $dom->createElement("rub");
-					$nouvelleRub->setAttribute("oldId", $rubrique['id']);
-					
-					$idEnfant = $g->SetNewEnfant(utf8_decode($rubrique));
-	  				$g->SetMotClef($rubrique->motclef, $idEnfant);
-	  				
-	  				$nouvelleRub->setAttribute("newId", $idEnfant);
-	  				$nouvelleRub->setAttribute("parentId", $idRub);
-	  				$racine->appendChild($nouvelleRub);
-	  				
-	  				$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
-	  				
-				} else $idEnfant = $rubrique['id'];
-				
-				$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom);
-			}
 		}
+		
 		return $dom->saveXML();
   	}
 
