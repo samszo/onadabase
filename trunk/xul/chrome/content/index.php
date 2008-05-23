@@ -20,10 +20,6 @@ else
 function ChercheAbo ($login, $mdp, $objSite)
 	{
 		// connexion serveur
-	   //$link = mysql_connect("mysql5-5", "mundilogcai", "CnVjzGxb")  or die("Impossible de se connecter : " . mysql_error());	
-		// Sélection de la base de données
-		//mysql_select_db("mundilogcai", $link);	
-
 		$link = mysql_connect($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"]) or die("Impossible de se connecter : " . mysql_error());	
 		// Sélection de la base de données
 		//mysql_select_db("solacc", $link);	
