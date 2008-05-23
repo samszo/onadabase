@@ -1,23 +1,11 @@
 <?php
-/*
-/////////////////////
-Nom du fichier : XmlParam.php
-
-Version : 1.0
-Auteur : samszo
-Date de modification : 21/11/2007
-
-////////////////////
-*/
-
-
 Class XmlParam{
 	public $FicXml;
 	public $trace;
 	private $xml;
 
 	function __construct($FicXml = -1, $src=-1) {
-		$this->trace = true;
+		$this->trace = TRACE;
 		
 		if ($FicXml !=-1) {
 		    $this->FicXml = $FicXml;
