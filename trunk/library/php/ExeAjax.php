@@ -78,7 +78,7 @@
 			break;
 		case 'GetAdminRub':
 			//$resultat = AddDocToArt($_GET['path'], $_GET['idArt'], $_GET['doc']);
-			$resultat = AddDocToArt($_GET['idAuteur']);
+			$resultat = GetAdminRub($_GET['idAuteur']);
 			break;
 		default:
 			//$resultat = AddDocToArt();
@@ -147,7 +147,7 @@
 		if(TRACE)
 			echo "ExeAjax:Synchronise:idAuteur $idAuteur<br/>";
 
-		$urlAdmin = $objSiteSync->infos["urlExeAjax"]."?f=GetAdminRub&idAuteur=".$idAuteur;
+		/*$urlAdmin = $objSiteSync->infos["urlExeAjax"]."?f=GetAdminRub&idAuteur=".$idAuteur;
 		
 		if(TRACE)
 			echo "ExeAjax:Synchronise:urlAdmin=$urlAdmin<br/>";
@@ -156,9 +156,13 @@
 		$arrliste = unserialize($pageDebut);
 		
 		if(TRACE)
-			echo "ExeAjax:Synchronise:liste=$arrliste<br/>";
+			echo "ExeAjax:Synchronise:liste=";
 		
-		/*$synchro = new Synchro($objSite, $objSite);
+		foreach ($arrliste as $row) {
+			echo $row['id_rubrique']." ".$row['id_auteur'];
+		}*/
+			
+		$synchro = new Synchro($objSite, $objSite);
     	$xmlUrl = $synchro->synchronise($objSiteSync, $objSite, $idAuteur);
     	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport&idAuteur=".$idAuteur;
 		if(TRACE)
@@ -170,8 +174,8 @@
 		$posFin = strrpos($page, "</documents>");
 		if(TRACE){
 			//echo "ExeAjax:Synchronise:PAGE ::: ".$page;
-			echo "ExeAjax:Synchronise:posDeb ".$posDeb;
-			echo "ExeAjax:Synchronise:posFin ".$posFin;
+			echo " ExeAjax:Synchronise:posDeb ".$posDeb;
+			echo " ExeAjax:Synchronise:posFin ".$posFin;
 		}
 		
 		if ($posFin === false) {
@@ -189,7 +193,7 @@
 					$path = $synchro->Actualise($xmlString);
 					$synchro->import($path);
 			}
-		}*/
+		}
     }
 
 	function GetFilAriane($jsParam, $id){
@@ -269,10 +273,10 @@
 	function GetAdminRub($idAuteur) {
 		global $objSite;
 		
-		echo 'ICI';
+		//echo 'ICI';
 		$sync = new Synchro($objSite,-1);
 		$arrliste = $sync->GetAdminRub($idAuteur);
-		print_r($arrliste);
+		//print_r($arrliste);
 		echo serialize($arrliste);
 	}
 	

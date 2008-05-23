@@ -51,7 +51,7 @@ class Granulat
   		
   		foreach($articles as $article) {
   			
-  			if ($g->VerifExistArticle($article['id'])==-1) { 
+  			if ($g->VerifExistArticle($article['id'], $article['idRub'])==-1) { 
   				
 	  			$nouvelArt = $dom->createElement("art");
 				$nouvelArt->setAttribute("oldId", $article['id']);
@@ -115,7 +115,7 @@ class Granulat
   		
   		foreach($rubriques as $rubrique) {
   			
-  			if ($g->VerifExistRubrique($rubrique['id'])==-1) {
+  			if ($g->VerifExistRubrique($rubrique['id'], $rubrique['idParent'])==-1) {
 	  			$nouvelleRub = $dom->createElement("rub");
 				$nouvelleRub->setAttribute("oldId", $rubrique['id']);
 	  			
@@ -139,11 +139,11 @@ class Granulat
   	 * Vérifie l'existence d'une rubrique dans la table spip_rubriques, retourne -1 si la rubrique n'est pas trouvée
   	 * 
   	 */
-	public function VerifExistRubrique($idRub) {
+	public function VerifExistRubrique($idRub, $idParent) {
 		
 		$sql = "SELECT id_rubrique
 				FROM spip_rubriques
-				WHERE id_rubrique = ".$idRub
+				WHERE id_rubrique = ".$idRub." AND id_parent = ".$idParent;
 		;//LIMIT 0 , 93";
 
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
@@ -160,11 +160,11 @@ class Granulat
   	 * Vérifie l'existence d'un article dans la table spip_articles, retourne -1 si l'article n'est pas trouvé
 	 * 	 * 
 	 */
-	public function VerifExistArticle($idArt) {
+	public function VerifExistArticle($idArt, $idRub) {
 		
 		$sql = "SELECT id_article
 				FROM spip_articles
-				WHERE id_article = ".$idArt
+				WHERE id_article = ".$idArt." AND id_rubrique = ".$idRub;
 		;//LIMIT 0 , 93";
 
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
