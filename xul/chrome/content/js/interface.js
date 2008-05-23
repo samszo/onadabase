@@ -116,22 +116,23 @@ function AddNewRubrique(idDst) {
 	try {
 		var verif = true;
 		
-		alert("AddNewRubrique IN "+"idDst "+idDst);
+		//alert("AddNewRubrique IN "+"idDst "+idDst);
 		//récupère les paramètres
 		var Xpath ="/Params/Param[@nom='AddObjTerritoire']";
-		alert("AddNewRubrique IN "+"xpath "+Xpath);
+		//alert("AddNewRubrique IN "+"xpath "+Xpath);
+		//alert("AddNewRubrique IN 3"+"xmlParam "+xmlParam);
 		var iterator = xmlParam.evaluate(Xpath, xmlParam, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
 		
-		alert("AddNewRubrique IN 0 iterator "+iterator+"\n");
-		
+		//alert("AddNewRubrique IN 0 iterator "+iterator.numberValue+"\n");
+		//alert("AddNewRubrique IN 0 iterator "+iterator.stringValue+"\n");
 		var n = iterator.iterateNext();
-		alert("AddNewRubrique IN 1 n "+n+"\n");
+		//alert("AddNewRubrique IN 1 n "+n+"\n");
 		
 		var id = n.attributes["id"].value;
 		var messNoVerif = n.childNodes[1].textContent;
 		var TitreFormSaisi =  n.childNodes[3].textContent;
 		
-		alert("AddNewRubrique IN "+"id "+id+" idDst "+idDst+" n "+n+"\n");
+		//alert("AddNewRubrique IN "+"id "+id+" idDst "+idDst+" n "+n+"\n");
 		
 		//var dst = document.getElementById('idRub').value;
 		var login = document.getElementById('login').value;

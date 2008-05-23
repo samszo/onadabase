@@ -83,7 +83,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		var syncurlExeAjax = "<?php echo $objSiteSync->infos["urlExeAjax"]; ?>";
 		var syncxmlParam = GetXmlUrlToDoc("<?php echo $objSiteSync->infos["jsXulParam"]; ?>");
 		var urlSite = "<?php echo $objSite->infos["urlSite"]; ?>";
-		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";	
+		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";
      </script>
 
 	<popupset >

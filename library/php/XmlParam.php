@@ -5,7 +5,7 @@ Class XmlParam{
 	private $xml;
 
 	function __construct($FicXml = -1, $src=-1) {
-		$this->trace = TRACE;
+		$this->trace = false;
 		
 		if ($FicXml !=-1) {
 		    $this->FicXml = $FicXml;
