@@ -296,17 +296,10 @@
 		//print_r($sResult);
 		//echo "<br/>";
 		//fin ajout samszo
-
 		
 		// request URL
 		$sResult = curl_exec($oCurl);
-		
-		if(TRACE){
-			$arrInfos = curl_getinfo($oCurl);
-			echo "ExeAjax:GetCurl:getinfo=".print_r($arrInfos)."<br/>";
-			echo "ExeAjax:GetCurl:page=".$sResult."<br/>";
-		}
-		
+				
 		// close session
 		curl_close($oCurl);
 
