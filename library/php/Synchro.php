@@ -218,7 +218,7 @@ Class Synchro{
 	 * génére aussi de l'xml pour la mise à jour des identifiants des rubriques et articles
 	 * 
 	 */
-  	function import($xmlSrc) {
+  	function import($xmlSrc, $update) {
   		
   		$dom = new DOMDocument("1.0");
 		$nouvelleRacine = $dom->createElement("documents");
@@ -233,7 +233,7 @@ Class Synchro{
 		
 		$nodesPrincipaux = $xml->GetElements($Xpath);
 		
-		if ($nodesPrincipaux!=false) {
+		if ($nodesPrincipaux!=-1) {
 			foreach($nodesPrincipaux as $node) {
 				$idRub = $node['id'];
 				$idParent = $node['idParent'];
@@ -252,12 +252,13 @@ Class Synchro{
 					$gra = new Granulat($idParent, $this->siteSrc); 
 					$idEnfant = $gra->SetNewEnfant(utf8_decode($node));
 	  				$gra->SetMotClef($node->motclef, $idEnfant);
-	  				$gra->UpdateIdRub($idEnfant, $idRub, $idParent);
+	  				if ($update) 
+	  					$gra->UpdateIdRub($idEnfant, $idRub, $idParent);
 				}
 			
 				// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
 				if ($node->article) {
-					if ($g->VerifExistArticle($node->article["id"], $node->$article['idRub'])==-1) {
+					if ($g->VerifExistArticle($node->article["id"], $node->article['idRub'])==-1) {
 		
 						$nouvelArt = $dom->createElement("art");
 						$nouvelArt->setAttribute("oldId", $article['id']);
@@ -315,7 +316,8 @@ Class Synchro{
 								$j++;
 							}
 			  			}
-			  		$g->UpdateIdArt($idArt, $node->article["id"], $node->article["idRub"]);		
+			  		if ($update) 
+			  			$g->UpdateIdArt($idArt, $node->article["id"], $node->article["idRub"]);		
 					}
 				}
 					
@@ -333,15 +335,15 @@ Class Synchro{
 	  					$nouvelleRub->setAttribute("parentId", $idRub);
 	  					$racine->appendChild($nouvelleRub);
 	  					
-	  					$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
+	  					if ($update) 
+	  						$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
 	  					
 					} else $idEnfant = $rubrique['id'];
 					
-					$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom);
+					$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom, $update);
 				}
 			}
 		}
-		
 		return $dom->saveXML();
   	}
 

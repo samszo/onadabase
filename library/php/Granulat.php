@@ -39,7 +39,7 @@ class Granulat
 /*
  * Parcourt récursivement les enfants afin de créer l'arborescence des rubriques et articles dans spip (correspondant à l'import)  
  */ 
-  	function GetChildren($xml, $idParent, $rubriques, $articles, $dom) {
+  	function GetChildren($xml, $idParent, $rubriques, $articles, $dom, $update) {
   		
   		//$rubriques = $xml->GetElements($Xpath);
   		/*if($this->trace)
@@ -109,7 +109,8 @@ class Granulat
 						$j++;
 					}
 	  			}
-	  		$g->UpdateIdArt($idArt, $article['id'], $article['idRub']);
+	  		if ($update) 
+	  			$g->UpdateIdArt($idArt, $article['id'], $article['idRub']);
   			} 	
   		}
   		
@@ -126,11 +127,12 @@ class Granulat
 	  			$nouvelleRub->setAttribute("parentId", $idParent);
 		  		$dom->lastChild->appendChild($nouvelleRub);
 		  		
-		  		$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
+		  		if ($update) 
+		  			$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
 	  				
   			} else $idEnfant = $rubrique['id'];
 	  			
-  			$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom);
+  			$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom, $update);
   			//$i++;  //$rubriques[$i]->rubrique, $rubriques[$i]->article
   		}	
   	}

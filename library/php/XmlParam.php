@@ -5,12 +5,11 @@ Class XmlParam{
 	private $xml;
 
 	function __construct($FicXml = -1, $src=-1) {
-		$this->trace = false;
+		$this->trace = TRACE;
 		
 		if ($FicXml !=-1) {
 		    $this->FicXml = $FicXml;
-			if($this->trace)
-				echo "On charge les paramètres : ".$FicXml."<br/>\n";
+			
 			if ($xml = simplexml_load_file($FicXml))
 				$this->xml = $xml;
 		}else{
@@ -22,7 +21,12 @@ Class XmlParam{
 	public function GetElements($Xpath){
 		if($this->trace)
 			echo 'XmlParam GetElements On cherche le xpath '.$Xpath.'<br/>';
-		return $this->xml->xpath($Xpath);
+
+		if ($this->xml)
+			return $this->xml->xpath($Xpath);
+		else return -1;
+		
+		
 	}
 	
 	public function GetCount($Xpath){

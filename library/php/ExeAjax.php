@@ -191,7 +191,7 @@
 				if(TRACE)
 					echo "ExeAjax:Synchronise:xmlString=".$xmlString." FIN ExeAjax:Synchronise:xmlString";
 					$path = $synchro->Actualise($xmlString);
-					$synchro->import($path);
+					$synchro->import($path, true);
 			}
 		}
     }
@@ -245,7 +245,7 @@
 			
 			$sync = new Synchro($objSite,-1);
 						
-			$reponseSynch = $sync->import($src);
+			$reponseSynch = $sync->import($src, false);
 			$sync->AddHistoriqueSynchro($src, $idAuteur);
 			
 			$doc = new DOMDocument();
