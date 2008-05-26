@@ -116,6 +116,12 @@ class Granulat
   		
   		foreach($rubriques as $rubrique) {
   			
+  			if ($rubrique['idAdmin']!="") {
+  				if ($update) {
+  					$g->UpdateAdminRub($rubrique['id'], $rubrique['idAdmin']);
+  				}
+  			}
+  			
   			if ($g->VerifExistRubrique($rubrique['id'], $rubrique['idParent'])==-1) {
 	  			$nouvelleRub = $dom->createElement("rub");
 				$nouvelleRub->setAttribute("oldId", $rubrique['id']);
@@ -127,9 +133,11 @@ class Granulat
 	  			$nouvelleRub->setAttribute("parentId", $idParent);
 		  		$dom->lastChild->appendChild($nouvelleRub);
 		  		
-		  		if ($update) 
+		  		if ($update) {
 		  			$g->UpdateIdRub($idEnfant, $rubrique['id'], $rubrique['idParent']);
-	  				
+		  		} else if ($rubrique['idAdmin']!="")	{
+		  			$g->UpdateAdminRub($idEnfant, $rubrique['idAdmin']);
+		  		}
   			} else $idEnfant = $rubrique['id'];
 	  			
   			$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom, $update);

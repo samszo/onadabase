@@ -242,7 +242,10 @@ Class Synchro{
 				if($this->trace)
 					echo "Synchro:import:idRub ".$idRub." idParent ".$idParent." idAdmin ".$idAdmin."<br/>";
 
-				if ($idAdmin !="") $this->UpdateAdminRub($idRub, $idAdmin);
+				if ($idAdmin !="") {
+					if ($update)
+						$this->UpdateAdminRub($idRub, $idAdmin);
+				} 
 			
 				$rubriques = $node->rubrique;
 
@@ -254,6 +257,7 @@ Class Synchro{
 	  				$gra->SetMotClef($node->motclef, $idEnfant);
 	  				if ($update) 
 	  					$gra->UpdateIdRub($idEnfant, $idRub, $idParent);
+	  				else if ($idAdmin !="") $this->UpdateAdminRub($idEnfant, $idAdmin);
 				}
 			
 				// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
