@@ -67,9 +67,18 @@ function SynchroniserExportImport() {
 	try {
 		var doc = document.getElementById("synctreeRub");
 		var idAuteur = document.getElementById('idAuteur').value;
+		var progressMeter = document.getElementById('progressMeter');
+		
+		if (progressMeter.getAttribute("mode")=="determined") {
+			progressMeter.setAttribute("mode", "undetermined");
+		}
 		
 		var url3 = urlExeAjax+"?f=Synchronise&idAuteur="+idAuteur;
 		AppendResult(url3,doc);
+		
+		progressMeter.setAttribute("mode", "determined");
+		progressMeter.setAttribute("value", "100");
+		
 		alert("Synchronisation terminée");
 	} catch(ex2){
 		alert("SynchroniserExportImport::"+ex2+" " +"url="+url3);
