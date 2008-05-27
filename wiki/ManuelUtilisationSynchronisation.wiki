@@ -1,3 +1,5 @@
 = Manuel d'utilisation de la synchronisation =
 
+La synchronisation permet d'ajouter les nouvelles rubriques et articles des tablet pc (en local) au serveur et de récupérer les rubriques et articles propres à l'utilisateur du serveur sur le local.
 
+Cette opération s'effectue uniquement depuis les tablet pc en local en cliquant sur le bouton "Synchroniser".
