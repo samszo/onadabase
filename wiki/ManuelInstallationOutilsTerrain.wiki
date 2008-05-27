@@ -16,7 +16,7 @@
 
   *  Installation de la base de données :
     #   dans phpMyadmin, créer une nouvelle base de données (onadabase)
-    #   comme la base de données est volumineuse, on préférera utiliser bigdump pour importer la base (c:/wamp/www/bigdump/bigdump.php)
+    #   comme la base de données est volumineuse, on préférera utiliser bigdump pour importer la base (c:/wamp/www/bigdump/bigdump.php). Pour cela, placer la base au format sql dans c:/wamp/www/bigdump, puis lancer la page http://localhost/bigdump/bigdump.php et cliquer sur importer.
 
   *  Installation des fichiers de spip et de l’application
     #   Télécharger grâce à Filezilla le dossier www/onadabase dans Wamp/www/onadabase.
