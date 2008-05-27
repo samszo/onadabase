@@ -375,6 +375,32 @@ Class Synchro{
 		}
   	}
   	
+  	public function ReInitId($table, $nomChamp) {
+  		
+  		$sql = "SELECT max(".$nomChamp.") as valeurMax FROM ".$table;
+  		
+  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+
+		while($data = $DB->fetch_assoc($req)) {
+			$idValeur = $data['valeurMax']+1;
+		}
+  		
+  		$sql = "INSERT INTO ".$table." (".$nomChamp.") VALUES(".$idValeur.")";
+  		
+  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+
+		$sql = "DELETE FROM ".$table." WHERE ".$nomChamp." = ".$idValeur;
+  	  		
+  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+  	}
+  	
 	public function GetAdminRub($idAut) {
   		 		
   		$sql = "SELECT id_rubrique, id_auteur

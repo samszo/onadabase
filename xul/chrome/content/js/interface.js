@@ -69,6 +69,8 @@ function SynchroniserExportImport() {
 		var idAuteur = document.getElementById('idAuteur').value;
 		var progressMeter = document.getElementById('progressMeter');
 		
+		document.getElementById('progressMeter').style.visibility="visible";
+		
 		if (progressMeter.getAttribute("mode")=="determined") {
 			progressMeter.setAttribute("mode", "undetermined");
 		}
@@ -80,6 +82,8 @@ function SynchroniserExportImport() {
 		progressMeter.setAttribute("value", "100");
 		
 		alert("Synchronisation terminée");
+		document.getElementById('progressMeter').style.visibility="hidden";
+		
 	} catch(ex2){
 		alert("SynchroniserExportImport::"+ex2+" " +"url="+url3);
 	}
