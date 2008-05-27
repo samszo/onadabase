@@ -192,6 +192,8 @@
 					echo "ExeAjax:Synchronise:xmlString=".$xmlString." FIN ExeAjax:Synchronise:xmlString";
 					$path = $synchro->Actualise($xmlString);
 					$synchro->import($path, true);
+					$synchro->ReInitId("spip_rubriques", "id_rubrique");
+					$synchro->ReInitId("spip_articles", "id_article");
 			}
 		}
     }

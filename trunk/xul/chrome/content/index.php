@@ -191,9 +191,9 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<button id="btnSync" label="Synchroniser" onclick="SynchroniserExportImport()"/>
 			<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;"/>
 			<script type="text/javascript">
+				document.getElementById('progressMeter').style.visibility="hidden";
 				if ("<?php echo $_SERVER['REMOTE_ADDR']?>"!="127.0.0.1") {
 					document.getElementById('btnSync').style.visibility="hidden";
-					document.getElementById('progressMeter').style.visibility="hidden";
 				}
 			</script>
 		</hbox>	
