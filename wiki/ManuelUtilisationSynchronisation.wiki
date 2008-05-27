@@ -3,3 +3,5 @@
 La synchronisation permet d'ajouter les nouvelles rubriques et articles des tablet pc (en local) au serveur et de récupérer les rubriques et articles propres à l'utilisateur du serveur sur le local.
 
 Cette opération s'effectue uniquement depuis les tablet pc en local en cliquant sur le bouton "Synchroniser".
+
+On synchronise les rubriques gérées par l'utilisateur avec leurs enfants. Pour cela, la gestion de ces rubriques est gérée depuis spip en changeant les droits des utilisateurs. En assignant une ou plusieurs rubriques à ces utilisateurs, ils deviennent des administrateurs restreints.
