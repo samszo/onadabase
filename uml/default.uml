@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmi:id="_804YMCZ6Ed26IfS-bmryEg">
+  <elementImport xmi:id="_84eewCZ6Ed26IfS-bmryEg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_84oPwCZ6Ed26IfS-bmryEg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_84o20CZ6Ed26IfS-bmryEg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_84o20SZ6Ed26IfS-bmryEg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_DBo1YCZ7Ed26IfS-bmryEg" name="application de saisie des diagnostics">
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_VPjXUCZ7Ed26IfS-bmryEg" name="Réalise un audit"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_ZtqhYCZ7Ed26IfS-bmryEg" name="Synchronise la base locale avec le serveur"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_gcZDMCZ7Ed26IfS-bmryEg" name="Génére un rapport d'accéssibilité"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_CV8-oCZ8Ed26IfS-bmryEg" memberEnd="_CV9lsCZ8Ed26IfS-bmryEg _CV-MwCZ8Ed26IfS-bmryEg" navigableOwnedEnd="_CV9lsCZ8Ed26IfS-bmryEg _CV-MwCZ8Ed26IfS-bmryEg">
+      <ownedEnd xmi:id="_CV9lsCZ8Ed26IfS-bmryEg" name="src" type="_J1r8ECZ7Ed26IfS-bmryEg" association="_CV8-oCZ8Ed26IfS-bmryEg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CV9lsiZ8Ed26IfS-bmryEg" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CV9lsSZ8Ed26IfS-bmryEg" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_CV-MwCZ8Ed26IfS-bmryEg" name="dst" type="_gcZDMCZ7Ed26IfS-bmryEg" association="_CV8-oCZ8Ed26IfS-bmryEg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_CV-MwiZ8Ed26IfS-bmryEg" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_CV-MwSZ8Ed26IfS-bmryEg" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_J1r8ECZ7Ed26IfS-bmryEg" name="Enquêteur"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_2WC3ECZ7Ed26IfS-bmryEg" memberEnd="_2WEFMCZ7Ed26IfS-bmryEg _2WF6YCZ7Ed26IfS-bmryEg" navigableOwnedEnd="_2WEFMCZ7Ed26IfS-bmryEg _2WF6YCZ7Ed26IfS-bmryEg">
+    <ownedEnd xmi:id="_2WEFMCZ7Ed26IfS-bmryEg" name="src" type="_VPjXUCZ7Ed26IfS-bmryEg" association="_2WC3ECZ7Ed26IfS-bmryEg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2WFTUSZ7Ed26IfS-bmryEg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2WFTUCZ7Ed26IfS-bmryEg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_2WF6YCZ7Ed26IfS-bmryEg" name="dst" type="_J1r8ECZ7Ed26IfS-bmryEg" association="_2WC3ECZ7Ed26IfS-bmryEg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_2WF6YiZ7Ed26IfS-bmryEg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_2WF6YSZ7Ed26IfS-bmryEg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_6YL20CZ7Ed26IfS-bmryEg" memberEnd="_6YMd4CZ7Ed26IfS-bmryEg _6YMd4yZ7Ed26IfS-bmryEg" navigableOwnedEnd="_6YMd4CZ7Ed26IfS-bmryEg _6YMd4yZ7Ed26IfS-bmryEg">
+    <ownedEnd xmi:id="_6YMd4CZ7Ed26IfS-bmryEg" name="src" type="_J1r8ECZ7Ed26IfS-bmryEg" association="_6YL20CZ7Ed26IfS-bmryEg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6YMd4iZ7Ed26IfS-bmryEg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6YMd4SZ7Ed26IfS-bmryEg" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_6YMd4yZ7Ed26IfS-bmryEg" name="dst" type="_ZtqhYCZ7Ed26IfS-bmryEg" association="_6YL20CZ7Ed26IfS-bmryEg">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_6YNE8SZ7Ed26IfS-bmryEg" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_6YNE8CZ7Ed26IfS-bmryEg" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Package>

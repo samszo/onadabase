@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmi:id="_U3z6UCydEd2qKofwuRUaZw" name="Package">
+  <elementImport xmi:id="_U4sEECydEd2qKofwuRUaZw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_U4srICydEd2qKofwuRUaZw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <elementImport xmi:id="_U4srISydEd2qKofwuRUaZw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+  </elementImport>
+  <elementImport xmi:id="_U4srIiydEd2qKofwuRUaZw">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Y-GaQCydEd2qKofwuRUaZw" name="spip_rubriques">
+    <ownedAttribute xmi:id="_kGCYACydEd2qKofwuRUaZw" name="id_rubrique" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_nKKQUCydEd2qKofwuRUaZw" name="id_parent" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_TwAvUCyeEd2qKofwuRUaZw" name="titre" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_UVpL8CyeEd2qKofwuRUaZw" name="descriptif" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_VF91oCyeEd2qKofwuRUaZw" name="texte" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_XBKXACyeEd2qKofwuRUaZw" name="maj" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_XhLT0CyeEd2qKofwuRUaZw" name="statut" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_YN4BwCyeEd2qKofwuRUaZw" name="date" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EDate"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_aSvR8CydEd2qKofwuRUaZw" name="spip_articles">
+    <ownedAttribute xmi:id="_byXcMCyeEd2qKofwuRUaZw" name="id_article" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_col5kCyeEd2qKofwuRUaZw" name="titre" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_fnodkCyeEd2qKofwuRUaZw" name="id_rubrique" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_gWsjACyeEd2qKofwuRUaZw" name="descriptif" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_ulMpECyeEd2qKofwuRUaZw" name="texte" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_vYg8YCyeEd2qKofwuRUaZw" name="date" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EDate"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_vt0eACyeEd2qKofwuRUaZw" name="statut" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_07L6wCyeEd2qKofwuRUaZw" name="maj" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EDate"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_6NlogCyeEd2qKofwuRUaZw" name="spip_auteurs_rubriques">
+    <ownedAttribute xmi:id="_XQunkCyfEd2qKofwuRUaZw" name="id_auteur" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_X5tTICyfEd2qKofwuRUaZw" name="id_rubrique" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_b99LsCyfEd2qKofwuRUaZw" memberEnd="_b99ywCyfEd2qKofwuRUaZw _b99ywyyfEd2qKofwuRUaZw">
+    <ownedEnd xmi:id="_b99ywCyfEd2qKofwuRUaZw" name="src" type="_Y-GaQCydEd2qKofwuRUaZw" association="_b99LsCyfEd2qKofwuRUaZw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_b99ywiyfEd2qKofwuRUaZw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_b99ywSyfEd2qKofwuRUaZw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_b99ywyyfEd2qKofwuRUaZw" name="dst" type="_aSvR8CydEd2qKofwuRUaZw" association="_b99LsCyfEd2qKofwuRUaZw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_b9-Z0SyfEd2qKofwuRUaZw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_b9-Z0CyfEd2qKofwuRUaZw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_1pqU4CyfEd2qKofwuRUaZw" name="administre" memberEnd="_1pq78CyfEd2qKofwuRUaZw _1prjACyfEd2qKofwuRUaZw">
+    <ownedEnd xmi:id="_1pq78CyfEd2qKofwuRUaZw" name="src" type="_Y-GaQCydEd2qKofwuRUaZw" association="_1pqU4CyfEd2qKofwuRUaZw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1pq78iyfEd2qKofwuRUaZw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1pq78SyfEd2qKofwuRUaZw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_1prjACyfEd2qKofwuRUaZw" name="dst" type="_6NlogCyeEd2qKofwuRUaZw" association="_1pqU4CyfEd2qKofwuRUaZw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1prjAiyfEd2qKofwuRUaZw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1prjASyfEd2qKofwuRUaZw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_veDm4CyiEd2OzcZTSn72iw" name="spip_auteurs">
+    <ownedAttribute xmi:id="_yNMtsCyiEd2OzcZTSn72iw" name="id_auteur" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_9VOLACyiEd2OzcZTSn72iw" memberEnd="_9VPZICyiEd2OzcZTSn72iw _9VQnQCyiEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_9VPZICyiEd2OzcZTSn72iw" name="src" type="_veDm4CyiEd2OzcZTSn72iw" association="_9VOLACyiEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9VQAMSyiEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9VQAMCyiEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_9VQnQCyiEd2OzcZTSn72iw" name="dst" type="_6NlogCyeEd2qKofwuRUaZw" association="_9VOLACyiEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9VQnQiyiEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9VQnQSyiEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_DZ4cICyjEd2OzcZTSn72iw" name="spip_forms_donnees_articles">
+    <ownedAttribute xmi:id="_IHQKMCyjEd2OzcZTSn72iw" name="id_donnee" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_IybOICyjEd2OzcZTSn72iw" name="id_article" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_qRxSwCyjEd2OzcZTSn72iw" name="spip_forms_donnees_champs">
+    <ownedAttribute xmi:id="_tH9cwCyjEd2OzcZTSn72iw" name="id_donnee" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_zTyF0CyjEd2OzcZTSn72iw" name="champ" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_0NNBICyjEd2OzcZTSn72iw" name="valeur" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_34fnICyjEd2OzcZTSn72iw" name="maj" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EDate"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Ct5DYCykEd2OzcZTSn72iw" memberEnd="_Ct5DYSykEd2OzcZTSn72iw _Ct5qciykEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_Ct5DYSykEd2OzcZTSn72iw" name="src" type="_aSvR8CydEd2qKofwuRUaZw" association="_Ct5DYCykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ct5qcSykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ct5qcCykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_Ct5qciykEd2OzcZTSn72iw" name="dst" type="_DZ4cICyjEd2OzcZTSn72iw" association="_Ct5DYCykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Ct6RgSykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Ct6RgCykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_Dm9ZYCykEd2OzcZTSn72iw" memberEnd="_Dm-AcCykEd2OzcZTSn72iw _Dm-AcyykEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_Dm-AcCykEd2OzcZTSn72iw" name="src" type="_DZ4cICyjEd2OzcZTSn72iw" association="_Dm9ZYCykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Dm-AciykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Dm-AcSykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_Dm-AcyykEd2OzcZTSn72iw" name="dst" type="_qRxSwCyjEd2OzcZTSn72iw" association="_Dm9ZYCykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Dm-ngSykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Dm-ngCykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_WKipUCykEd2OzcZTSn72iw" name="spip_rubriques_mots">
+    <ownedAttribute xmi:id="_aOIakCykEd2OzcZTSn72iw" name="id_mot" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_eS2NMCykEd2OzcZTSn72iw" name="id_rubrique" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_hxUfMCykEd2OzcZTSn72iw" memberEnd="_hxVGQCykEd2OzcZTSn72iw _hxVGQyykEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_hxVGQCykEd2OzcZTSn72iw" name="src" type="_Y-GaQCydEd2qKofwuRUaZw" association="_hxUfMCykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hxVGQiykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_hxVGQSykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_hxVGQyykEd2OzcZTSn72iw" name="dst" type="_WKipUCykEd2OzcZTSn72iw" association="_hxUfMCykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_hxVtUSykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_hxVtUCykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_xFDvACykEd2OzcZTSn72iw" name="spip_auteurs_articles">
+    <ownedAttribute xmi:id="_0yPLYCykEd2OzcZTSn72iw" name="id_auteur" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_2DFvQCykEd2OzcZTSn72iw" name="id_article" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_7LfMcCykEd2OzcZTSn72iw" memberEnd="_7LfMcSykEd2OzcZTSn72iw _7LfzgiykEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_7LfMcSykEd2OzcZTSn72iw" name="src" type="_aSvR8CydEd2qKofwuRUaZw" association="_7LfMcCykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7LfzgSykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7LfzgCykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_7LfzgiykEd2OzcZTSn72iw" name="dst" type="_xFDvACykEd2OzcZTSn72iw" association="_7LfMcCykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7LfzhCykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7LfzgyykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_87H-ECykEd2OzcZTSn72iw" memberEnd="_87H-ESykEd2OzcZTSn72iw _87IlIiykEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_87H-ESykEd2OzcZTSn72iw" name="src" type="_veDm4CyiEd2OzcZTSn72iw" association="_87H-ECykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_87IlISykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_87IlICykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_87IlIiykEd2OzcZTSn72iw" name="dst" type="_xFDvACykEd2OzcZTSn72iw" association="_87H-ECykEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_87JMMSykEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_87JMMCykEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_AaDjECylEd2OzcZTSn72iw" name="spip_mots">
+    <ownedAttribute xmi:id="_OZ6wMCylEd2OzcZTSn72iw" name="id_mot" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_SUMNYCylEd2OzcZTSn72iw" name="titre" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_TbmhYCylEd2OzcZTSn72iw" name="type" aggregation="composite"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_a0bwICylEd2OzcZTSn72iw" memberEnd="_a0cXMCylEd2OzcZTSn72iw _a0cXMyylEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_a0cXMCylEd2OzcZTSn72iw" name="src" type="_AaDjECylEd2OzcZTSn72iw" association="_a0bwICylEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_a0cXMiylEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_a0cXMSylEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_a0cXMyylEd2OzcZTSn72iw" name="dst" type="_WKipUCykEd2OzcZTSn72iw" association="_a0bwICylEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_a0c-QSylEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_a0c-QCylEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_Lu6tECymEd2OzcZTSn72iw" name="spip_groupes_mots">
+    <ownedAttribute xmi:id="_P4QhACymEd2OzcZTSn72iw" name="id_groupe" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_RVJVwCymEd2OzcZTSn72iw" name="titre" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_PSWXkCymEd2OzcZTSn72iw" memberEnd="_PSWXkSymEd2OzcZTSn72iw _PSW-oiymEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_PSWXkSymEd2OzcZTSn72iw" name="src" type="_Lu6tECymEd2OzcZTSn72iw" association="_PSWXkCymEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PSW-oSymEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PSW-oCymEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_PSW-oiymEd2OzcZTSn72iw" name="dst" type="_AaDjECylEd2OzcZTSn72iw" association="_PSWXkCymEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PSW-pCymEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PSW-oyymEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_hLT9MCymEd2OzcZTSn72iw" name="spip_synchro_historique">
+    <ownedAttribute xmi:id="_sTPT4CymEd2OzcZTSn72iw" name="id_synchro" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_vPBvkCymEd2OzcZTSn72iw" name="id_auteur" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EBigInteger"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_wLcUgCymEd2OzcZTSn72iw" name="synchro_xml" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/UML.metamodel.uml#String"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_yARvMCymEd2OzcZTSn72iw" name="maj" aggregation="composite">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_METAMODELS/Ecore.metamodel.uml#EDate"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_9ALyUCymEd2OzcZTSn72iw" memberEnd="_9AMZYCymEd2OzcZTSn72iw _9ANAcCymEd2OzcZTSn72iw">
+    <ownedEnd xmi:id="_9AMZYCymEd2OzcZTSn72iw" name="src" type="_veDm4CyiEd2OzcZTSn72iw" association="_9ALyUCymEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9AMZYiymEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9AMZYSymEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+    <ownedEnd xmi:id="_9ANAcCymEd2OzcZTSn72iw" name="dst" type="_hLT9MCymEd2OzcZTSn72iw" association="_9ALyUCymEd2OzcZTSn72iw">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9ANAciymEd2OzcZTSn72iw" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9ANAcSymEd2OzcZTSn72iw" value="1"/>
+    </ownedEnd>
+  </packagedElement>
+</uml:Package>
