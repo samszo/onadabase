@@ -100,6 +100,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un territoire" oncommand="AddNewRubrique(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popetab" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
 			<menuitem label="Voir la(les) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
@@ -118,7 +119,6 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un espace" oncommand="AddNewGrille('Espace');"/>
 		</popup>
 		<popup id="popbat" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
 			<menuitem label="Voir la(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>

@@ -46,14 +46,58 @@ class Grille{
 		if($this->trace)
 			echo "Grille:GetTreeProb:".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->close();
+		
+		$xul = '<tree flex="1">
+		  <treecols>
+		    <treecol label="Titre" flex="1"/>
+		    <treecol label="Type" flex="1"/>
+		    <treecol label="Modifier" />
+		    <treecol label="Supprimer" />
+		  </treecols>
+		  <treechildren>';
+		/*
+		$xul ="<richlistbox>
+		   <richlistitem> <!-- 1ere ligne -->
+		     <label value='Titre'/>
+		     <label value='Type'/>
+		     <label value='Modifier'/>
+		     <label value='Supprimer'/>
+		   </richlistitem>";
+		*/
 		while ($r =  $db->fetch_assoc($result)) {
 			if($this->trace)
 				echo "Grille:GetTreeProb:".$r["idRub"]." ".$r["idArt"]." ".$r["idDon"]."<br/>";
-			$xul .= $this->GetXulForm($r["idDon"], $this->site->infos["GRILLE_SIG_PROB"]); 
-			
+			//$xul .= $this->GetXulForm($r["idDon"], $this->site->infos["GRILLE_SIG_PROB"]); 
+    		/*
+			$xul .= "<listitem>
+			        <listcell>".$r["titreRub"]."</listcell>
+			        <listcell>".$r["titreArt"]."</listcell>
+			        <listcell><image src='/images/check_no.png' /></listcell>
+			        <listcell><image src='/images/check_yes.png' /></listcell>
+			    </listitem>";
+		$xul .="<richlistitem>
+		     <label value='".$r["titreRub"]."'/>
+		     <label value='".$r["titreArt"]."'/>
+		     <image src='images/check_yes.png' />
+		     <image src='images/check_no.png' />
+		   </richlistitem>";
+			*/
+		
+		$xul .="<treeitem>
+		      <treerow>
+		        <treecell label='".$r["titreRub"]."'/>
+		        <treecell label='".$r["titreArt"]."'/>
+		        <treecell src='images/check_yes.png' />
+		        <treecell src='images/check_no.png' />
+		      </treerow>
+		    </treeitem>";
+				
 		}
-    	
-    	return $xul;
+		$xul .= "</treechildren></tree>";    
+		//$xul .="</richlistbox>";
+		
+		
+	   	return $xul;
     	
     }
     
