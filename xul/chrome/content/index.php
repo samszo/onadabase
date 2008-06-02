@@ -84,6 +84,9 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		var syncxmlParam = GetXmlUrlToDoc("<?php echo $objSiteSync->infos["jsXulParam"]; ?>");
 		var urlSite = "<?php echo $objSite->infos["urlSite"]; ?>";
 		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";
+
+		var win = window.open("chrome://myextension/content/about.xul", 
+                      "aboutMyExtension", "chrome,centerscreen"); 
      </script>
 
 	<popupset >
