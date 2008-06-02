@@ -28,6 +28,7 @@ function AppendResult(url,doc,ajoute) {
 		//ajoute le résultat
 		doc.appendChild(resultDoc.documentElement);
 	}
+	return resultDoc ;
 	dump("AppendResult OUT \n");
    } catch(ex2){alert(ex2);dump("::"+ex2);}
 }

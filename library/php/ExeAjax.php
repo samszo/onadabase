@@ -369,7 +369,9 @@
 		//gestion du workflow
 		$xul = $g->GereWorkflow($row, $idDon);		
 
-		return $xul;
+		if ($champ=="mot_1" && $val==2)
+			return $xul;//echo '<script type="text/javascript">window.open( '.$xul.', "signalement")	</script>';
+		else return $xul;
 	}
 
 	function DelVal($idGrille,$idDon,$champ,$val){
