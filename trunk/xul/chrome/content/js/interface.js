@@ -215,9 +215,14 @@ function SetVal(idDoc){
 	//dump("SetNewGrille "+url+"\n");
 	
 	//récupère le formulaire de signalisation d'un problème dans le cas d'un diagnostic
-	if(arrDoc[1]=="59")
-		AppendResult(url,doc.parentNode,true);
-	else
+	if(arrDoc[1]=="59") {
+		var reponse = AppendResult(url,doc.parentNode,true);
+		
+		if (arrDoc[3]=="mot_1" && val==2) {
+			//var reponse = GetXmlFicToDoc(url);
+			window.open("popup.php?reponse="+reponse,'popup','width=700,height=50,resizable=yes');
+		} 
+	}else
 		AjaxRequest(url,"AfficheResult","trace"+doc.id);
 	
 	//modifie le titre du panel dans le cas du titre de l'établissement
