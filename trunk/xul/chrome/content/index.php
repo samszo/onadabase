@@ -118,6 +118,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un espace" oncommand="AddNewGrille('Espace');"/>
 		</popup>
 		<popup id="popbat" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
 			<menuitem label="Voir la(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>
@@ -223,6 +224,8 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 				 <label id="libRub" value="Le département du Nord" class="titre" />
 				</hbox>
 				<hbox class="FormBox" id="FormSaisi" flex="1">
+				
+				
 				</hbox>
 				
 			</vbox>

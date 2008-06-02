@@ -274,6 +274,9 @@ function SetNewGrille(kml, src, dst, doc){
   } catch(ex2){dump(":SetNewGrille:"+ex2);}
 }
 
+
+
+
 function ChargeBrower(id,url)
 {
 	/* bug sur le chargement de l'overlay tree.php : les valeurs du rdf ne sont pas chargée
@@ -373,6 +376,29 @@ function ChargeFilArianeFromAjax(idSrc, idDst, titre,typeSrc,typeDst)
 	//dump("ChargeFilArianeFromAjax OUT\n");
    
    } catch(ex2){alert(":ChargeFilArianeFromAjax:"+ex2+" url="+url);}
+	
+}
+
+function ChargeTreeProb(idSrc,idDst)
+{
+  try {
+	//alert("ChargeTreeFromAjax IN "+type+"\n");
+
+	var id = document.getElementById(idSrc).value;
+	var doc = document.getElementById(idDst);
+	//pour ne charger qu'une fois le tree
+	//if(document.getElementById('tree'+type))
+	//	return
+
+
+	var url = urlExeAjax+"?f=GetTreeProb&id="+id;
+	//alert("ChargeTreeFromAjax url "+url+"\n");
+	//AjaxRequest(url,'AppendTreeChildren',parentitem)
+	AppendResult(url,doc);
+	
+	dump("ChargeTreeProb OUT\n");
+   
+   } catch(ex2){alert(":ChargeTreeProb:"+ex2+" url="+url);}
 	
 }
 
