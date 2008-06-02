@@ -38,7 +38,7 @@ class Grille{
 		if($this->trace)
 			echo "Grille:GetTreeProb:Xpath".$Xpath."<br/>";
 		$Q = $this->site->XmlParam->GetElements($Xpath);
-		$where = str_replace("-ids-", $ids, $Q[0]->whereIN);
+		$where = str_replace("-ids-", $ids, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
 		$db->connect();
@@ -47,6 +47,7 @@ class Grille{
 			echo "Grille:GetTreeProb:".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->close();
 		
+		/*
 		$xul = '<tree flex="1">
 		  <treecols>
 		    <treecol label="Titre" flex="1"/>
@@ -55,7 +56,6 @@ class Grille{
 		    <treecol label="Supprimer" />
 		  </treecols>
 		  <treechildren>';
-		/*
 		$xul ="<richlistbox>
 		   <richlistitem> <!-- 1ere ligne -->
 		     <label value='Titre'/>
@@ -64,6 +64,24 @@ class Grille{
 		     <label value='Supprimer'/>
 		   </richlistitem>";
 		*/
+		$xul ='<grid flex="1">';
+		//on cache la colonne de référence	
+		$xul.='<columns>';	
+			$xul.='<column hidden="true"/>';	
+			$xul.='<column flex="1"/>';
+			$xul.='<column />';			
+			$xul.='<column />';			
+			$xul.='<column />';			
+		$xul.='</columns>';	
+		$xul.='<rows>';	
+		$xul.="<row>
+				<label value='Référence' hidden='true' />
+			    <label value='Titre'/>
+			    <label value='Type'/>
+			    <label value='Modifier'/>
+			    <label value='Supprimer'/>
+			</row>";	
+		
 		while ($r =  $db->fetch_assoc($result)) {
 			if($this->trace)
 				echo "Grille:GetTreeProb:".$r["idRub"]." ".$r["idArt"]." ".$r["idDon"]."<br/>";
@@ -81,20 +99,43 @@ class Grille{
 		     <image src='images/check_yes.png' />
 		     <image src='images/check_no.png' />
 		   </richlistitem>";
-			*/
 		
 		$xul .="<treeitem>
 		      <treerow>
 		        <treecell label='".$r["titreRub"]."'/>
 		        <treecell label='".$r["titreArt"]."'/>
-		        <treecell src='images/check_yes.png' />
-		        <treecell src='images/check_no.png' />
+		        <treecell onclick=\"alert('yes')\" src='images/check_yes.png' />
+		        <treecell onclick=\"alert('no')\" src='images/check_no.png' />
 		      </treerow>
 		    </treeitem>";
-				
+			*/
+
+		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_SIG_PROB"].DELIM.$r["idDon"].DELIM."-champ-".DELIM.$r["idArt"];
+		$xul.="<row>
+			<label id='".$idDoc."' value='".$idDoc."' hidden='true' />
+			<label value='".$r["titreRub"]."'/>
+		    <label value='".$r["titreArt"]."'/>";
+		    
+			$idDoc=str_replace("-champ-","Modif",$idDoc);
+			$xul.="<vbox>";
+			$xul.="<label id='".$idDoc."' value='".$r["titreArt"]."' hidden='true' />";
+		    $xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+			$xul.="</vbox>";
+		    
+		    $idDoc=str_replace("Modif","Sup",$idDoc);
+			$xul.="<vbox>";
+		    $xul.="<label id='".$idDoc."' value='".$r["titreArt"]."' hidden='true' />";
+		    $xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+			$xul.="</vbox>";
+		    
+		    $xul.="</row>";	
+		
+		
 		}
-		$xul .= "</treechildren></tree>";    
+		//$xul .= "</treechildren></tree>";    
 		//$xul .="</richlistbox>";
+		$xul .='</rows>';	
+		$xul .='</grid>';	
 		
 		
 	   	return $xul;
@@ -126,13 +167,22 @@ class Grille{
 		if($this->trace)
 			echo "Grille:GereWorkflow:récupère les paramètre du workflow à exécuter ".$Xpath."<br/>";
     	$wfs = $this->site->XmlParam->GetElements($Xpath);
-		foreach($wfs as $wf)
+    	
+    	if(!$wfs) return;
+
+    	foreach($wfs as $wf)
 		{
 			//vérifie s'il faut récupérer l'identifiant de l'objet de destination
 			if($wf['dstObj'])
 				$id = $this->GetObjId($donId,$wf['dstObj']);
 
 			switch ($wf['dstQuery']) {
+				case "ShowArtGrille":
+					if($this->trace)
+						echo "Grille:GereWorkflow:".$wf['dstQuery']."==".$donId."<br/>";					
+					//récupère le formulaire xul
+					$xul = $this->GetXulForm($donId,$this->site->infos["GRILLE_SIG_PROB"]);
+					break;	
 				case "AddNewTab":
 					$xul = $this->GetXulTabPanels($row['idRub'],$this->site->infos["GRILLE_SIG_PROB"],"SignalementProbleme");
 					break;	

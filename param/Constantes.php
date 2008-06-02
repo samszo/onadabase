@@ -56,6 +56,7 @@ $SiteLocal1 = array(
 	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://localhost/onadabase/library/php/",
 	"pathUpload" => PathRoot."/spip/IMG/kml/",
+	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
 	"pathSpip" => "http://localhost/onadabase/spip/"
 	); 
 $SiteLocal2 = array(
@@ -86,6 +87,7 @@ $SiteLocal2 = array(
 	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://localhost/onadabase/library/php/",
 	"pathUpload" => PathRoot."/spip1/IMG/kml/",
+	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
 	"pathSpip" => "http://localhost/onadabase/spip1/"
 	); 
 $SiteNaos = array(
@@ -115,6 +117,7 @@ $SiteNaos = array(
 	"urlCarto" => "http://www.naoss.fr:81/mundigo/design/BlocCarte.php",
 	"urlLibPhp" => "http://www.naoss.fr:81/mundigo/library/php/",
 	"pathUpload" => PathRoot."/spip/IMG/kml/",
+	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
 	"pathSpip" => "http://localhost/onadabase/spip/"
 ); 
 
@@ -145,6 +148,7 @@ $SiteNaos = array(
 	"urlSite" => "http://www.mundilogiweb.com/onadabase/xul/chrome/library/php/Site.php",	
 	"urlCarto" => "http://www.mundilogiweb.com/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://www.mundilogiweb.com/onadabase/library/php/",
+	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
 	"pathUpload" => PathRoot."/spip/IMG/kml/",
 	"pathSpip" => "http://localhost/onadabase/spip/"	
 	); 

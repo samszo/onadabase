@@ -58,11 +58,16 @@ header ("title: Saisi des diagnosics d'accessibilité");
 echo '<' . '?xml version="1.0" encoding="iso-8859-15" ?' . '>';
 echo '<' . '?xml-stylesheet href="chrome://global/skin/" type="text/css"?' . '>' . "\n";
 echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
+
+//chargement du menu overlay
+echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
+
 ?>
 
 
 <window
     id="wSaisiDiag"
+    flex="1"
     title="Saisi des diagnosics d'accessibilité"
     persist="screenX screenY width height"
     orient="horizontal"
@@ -85,8 +90,9 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 		var urlSite = "<?php echo $objSite->infos["urlSite"]; ?>";
 		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";
 
-		var win = window.open("chrome://myextension/content/about.xul", 
-                      "aboutMyExtension", "chrome,centerscreen"); 
+		//var win = window.open("chrome://myextension/content/about.xul", "aboutMyExtension", "chrome,centerscreen"); 
+		var urlPopUp = "<?php echo "popup.php?"; ?>";
+
      </script>
 
 	<popupset >
@@ -108,7 +114,6 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
 			<menuitem label="Voir la(les) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
 			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
-			
 		</popup>
 		<popup id="popEtab" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
@@ -122,6 +127,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un espace" oncommand="AddNewGrille('Espace');"/>
 		</popup>
 		<popup id="popbat" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
 			<menuitem label="Voir la(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>
@@ -133,6 +139,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			
 		</popup>
 		<popup id="popniveau" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir le(s) espace(s) intérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces intérieurs','espaceint','EspaceInt');"/>
 			<menuitem label="Ajouter un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
 			<menuitem label="Voir les objets intérieurs" oncommand="RefreshEcran(document.getElementById('idRub').value,'Tous les objets','objetint','ObjetInt');"/>
@@ -164,9 +171,11 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 			<menuitem label="Ajouter un objet extérieur" oncommand="AddNewGrille('ObjetExt');"/>
 		</popup>
 		<popup id="popespaceext" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espaceextparamgen','EspaceExtParamGen');"/>
 		</popup>
 		<popup id="popobjetext" onpopupshowing="javascript:;">
+			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgenext','ObjetGenExt');"/>
 		</popup>
 		<popup id="popSyncSrc" onpopupshowing="javascript:;">
