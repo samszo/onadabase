@@ -26,6 +26,9 @@
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
 			break;*/
+		case 'GetTreeProb':
+			$resultat = GetTreeProb($_GET['id']);
+			break;
 		case 'GetFilAriane':
 			$resultat = GetFilAriane(array($_GET['titre'],$_GET['typeDrc'],$_GET['typeDst']),$id);
 			break;
@@ -383,10 +386,12 @@
 	
 	function GetTree($type,$Cols,$id,$objSite){
 		
+		
 		//récupération des colonnes
 		$Xpath = "/XmlParams/XmlParam[@nom='".$objSite->scope['ParamNom']."']/Querys/Query[@fonction='GetTreeChildren_".$type."']/col";
 		$Cols = $objSite->XmlParam->GetElements($Xpath);		
 
+		
 		//une seule sélection possible seltype='single' onselect=\"GetTreeSelect('tree".$type."','TreeTrace',2)" seltype='multiple' single
 		//	class='editableTree' 			width='100px' height='100px' 
 
@@ -437,6 +442,19 @@
 		$g = new Grille($objSite);
 		
 		$xul = $g->GetXulTab($type, $idRub, $type);
+
+		//header('Content-type: application/vnd.mozilla.xul+xml');
+		//$xul = "<box>".$xul."</box>";
+
+		return $xul;
+		
+	}
+
+	function GetTreeProb($idRub){
+		global $objSite;
+		$g = new Grille($objSite);
+		
+		$xul = $g->GetTreeProb($idRub);
 
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";

@@ -25,6 +25,38 @@ class Grille{
 		
     }
 
+    
+    function GetTreeProb($idRub){
+    	
+    	$g = new Granulat($idRub,$this->site);
+    	//récupère les rubriques enfants
+    	$ids = str_replace(DELIM,",",$g->GetEnfantIds());
+    	$ids .= "-1";
+    	
+		//récupère les identifiants des rubriques de la racine ayant un problème
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetListeSignalementProbleme']";
+		if($this->trace)
+			echo "Grille:GetTreeProb:Xpath".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $ids, $Q[0]->whereIN);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "Grille:GetTreeProb:".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->close();
+		while ($r =  $db->fetch_assoc($result)) {
+			if($this->trace)
+				echo "Grille:GetTreeProb:".$r["idRub"]." ".$r["idArt"]." ".$r["idDon"]."<br/>";
+			$xul .= $this->GetXulForm($r["idDon"], $this->site->infos["GRILLE_SIG_PROB"]); 
+			
+		}
+    	
+    	return $xul;
+    	
+    }
+    
     function GetObjId($donId,$obj) {
 		if($this->trace)
 			echo "Grille:GetObjId://récupère l'identifiant de l'objet ".$obj." ".$donId."<br/>";
