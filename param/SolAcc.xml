@@ -683,9 +683,10 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 			</Query>
 
 			<Query fonction="Grille_GetListeSignalementProbleme">
-				<select>SELECT a.id_article idArt, a.titre, r.id_rubrique idRub, fd.id_donnee idDon</select>
-				<from> 
-					FROM spip_rubriques r
+				<select>SELECT a.id_article idArt, a.titre titreArt
+					, r.id_rubrique idRub, r.titre titreRub
+					, fd.id_donnee idDon</select>
+				<from> FROM spip_rubriques r
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 60
