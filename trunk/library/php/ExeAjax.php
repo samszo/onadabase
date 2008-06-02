@@ -18,6 +18,10 @@
 		$id = $_GET['id'];
 	else
 		$id = -1;
+	if(isset($_GET['ppp']))
+		$ppp = $_GET['ppp'];
+	else
+		$ppp = -1;
 		
 	switch ($fonction) {
 		/*case 'Synchroniser':
@@ -359,21 +363,32 @@
 	
 	function SetVal($idGrille,$idDon,$champ,$val){
 	
-		global $objSite;
+		global $objSite, $ppp;
 		$g = new Grille($objSite,$login);
 
 		//modifie la valeur 
 		$row = array("grille"=>$idGrille,"champ"=>$champ,"valeur"=>utf8_decode($val));
-		$g->SetChamp($row, $idDon);
+		if(TRACE)
+			echo "ExeAjax:SetVal:row=".print_r($row)."<br/>";
 		
+		if($champ!="Modif" && $champ!="Sup")
+			$g->SetChamp($row, $idDon);
+
 		//gestion du workflow
 		$xul = $g->GereWorkflow($row, $idDon);		
 
-		if ($champ=="mot_1" && $val==2)
-			return $xul;//echo '<script type="text/javascript">window.open( '.$xul.', "signalement")	</script>';
-		else return $xul;
+		if(TRACE)
+			echo "ExeAjax:SetVal:ppp=".$ppp."<br/>";
+		if ($ppp==1){
+			$pppxul = new Xul($objSite);
+			return $pppxul->GetPopUp($xul,$row['valeur']);
+		} 
+		
+		return $xul;
+
 	}
 
+	
 	function DelVal($idGrille,$idDon,$champ,$val){
 	
 		global $objSite;
