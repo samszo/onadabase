@@ -23,13 +23,14 @@ class Xul{
 		
     }
 
-    function GetPopUp($xul,$titre){
+    function GetPopUp($xul,$titre, $login){
 
 		header('Content-type: application/vnd.mozilla.xul+xml');
 		echo '<' . '?xml version="1.0" encoding="iso-8859-15" ?' . '>';
 		echo '<' . '?xml-stylesheet href="chrome://global/skin/" type="text/css"?' . '>' . "\n";
 		echo '<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n";
-
+		echo '<' . '?xml-stylesheet href="popup.css" type="text/css"?' . '>' . "\n";
+		
     	echo "<window  
     	    persist='screenX screenY width height'
 		    orient='horizontal'
@@ -49,7 +50,10 @@ class Xul{
 			var urlSite = "'.$this->site->infos["urlSite"].'";
 			var path = "'.PathRoot.'/param/synchroExport.xml";
      	</script>';
-
+		echo '<label id="login" value="'.$login.'"/>';
+		echo '<script>
+			document.getElementById("login").style.visibility="hidden";
+		</script>';
 		echo $xul;
 		echo "</window>";
 
