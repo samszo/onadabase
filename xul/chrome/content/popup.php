@@ -5,6 +5,14 @@
 	//charge le fichier de paramètrage
 	$objSite->XmlParam = new XmlParam(PathRoot."/param/SolAcc.xml");
 
+	if(isset($_SESSION['loginSess']))
+	{
+		$login=$_SESSION['loginSess'];
+		$mdp=$_SESSION['mdpSess'];
+		$idAuteur=$_SESSION['IdAuteur'];
+	
+	}
+	
 	$resultat = "";
 	if(isset($_GET['f']))
 		$fonction = $_GET['f'];

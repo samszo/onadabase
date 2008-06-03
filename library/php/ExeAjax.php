@@ -49,7 +49,7 @@
 			$resultat = AddPlacemark($_GET['dst'], $_GET['kml']);
 			break;
 		case 'SetVal':
-			$resultat = SetVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val']);
+			$resultat = SetVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val'], $_GET['login']);
 			break;
 		case 'DelVal':
 			$resultat = DelVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val']);
@@ -361,7 +361,7 @@
 		return $page;
 	}
 	
-	function SetVal($idGrille,$idDon,$champ,$val){
+	function SetVal($idGrille,$idDon,$champ,$val, $login){
 	
 		global $objSite, $ppp;
 		$g = new Grille($objSite,$login);
@@ -381,7 +381,7 @@
 			echo "ExeAjax:SetVal:ppp=".$ppp."<br/>";
 		if ($ppp==1){
 			$pppxul = new Xul($objSite);
-			return $pppxul->GetPopUp($xul,$row['valeur']);
+			return $pppxul->GetPopUp($xul,$row['valeur'], $login);
 		} 
 		
 		return $xul;
