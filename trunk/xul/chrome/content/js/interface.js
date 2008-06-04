@@ -223,7 +223,7 @@ function SetVal(idDoc){
 			//var reponse = GetXmlFicToDoc(url);
 			//ajout de l'argument du popup
 			url +="&ppp=1";
-			window.open(url,'','width=700,height=500,resizable=yes');
+			window.open(url,'Signalement problème','width=600,height=350,resizable=no');
 		//} 
 	}else
 		AjaxRequest(url,"AfficheResult","trace"+doc.id);

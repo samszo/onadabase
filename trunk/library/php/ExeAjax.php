@@ -381,7 +381,7 @@
 			echo "ExeAjax:SetVal:ppp=".$ppp."<br/>";
 		if ($ppp==1){
 			$pppxul = new Xul($objSite);
-			return $pppxul->GetPopUp($xul,$row['valeur'], $login);
+			return $pppxul->GetPopUp($xul,"Signalement problème ".$g->GetValeur($idDon,"ligne_1"), $login);
 		} 
 		
 		return $xul;
