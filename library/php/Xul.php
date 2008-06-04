@@ -28,8 +28,7 @@ class Xul{
 		header('Content-type: application/vnd.mozilla.xul+xml');
 		echo '<' . '?xml version="1.0" encoding="iso-8859-15" ?' . '>';
 		echo '<' . '?xml-stylesheet href="chrome://global/skin/" type="text/css"?' . '>' . "\n";
-		echo '<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n";
-		echo '<' . '?xml-stylesheet href="popup.css" type="text/css"?' . '>' . "\n";
+		echo '<' . '?xml-stylesheet href="'.$this->site->infos["pathXulJs"].'../popup.css" type="text/css"?' . '>' . "\n";
 		
     	echo "<window  
     	    persist='screenX screenY width height'
