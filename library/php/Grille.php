@@ -159,6 +159,7 @@ class Grille{
 			
 			$xul.="<vbox>";
 				$xul.="<label value='".$r["idCont"]."'/>";
+				$xul.="<label value=\"".$this->site->XmlParam->XML_entities($r["TextCont"])."\"/>";
 				$xul.="<hbox>";
 					$xul.="<label id='adminDon_".$r["idDon"]."' class='text-linkAdmin' onclick=\"OuvreDonnee(".$this->site->infos["GRILLE_SIG_PROB"].",".$r["idDon"].");\" value=\"Admin\"/>";
 					$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
