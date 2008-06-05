@@ -17,9 +17,15 @@ var numFic = 0;
 var DELIM = "*";
 
 function OuvreLienAdmin(idRub){
-	
 	window.open(lienAdminSpip+"/?exec=naviguer&id_rubrique="+idRub);
-	
+}
+
+function OuvreArticle(idArt){
+	window.open(lienAdminSpip+"/?exec=articles&id_article="+idArt);
+}
+
+function OuvreDonnee(idForm,idDon){
+	window.open(lienAdminSpip+"/?exec=donnees_edit&id_form="+idForm+"&id_donnee="+idDon);
 }
 
 function SetLienAdmin(idRub){

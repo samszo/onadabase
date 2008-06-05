@@ -80,7 +80,7 @@ $SiteLocal2 = array(
 	"DEF_ZOOM" => 14,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
 	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRR8S4b2oMC5BlotEgOIFwvu2Zfg4BRD2eEaRYw3NNB3VDcldikKtbZtsw",
-	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
+	"lienAdminSpip" => "http://localhost/onadabase/spip1/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",
 	"urlSite" => "http://localhost/onadabase/library/php/Site.php",	
@@ -88,7 +88,7 @@ $SiteLocal2 = array(
 	"urlLibPhp" => "http://localhost/onadabase/library/php/",
 	"pathUpload" => PathRoot."/spip1/IMG/kml/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
-	"pathSpip" => "http://localhost/onadabase/spip/"
+	"pathSpip" => "http://localhost/onadabase/spip1/"
 	); 
 $SiteNaos = array(
 	"SQL_LOGIN" => "naossfr3", 

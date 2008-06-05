@@ -683,18 +683,50 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 			</Query>
 
 			<Query fonction="Grille_GetListeSignalementProbleme">
-				<select>SELECT a.id_article idArt, a.titre titreArt
+				<select>
+				SELECT a.id_article idArt, a.titre titreArt
 					, r.id_rubrique idRub, r.titre titreRub
-					, fd.id_donnee idDon</select>
+					, rp.id_rubrique idRubPar, rp.titre titreRubPar
+					, fd.id_donnee idDon
+					, fdc.valeur idCont
+				</select>
 				<from> FROM spip_rubriques r
+					INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 60
+					INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee AND fdc.champ = 'ligne_3'
 				</from>
-				<where> WHERE r.id_rubrique IN(-ids-) </where>
+				<where> WHERE r.id_rubrique IN(-ids-) ORDER BY idRubPar, idRub, IdArt</where>
 				<dst>Art</dst>
 			</Query>
-			
+<!--  			
+SELECT r.id_rubrique idRub, fd.id_donnee idDon, fdc.valeur idDonCont, fdcc.id_donnee, fcc1.titre TypeCrit, fcc2.titre TypeDroit, fcc3.titre TypeAndy
+FROM spip_rubriques r
+INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee
+AND fd.id_form =60
+INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
+AND fdc.champ = 'ligne_3'
+INNER JOIN spip_forms_donnees_champs fdcc ON fdcc.champ = 'ligne_1'
+AND fdcc.valeur = fdc.valeur
+INNER JOIN spip_forms_donnees_champs fdcc1 ON fdcc1.id_donnee = fdcc.id_donnee
+AND fdcc1.champ = 'multiple_1'
+INNER JOIN spip_forms_champs_choix fcc1 ON fcc1.choix = fdcc1.valeur
+AND fcc1.id_form =54
+INNER JOIN spip_forms_donnees_champs fdcc2 ON fdcc2.id_donnee = fdcc.id_donnee
+AND fdcc2.champ = 'multiple_2'
+INNER JOIN spip_forms_champs_choix fcc2 ON fcc2.choix = fdcc2.valeur
+AND fcc1.id_form =54
+INNER JOIN spip_forms_donnees_champs fdcc3 ON fdcc3.id_donnee = fdcc.id_donnee
+AND fdcc3.champ = 'multiple_3'
+INNER JOIN spip_forms_champs_choix fcc3 ON fcc3.choix = fdcc3.valeur
+AND fcc3.id_form =54
+WHERE r.id_rubrique
+IN ( 4625, 4626, 4627, 4628, 4629, 4624, 4631, 4630, 4623, 4632, 4622, -1 )
+
+-->			
 			<Query fonction="Grille_GetXulTabFormGrille">
 				<select>SELECT f.id_form id, f.titre, fda.id_article idArt </select>
 				<from> FROM spip_forms f
