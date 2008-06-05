@@ -132,6 +132,37 @@ window{
   color                 : purple;
 }
 
+.text-linkAdmin
+{
+  color                 : blue;
+  text-decoration       : none;
+}
+
+.text-linkAdmin:focus
+{
+  color                 : blue;
+  text-decoration       : none;
+}
+
+.text-linkAdmin:hover
+{
+  color                 : blue;
+  text-decoration       : underline;
+  cursor                : pointer;
+} 
+
+.text-linkAdmin:hover:active
+{
+  color                 : blue;
+  text-decoration       : underline;
+} 
+
+.text-linkAdmin[visited="true"] 
+{
+  color                 : purple;
+}
+
+
 .FormBox
 {
 	margin : 10px 10px 10px 10px;

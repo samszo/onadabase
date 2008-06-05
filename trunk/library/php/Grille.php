@@ -43,7 +43,7 @@ class Grille{
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
 		$db->connect();
 		$result = $db->query($sql);
-		if($this->trace)
+		//if($this->trace)
 			echo "Grille:GetTreeProb:".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->close();
 		
@@ -67,21 +67,27 @@ class Grille{
 		$xul ='<grid flex="1">';
 		//on cache la colonne de référence	
 		$xul.='<columns>';	
-			$xul.='<column hidden="true"/>';	
+			$xul.='<column flex="1" hidden="true"/>';	
 			$xul.='<column flex="1"/>';
-			$xul.='<column />';			
-			$xul.='<column />';			
-			$xul.='<column />';			
+			$xul.='<column flex="1"/>';			
+			$xul.='<column flex="1" hidden="true"/>';			
+			$xul.='<column flex="1"/>';			
 		$xul.='</columns>';	
-		$xul.='<rows>';	
+		$xul.='<rows>';
+		/*	
 		$xul.="<row>
-				<label value='Référence' hidden='true' />
-			    <label value='Titre'/>
-			    <label value='Type'/>
+				<label value='Référence' />
+			    <label value='Rubrique parente'/>
+			    <label value='Rubrique'/>
+			    <label value='Article'/>
+			    <label value='N° problème'/>
 			    <label value='Modifier'/>
 			    <label value='Supprimer'/>
 			</row>";	
-		
+		*/
+		$oidRubPar=-1;
+		$oidRub=-1;
+		$oidArt=-1;
 		while ($r =  $db->fetch_assoc($result)) {
 			if($this->trace)
 				echo "Grille:GetTreeProb:".$r["idRub"]." ".$r["idArt"]." ".$r["idDon"]."<br/>";
@@ -111,25 +117,73 @@ class Grille{
 			*/
 
 		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_SIG_PROB"].DELIM.$r["idDon"].DELIM."-champ-".DELIM.$r["idArt"];
-		$xul.="<row>
-			<label id='".$idDoc."' value='".$idDoc."' hidden='true' />
-			<label value='".$r["titreRub"]."'/>
-		    <label value='".$r["titreArt"]."'/>";
-		    
+		$xul.="<row>";
+			$xul.="<vbox hidden='true' >";
+				$xul.="<label id='".$idDoc."' value='".$idDoc."' />";
+			$xul.="</vbox>";
+
+			$xul.="<vbox>";
+				if($r["idRubPar"]!=$oidRubPar){
+					$xul.="<label value='".$r["titreRubPar"]."'/>";
+					$xul.="<hbox>";
+						$xul.="<label id='adminRubPar_".$r["idRubPar"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRubPar"].");\" value=\"Admin\"/>";
+			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+			    	$xul.="</hbox>";
+				}
+			$xul.="</vbox>";
+			
+			$xul.="<vbox>";
+				if($r["idRub"]!=$oidRub){
+					$xul.="<label value='".$r["titreRub"]."'/>";
+					$xul.="<hbox>";
+						$xul.="<label id='adminRub_".$r["idRub"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRub"].");\" value=\"Admin\"/>";
+			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+			    	$xul.="</hbox>";
+				}
+			$xul.="</vbox>";
+
+			
+			$xul.="<vbox hidden='true'>";
+				if($r["idArt"]!=$oidArt){
+					$xul.="<label value='".$r["titreArt"]."'/>";
+					$xul.="<hbox>";
+						$xul.="<label id='adminArt_".$r["idArt"]."' class='text-linkAdmin' onclick=\"OuvreArticle(".$r["idArt"].");\" value=\"Admin\"/>";
+						$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+			    	$xul.="</hbox>";
+				}
+			$xul.="</vbox>";
+			
+			
+			$xul.="<vbox>";
+				$xul.="<label value='".$r["idCont"]."'/>";
+				$xul.="<hbox>";
+					$xul.="<label id='adminDon_".$r["idDon"]."' class='text-linkAdmin' onclick=\"OuvreDonnee(".$this->site->infos["GRILLE_SIG_PROB"].",".$r["idDon"].");\" value=\"Admin\"/>";
+					$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+		    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+		    	$xul.="</hbox>";
+			$xul.="</vbox>";
+			
+			/*
 			$idDoc=str_replace("-champ-","Modif",$idDoc);
 			$xul.="<vbox>";
-			$xul.="<label id='".$idDoc."' value='".$r["titreArt"]."' hidden='true' />";
-		    $xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+				$xul.="<label id='".$idDoc."' value='".$r["titreArt"]."' hidden='true' />";
 			$xul.="</vbox>";
 		    
 		    $idDoc=str_replace("Modif","Sup",$idDoc);
 			$xul.="<vbox>";
-		    $xul.="<label id='".$idDoc."' value='".$r["titreArt"]."' hidden='true' />";
-		    $xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+		    	$xul.="<label id='".$idDoc."' value='".$r["titreArt"]."' hidden='true' />";
+		    	$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
 			$xul.="</vbox>";
-		    
+		    */
+			
 		    $xul.="</row>";	
-		
+			$oidRubPar=$r["idRubPar"];
+			$oidRub=$r["idRub"];
+			$oidArt=$r["idArt"];
+		    
 		
 		}
 		//$xul .= "</treechildren></tree>";    
