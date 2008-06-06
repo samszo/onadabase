@@ -3,7 +3,7 @@
   //
   // Fichier contenant les definitions de constantes
   //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/sites/n/naoss.fr/mundigo"); 
-  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
+  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."onadabase"); 
   
 	// *** chemin de toutes les bases et les spip en service ***
   define("TT_CLASS_BASE", PathRoot."/library/php/");
@@ -50,14 +50,14 @@ $SiteLocal1 = array(
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
-	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
+	"lienAdminSpip" => "http://localhost/onadabase/spip1/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",	
 	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://localhost/onadabase/library/php/",
-	"pathUpload" => PathRoot."/spip/IMG/kml/",
+	"pathUpload" => PathRoot."/spip1/IMG/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
-	"pathSpip" => "http://localhost/onadabase/spip/"
+	"pathSpip" => "http://localhost/onadabase/spip1/"
 	); 
 $SiteLocal2 = array(
 	"SQL_LOGIN" => "root", 
@@ -80,15 +80,15 @@ $SiteLocal2 = array(
 	"DEF_ZOOM" => 14,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
 	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRR8S4b2oMC5BlotEgOIFwvu2Zfg4BRD2eEaRYw3NNB3VDcldikKtbZtsw",
-	"lienAdminSpip" => "http://localhost/onadabase/spip1/ecrire",
+	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",
 	"urlSite" => "http://localhost/onadabase/library/php/Site.php",	
 	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://localhost/onadabase/library/php/",
-	"pathUpload" => PathRoot."/spip1/IMG/kml/",
+	"pathUpload" => PathRoot."/spip/IMG/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
-	"pathSpip" => "http://localhost/onadabase/spip1/"
+	"pathSpip" => "http://localhost/onadabase/spip/"
 	); 
 $SiteNaos = array(
 	"SQL_LOGIN" => "naossfr3", 
@@ -116,7 +116,7 @@ $SiteNaos = array(
 	"jsXulParam" => "http://www.naoss.fr:81/mundigo/xul/chrome/content/param/onadabase.xml",	
 	"urlCarto" => "http://www.naoss.fr:81/mundigo/design/BlocCarte.php",
 	"urlLibPhp" => "http://www.naoss.fr:81/mundigo/library/php/",
-	"pathUpload" => PathRoot."/spip/IMG/kml/",
+	"pathUpload" => PathRoot."/spip/IMG/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
 	"pathSpip" => "http://localhost/onadabase/spip/"
 ); 
@@ -149,7 +149,7 @@ $SiteNaos = array(
 	"urlCarto" => "http://www.mundilogiweb.com/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://www.mundilogiweb.com/onadabase/library/php/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
-	"pathUpload" => PathRoot."/spip/IMG/kml/",
+	"pathUpload" => PathRoot."/spip/IMG/",
 	"pathSpip" => "http://localhost/onadabase/spip/"	
 	); 
 	

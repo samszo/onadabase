@@ -102,7 +102,9 @@
 		
 		$arrIdDoc = split("[".DELIM."]",$idDoc);
 
-		if(TRACE){
+		$trace = true;
+		
+		if($trace){
 			echo "ExeAjax:AddDocToArt:POST<br/>";
 			print_r($_POST);
 			echo "ExeAjax:AddDocToArt:FILES<br/>";
@@ -112,16 +114,30 @@
 		}	
 
 		//construction du fichier de destination
-		$FicDst = $arrIdDoc[4]."_".$arrIdDoc[2]."_".date('j-m-y_H-i-s').substr($_FILES['filename']['name'],-4,4);
+		$tabDecomp = explode('.', $_FILES['filename']['name']);
+		$extention = $tabDecomp[sizeof($tabDecomp)-1];
+		$FicDst = $arrIdDoc[4]."_".$arrIdDoc[2]."_".date('j-m-y_H-i-s').'.'.$extention;
 		
+		if($trace){
+			echo "ExeAjax:AddDocToArt:tabDecomp <br/>";
+			print_r($tabDecomp);
+			echo "ExeAjax:AddDocToArt:extension <br/>".$extention;
+		}
+		
+		//substr($_FILES['filename']['name'],-4,4)
 		//déplace le fichier dans le répertoire spip
-		move_uploaded_file($_FILES['filename']['tmp_name'], $objSite->infos["pathUpload"].$FicDst);
-		if(TRACE)
+		move_uploaded_file($_FILES['filename']['tmp_name'], $objSite->infos["pathUpload"].$extention.'/'.$FicDst);
+		if(TRACE) {
 			echo "ExeAjax:AddDocToArt:FicDst".$FicDst."<br/>";
-
+		}
 		//construction du nouveau document en fonction du type
 		$doc = new Document($objSite);
-		switch (substr($_FILES['filename']['name'],-3,3)) {
+		// substr($_FILES['filename']['name'],-3,3)
+		// pathinfo($_FILES['filename']['tmp_name'],PATHINFO_EXTENSION)
+		
+		$add = true;
+		
+		switch ($extention) {
 			case 'kml':
 				$row = array(
 					'titre'=>$_FILES['filename']['name']
@@ -134,8 +150,86 @@
 					,'idArt'=>$arrIdDoc[4]
 					); 
 			break;
+			case 'jpg':
+				$imageInfo = getimagesize($objSite->infos["pathUpload"].$extention.'/'.$FicDst);
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>1
+					,'desc'=>''
+					,'fichier'=>'IMG/jpg/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>$imageInfo[0]
+					,'hauteur'=>$imageInfo[1]
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
+			case 'mpg':
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>15
+					,'desc'=>''
+					,'fichier'=>'IMG/mpg/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>0
+					,'hauteur'=>0
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
+			case 'mov':
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>13
+					,'desc'=>''
+					,'fichier'=>'IMG/mov/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>0
+					,'hauteur'=>0
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
+			case 'flv':
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>10
+					,'desc'=>''
+					,'fichier'=>'IMG/flv/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>0
+					,'hauteur'=>0
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
+			case 'png':
+				$imageInfo = getimagesize($objSite->infos["pathUpload"].$extention.'/'.$FicDst);
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>2
+					,'desc'=>''
+					,'fichier'=>'IMG/png/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>$imageInfo[0]
+					,'hauteur'=>$imageInfo[1]
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
+			case 'gif':
+				$imageInfo = getimagesize($objSite->infos["pathUpload"].$extention.'/'.$FicDst);
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>3
+					,'desc'=>''
+					,'fichier'=>'IMG/gif/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>$imageInfo[0]
+					,'hauteur'=>$imageInfo[1]
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
+			default:
+				$add = false;
 		}
-		$doc->AddNew($row);
+		
+		if($add) $doc->AddNew($row);
 		
 	}
 	
