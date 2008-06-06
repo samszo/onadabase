@@ -89,6 +89,7 @@ function SynchroniserExportImport() {
 		
 		alert("Synchronisation terminée");
 		document.getElementById('progressMeter').style.visibility="hidden";
+		progressMeter.setAttribute("value", "0");
 		
 	} catch(ex2){
 		alert("SynchroniserExportImport::"+ex2+" " +"url="+url3);
@@ -229,7 +230,7 @@ function SetVal(idDoc){
 			//var reponse = GetXmlFicToDoc(url);
 			//ajout de l'argument du popup
 			url +="&ppp=1";
-			window.open(url,'Signalement problème','width=600,height=350,resizable=no');
+			window.open(url,'_blank','width=650,height=350,resizable=no,left=200,top=200');
 		//} 
 	}else
 		AjaxRequest(url,"AfficheResult","trace"+doc.id);
@@ -567,6 +568,14 @@ function GetFichierKml(doc)
 		var tabDecomp = fichierCourant.leafName.split('.');
 		var extension = tabDecomp[tabDecomp.length-1];   
 		
+		var progressMeter = document.getElementById('progressMeter');
+		
+		document.getElementById('progressMeter').style.visibility="visible";
+		
+		if (progressMeter.getAttribute("mode")=="determined") {
+			progressMeter.setAttribute("mode", "undetermined");
+		}
+		
 		//alert(extension);
 		if (extension == 'kml') document.getElementById(doc).value = fichierCourant.path;
 		else {
@@ -578,6 +587,14 @@ function GetFichierKml(doc)
 		//document.getElementById('wSaisiDiag').canAdvance=true;
 		//ChargeTreeFromKml(fichierCourant,'TreeRoot');
 		UploadFile(urlExeAjax+"?f=AddDocToArt&idDoc="+doc, fichierCourant);
+		
+		progressMeter.setAttribute("mode", "determined");
+		progressMeter.setAttribute("value", "100");
+		
+		alert("Ajout du fichier terminé");
+		document.getElementById('progressMeter').style.visibility="hidden";
+		progressMeter.setAttribute("value", "0");
+		
 	}else
 		document.getElementById(doc).value = "Aucun fichier n'est sélectionné !";
  
@@ -638,7 +655,6 @@ function GetFichier(types)
 		//var pathcode = encodeURI(fp.file.path);
 		
 		//ChargeTreeFromRdf(fp.file);
-		  
 		return fp.file;
 	}else{
 		return false;
