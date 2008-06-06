@@ -115,7 +115,8 @@
 
 		//construction du fichier de destination
 		$tabDecomp = explode('.', $_FILES['filename']['name']);
-		$extention = $tabDecomp[sizeof($tabDecomp)-1];
+		$extention = strtolower($tabDecomp[sizeof($tabDecomp)-1]);
+		
 		$FicDst = $arrIdDoc[4]."_".$arrIdDoc[2]."_".date('j-m-y_H-i-s').'.'.$extention;
 		
 		if($trace){
