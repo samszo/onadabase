@@ -101,10 +101,8 @@
 		global $objSite;
 		
 		$arrIdDoc = split("[".DELIM."]",$idDoc);
-
-		$trace = true;
 		
-		if($trace){
+		if(TRACE){
 			echo "ExeAjax:AddDocToArt:POST<br/>";
 			print_r($_POST);
 			echo "ExeAjax:AddDocToArt:FILES<br/>";
@@ -119,7 +117,7 @@
 		
 		$FicDst = $arrIdDoc[4]."_".$arrIdDoc[2]."_".date('j-m-y_H-i-s').'.'.$extention;
 		
-		if($trace){
+		if(TRACE){
 			echo "ExeAjax:AddDocToArt:tabDecomp <br/>";
 			print_r($tabDecomp);
 			echo "ExeAjax:AddDocToArt:extension <br/>".$extention;

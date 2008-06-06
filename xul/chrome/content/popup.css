@@ -9,3 +9,15 @@ textbox
 {
 	font-size: 15px ;
 }
+
+.menubar 
+{
+	height:16px;
+	margin:2px 0 0 0;
+	width: 50px;
+}
+
+grid
+{
+	margin:5 5 5 5;
+}

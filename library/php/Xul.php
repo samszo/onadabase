@@ -49,9 +49,16 @@ class Xul{
 			var urlSite = "'.$this->site->infos["urlSite"].'";
 			var path = "'.PathRoot.'/param/synchroExport.xml";
      	</script>';
-		echo '<label id="login" value="'.$login.'"/>';
+		echo '<vbox  flex="1" style="overflow:auto">
+				<hbox class="menubar">
+					<label id="login" value="'.$login.'"/>
+					<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;"/>
+				</hbox>	
+			</vbox>
+				';
 		echo '<script>
 			document.getElementById("login").style.visibility="hidden";
+			document.getElementById("progressMeter").style.visibility="hidden";
 		</script>';
 		echo $xul;
 		echo "</window>";
