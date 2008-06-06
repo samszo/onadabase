@@ -137,6 +137,10 @@
 		
 		$add = true;
 		
+		$repExist = is_dir($objSite->infos["pathUpload"].$extention);
+		
+		if (!is_dir($objSite->infos["pathUpload"].$extention)) mkdir($objSite->infos["pathUpload"].$extention);
+		
 		switch ($extention) {
 			case 'kml':
 				$row = array(
