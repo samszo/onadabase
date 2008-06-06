@@ -556,11 +556,25 @@ function evaluateXPath(aNode, aExpr) {
 function GetFichierKml(doc)
 {
 	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-	fichierCourant = GetFichier("kml");
+	
+	var types = new Array("kml", "flv", "mpg", "mov");
+	fichierCourant = GetFichier(types);
 	//fichierCourant = document.getElementById("NomFichier").value;
 	
 	if(fichierCourant){
-		document.getElementById(doc).value = fichierCourant.path;
+		//var extension = pathinfo(fichierCourant,PATHINFO_EXTENSION);
+		
+		var tabDecomp = fichierCourant.leafName.split('.');
+		var extension = tabDecomp[tabDecomp.length-1];   
+		
+		//alert(extension);
+		if (extension == 'kml') document.getElementById(doc).value = fichierCourant.path;
+		else {
+			//alert(doc);
+			var fichier2 = doc.replace('fichier_1', 'ligne_4');
+			//alert(fichier2);
+			document.getElementById(fichier2).value = fichierCourant.path;
+		}
 		//document.getElementById('wSaisiDiag').canAdvance=true;
 		//ChargeTreeFromKml(fichierCourant,'TreeRoot');
 		UploadFile(urlExeAjax+"?f=AddDocToArt&idDoc="+doc, fichierCourant);
@@ -592,7 +606,7 @@ function lecture(url) {
   } catch(ex2){ alert("lecture::"+ex2); }
 }
 
-function GetFichier(type)
+function GetFichier(types)
 {
 	
   try {
@@ -601,7 +615,15 @@ function GetFichier(type)
 	var nsIFilePicker = Components.interfaces.nsIFilePicker;
 	var fp = Components.classes["@mozilla.org/filepicker;1"]
 	        .createInstance(nsIFilePicker);
-	fp.appendFilter("Fichiers "+type,"*."+type);
+	var i = 0;
+	while (i < types.length) {
+		//if (types[i]=='mpeg') fp.appendFilter("Fichiers "+types[i],"*."+types[i]+"; *.mpg; *.mpe");
+		//else 
+		fp.appendFilter("Fichiers "+types[i],"*."+types[i]);
+		i++;
+	}
+	fp.appendFilters(nsIFilePicker.filterImages);
+	//fp.appendFilters(nsIFilePicker.filterAll);
 	fp.init(window, "Sélectionnez un fichier", nsIFilePicker.modeOpen);
 	
 /*	var aLocalFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
