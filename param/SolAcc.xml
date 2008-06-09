@@ -924,7 +924,13 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 				</from>
 				<where> WHERE dc.id_donnee = -id- AND dc.champ ='-champ-'	</where>
 			</Query>
-
+			<Query fonction="Grille_GetMot">
+				<select>SELECT m.titre </select>
+				<from> FROM spip_mots m
+				</from>
+				<where> WHERE m.id_mot = -id- </where>
+			</Query>
+			
 
 
 		</Querys>
