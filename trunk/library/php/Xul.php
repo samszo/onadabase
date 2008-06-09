@@ -43,11 +43,11 @@ class Xul{
 		echo '<script>
 			var lienAdminSpip = "'.$this->site->infos["lienAdminSpip"].'";
 			var urlExeAjax = "'.$this->site->infos["urlExeAjax"].'";
-			var urlExeAjax2 = "'.$this->site->infos["urlExeAjax"].'";
-			var xmlParam = GetXmlUrlToDoc("'.$this->site->infos["jsXulParam"].'");
-			var synclienAdminSpip = "'.$this->site->infos["lienAdminSpip"].'";
-			var urlSite = "'.$this->site->infos["urlSite"].'";
-			var path = "'.PathRoot.'/param/synchroExport.xml";
+			
+			
+			
+			
+			
      	</script>';
 		echo '<vbox  flex="1" style="overflow:auto">
 				<hbox class="menubar">

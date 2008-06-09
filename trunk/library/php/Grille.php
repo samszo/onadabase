@@ -271,6 +271,9 @@ class Grille{
 							//gestion pour le signalement problème
 							if($wf['trsId']==$this->site->infos["GRILLE_SIG_PROB"]){
 								$ref = $this->GetValeur($donId,"ligne_1");
+								$reponseId = $this->GetValeur($donId,"mot_1");
+								$reponse = $this->GetMot($reponseId);
+								
 								$idArt = $gra->SetNewArticle($ref." ".date('j/m/y - H:i:s'));
 								//ajoute une nouvelle donnee
 								$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
@@ -278,6 +281,8 @@ class Grille{
 									echo "Grille:GereWorkflow://gestion pour le signalement problème ".$ref."<br/>";
 								$row=array("champ"=>"ligne_3","valeur"=>$ref);
 								$this->SetChamp($row,$idDon);
+								$row2=array("champ"=>"ligne_5","valeur"=>$reponse);
+								$this->SetChamp($row2,$idDon);
 							}else{
 								$idArt = $gra->SetNewArticle($gTrs->titre." ".date('j/m/y - H:i:s'));
 								//ajoute une nouvelle donnee
@@ -324,6 +329,22 @@ class Grille{
 		
 	}	
 
+	function GetMot($idMot) {
+		
+		//récupère la valeur d'un champ
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetMot']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-id-", $idMot, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		$row =  $db->fetch_assoc($rows);
+		return $row['titre'];
+		
+	}
+	
 	function GetGrilleId($rows, $donId) {
 
     	$Xpath = "/XmlParams/XmlParam/majliee[@srcId='55;ligne_1']/@dstQuery";
