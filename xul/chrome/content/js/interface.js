@@ -38,6 +38,34 @@ function DelArticle(idDonnee, idSrc) {
 	}
 }
 
+function DelRubrique(idRub, idSrc) {
+	try {
+		var answer = confirm("Voulez vous réellement supprimer toutes les fiches signalement de problème de cette rubrique?")
+		if (answer){
+			var doc = document.getElementById("FormSaisi");
+			var url = urlExeAjax+"?f=ClearRubrique&&idRub="+idRub+"&idRubParent="+idSrc;
+			AppendResult(url,doc);
+		}
+				
+	} catch(ex2){
+		alert("DelRubrique::"+ex2+" " +"url="+url);
+	}
+}
+
+function DelRubriqueParent(idRub) {
+	try {
+		var answer = confirm("Voulez vous réellement supprimer toutes les fiches signalement de problème de cette rubrique?")
+		if (answer){
+			var doc = document.getElementById("FormSaisi");
+			var url = urlExeAjax+"?f=ClearRubriqueParent&&idRubParent="+idRub;
+			AppendResult(url,doc);
+		}
+				
+	} catch(ex2){
+		alert("DelRubriqueParent::"+ex2+" " +"url="+url);
+	}
+}
+
 function SetLienAdmin(idRub){
 	
 	var lien = document.getElementById("LienAdmin");

@@ -90,6 +90,12 @@
 		case 'ClearArticle':
 			$resultat = ClearArticle($_GET['idDonnee'], $_GET['idRub']);
 			break;
+		case 'ClearRubrique':
+			$resultat = ClearRubrique($_GET['idRub'], $_GET['idRubParent']) ;
+			break;
+		case 'ClearRubriqueParent':
+			$resultat = ClearRubriqueParent($_GET['idRubParent']) ;
+			break;
 		default:
 			//$resultat = AddDocToArt();
 	}
@@ -820,6 +826,41 @@
 		$g = new Grille($objSite);
 		
 		$xul = $g->GetTreeProb($idRub);
+
+		return $xul;
+	}
+	
+	function ClearRubriqueParent($idRub) {
+		
+		global $objSite;
+		
+		$gra = new Granulat($idRub, $objSite);
+		$arrListeRub = $gra->GetListeEnfants();
+		
+		$synchro = new Synchro($objSite, -1);
+		
+		foreach($arrListeRub as $rubrique) {
+			$arrListArticles = $synchro->GetArticlesPb($rubrique['id']);
+			if (sizeof($arrListArticles) !=0) $synchro->SupprimerArticles($arrListArticles);
+		}
+		
+		$g = new Grille($objSite);
+		$xul = $g->GetTreeProb($idRub);
+
+		return $xul;
+		
+	}
+	
+	function ClearRubrique($idRub, $idParentRub) {
+		
+		global $objSite;
+		
+		
+		$arrListArticles = $synchro->GetArticlesPb($idRub);
+		if (sizeof($arrListArticles) !=0) $synchro->SupprimerArticles($arrListArticles);
+		
+		$g = new Grille($objSite);
+		$xul = $g->GetTreeProb($idParentRub);
 
 		return $xul;
 	}

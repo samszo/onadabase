@@ -541,12 +541,12 @@ Class Synchro{
 
 	function SupprimerArticle($idArticle) {
 		
-		echo "<article> idArticle = ".$idArticle;
+		if (TRACE) echo "<article> SupprimerArticle = ".$idArticle;
 		$arrListeDonnees = $this->GetIdDonnees($idArticle) ;
 			
 		if($arrListeDonnees !=null) {
 			foreach ($arrListeDonnees as $donnee) {
-				echo "<donnee>/// idDonnee = ".$donnee['id']."</donnee>";
+				if (TRACE) echo "<donnee>SupprimerArticle/// idDonnee = ".$donnee['id']."</donnee>";
 				$this->DelFormsDonneesChamps($donnee['id']);
 				$this->DelFormsDonnees($donnee['id']);
 			}
@@ -554,8 +554,33 @@ Class Synchro{
 		$this->DelFormsDonneesArticles($idArticle);
 		$this->DelFormsArticles($idArticle);
 		$this->DelAuteursArticles($idArticle);
+		$this->DelDocumentsArticles($article['id]']);
 		$this->DelArticle($idArticle);
-		echo "</article>";
+		if (TRACE) echo "</article>";
+	}
+	
+	function SupprimerArticles($arrListArticles) {
+		
+		if (TRACE) echo '<suppressionArticles>';
+		foreach ($arrListArticles as $article) {
+			if (TRACE) echo "<article>".$article['id'];
+			$arrListeDonnees = $this->GetIdDonnees($article['id']) ;
+				
+			if($arrListeDonnees !=null) {
+				foreach ($arrListeDonnees as $donnee) {
+					if (TRACE) echo "<donnee>".$donnee['id']."</donnee>";
+					$this->DelFormsDonneesChamps($donnee['id']);
+					$this->DelFormsDonnees($donnee['id']);
+				}
+			}
+			$this->DelFormsDonneesArticles($article['id']);
+			$this->DelFormsArticles($article['id']);
+			$this->DelAuteursArticles($article['id']);
+			$this->DelDocumentsArticles($article['id']);
+			$this->DelArticle($article['id']);
+			if (TRACE) echo "</article>";
+		}
+		if (TRACE) echo '</suppressionArticles>';
 	}
 	
 	/*
@@ -582,6 +607,7 @@ Class Synchro{
 				$this->DelFormsDonneesArticles($idArticleFantome);
 				$this->DelFormsArticles($idArticleFantome);
 				$this->DelAuteursArticles($idArticleFantome);
+				$this->DelDocumentsArticles($idArticleFantome);
 				echo "Suppression idArticle = ".$idArticleFantome."</BR>";
 			} 
 		}
@@ -720,6 +746,17 @@ Class Synchro{
 		$DB->close();
 	}
 	
+	function DelDocumentsArticles($idArticle) {
+		
+		$sql = "DELETE 
+				FROM spip_documents_articles 
+				WHERE id_article = ".$idArticle;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
 	function GetArticleDonnee($idDonnee, $extraSql="") {
 		
 		$sql = "SELECT a.id_article 
@@ -734,6 +771,30 @@ Class Synchro{
 		if($data = $DB->fetch_assoc($req)) {
 			return $data['id_article'];
 		} else return -1;		
+	}
+	
+	function GetArticlesPb($idRub, $extraSql="") {
+		
+		$sql = "SELECT a.id_article
+				FROM spip_articles a
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+				AND fd.id_form =60
+				WHERE a.id_rubrique = ".$idRub." ".$extraSql."
+				";
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			$arrliste[$i] = array("id"=>$data['id_article']);
+			$i ++;
+		}
+		
+		return $arrliste;
+		
 	}
 	
 	/*

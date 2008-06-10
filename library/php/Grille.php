@@ -128,7 +128,7 @@ class Grille{
 					$xul.="<hbox>";
 						$xul.="<label id='adminRubPar_".$r["idRubPar"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRubPar"].");\" value=\"Admin\"/>";
 			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
-			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+			    		$xul.="<image onclick=\"DelRubriqueParent('".$r["idRubPar"]."');\" src='images/check_no.png' />";
 			    	$xul.="</hbox>";
 				}
 			$xul.="</vbox>";
@@ -139,7 +139,7 @@ class Grille{
 					$xul.="<hbox>";
 						$xul.="<label id='adminRub_".$r["idRub"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRub"].");\" value=\"Admin\"/>";
 			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
-			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+			    		$xul.="<image onclick=\"DelRubrique('".$r["idRub"]."', '".$idRub."');\" src='images/check_no.png' />";
 			    	$xul.="</hbox>";
 				}
 			$xul.="</vbox>";
