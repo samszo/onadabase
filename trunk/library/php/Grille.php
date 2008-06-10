@@ -169,7 +169,7 @@ class Grille{
 					$xul.="<label value='".$r["aDate"]."'/>";
 					$xul.="<label id='adminDon_".$r["idDon"]."' class='text-linkAdmin' onclick=\"OuvreDonnee(".$this->site->infos["GRILLE_SIG_PROB"].",".$r["idDon"].");\" value=\"Admin\"/>";
 					$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
-		    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+		    		$xul.="<image onclick=\"DelArticle('".$r["idDon"]."', '".$idRub."');\" src='images/check_no.png' />";
 		    	$xul.="</hbox>";
 			$xul.="</vbox>";
 			
