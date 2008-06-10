@@ -539,6 +539,25 @@ Class Synchro{
 		
 	}
 
+	function SupprimerArticle($idArticle) {
+		
+		echo "<article> idArticle = ".$idArticle;
+		$arrListeDonnees = $this->GetIdDonnees($idArticle) ;
+			
+		if($arrListeDonnees !=null) {
+			foreach ($arrListeDonnees as $donnee) {
+				echo "<donnee>/// idDonnee = ".$donnee['id']."</donnee>";
+				$this->DelFormsDonneesChamps($donnee['id']);
+				$this->DelFormsDonnees($donnee['id']);
+			}
+		}
+		$this->DelFormsDonneesArticles($idArticle);
+		$this->DelFormsArticles($idArticle);
+		$this->DelAuteursArticles($idArticle);
+		$this->DelArticle($idArticle);
+		echo "</article>";
+	}
+	
 	/*
 	 * Permet de nettoyer la base de données des données non utilisées des articles, en précisant la plage d'articles à explorer
 	 * 
@@ -645,6 +664,17 @@ Class Synchro{
 		$DB->close();
 	}
 	
+	function DelArticle($idArticle) {
+		
+		$sql = "DELETE 
+				FROM spip_articles 
+				WHERE id_article = ".$idArticle;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
 	/*
 	 * Efface les données d'un article précis dans la table spip_forms_articles
 	 * 
@@ -688,6 +718,22 @@ Class Synchro{
 		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
 		$req = $DB->query($sql);
 		$DB->close();
+	}
+	
+	function GetArticleDonnee($idDonnee, $extraSql="") {
+		
+		$sql = "SELECT a.id_article 
+			FROM spip_forms_donnees_articles a
+			WHERE a.id_donnee = ".$idDonnee." ".$extraSql."
+				";
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if($data = $DB->fetch_assoc($req)) {
+			return $data['id_article'];
+		} else return -1;		
 	}
 	
 	/*

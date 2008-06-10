@@ -87,6 +87,9 @@
 			//$resultat = AddDocToArt($_GET['path'], $_GET['idArt'], $_GET['doc']);
 			$resultat = GetAdminRub($_GET['idAuteur']);
 			break;
+		case 'ClearArticle':
+			$resultat = ClearArticle($_GET['idDonnee'], $_GET['idRub']);
+			break;
 		default:
 			//$resultat = AddDocToArt();
 	}
@@ -806,6 +809,21 @@
 		
 	}
 
+	function ClearArticle($idDonnee, $idRub) {
+		
+		global $objSite;
+		
+		$synchro = new Synchro($objSite, -1);
+		$idArticle = $synchro->GetArticleDonnee($idDonnee);
+		if ($idArticle !=-1) $synchro->SupprimerArticle($idArticle);
+		
+		$g = new Grille($objSite);
+		
+		$xul = $g->GetTreeProb($idRub);
+
+		return $xul;
+	}
+	
 	/*
 	 * Nettoye les données des articles inutilisées
 	 * 

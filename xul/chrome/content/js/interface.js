@@ -28,6 +28,16 @@ function OuvreDonnee(idForm,idDon){
 	window.open(lienAdminSpip+"/?exec=donnees_edit&id_form="+idForm+"&id_donnee="+idDon);
 }
 
+function DelArticle(idDonnee, idSrc) {
+	try {
+		var doc = document.getElementById("FormSaisi");
+		var url = urlExeAjax+"?f=ClearArticle&idDonnee="+idDonnee+"&idRub="+idSrc;
+		AppendResult(url,doc);
+	} catch(ex2){
+		alert("DelArticle::"+ex2+" " +"url="+url);
+	}
+}
+
 function SetLienAdmin(idRub){
 	
 	var lien = document.getElementById("LienAdmin");
