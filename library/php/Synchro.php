@@ -775,7 +775,7 @@ Class Synchro{
 	
 	function GetArticlesPb($idRub, $extraSql="") {
 		
-		$sql = "SELECT a.id_article
+		$sql = "SELECT a.id_article, fd.id_donnee
 				FROM spip_articles a
 				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
@@ -789,7 +789,7 @@ Class Synchro{
 		
 		$i = 0;
 		while($data = $DB->fetch_assoc($req)) {
-			$arrliste[$i] = array("id"=>$data['id_article']);
+			$arrliste[$i] = array("id"=>$data['id_article'], "idDonnee"=>$data['id_donnee']);
 			$i ++;
 		}
 		

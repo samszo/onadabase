@@ -872,28 +872,59 @@
 		$arrListeRub = $gra->GetListeEnfants();
 		
 		$synchro = new Synchro($objSite, -1);
+		$g = new Grille($objSite);
 		
 		foreach($arrListeRub as $rubrique) {
+			if (TRACE) echo '+++ ExeAjax:ClearRubriqueParent:rubrique:'.$rubrique['id'];
 			$arrListArticles = $synchro->GetArticlesPb($rubrique['id']);
-			if (sizeof($arrListArticles) !=0) $synchro->SupprimerArticles($arrListArticles);
+			if (sizeof($arrListArticles) !=0) {
+				foreach ($arrListArticles as $article){
+					if (TRACE) echo '+++ ExeAjax:ClearRubriqueParent:idDonnee:'.$article['idDonnee'];
+					$critere = $g->GetValeur($article['idDonnee'], 'ligne_3');
+					if (TRACE) echo '+++ ExeAjax:ClearRubriqueParent:critere:'.$critere;
+					if ($rubrique['id']!=-1) {
+						$arrListeDonnee = $synchro->GetHistoriqueCritere($rubrique['id'], $critere, 59, 'ligne_1');
+						if ($arrListeDonnee!=null) {
+							if (TRACE) echo '+++ ExeAjax:ClearRubriqueParent:arrListeDonnee[0]:'.$arrListeDonnee[0]['id'];
+							$row = array("grille"=>59,"champ"=>'mot_1',"valeur"=>124); // 124 : N. A.
+							$g->SetChamp($row, $arrListeDonnee[0]['id']); 
+						}
+					}
+				}
+				$synchro->SupprimerArticles($arrListArticles);
+			}
 		}
 		
-		$g = new Grille($objSite);
 		$xul = $g->GetTreeProb($idRub);
-
 		return $xul;
-		
 	}
 	
 	function ClearRubrique($idRub, $idParentRub) {
 		
 		global $objSite;
 		
+		$synchro = new Synchro($objSite, -1);
+		$g = new Grille($objSite);
 		
 		$arrListArticles = $synchro->GetArticlesPb($idRub);
-		if (sizeof($arrListArticles) !=0) $synchro->SupprimerArticles($arrListArticles);
 		
-		$g = new Grille($objSite);
+		if ($arrListArticles !=null) {
+			foreach ($arrListArticles as $article){
+				if (TRACE) echo '+++ ExeAjax:ClearRubrique:id_donnee:'.$article['idDonnee'];
+				$critere = $g->GetValeur($article['idDonnee'], 'ligne_3');
+				if (TRACE) echo '+++ ExeAjax:ClearRubrique:critere:'.$critere;
+				if ($idRub!=-1) {
+					$arrListeDonnee = $synchro->GetHistoriqueCritere($idRub, $critere, 59, 'ligne_1');
+					if ($arrListeDonnee!=null) {
+						if (TRACE) echo '+++ ExeAjax:ClearRubrique:arrListeDonnee[0]:'.$arrListeDonnee[0]['id'];
+						$row = array("grille"=>59,"champ"=>'mot_1',"valeur"=>124); // 124 : N. A.
+						$g->SetChamp($row, $arrListeDonnee[0]['id']); 
+					}
+				}
+			}
+			$synchro->SupprimerArticles($arrListArticles);
+		}
+		
 		$xul = $g->GetTreeProb($idParentRub);
 
 		return $xul;
