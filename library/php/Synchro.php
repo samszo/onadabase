@@ -554,7 +554,7 @@ Class Synchro{
 		$this->DelFormsDonneesArticles($idArticle);
 		$this->DelFormsArticles($idArticle);
 		$this->DelAuteursArticles($idArticle);
-		$this->DelDocumentsArticles($article['id]']);
+		$this->DelDocumentsArticles($idArticle);
 		$this->DelArticle($idArticle);
 		if (TRACE) echo "</article>";
 	}
@@ -849,6 +849,44 @@ Class Synchro{
 		}
 
 		return $arrliste;		
+	}
+	
+	function GetRubrique($idArticle) {
+		
+		$sql = "SELECT a.id_rubrique
+				FROM spip_articles a 
+				WHERE a.id_article = ".$idArticle;
+			
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	
+		if($data = $DB->fetch_assoc($req)) {
+			return $data['id_rubrique'];
+		}
+		else return -1;	
+	}
+	
+	function GetHistoriqueCritere($idRubrique, $critere, $idGrille, $champ) {
+		
+		$sql = "SELECT sfd.id_donnee idDonnee, sa.id_article IdArt, sfdc.champ, sfdc.valeur
+				FROM spip_forms_donnees sfd
+				INNER JOIN spip_articles sa ON sa.id_rubrique = ".$idRubrique." 
+				INNER JOIN spip_forms_donnees_articles sfda ON sfd.id_donnee = sfda.id_donnee AND sfda.id_article = sa.id_article
+				INNER JOIN spip_forms_donnees_champs sfdc ON sfdc.id_donnee = sfda.id_donnee AND sfdc.champ = '".$champ."' AND sfdc.valeur = '".$critere."'
+				WHERE id_form = ".$idGrille." GROUP BY IdArt DESC;";
+			
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			$arrliste[$i] = array("id"=>$data['idDonnee']);
+			$i ++;
+		}
+
+		return $arrliste;	
 	}
 	
 }

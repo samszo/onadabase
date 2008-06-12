@@ -345,6 +345,21 @@ class Grille{
 		
 	}
 	
+	function GetIdMot($titre) {
+		//récupère la valeur d'un champ
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetIdMot']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-titre-", $titre, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		$row =  $db->fetch_assoc($rows);
+		return $row['id_mot'];
+		
+	}
+	
 	function GetGrilleId($rows, $donId) {
 
     	$Xpath = "/XmlParams/XmlParam/majliee[@srcId='55;ligne_1']/@dstQuery";
