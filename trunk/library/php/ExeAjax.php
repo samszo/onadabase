@@ -819,12 +819,46 @@
 		
 		global $objSite;
 		
+		$g = new Grille($objSite);
 		$synchro = new Synchro($objSite, -1);
 		$idArticle = $synchro->GetArticleDonnee($idDonnee);
-		if ($idArticle !=-1) $synchro->SupprimerArticle($idArticle);
 		
-		$g = new Grille($objSite);
-		
+		if (TRACE) echo '+++ ExeAjax:ClearArticle:idArticle:'.$idArticle;
+		if ($idArticle !=-1) {	
+			$critere = $g->GetValeur($idDonnee, 'ligne_3');
+			if (TRACE) echo '+++ ExeAjax:ClearArticle:critere:'.$critere;
+			$idRubrique = $g->GetRubDon($idDonnee);
+			if (TRACE) echo '+++ ExeAjax:ClearArticle:idRubrique:'.$idRubrique;
+			$synchro->SupprimerArticle($idArticle);
+			//$idRub = $synchro->GetRubrique($idArticle);
+			if ($idRubrique!=-1) {
+				$arrListeDonnees = $synchro->GetHistoriqueCritere($idRubrique, $critere, 60, 'ligne_3');
+				//if (sizeof($arrListeDonnees)!=0) {
+				if ($arrListeDonnees!=null) {
+					if (TRACE) echo '+++ ExeAjax:ClearArticle:arrListeDonnees:'.$arrListeDonnees[0]['id'];
+					$reponse = $g->GetValeur($arrListeDonnees[0]['id'], 'ligne_5');
+					if (TRACE) echo '+++ ExeAjax:ClearArticle:reponse:'.$reponse;
+					$idMot = $g->GetIdMot($reponse);
+					if (TRACE) echo '+++ ExeAjax:ClearArticle:idMot:'.$idMot;
+					$arrListeDonnee = $synchro->GetHistoriqueCritere($idRubrique, $critere, 59, 'ligne_1');
+					//if (sizeof($arrListeDonnee)!=0) {
+					if ($arrListeDonnee!=null) {
+						if (TRACE) echo '+++ ExeAjax:ClearArticle:arrListeDonnee[0]:'.$arrListeDonnee[0]['id'];
+						$row = array("grille"=>59,"champ"=>'mot_1',"valeur"=>$idMot);
+						$g->SetChamp($row, $arrListeDonnee[0]['id']);
+					}
+				} else {
+					$arrListeDonnee = $synchro->GetHistoriqueCritere($idRubrique, $critere, 59, 'ligne_1');
+					//if (sizeof($arrListeDonnee)!=0) {
+					if ($arrListeDonnee!=null) {
+						if (TRACE) echo '+++ ExeAjax:ClearArticle:arrListeDonnee[0]:'.$arrListeDonnee[0]['id'];
+						$row = array("grille"=>59,"champ"=>'mot_1',"valeur"=>124); // 124 : N. A.
+						$g->SetChamp($row, $arrListeDonnee[0]['id']); 
+					}
+				}
+			}
+		}
+		if (TRACE) echo '+++ ExeAjax:ClearArticle:idRub:'.$idRub;
 		$xul = $g->GetTreeProb($idRub);
 
 		return $xul;
