@@ -116,7 +116,7 @@ class Grille{
 		    </treeitem>";
 			*/
 
-		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_SIG_PROB"].DELIM.$r["idDon"].DELIM."-champ-".DELIM.$r["idArt"];
+		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_SIG_PROB"].DELIM.$r["idDon"].DELIM."Modif".DELIM.$r["idArt"];
 		$xul.="<row>";
 			$xul.="<vbox hidden='true' >";
 				$xul.="<label id='".$idDoc."' value='".$idDoc."' />";
@@ -127,7 +127,7 @@ class Grille{
 					$xul.="<label value='".$r["titreRubPar"]."'/>";
 					$xul.="<hbox>";
 						$xul.="<label id='adminRubPar_".$r["idRubPar"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRubPar"].");\" value=\"Admin\"/>";
-			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+			    		$xul.="<!--<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' /> -->";
 			    		$xul.="<image onclick=\"DelRubriqueParent('".$r["idRubPar"]."');\" src='images/check_no.png' />";
 			    	$xul.="</hbox>";
 				}
@@ -138,7 +138,7 @@ class Grille{
 					$xul.="<label value='".$r["titreRub"]."'/>";
 					$xul.="<hbox>";
 						$xul.="<label id='adminRub_".$r["idRub"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRub"].");\" value=\"Admin\"/>";
-			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+			    		$xul.="<!--<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' /> -->";
 			    		$xul.="<image onclick=\"DelRubrique('".$r["idRub"]."', '".$idRub."');\" src='images/check_no.png' />";
 			    	$xul.="</hbox>";
 				}
@@ -304,6 +304,13 @@ class Grille{
 							$gra->SetMotClef($wf['trsId'],$id);
 						}	
 					}
+					break;	
+				case "ShowDonnee":	
+					if($wf['trsId']==$this->site->infos["GRILLE_SIG_PROB"]) {
+						//récupère le formulaire xul
+						$xul = $this->GetXulForm($donId,$wf['trsId']);
+					}
+					return $xul;
 					break;	
 				default:								
 					if($this->trace)

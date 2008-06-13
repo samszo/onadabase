@@ -977,7 +977,10 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ;valeur" srcId="60;Modif" dstObj="Article" dstQuery="ShowArtGrille" />
 		<!-- suppression d'un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="60;Sup" dstObj="Article" dstQuery="ShowSupArtGrille" />
-
+		
+		<!-- affichage signalement pb -->
+		<workflow srcObj="grille;champ;valeur" srcId="60;-champ-" trsId="60" dstQuery="ShowDonnee" />
+		
 		<!-- Espaces intérieurs spécifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="56" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="57" />
