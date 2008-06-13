@@ -259,12 +259,12 @@ function SetVal(idDoc){
 	var url = urlExeAjax+"?f="+f+"&idGrille="+arrDoc[1]+"&idDon="+arrDoc[2]+"&champ="+arrDoc[3]+"&val="+val+"&login="+login;
 	
 	//dump("SetNewGrille "+url+"\n");
-	//alert("SetVal "+arrDoc[0]+", "+arrDoc[1]+", "+arrDoc[2]+", "+ arrDoc[3]+", "+arrDoc[4]+", "+val]);
+	//alert("SetVal 0 "+arrDoc[0]+", 1 "+arrDoc[1]+", 2 "+arrDoc[2]+", 3 "+ arrDoc[3]+", 4 "+arrDoc[4]+", val "+val);
 	//récupère le formulaire de signalisation d'un problème dans le cas d'un diagnostic
 	if(arrDoc[1]=="59" || arrDoc[3]=="Modif" || arrDoc[3]=="Sup" ) {
 		//var reponse = AppendResult(url,doc.parentNode,true);
 		
-		if (arrDoc[3]=="mot_1" && val==2) {
+		if (arrDoc[3]=="mot_1" && val==2 || arrDoc[3]=="Modif") {
 			//var reponse = GetXmlFicToDoc(url);
 			//ajout de l'argument du popup
 			url +="&ppp=1";
