@@ -38,6 +38,16 @@ function DelArticle(idDonnee, idSrc) {
 	}
 }
 
+function DelArticleObs(idDonnee, idSrc) {
+	try {
+		var doc = document.getElementById("FormSaisi");
+		var url = urlExeAjax+"?f=ClearArticleObs&idDonnee="+idDonnee+"&idRub="+idSrc;
+		AppendResult(url,doc);
+	} catch(ex2){
+		alert("DelArticleObs::"+ex2+" " +"url="+url);
+	}
+}
+
 function DelRubrique(idRub, idSrc) {
 	try {
 		var answer = confirm("Voulez vous réellement supprimer toutes les fiches signalement de problème de cette rubrique?")
@@ -52,6 +62,20 @@ function DelRubrique(idRub, idSrc) {
 	}
 }
 
+function DelRubriqueObs(idRub, idSrc) {
+	try {
+		var answer = confirm("Voulez vous réellement supprimer toutes les fiches observations de cette rubrique?")
+		if (answer){
+			var doc = document.getElementById("FormSaisi");
+			var url = urlExeAjax+"?f=ClearRubriqueObs&&idRub="+idRub+"&idRubParent="+idSrc;
+			AppendResult(url,doc);
+		}
+				
+	} catch(ex2){
+		alert("DelRubriqueObs::"+ex2+" " +"url="+url);
+	}
+}
+
 function DelRubriqueParent(idRub) {
 	try {
 		var answer = confirm("Voulez vous réellement supprimer toutes les fiches signalement de problème de cette rubrique?")
@@ -63,6 +87,20 @@ function DelRubriqueParent(idRub) {
 				
 	} catch(ex2){
 		alert("DelRubriqueParent::"+ex2+" " +"url="+url);
+	}
+}
+
+function DelRubriqueParentObs(idRub) {
+	try {
+		var answer = confirm("Voulez vous réellement supprimer toutes les fiches observations de cette rubrique?")
+		if (answer){
+			var doc = document.getElementById("FormSaisi");
+			var url = urlExeAjax+"?f=ClearRubriqueParentObs&&idRubParent="+idRub;
+			AppendResult(url,doc);
+		}
+				
+	} catch(ex2){
+		alert("DelRubriqueParentObs::"+ex2+" " +"url="+url);
 	}
 }
 
@@ -261,15 +299,25 @@ function SetVal(idDoc){
 	//dump("SetNewGrille "+url+"\n");
 	//alert("SetVal 0 "+arrDoc[0]+", 1 "+arrDoc[1]+", 2 "+arrDoc[2]+", 3 "+ arrDoc[3]+", 4 "+arrDoc[4]+", val "+val);
 	//récupère le formulaire de signalisation d'un problème dans le cas d'un diagnostic
-	if(arrDoc[1]=="59" || arrDoc[3]=="Modif" || arrDoc[3]=="Sup" ) {
+	if(arrDoc[1]=="59" || arrDoc[3]=="Modif" || arrDoc[3]=="Sup") {
 		//var reponse = AppendResult(url,doc.parentNode,true);
 		
-		if (arrDoc[3]=="mot_1" && val==2 || arrDoc[3]=="Modif") {
+		if (arrDoc[3]=="mot_1" && val==2 || arrDoc[3]=="Modif" ) {
 			//var reponse = GetXmlFicToDoc(url);
 			//ajout de l'argument du popup
 			url +="&ppp=1";
 			window.open(url,'_blank','width=650,height=400,resizable=no,left=200,top=200');
-		} 
+		} else {
+			if (arrDoc[3]=="mot_1" && val==151 || arrDoc[3]=="Sup") {
+				//var reponse = GetXmlFicToDoc(url);
+				//ajout de l'argument du popup
+				url +="&ppp=2";
+				window.open(url,'_blank','width=650,height=300,resizable=no,left=200,top=200');
+			}  else {
+					AppendResult(url,doc.parentNode,true);
+					}
+		}
+		
 	}else
 		AjaxRequest(url,"AfficheResult","trace"+doc.id);
 	
@@ -452,6 +500,29 @@ function ChargeTreeProb(idSrc,idDst)
 	dump("ChargeTreeProb OUT\n");
    
    } catch(ex2){alert(":ChargeTreeProb:"+ex2+" url="+url);}
+	
+}
+
+function ChargeTreeObs(idSrc,idDst)
+{
+  try {
+	//alert("ChargeTreeFromAjax IN "+type+"\n");
+
+	var id = document.getElementById(idSrc).value;
+	var doc = document.getElementById(idDst);
+	//pour ne charger qu'une fois le tree
+	//if(document.getElementById('tree'+type))
+	//	return
+
+
+	var url = urlExeAjax+"?f=GetTreeObs&id="+id;
+	//alert("ChargeTreeFromAjax url "+url+"\n");
+	//AjaxRequest(url,'AppendTreeChildren',parentitem)
+	AppendResult(url,doc);
+	
+	dump("ChargeTreeObs OUT\n");
+   
+   } catch(ex2){alert(":ChargeTreeObs:"+ex2+" url="+url);}
 	
 }
 

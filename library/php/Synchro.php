@@ -773,13 +773,13 @@ Class Synchro{
 		} else return -1;		
 	}
 	
-	function GetArticlesPb($idRub, $extraSql="") {
+	function GetArticles($idRub, $idGrille, $extraSql="") {
 		
 		$sql = "SELECT a.id_article, fd.id_donnee
 				FROM spip_articles a
 				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
-				AND fd.id_form =60
+				AND fd.id_form =".$idGrille." 
 				WHERE a.id_rubrique = ".$idRub." ".$extraSql."
 				";
 		//echo $sql."<br/>";

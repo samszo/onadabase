@@ -689,6 +689,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					, rp.id_rubrique idRubPar, rp.titre titreRubPar
 					, fd.id_donnee idDon
 					, fdc.valeur idCont
+					, fdc1.valeur idPbPlan
 					, fdcc1.valeur TextCont
 					, m.titre RepCont
 				</select>
@@ -701,7 +702,56 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					 AND fd.id_form =60
 					 INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 					 AND fdc.champ = 'ligne_3'
+					INNER JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee
+					 AND fdc1.champ = 'ligne_1'
+					 
+					INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
 					
+					
+					INNER JOIN spip_articles a1 ON a1.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda1 ON fda1.id_article = a1.id_article
+					INNER JOIN spip_forms_donnees fdp ON fdp.id_donnee = fda1.id_donnee
+					AND fdp.id_form =59
+					INNER JOIN spip_forms_donnees_champs fdcc ON fdcc.id_donnee = fdp.id_donnee
+					AND fdcc.champ = 'ligne_1'
+					 AND fdcc.valeur = fdc.valeur
+					INNER JOIN spip_forms_donnees_champs fdcc1 ON fdcc1.id_donnee = fdcc.id_donnee
+					AND fdcc1.champ = 'ligne_2'
+					INNER JOIN spip_forms_donnees_champs fdcc2 ON fdcc2.id_donnee = fdcc.id_donnee
+					AND fdcc2.champ = 'mot_1'
+					INNER JOIN spip_mots m ON m.id_mot = fdcc2.valeur
+					
+				</from>
+				<where> WHERE r.id_rubrique IN(-ids-) GROUP BY idRubPar, idRub, IdArt ORDER BY idRubPar, idRub, IdArt, idCont</where>
+				<dst>Art</dst>
+			</Query>
+
+			<Query fonction="Grille_GetListeObservations">
+				<select>
+				SELECT a.id_article idArt, a.titre titreArt, a.date aDate
+					, r.id_rubrique idRub, r.titre titreRub
+					, rp.id_rubrique idRubPar, rp.titre titreRubPar
+					, fd.id_donnee idDon
+					, fdc.valeur idCont
+					, fdc1.valeur obs
+					, fdc2.valeur idPbPlan
+					, fdcc1.valeur TextCont
+					, m.titre RepCont
+				</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					
+					 INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					 INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee
+					 AND fd.id_form =67
+					 INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
+					 AND fdc.champ = 'ligne_5'
+					INNER JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee
+					 AND fdc1.champ = 'ligne_3'
+					 INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee
+					 AND fdc2.champ = 'ligne_2'
+					 
 					INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
 					
 					
@@ -972,14 +1022,19 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		
 		<!-- Reponse non à un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
-
+		
+		<!-- Reponse Observations à un diagnostic -->
+		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="151" dstObj="Rubrique" trsId="67" dstQuery="AddNewArtGrille" />
+		
 		<!-- affichage d'un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="60;Modif" dstObj="Article" dstQuery="ShowArtGrille" />
 		<!-- suppression d'un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="60;Sup" dstObj="Article" dstQuery="ShowSupArtGrille" />
 		
 		<!-- affichage signalement pb -->
-		<workflow srcObj="grille;champ;valeur" srcId="60;-champ-" trsId="60" dstQuery="ShowDonnee" />
+		<workflow srcObj="grille;champ;valeur" srcId="60;Modif" trsId="60" dstQuery="ShowDonnee" />
+		<!-- affichage observation -->
+		<workflow srcObj="grille;champ;valeur" srcId="67;Sup" trsId="67" dstQuery="ShowDonnee" />
 		
 		<!-- Espaces intérieurs spécifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="56" />
