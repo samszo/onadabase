@@ -109,7 +109,8 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			<menuitem label="Ajouter un territoire" oncommand="AddNewRubrique(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popetab" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir la(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
 			<menuitem label="Voir le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
 			<menuitem label="Voir la(les) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
@@ -127,7 +128,8 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			<menuitem label="Ajouter un espace" oncommand="AddNewGrille('Espace');"/>
 		</popup>
 		<popup id="popbat" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir la(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
 			<menuitem label="Voir le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
 			<menuitem label="Voir la(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>
@@ -139,7 +141,8 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			
 		</popup>
 		<popup id="popniveau" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir la(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
 			<menuitem label="Voir le(s) espace(s) intérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces intérieurs','espaceint','EspaceInt');"/>
 			<menuitem label="Ajouter un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
 			<menuitem label="Voir les objets intérieurs" oncommand="RefreshEcran(document.getElementById('idRub').value,'Tous les objets','objetint','ObjetInt');"/>
@@ -171,11 +174,13 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			<menuitem label="Ajouter un objet extérieur" oncommand="AddNewGrille('ObjetExt');"/>
 		</popup>
 		<popup id="popespaceext" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir la(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espaceextparamgen','EspaceExtParamGen');"/>
 		</popup>
 		<popup id="popobjetext" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) problèmes" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			<menuitem label="Voir la(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgenext','ObjetGenExt');"/>
 		</popup>
 		<popup id="popSyncSrc" onpopupshowing="javascript:;">

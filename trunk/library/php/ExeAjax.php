@@ -33,6 +33,9 @@
 		case 'GetTreeProb':
 			$resultat = GetTreeProb($_GET['id']);
 			break;
+		case 'GetTreeObs':
+			$resultat = GetTreeObs($_GET['id']);
+			break;
 		case 'GetFilAriane':
 			$resultat = GetFilAriane(array($_GET['titre'],$_GET['typeDrc'],$_GET['typeDst']),$id);
 			break;
@@ -90,11 +93,20 @@
 		case 'ClearArticle':
 			$resultat = ClearArticle($_GET['idDonnee'], $_GET['idRub']);
 			break;
+		case 'ClearArticleObs':
+			$resultat = ClearArticleObs($_GET['idDonnee'], $_GET['idRub']);
+			break;
 		case 'ClearRubrique':
 			$resultat = ClearRubrique($_GET['idRub'], $_GET['idRubParent']) ;
 			break;
 		case 'ClearRubriqueParent':
 			$resultat = ClearRubriqueParent($_GET['idRubParent']) ;
+			break;
+		case 'ClearRubriqueObs':
+			$resultat = ClearRubriqueObs($_GET['idRub'], $_GET['idRubParent']) ;
+			break;
+		case 'ClearRubriqueParentObs':
+			$resultat = ClearRubriqueParentObs($_GET['idRubParent']) ;
 			break;
 		default:
 			//$resultat = AddDocToArt();
@@ -477,7 +489,7 @@
 		if(TRACE)
 			echo "ExeAjax:SetVal:row=".print_r($row)."<br/>";
 		
-		if($champ!="Modif" && $champ!="Sup")
+		if($champ!="Modif" && $champ!="Sup" && $val!=151)
 			$g->SetChamp($row, $idDon);
 
 		//gestion du workflow
@@ -489,6 +501,11 @@
 			$pppxul = new Xul($objSite);
 			return $pppxul->GetPopUp($xul,"Signalement problème ".$g->GetValeur($idDon,"ligne_1"), $login);
 		} 
+		if ($ppp==2){
+			$pppxul = new Xul($objSite);
+			return $pppxul->GetPopUp($xul,"Observations ".$g->GetValeur($idDon,"ligne_1"), $login);
+		} 
+		
 		
 		return $xul;
 
@@ -578,6 +595,19 @@
 		$g = new Grille($objSite);
 		
 		$xul = $g->GetTreeProb($idRub);
+
+		//header('Content-type: application/vnd.mozilla.xul+xml');
+		//$xul = "<box>".$xul."</box>";
+
+		return $xul;
+		
+	}
+	
+	function GetTreeObs($idRub){
+		global $objSite;
+		$g = new Grille($objSite);
+		
+		$xul = $g->GetTreeObs($idRub);
 
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
@@ -864,6 +894,26 @@
 		return $xul;
 	}
 	
+	function ClearArticleObs($idDonnee, $idRub) {
+		
+		global $objSite;
+		
+		$synchro = new Synchro($objSite, -1);
+		
+		if (TRACE) echo '+++ ExeAjax:ClearArticleObs:idDonnee:'.$idDonnee;
+		$idArticle = $synchro->GetArticleDonnee($idDonnee);
+	
+		if ($idArticle !=-1) {	
+			$synchro->SupprimerArticle($idArticle);
+		}
+		
+		$g = new Grille($objSite);
+		if (TRACE) echo '+++ ExeAjax:ClearArticleObs:idRub:'.$idRub;
+		$xul = $g->GetTreeObs($idRub);
+
+		return $xul;
+	}
+	
 	function ClearRubriqueParent($idRub) {
 		
 		global $objSite;
@@ -876,17 +926,17 @@
 		
 		foreach($arrListeRub as $rubrique) {
 			if (TRACE) echo '+++ ExeAjax:ClearRubriqueParent:rubrique:'.$rubrique['id'];
-			$arrListArticles = $synchro->GetArticlesPb($rubrique['id']);
+			$arrListArticles = $synchro->GetArticles($rubrique['id'], $objSite->infos["GRILLE_SIG_PROB"]);
 			if (sizeof($arrListArticles) !=0) {
 				foreach ($arrListArticles as $article){
 					if (TRACE) echo '+++ ExeAjax:ClearRubriqueParent:idDonnee:'.$article['idDonnee'];
 					$critere = $g->GetValeur($article['idDonnee'], 'ligne_3');
 					if (TRACE) echo '+++ ExeAjax:ClearRubriqueParent:critere:'.$critere;
 					if ($rubrique['id']!=-1) {
-						$arrListeDonnee = $synchro->GetHistoriqueCritere($rubrique['id'], $critere, 59, 'ligne_1');
+						$arrListeDonnee = $synchro->GetHistoriqueCritere($rubrique['id'], $critere, $objSite->infos["GRILLE_REP_CON"], 'ligne_1');
 						if ($arrListeDonnee!=null) {
 							if (TRACE) echo '+++ ExeAjax:ClearRubriqueParent:arrListeDonnee[0]:'.$arrListeDonnee[0]['id'];
-							$row = array("grille"=>59,"champ"=>'mot_1',"valeur"=>124); // 124 : N. A.
+							$row = array("grille"=>$objSite->infos["GRILLE_REP_CON"],"champ"=>'mot_1',"valeur"=>124); // 124 : N. A.
 							$g->SetChamp($row, $arrListeDonnee[0]['id']); 
 						}
 					}
@@ -899,6 +949,27 @@
 		return $xul;
 	}
 	
+	function ClearRubriqueParentObs($idRub) {
+		
+		global $objSite;
+		
+		$gra = new Granulat($idRub, $objSite);
+		$arrListeRub = $gra->GetListeEnfants();
+		
+		$synchro = new Synchro($objSite, -1);
+		$g = new Grille($objSite);
+		
+		foreach($arrListeRub as $rubrique) {
+			if (TRACE) echo '+++ ExeAjax:ClearRubriqueParentObs:rubrique:'.$rubrique['id'];
+			$arrListArticles = $synchro->GetArticles($rubrique['id'], $objSite->infos["GRILLE_OBS"]);
+			if (sizeof($arrListArticles) !=0) 
+				$synchro->SupprimerArticles($arrListArticles);
+		}
+	
+		$xul = $g->GetTreeObs($idRub);
+		return $xul;
+	}
+		
 	function ClearRubrique($idRub, $idParentRub) {
 		
 		global $objSite;
@@ -906,7 +977,7 @@
 		$synchro = new Synchro($objSite, -1);
 		$g = new Grille($objSite);
 		
-		$arrListArticles = $synchro->GetArticlesPb($idRub);
+		$arrListArticles = $synchro->GetArticles($idRub, $objSite->infos["GRILLE_SIG_PROB"]);
 		
 		if ($arrListArticles !=null) {
 			foreach ($arrListArticles as $article){
@@ -926,6 +997,24 @@
 		}
 		
 		$xul = $g->GetTreeProb($idParentRub);
+
+		return $xul;
+	}
+	
+	function ClearRubriqueObs($idRub, $idParentRub) {
+		
+		global $objSite;
+		
+		$synchro = new Synchro($objSite, -1);
+		$g = new Grille($objSite);
+		
+		$arrListArticles = $synchro->GetArticles($idRub, $objSite->infos["GRILLE_OBS"]);
+		
+		if ($arrListArticles !=null) {
+			$synchro->SupprimerArticles($arrListArticles);
+		}
+	
+		$xul = $g->GetTreeObs($idParentRub);
 
 		return $xul;
 	}

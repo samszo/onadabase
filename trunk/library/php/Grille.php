@@ -160,7 +160,7 @@ class Grille{
 			$xul.="<vbox>";
 				if($r["idCont"]!=$oidCont){
 					$xul.="<hbox>";
-						$xul.="<label value=\"".$this->site->XmlParam->XML_entities($r["TextCont"])."\"/>";
+						$xul.="<label value=\"Problème n ° ".$r["idPbPlan"]." : ".$this->site->XmlParam->XML_entities($r["TextCont"])."\"/>";
 						$xul.="<label value='(".$r["idCont"].")'/>";
 		    		$xul.="</hbox>";
 				}
@@ -191,11 +191,129 @@ class Grille{
 			$oidRub=$r["idRub"];
 			$oidArt=$r["idArt"];
 			$oidCont=$r["idCont"];
-			
 		
 		}
 		//$xul .= "</treechildren></tree>";    
 		//$xul .="</richlistbox>";
+		$xul .='</rows>';	
+		$xul .='</grid>';	
+		
+		
+	   	return $xul;
+    	
+    }
+    
+    function GetTreeObs($idRub){
+    	
+    	$g = new Granulat($idRub,$this->site);
+    	//récupère les rubriques enfants
+    	$ids = str_replace(DELIM,",",$g->GetEnfantIds());
+    	$ids .= "-1";
+    	
+		//récupère les identifiants des rubriques de la racine ayant un problème
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetListeObservations']";
+		if($this->trace)
+			echo "Grille:GetTreeObs:Xpath".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $ids, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$result = $db->query($sql);
+		//if($this->trace)
+			echo "Grille:GetTreeObs:".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->close();
+		
+		$xul ='<grid flex="1">';
+		//on cache la colonne de référence	
+		$xul.='<columns>';	
+			$xul.='<column flex="1" hidden="true"/>';	
+			$xul.='<column flex="1"/>';
+			$xul.='<column flex="1"/>';			
+			$xul.='<column flex="1" hidden="true"/>';			
+			$xul.='<column flex="1"/>';			
+		$xul.='</columns>';	
+		$xul.='<rows>';
+
+		$oidRubPar=-1;
+		$oidRub=-1;
+		$oidArt=-1;
+		
+		while ($r =  $db->fetch_assoc($result)) {
+			if($this->trace)
+				echo "Grille:GetTreeObs:".$r["idRub"]." ".$r["idArt"]." ".$r["idDon"]."<br/>";
+
+		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_OBS"].DELIM.$r["idDon"].DELIM."Sup".DELIM.$r["idArt"];
+		$xul.="<row>";
+			$xul.="<vbox hidden='true' >";
+				$xul.="<label id='".$idDoc."' value='".$idDoc."' />";
+			$xul.="</vbox>";
+
+			$xul.="<vbox>";
+				if($r["idRubPar"]!=$oidRubPar){
+					$xul.="<label value='".$r["titreRubPar"]."'/>";
+					$xul.="<hbox>";
+						$xul.="<label id='adminRubPar_".$r["idRubPar"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRubPar"].");\" value=\"Admin\"/>";
+			    		$xul.="<!--<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' /> -->";
+			    		$xul.="<image onclick=\"DelRubriqueParentObs('".$r["idRubPar"]."');\" src='images/check_no.png' />";
+			    	$xul.="</hbox>";
+				}
+			$xul.="</vbox>";
+			
+			$xul.="<vbox>";
+				if($r["idRub"]!=$oidRub){
+					$xul.="<label value='".$r["titreRub"]."'/>";
+					$xul.="<hbox>";
+						$xul.="<label id='adminRub_".$r["idRub"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRub"].");\" value=\"Admin\"/>";
+			    		$xul.="<!--<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' /> -->";
+			    		$xul.="<image onclick=\"DelRubriqueObs('".$r["idRub"]."', '".$idRub."');\" src='images/check_no.png' />";
+			    	$xul.="</hbox>";
+				}
+			$xul.="</vbox>";
+
+			
+			$xul.="<vbox hidden='true'>";
+				if($r["idArt"]!=$oidArt){
+					$xul.="<label value='".$r["titreArt"]."'/>";
+					$xul.="<hbox>";
+						$xul.="<label id='adminArt_".$r["idArt"]."' class='text-linkAdmin' onclick=\"OuvreArticle(".$r["idArt"].");\" value=\"Admin\"/>";
+						$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+			    		$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
+			    	$xul.="</hbox>";
+				}
+			$xul.="</vbox>";
+			
+			
+			$xul.="<vbox>";
+				if($r["idCont"]!=$oidCont){
+					$xul.="<hbox>";
+						$xul.="<label value=\"Problème n ° ".$r["idPbPlan"]." : ".$this->site->XmlParam->XML_entities($r["TextCont"])."\"/>";
+						$xul.="<label value='(".$r["idCont"].")'/>";
+						$xul.="<!--<label value=' Commentaires : ".$r["obs"]."'/> -->";
+		    		$xul.="</hbox>";
+				}
+				if($r["obs"]!=$oidObs) {
+					$xul.="<hbox>";
+						$xul.="<label value=\" Commentaires : ".$this->site->XmlParam->XML_entities($r["obs"])."\"/>";
+					$xul.="</hbox>";
+				}
+				$xul.="<hbox>";
+					$xul.="<label value='    - ".$r["RepCont"]."'/>";
+					$xul.="<label value='".$r["aDate"]."'/>";
+					$xul.="<label id='adminDon_".$r["idDon"]."' class='text-linkAdmin' onclick=\"OuvreDonnee(".$this->site->infos["GRILLE_SIG_PROB"].",".$r["idDon"].");\" value=\"Admin\"/>";
+					$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
+		    		$xul.="<image onclick=\"DelArticleObs('".$r["idDon"]."', '".$idRub."');\" src='images/check_no.png' />";
+		    	$xul.="</hbox>";
+			$xul.="</vbox>";
+						
+		    $xul.="</row>";	
+			$oidRubPar=$r["idRubPar"];
+			$oidRub=$r["idRub"];
+			$oidArt=$r["idArt"];
+			$oidCont=$r["idCont"];
+			$oidObs=$r["obs"];
+		}
+
 		$xul .='</rows>';	
 		$xul .='</grid>';	
 		
@@ -274,7 +392,7 @@ class Grille{
 								$reponseId = $this->GetValeur($donId,"mot_1");
 								$reponse = $this->GetMot($reponseId);
 								
-								$idArt = $gra->SetNewArticle($ref." ".date('j/m/y - H:i:s'));
+								$idArt = $gra->SetNewArticle("Problème ".$ref." ".date('j/m/y - H:i:s'));
 								//ajoute une nouvelle donnee
 								$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
 								if($this->trace)
@@ -284,9 +402,25 @@ class Grille{
 								$row2=array("champ"=>"ligne_5","valeur"=>$reponse);
 								$this->SetChamp($row2,$idDon);
 							}else{
-								$idArt = $gra->SetNewArticle($gTrs->titre." ".date('j/m/y - H:i:s'));
-								//ajoute une nouvelle donnee
-								$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);	
+								if($wf['trsId']==$this->site->infos["GRILLE_OBS"]){
+									$ref = $this->GetValeur($donId,"ligne_1");
+									$reponseId = $this->GetValeur($donId,"mot_1");
+									$reponse = $this->GetMot($reponseId);
+									
+									$idArt = $gra->SetNewArticle("Observations ".$ref." ".date('j/m/y - H:i:s'));
+									//ajoute une nouvelle donnee
+									$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);
+									if($this->trace)
+										echo "Grille:GereWorkflow://gestion pour les observations ".$ref."<br/>";
+									$row=array("champ"=>"ligne_5","valeur"=>$ref);
+									$this->SetChamp($row,$idDon);
+									$row2=array("champ"=>"ligne_1","valeur"=>$reponse);
+									$this->SetChamp($row2,$idDon);
+								} else {
+									$idArt = $gra->SetNewArticle($gTrs->titre." ".date('j/m/y - H:i:s'));
+									//ajoute une nouvelle donnee
+									$idDon = $this->AddDonnee($id, $wf['trsId'], false, $idArt);	
+								}
 							}
 							//récupère le formulaire xul
 							$xul = $this->GetXulForm($idDon,$wf['trsId']);
@@ -306,7 +440,7 @@ class Grille{
 					}
 					break;	
 				case "ShowDonnee":	
-					if($wf['trsId']==$this->site->infos["GRILLE_SIG_PROB"]) {
+					if($wf['trsId']==$this->site->infos["GRILLE_SIG_PROB"] || $wf['trsId']==$this->site->infos["GRILLE_OBS"]) {
 						//récupère le formulaire xul
 						$xul = $this->GetXulForm($donId,$wf['trsId']);
 					}
