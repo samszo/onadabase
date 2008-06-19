@@ -134,6 +134,7 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
 			<menuitem label="Voir la(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>
 			<menuitem label="Ajouter la(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('ObjetIntBat');"/>
+			<menuitem label="Copier le bâtiment" oncommand="CopyRub(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popBat" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter un niveau" oncommand="AddNewGrille('Niveau');"/>
@@ -147,6 +148,7 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			<menuitem label="Ajouter un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
 			<menuitem label="Voir les objets intérieurs" oncommand="RefreshEcran(document.getElementById('idRub').value,'Tous les objets','objetint','ObjetInt');"/>
 			<menuitem label="Ajouter un objet intérieur" oncommand="AddNewGrille('ObjetInt');"/>
+			<menuitem label="Copier le niveau" oncommand="CopyRub(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popNiveau" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
@@ -155,19 +157,23 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 		
 		<popup id="popobjetintbat" onpopupshowing="javascript:;">
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');"/>
+			<menuitem label="Copier la cabine d'ascenseur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
 		</popup>
 			
 		<popup id="popobjetint" onpopupshowing="javascript:;">
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');"/>
+			<menuitem label="Copier l'objet intérieur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popespaceint" onpopupshowing="javascript:;">
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espacegen','EspaceGen');"/>
+			<menuitem label="Copier l'espace intérieur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popparcelle" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) espace(s) extérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces extérieurs','espaceext','EspaceExt');"/>
 			<menuitem label="Ajouter un espace extérieur" oncommand="AddNewGrille('EspaceExt');"/>
 			<menuitem label="Voir les objets extérieurs" oncommand="RefreshEcran(document.getElementById('idRub').value,'Objets extérieurs','objetext','ObjetExt');"/>
 			<menuitem label="Ajouter un objet extérieur" oncommand="AddNewGrille('ObjetExt');"/>
+			<menuitem label="Copier la parcelle" oncommand="CopyRub(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popParcelle" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter un espace extérieur" oncommand="AddNewGrille('EspaceExt');"/>
@@ -177,11 +183,13 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			<menuitem label="Voir le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir la(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espaceextparamgen','EspaceExtParamGen');"/>
+			<menuitem label="Copier l'espace extérieur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popobjetext" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
 			<menuitem label="Voir la(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
 			<menuitem label="Voir les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgenext','ObjetGenExt');"/>
+			<menuitem label="Copier l'objet extérieur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
 		</popup>
 		<popup id="popSyncSrc" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter les objets local au serveur" oncommand="SyncAjout(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>

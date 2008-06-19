@@ -1081,6 +1081,92 @@ class Granulat
 		return $valeur;
 	}
 
+	public function GetParent($id = "") {
+		
+		if($id =="")
+			$id = $this->id;
+			
+		//récupère les sous thème
+		$sql = "SELECT id_rubrique, titre, r.id_parent
+			FROM spip_rubriques r
+			WHERE r.id_rubrique = ".$id;
+	
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if($r = $DB->fetch_assoc($req)) {
+			return $r['id_parent'];
+		} else return -1;
+	}
+	
+	public function CopyRub($idParent) {
+		
+		//$idParent = $this->GetParent($this->id);
+		if($this->trace) echo "Granulat/copy/- idParent ".$idParent."<br/>";
+		$arrListeEnfants = $this->GetEnfants();
+		//$idArticle = $this->GetArticle();
+		//if($this->trace) echo "Granulat/copy/- arrListeEnfants ".print_r($arrListeEnfants)."<br/>";
+		
+		$motclef = $this->GetMotClef();
+		
+		$arrListeInfoArticle = $this->GetArticleInfo();
+		
+		$g = new Granulat($idParent, $this->site);
+		$idEnfant = $g->SetNewEnfant($this->titre);
+		$gra = new Granulat($idEnfant, $this->site);
+		$gra->descriptif = $this->descriptif;
+		$gra->texte = $this->texte;
+		if ($motclef!="") $gra->SetMotClef($motclef);
+		
+		if ($arrListeInfoArticle != null) {
+			if($this->trace) echo "Granulat/copy/- arrListeInfoArticle ".print_r($arrListeInfoArticle)."<br/>";
+			
+			foreach($arrListeInfoArticle as $article) {
+				$idArt = $gra->SetNewArticleComplet($article['titre'], $article['date'], $article['maj']);
+				$idGrille = $gra->GetFormId($article['id']);
+				if($this->trace) echo "Granulat/copy/- idGrille ".$idGrille."<br/>";
+				$arrListeDonnees = $gra->GetIdDonneesTable($idGrille, $article['id']);
+				foreach($arrListeDonnees as $donnee) {
+		  			$idDon = $gra->AddIdDonnee($idGrille, $idArt, $donnee['date'], $donnee['maj']);
+					if($this->trace)
+						echo "Granulat/copy/- création de la donnee ".$idDon."<br/>";	
+		  			
+					$arrListeDonneeInfos = $gra->GetInfosDonnee($donnee['id']);
+					foreach($arrListeDonneeInfos as $Donnee) {
+						if($Donnee['valeur']!='non'){
+							$valeur=$Donnee['valeur'];
+							$champ = $Donnee['champ'];
+							if($this->trace)
+								echo "Granulat/copy/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+							if(substr($champ,0,8)=="multiple"){
+								$valeur=$champ;
+							//attention il ne doit pas y avoir plus de 10 choix
+								$champ=substr($champ,0,-2);
+							}
+							if($this->trace) {
+								echo "Granulat/copy/-- récupération du type de champ ".$champ."<br/>";
+								echo "Granulat/copy/-- récupération de la valeur du champ ".$valeur."<br/>";
+							}
+							$row = array('champ'=>$champ, 'valeur'=>$valeur);
+							
+							$grille = new Grille($gra->site);
+							if($this->trace)
+								echo "Granulat/copy/--- création du champ <br/>";
+							$grille->SetChamp($row, $idDon, false);
+						}
+					}
+				}	
+			}
+		}
+		
+		if ($arrListeEnfants != null) {
+			foreach($arrListeEnfants as $granulat) {
+				$granulat->CopyRub($idEnfant);
+			}
+		}		
+	}
+	
 }
 
 ?>
