@@ -115,7 +115,9 @@ class Grille{
 		      </treerow>
 		    </treeitem>";
 			*/
-
+		
+		if 	(!$r["ReponsePhoto"])	$r["ReponsePhoto"] = 'Non';
+				
 		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_SIG_PROB"].DELIM.$r["idDon"].DELIM."Modif".DELIM.$r["idArt"];
 		$xul.="<row>";
 			$xul.="<vbox hidden='true' >";
@@ -167,6 +169,7 @@ class Grille{
 				$xul.="<hbox>";
 					$xul.="<label value='    - ".$r["RepCont"]."'/>";
 					$xul.="<label value='".$r["aDate"]."'/>";
+					$xul.="<label value='Photo : ".$r["ReponsePhoto"]."'/>";
 					$xul.="<label id='adminDon_".$r["idDon"]."' class='text-linkAdmin' onclick=\"OuvreDonnee(".$this->site->infos["GRILLE_SIG_PROB"].",".$r["idDon"].");\" value=\"Admin\"/>";
 					$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
 		    		$xul.="<image onclick=\"DelArticle('".$r["idDon"]."', '".$idRub."');\" src='images/check_no.png' />";
@@ -243,6 +246,7 @@ class Grille{
 			if($this->trace)
 				echo "Grille:GetTreeObs:".$r["idRub"]." ".$r["idArt"]." ".$r["idDon"]."<br/>";
 
+		if 	(!$r["ReponsePhoto"])	$r["ReponsePhoto"] = 'Non';
 		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_OBS"].DELIM.$r["idDon"].DELIM."Sup".DELIM.$r["idArt"];
 		$xul.="<row>";
 			$xul.="<vbox hidden='true' >";
@@ -300,6 +304,7 @@ class Grille{
 				$xul.="<hbox>";
 					$xul.="<label value='    - ".$r["RepCont"]."'/>";
 					$xul.="<label value='".$r["aDate"]."'/>";
+					$xul.="<label value='Photo : ".$r["ReponsePhoto"]."'/>";
 					$xul.="<label id='adminDon_".$r["idDon"]."' class='text-linkAdmin' onclick=\"OuvreDonnee(".$this->site->infos["GRILLE_SIG_PROB"].",".$r["idDon"].");\" value=\"Admin\"/>";
 					$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
 		    		$xul.="<image onclick=\"DelArticleObs('".$r["idDon"]."', '".$idRub."');\" src='images/check_no.png' />";

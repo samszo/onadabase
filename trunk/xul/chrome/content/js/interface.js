@@ -16,6 +16,29 @@ var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
 
+function CopyRub(idDst) {
+	try {
+		var verif = true;
+		var doc = document.getElementById("FormSaisi");
+		
+		if(idDst=="?" || idDst=="-1"){
+			verif = false;
+		}
+				
+		//purge les formulaires déjà affiché
+		while(doc.hasChildNodes())
+			doc.removeChild(doc.firstChild);
+	
+		if(verif){
+			var url = urlExeAjax+"?f=CopyRub&idDst="+idDst;
+			//dump("SetNewGrille "+url+"\n");
+			AppendResult(url,doc);
+			alert("Copie terminée");
+		}
+
+  	} catch(ex2){alert("AddNewGrille::"+ex2+" "+type);;}
+}
+
 function OuvreLienAdmin(idRub){
 	window.open(lienAdminSpip+"/?exec=naviguer&id_rubrique="+idRub);
 }

@@ -690,8 +690,10 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					, fd.id_donnee idDon
 					, fdc.valeur idCont
 					, fdc1.valeur idPbPlan
+					, fdc2.valeur photo
 					, fdcc1.valeur TextCont
 					, m.titre RepCont
+					, m1.titre ReponsePhoto
 				</select>
 				<from> 
 					FROM spip_rubriques r
@@ -704,6 +706,9 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					 AND fdc.champ = 'ligne_3'
 					INNER JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee
 					 AND fdc1.champ = 'ligne_1'
+					 INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee
+					 AND fdc2.champ = 'mot_1'
+					 LEFT JOIN spip_mots m1 ON m1.id_mot = fdc2.valeur
 					 
 					INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
 					
@@ -737,6 +742,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					, fdc2.valeur idPbPlan
 					, fdcc1.valeur TextCont
 					, m.titre RepCont
+					, m1.titre ReponsePhoto
 				</select>
 				<from> 
 					FROM spip_rubriques r
@@ -751,6 +757,9 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					 AND fdc1.champ = 'ligne_3'
 					 INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee
 					 AND fdc2.champ = 'ligne_2'
+					 INNER JOIN spip_forms_donnees_champs fdc3 ON fdc3.id_donnee = fd.id_donnee
+					 AND fdc3.champ = 'mot_1'
+					 LEFT JOIN spip_mots m1 ON m1.id_mot = fdc3.valeur
 					 
 					INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
 					
@@ -874,7 +883,7 @@ INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
 				<where> WHERE dc.id_donnee =-id- AND fc.id_form =-idGrille-
 				ORDER BY dc.id_donnee, fc.rang, dc.champ</where>
 				<js evt="onchange" type="textbox" function="SetVal('-param0-')"/>
-				<js evt="onselect" type="radio" function="SetVal('-param0-');"/>
+				<js evt="onclick" type="radio" function="SetVal('-param0-');"/>
 				<js evt="oncommand" type="multiple" function="SetVal('-param0-');"/>
 				<js evt="oncommand" type="menu" function="SetVal('-param0-');"/>
 				<js evt="onclick" type="fichier" function="GetFichierKml('-param0-');"/>

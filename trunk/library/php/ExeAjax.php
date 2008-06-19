@@ -108,6 +108,9 @@
 		case 'ClearRubriqueParentObs':
 			$resultat = ClearRubriqueParentObs($_GET['idRubParent']) ;
 			break;
+		case 'CopyRub':
+			$resultat = CopyRub($_GET['idDst']) ;
+			break;
 		default:
 			//$resultat = AddDocToArt();
 	}
@@ -1030,6 +1033,7 @@
 		$synchro->CleanArticle($deb, $fin);
 	}
 	
+	
 	/*
 	 * Nettoye les données des rubriques inutilisées
 	 * 
@@ -1039,6 +1043,16 @@
 		
 		$synchro = new Synchro($objSite, -1);
 		$synchro->CleanRubrique($deb, $fin);
+	}
+	
+	function CopyRub($idRub) {
+		global $objSite;
+		
+		if (TRACE) echo '+++ ExeAjax:CopyRub:idRub:'.$idRub;
+		
+		$g = new Granulat($idRub, $objSite);
+		$idParent = $g->GetParent($g->id);
+		$g->CopyRub($idParent);
 	}
 	
 ?>
