@@ -1,20 +1,26 @@
 <?php
 require_once ("../../../param/ParamPage.php");
 session_start();
+
 extract($_SESSION,EXTR_OVERWRITE);
 extract($_POST,EXTR_OVERWRITE);
 
-if(isset($_SESSION['loginSess']))
-{
+if(!isset($_SESSION['loginSess'])) {
+	$login=$_POST['login_uti'];
+	$mdp=$_POST['mdp_uti'];
+} else {
 	$login=$_SESSION['loginSess'];
 	$mdp=$_SESSION['mdpSess'];
 	$idAuteur=$_SESSION['IdAuteur'];
-	
 }
-else
+
+if(!isset($_SESSION['type_controle']))
 {
-	$login=$_POST['login_uti'];
-	$mdp=$_POST['mdp_uti'];
+	//$login=$_POST['login_uti'];
+	//$mdp=$_POST['mdp_uti'];
+	$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
+	$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
+	$_SESSION['version']= $_POST['version']; 
 }
 
 function ChercheAbo ($login, $mdp, $objSite)
@@ -38,8 +44,9 @@ function ChercheAbo ($login, $mdp, $objSite)
 					$_SESSION['IdAuteur'] = $resultat['id_auteur'];
 					$_SESSION['NomSess'] = $resultat['nom'];
 					$_SESSION['EmailSess'] = $resultat['email'];
-					$_SESSION['LoginSess'] = $resultat['login'];	
+					$_SESSION['loginSess'] = $resultat['login'];	
 					$_SESSION['IpSess'] = $_SERVER['REMOTE_ADDR'];
+					$_SESSION['mdpSess'] = $mdp;
 				}
 			
 		}
@@ -50,8 +57,18 @@ function ChercheAbo ($login, $mdp, $objSite)
 		}
 	}
 
+/*function Test ($syncSite)
+	{
+		// connexion serveur
+		$link = mysql_connect($syncSite->infos["SQL_HOST"], $syncSite->infos["SQL_LOGIN"], $syncSite->infos["SQL_PWD"]) or die("Impossible de se connecter : " . mysql_error());	
+		// Sélection de la base de données
+		//mysql_select_db("solacc", $link);	
+		mysql_select_db($syncSite->infos["SQL_DB"], $link) or die("Impossible de se connecter a la base : " . mysql_error());	
+	}
+
+Test (	$objSiteSync);*/
 ChercheAbo ($login, $mdp, $objSite);
-$idAuteur=$_SESSION['IdAuteur'];
+//$idAuteur=$_SESSION['IdAuteur'];
 
 header ("Content-type: application/vnd.mozilla.xul+xml; charset=iso-8859-15");
 header ("title: Saisi des diagnosics d'accessibilité");
