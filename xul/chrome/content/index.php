@@ -14,14 +14,14 @@ if(!isset($_SESSION['loginSess'])) {
 	$idAuteur=$_SESSION['IdAuteur'];
 }
 
-if(!isset($_SESSION['type_controle']))
-{
+/*if(!isset($_SESSION['type_controle']))
+{*/
 	//$login=$_POST['login_uti'];
 	//$mdp=$_POST['mdp_uti'];
 	$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
 	$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
-	$_SESSION['version']= $_POST['version']; 
-}
+	$_SESSION['version']= $_POST['version'];
+//}
 
 function ChercheAbo ($login, $mdp, $objSite)
 	{
@@ -229,10 +229,11 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			<image src="images/logo.png" />
 			<label id="idAuteur" value="<?php echo $_SESSION['IdAuteur'];?>" class="menubartext"/>
 			<script type="text/javascript">document.getElementById('idAuteur').style.visibility="hidden";</script>
-			<label value="Auteur du diagnostic :" class="menubartext"/>
+			<label value="Auteur du diagnostic : " class="menubartext"/>
 			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
 			<button id="btnSync" label="Synchroniser" onclick="SynchroniserExportImport()"/>
 			<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;"/>
+			<label id="infiDiag" value="<?php echo 'Version : '.$_SESSION['version']; echo ' --- Type de critère :'; if ($_SESSION['type_controle']== null) echo 'Aucun'; else foreach($_SESSION['type_controle'] as $controle) echo ' '.$controle; echo ' --- Contexte réglementaire :'; if ($_SESSION['type_contexte']== null) echo 'Aucun'; else foreach($_SESSION['type_contexte'] as $contexte) echo ' '.$contexte;  ?>" class="menubartext"/>
 			<script type="text/javascript">
 				document.getElementById('progressMeter').style.visibility="hidden";
 				if ("<?php echo $_SERVER['REMOTE_ADDR']?>"!="127.0.0.1") {
