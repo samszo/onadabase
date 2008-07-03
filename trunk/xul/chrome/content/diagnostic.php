@@ -32,6 +32,7 @@ function ChercheAbo ($login, $mdp, $objSite)
 		//echo $sql;
 		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
 			//echo $nbResultat."<br/>";
+		mysql_close($link);
 	  	$nbre_lignes = mysql_num_rows($req);
 	  	//echo $nbre_lignes;
 		if ($nbre_lignes == 1)
@@ -54,6 +55,37 @@ function ChercheAbo ($login, $mdp, $objSite)
 		}
 	}
 
+	function SetVal($idGrille,$idDon,$champ,$val, $login){
+	
+		global $objSite, $ppp;
+		$g = new Grille($objSite,$login);
+
+		//modifie la valeur 
+		$row = array("grille"=>$idGrille,"champ"=>$champ,"valeur"=>utf8_decode($val));
+		if(TRACE)
+			echo "ExeAjax:SetVal:row=".print_r($row)."<br/>";
+		
+		if($champ!="Modif" && $champ!="Sup" && $val!=151) //151 mot clef observations
+			$g->SetChamp($row, $idDon);
+
+		//gestion du workflow
+		$xul = $g->GereWorkflow($row, $idDon);		
+
+		if(TRACE)
+			echo "ExeAjax:SetVal:ppp=".$ppp."<br/>";
+		if ($ppp==1){
+			$pppxul = new Xul($objSite);
+			return $pppxul->GetPopUp($xul,"Signalement problème ".$g->GetValeur($idDon,"ligne_1"), $login);
+		} 
+		if ($ppp==2){
+			$pppxul = new Xul($objSite);
+			return $pppxul->GetPopUp($xul,"Observations ".$g->GetValeur($idDon,"ligne_1"), $login);
+		} 
+		
+		
+		return $xul;
+
+	}
 /*function Test ($syncSite)
 	{
 		// connexion serveur
@@ -66,6 +98,7 @@ function ChercheAbo ($login, $mdp, $objSite)
 Test (	$objSiteSync);*/
 ChercheAbo ($login, $mdp, $objSite);
 
+//SetVal(68, 19848, null, null, $login);
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -134,6 +167,7 @@ ChercheAbo ($login, $mdp, $objSite);
 			<input type="submit" name="Submit" value="Envoyer"/>
 			</p>
 			</form>
+			
 		</div>
 	</div><!--Fin div globalPass-->
 </body>

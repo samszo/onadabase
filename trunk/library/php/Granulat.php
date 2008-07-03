@@ -1019,11 +1019,11 @@ class Granulat
 		$DB->connect();
 		$req = $DB->query($sql);
 		$i = 0;
+		$DB->close();
 		while($data = $DB->fetch_assoc($req)) {
 			$arrliste[$i] = array("id"=>$data['id_rubrique'], "titre"=>$data['titre'], "descriptif"=>$data['descriptif']);
 			$i ++;
 		}
-		$DB->close();
 	
 		return $arrliste;
 	}

@@ -111,6 +111,12 @@
 		case 'CopyRub':
 			$resultat = CopyRub($_GET['idDst']) ;
 			break;
+		case 'AddVersion':
+			$resultat = AddVersion() ;
+			break;
+		case 'ChangeAutoIncrement':
+			$resultat = ChangeAutoIncrement($_GET['table'], $_GET['val']) ;
+			break;
 		default:
 			//$resultat = AddDocToArt();
 	}
@@ -492,7 +498,7 @@
 		if(TRACE)
 			echo "ExeAjax:SetVal:row=".print_r($row)."<br/>";
 		
-		if($champ!="Modif" && $champ!="Sup" && $val!=151)
+		if($champ!="Modif" && $champ!="Sup" && $val!=151) //151 mot clef observations
 			$g->SetChamp($row, $idDon);
 
 		//gestion du workflow
@@ -1044,7 +1050,7 @@
 		$synchro = new Synchro($objSite, -1);
 		$synchro->CleanRubrique($deb, $fin);
 	}
-	
+		
 	function CopyRub($idRub) {
 		global $objSite;
 		
@@ -1053,6 +1059,18 @@
 		$g = new Granulat($idRub, $objSite);
 		$idParent = $g->GetParent($g->id);
 		$g->CopyRub($idParent);
+	}
+	
+	function AddVersion() {
+		global $objSite;
+		$synchro = new Synchro($objSite, -1);
+		$synchro->AddVersion();
+	}
+	
+	function ChangeAutoIncrement($table, $val) {
+		global $objSite;
+		$synchro = new Synchro($objSite, -1);
+		$synchro->ChangeAutoIncrement($table, $val);
 	}
 	
 ?>
