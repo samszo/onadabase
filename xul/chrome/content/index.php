@@ -35,6 +35,8 @@ function ChercheAbo ($login, $mdp, $objSite)
 		//echo $sql;
 		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
 			//echo $nbResultat."<br/>";
+			
+		mysql_close($link);
 	  	$nbre_lignes = mysql_num_rows($req);
 	  	//echo $nbre_lignes;
 		if ($nbre_lignes == 1)

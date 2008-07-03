@@ -889,5 +889,44 @@ Class Synchro{
 		return $arrliste;	
 	}
 	
+	function AddVersion() {
+		$sql = "SELECT id_article
+				FROM spip_articles;";
+			
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$i = 0;
+		while($data = $DB->fetch_assoc($req)) {
+			echo ' id_article '.$data['id_article'];
+			$sql2 = "SELECT id_mot, id_article
+				FROM spip_mots_articles
+				WHERE id_mot = 152 AND id_article = ".$data['id_article'].";";
+			
+			$DB2 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+			$req2 = $DB2->query($sql2);
+			$DB2->close();
+			
+			$donnee = $DB2->fetch_assoc($req2);
+			if ($donnee->sizeof == 0) {
+				$sql1 = "INSERT INTO spip_mots_articles(id_mot, id_article) VALUES (152, ".$data['id_article'].");";
+				
+				$DB1 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+				$req1 = $DB1->query($sql1);
+				$DB1->close();
+				echo ' Ajout version '.$data['id_article'];
+			}
+		}
+	}
+	
+	function ChangeAutoIncrement($table, $val){
+		$sql = "ALTER TABLE `".$table."` AUTO_INCREMENT = ".$val;
+			
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
 }
 ?>
