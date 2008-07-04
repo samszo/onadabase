@@ -363,7 +363,8 @@ class Grille{
 			echo $r["titreRubPar"].";";
 			echo $r["titreRub"].';';
 			echo $r["idPbPlan"].';';
-			echo str_replace(';', ',', $this->site->XmlParam->XML_entities($r["TextCont"])).';';
+			$text = html_entity_decode($this->site->XmlParam->XML_entities($r["TextCont"]));
+			echo str_replace(';', ',', $text).';';
 			echo $r["idCont"].';';
 			echo $r["aDate"].';';
 			echo $r["obs"].';';
