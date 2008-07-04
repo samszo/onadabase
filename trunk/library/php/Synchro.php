@@ -265,7 +265,7 @@ Class Synchro{
 					if ($g->VerifExistArticle($node->article["id"], $node->article['idRub'])==-1) {
 		
 						$nouvelArt = $dom->createElement("art");
-						$nouvelArt->setAttribute("oldId", $article['id']);
+						$nouvelArt->setAttribute("oldId", $node->article['id']);
 					
 						$article = $node->article;
 						$donnees = $article->donnees;
