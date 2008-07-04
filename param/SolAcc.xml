@@ -691,6 +691,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					, fdc.valeur idCont
 					, fdc1.valeur idPbPlan
 					, fdc2.valeur photo
+					, fdc3.valeur obs
 					, fdcc1.valeur TextCont
 					, m.titre RepCont
 					, m1.titre ReponsePhoto
@@ -706,6 +707,8 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					 AND fdc.champ = 'ligne_3'
 					INNER JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee
 					 AND fdc1.champ = 'ligne_1'
+					 INNER JOIN spip_forms_donnees_champs fdc3 ON fdc3.id_donnee = fd.id_donnee
+					 AND fdc3.champ = 'texte_1'
 					 INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee
 					 AND fdc2.champ = 'mot_1'
 					 LEFT JOIN spip_mots m1 ON m1.id_mot = fdc2.valeur
