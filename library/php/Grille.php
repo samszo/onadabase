@@ -367,7 +367,8 @@ class Grille{
 			echo str_replace(';', ',', $text).';';
 			echo $r["idCont"].';';
 			echo $r["aDate"].';';
-			echo $r["obs"].';';
+			$textObs = html_entity_decode($r["obs"]);
+			echo str_replace(';', ',', $textObs).';';
 			echo "\n" ;	
 		}    	
     }
