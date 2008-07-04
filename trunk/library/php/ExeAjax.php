@@ -36,6 +36,9 @@
 		case 'GetTreeObs':
 			$resultat = GetTreeObs($_GET['id']);
 			break;
+		case 'GetTreeCsv':
+			$resultat = GetTreeCsv($_GET['id']);
+			break;
 		case 'GetFilAriane':
 			$resultat = GetFilAriane(array($_GET['titre'],$_GET['typeDrc'],$_GET['typeDst']),$id);
 			break;
@@ -622,6 +625,19 @@
 		//$xul = "<box>".$xul."</box>";
 
 		return $xul;
+		
+	}
+	
+	function GetTreeCsv($idRub){
+		global $objSite;
+		$g = new Grille($objSite);
+		
+		return $g->GetTreeCsv($idRub);
+
+		//header('Content-type: application/vnd.mozilla.xul+xml');
+		//$xul = "<box>".$xul."</box>";
+
+		//return $xul;
 		
 	}
 	

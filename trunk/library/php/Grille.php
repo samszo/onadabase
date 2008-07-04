@@ -327,6 +327,50 @@ class Grille{
     	
     }
     
+	function GetTreeCsv($idRub){
+    	
+    	$g = new Granulat($idRub,$this->site);
+    	//récupère les rubriques enfants
+    	$ids = str_replace(DELIM,",",$g->GetEnfantIds());
+    	$ids .= "-1";
+    	
+		//récupère les identifiants des rubriques de la racine ayant un problème
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetListeSignalementProbleme']";
+		if($this->trace)
+			echo "Grille:GetTreeCsv:Xpath".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $ids, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "Grille:GetTreeCsv:".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->close();
+		
+		header("Content-Type: application/csv-tab-delimited-table"); // text/csv
+		header("Content-disposition: attachment; filename=SignalementPb.csv"); 
+		header('Expires: 0');
+		header('Pragma: no-cache'); 
+		
+		echo 'Rubrique Parent;Rubrique;Id Pb;Questions Problème;Critère;Date;Observations';
+		echo "\n";
+		
+		while ($r =  $db->fetch_assoc($result)) {
+			if($this->trace)
+				echo "Grille:GetTreeCsv:".$r["idRub"]." ".$r["idArt"]." ".$r["idDon"]."<br/>";
+
+			echo $r["titreRubPar"].";";
+			echo $r["titreRub"].';';
+			echo $r["idPbPlan"].';';
+			echo str_replace(';', ',', $this->site->XmlParam->XML_entities($r["TextCont"])).';';
+			echo $r["idCont"].';';
+			echo $r["aDate"].';';
+			echo $r["obs"].';';
+			echo "\n" ;	
+		}    	
+    }
+    
     function GetObjId($donId,$obj) {
 		if($this->trace)
 			echo "Grille:GetObjId://récupère l'identifiant de l'objet ".$obj." ".$donId."<br/>";

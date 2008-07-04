@@ -549,6 +549,29 @@ function ChargeTreeObs(idSrc,idDst)
 	
 }
 
+function ChargeTreeCsv(idSrc,idDst)
+{
+  try {
+	//alert("ChargeTreeFromAjax IN "+type+"\n");
+
+	var id = document.getElementById(idSrc).value;
+	var doc = document.getElementById(idDst);
+	//pour ne charger qu'une fois le tree
+	//if(document.getElementById('tree'+type))
+	//	return
+
+
+	var url = urlExeAjax+"?f=GetTreeCsv&id="+id;
+	//alert("ChargeTreeFromAjax url "+url+"\n");
+	//AjaxRequest(url,'AppendTreeChildren',parentitem)
+	window.open(url);
+	
+	dump("ChargeTreeCsv OUT\n");
+   
+   } catch(ex2){alert(":ChargeTreeCsv:"+ex2+" url="+url);}
+	
+}
+
 function ChargeTreeFromAjax(idSrc,idDst,type)
 {
   try {
