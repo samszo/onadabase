@@ -152,7 +152,7 @@ $SiteNaos = array(
 	"urlSite" => "http://www.mundilogiweb.com/onadabase/xul/chrome/library/php/Site.php",	
 	"urlCarto" => "http://www.mundilogiweb.com/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://www.mundilogiweb.com/onadabase/library/php/",
-	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
+	"pathXulJs" => "http://www.mundilogiweb.com/onadabase/xul/chrome/content/js/",	
 	"pathUpload" => PathRoot."/spip/IMG/",
 	"pathSpip" => "http://localhost/onadabase/spip/"	
 	); 

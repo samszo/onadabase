@@ -892,6 +892,23 @@ INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
 				<js evt="onclick" type="fichier" function="GetFichierKml('-param0-');"/>
 			</Query>
 			
+			<Query fonction="Grille_GetDonneeCritere">
+				<select>SELECT sfd.id_donnee idDonnee, sfdc1.champs </select>
+				<from>FROM spip_forms_donnees sfd
+				INNER JOIN spip_forms_donnees_champs sfdc ON sfdc.id_donnee = sfd.id_donnee AND sfdc.valeur = '-critere-'
+				 </from>
+				<where>WHERE sfd.id_form = 54 GROUP BY idDonnee DESC</where>
+			</Query>
+			
+			<Query fonction="Grille_GetDonneeChoix">
+				<select>SELECT sfd.id_donnee idDonnee, sfd.champ, sfd.valeur</select>
+				<from>FROM spip_forms_donnees_champs sfd</from>
+				<where>WHERE sfd.id_donnee =-id-</where>
+				<and_multiple1>sfd.champ = 'multiple_1'</and_multiple1>
+				<and_multiple2>sfd.champ = 'multiple_2'</and_multiple2>
+				<and_multiple3>sfd.champ = 'multiple_3'</and_multiple3>
+			</Query>
+			
 			<Query fonction="Grille_GetChoixselect">
 				<select>SELECT choix, titre</select>
 				<from> FROM spip_forms_champs_choix </from>

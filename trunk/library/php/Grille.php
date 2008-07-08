@@ -1104,6 +1104,91 @@ class Grille{
 		return $tabpanel;
 	}
 
+	function VerifChoixDiagnostic ($id, $typeCritere, $typeContexte){
+		$critere = $this->GetValeur($id,'ligne_1'); 
+		
+		/*$sql = "SELECT sfd.id_donnee idDonnee, sfdc1.champs
+				FROM spip_forms_donnees sfd
+				INNER JOIN spip_forms_donnees_champs sfdc ON sfdc.id_donnee = sfd.id_donnee AND sfdc.valeur = '".$critere."
+				WHERE sfd.id_form = 54 GROUP BY idDonnee DESC;";*/
+		
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeCritere']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-critere-", $critere, $Q[0]->where);
+				
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		if($this->trace)
+			echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->connect();
+		$req = $db->query($sql);
+		$db->close();
+		
+		if ($r = $db->fetch_assoc($req)) {
+			
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeChoix']";
+			$Q = $this->site->XmlParam->GetElements($Xpath);
+			$where = str_replace("-id-", $r['idDonnee'], $Q[0]->where);
+					
+			$sql = $Q[0]->select.$Q[0]->from.$where.$Q[0]->and_multiple_1;
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+			if($this->trace)
+				echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+			$db->connect();
+			$req = $db->query($sql);
+			$db->close();
+			
+			if ($r = $db->fetch_assoc($req)) {
+				if(($typeCritere[0]== $r['valeur'] || $typeCritere[1]== $r['valeur']) ) $ok = $r['valeur'];
+				else return false;
+				
+				if ($ok ='multiple_1_1') {
+					$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeChoix']";
+					$Q = $this->site->XmlParam->GetElements($Xpath);
+					$where = str_replace("-id-", $r['idDonnee'], $Q[0]->where);
+							
+					$sql = $Q[0]->select.$Q[0]->from.$where.$Q[0]->and_multiple_2;
+					$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+					if($this->trace)
+						echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+					$db->connect();
+					$req = $db->query($sql);
+					$db->close();
+					
+					$okReg = false;
+					while ($r = $db->fetch_assoc($req) && !$okReg) {
+						if($typeContexte[0]== $r['valeur'] || $typeContexte[1]== $r['valeur'] || $typeContexte[2]== $r['valeur'] || $typeContexte[3]== $r['valeur'])  $okReg = true;
+					}
+					if ($okReg == false) return false;
+				}
+				return true;
+			} 
+			
+		}
+		
+		/*$sql = "SELECT sfd.id_donnee idDonnee, sfdc1.valeur typeCritere, sfdc2.champ typeDroit, sfdc3.champ typeDeficience
+				FROM spip_forms_donnees_champs sfd
+				LEFT JOIN spip_forms_donnees_champs sfdc1 ON sfdc1.id_donnee = sfd.id_donnee
+				AND sfdc1.champ = 'multiple_1'
+				LEFT JOIN spip_forms_donnees_champs sfdc2 ON sfdc2.id_donnee = sfd.id_donnee
+				AND sfdc2.champ = 'multiple_2'
+				LEFT JOIN spip_forms_donnees_champs sfdc3 ON sfdc3.id_donnee = sfd.id_donnee
+				AND sfdc3.champ = 'multiple_3'
+				WHERE sfd.id_donnee =12567
+				GROUP BY idDonnee DESC";*/
+
+		/*$sql = "SELECT sfd.id_donnee idDonnee, sfd.champ, sfd.valeur
+				FROM spip_forms_donnees_champs sfd
+				WHERE sfd.id_donnee =12568
+				AND (
+				sfd.champ = 'multiple_3'
+				OR sfd.champ = 'multiple_2'
+				OR sfd.champ = 'multiple_1'
+				)";*/
+		
+		
+	}
+	
   	function GetRubDon($idDon) {
   
   
