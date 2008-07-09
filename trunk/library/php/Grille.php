@@ -1,4 +1,9 @@
 <?php
+
+session_start();
+
+extract($_SESSION,EXTR_OVERWRITE);
+
 class Grille{
   public $id;
   public $XmlParam;
@@ -1085,7 +1090,11 @@ class Grille{
 					$tabpanel .='</hbox>';
 				}else{
 					//ajoute les données de chaque article
-					$tabpanel .= $this->GetXulForm($r["id"], $id);
+					// S'il s'agit d'une grille diagnostic, on filtre les questions a poser
+					if($id==$this->site->infos["GRILLE_REP_CON"]){
+						if ($this->VerifChoixDiagnostic($r["id"], $_SESSION['type_controle'], $_SESSION['type_contexte'])) 
+							$tabpanel .= $this->GetXulForm($r["id"], $id);
+					} else $tabpanel .= $this->GetXulForm($r["id"], $id);
 				}
 			}else{
 				//ajoute la tabbox de destination
@@ -1105,18 +1114,15 @@ class Grille{
 	}
 
 	function VerifChoixDiagnostic ($id, $typeCritere, $typeContexte){
+		// On récupere le critere corespondant à la donnée (grille 59 Diagnostic)
 		$critere = $this->GetValeur($id,'ligne_1'); 
-		
-		/*$sql = "SELECT sfd.id_donnee idDonnee, sfdc1.champs
-				FROM spip_forms_donnees sfd
-				INNER JOIN spip_forms_donnees_champs sfdc ON sfdc.id_donnee = sfd.id_donnee AND sfdc.valeur = '".$critere."
-				WHERE sfd.id_form = 54 GROUP BY idDonnee DESC;";*/
-		
+				
+		// On récupere la donnée corespondant au critere (grille 54 Controle)
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeCritere']";
 		$Q = $this->site->XmlParam->GetElements($Xpath);
-		$where = str_replace("-critere-", $critere, $Q[0]->where);
+		$from = str_replace("-critere-", $critere, $Q[0]->from);
 				
-		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$sql = $Q[0]->select.$from.$Q[0]->where;
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
 		if($this->trace)
 			echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
@@ -1125,12 +1131,12 @@ class Grille{
 		$db->close();
 		
 		if ($r = $db->fetch_assoc($req)) {
-			
+			// On recupere la valeur du type de critere propre à la donnée (multiple_1 reglementaire ou souhaitable)
 			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeChoix']";
 			$Q = $this->site->XmlParam->GetElements($Xpath);
 			$where = str_replace("-id-", $r['idDonnee'], $Q[0]->where);
 					
-			$sql = $Q[0]->select.$Q[0]->from.$where.$Q[0]->and_multiple_1;
+			$sql = $Q[0]->select.$Q[0]->from.$where.$Q[0]->and_multiple1;
 			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
 			if($this->trace)
 				echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
@@ -1143,11 +1149,12 @@ class Grille{
 				else return false;
 				
 				if ($ok ='multiple_1_1') {
+					// On recupere la valeur du type de droit régelementaire (multiple_2)
 					$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeChoix']";
 					$Q = $this->site->XmlParam->GetElements($Xpath);
 					$where = str_replace("-id-", $r['idDonnee'], $Q[0]->where);
 							
-					$sql = $Q[0]->select.$Q[0]->from.$where.$Q[0]->and_multiple_2;
+					$sql = $Q[0]->select.$Q[0]->from.$where.$Q[0]->and_multiple2;
 					$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
 					if($this->trace)
 						echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
@@ -1155,38 +1162,15 @@ class Grille{
 					$req = $db->query($sql);
 					$db->close();
 					
-					$okReg = false;
-					while ($r = $db->fetch_assoc($req) && !$okReg) {
-						if($typeContexte[0]== $r['valeur'] || $typeContexte[1]== $r['valeur'] || $typeContexte[2]== $r['valeur'] || $typeContexte[3]== $r['valeur'])  $okReg = true;
+					$okReg = true;
+					while ($r = $db->fetch_assoc($req) && $okReg) {
+						if($typeContexte[0]== $r['valeur'] || $typeContexte[1]== $r['valeur'] || $typeContexte[2]== $r['valeur'] || $typeContexte[3]== $r['valeur'])  $okReg = false;
 					}
-					if ($okReg == false) return false;
+					if ($okReg == true) return false;
 				}
 				return true;
-			} 
-			
+			} 	
 		}
-		
-		/*$sql = "SELECT sfd.id_donnee idDonnee, sfdc1.valeur typeCritere, sfdc2.champ typeDroit, sfdc3.champ typeDeficience
-				FROM spip_forms_donnees_champs sfd
-				LEFT JOIN spip_forms_donnees_champs sfdc1 ON sfdc1.id_donnee = sfd.id_donnee
-				AND sfdc1.champ = 'multiple_1'
-				LEFT JOIN spip_forms_donnees_champs sfdc2 ON sfdc2.id_donnee = sfd.id_donnee
-				AND sfdc2.champ = 'multiple_2'
-				LEFT JOIN spip_forms_donnees_champs sfdc3 ON sfdc3.id_donnee = sfd.id_donnee
-				AND sfdc3.champ = 'multiple_3'
-				WHERE sfd.id_donnee =12567
-				GROUP BY idDonnee DESC";*/
-
-		/*$sql = "SELECT sfd.id_donnee idDonnee, sfd.champ, sfd.valeur
-				FROM spip_forms_donnees_champs sfd
-				WHERE sfd.id_donnee =12568
-				AND (
-				sfd.champ = 'multiple_3'
-				OR sfd.champ = 'multiple_2'
-				OR sfd.champ = 'multiple_1'
-				)";*/
-		
-		
 	}
 	
   	function GetRubDon($idDon) {
