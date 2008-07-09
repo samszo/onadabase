@@ -893,7 +893,7 @@ INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
 			</Query>
 			
 			<Query fonction="Grille_GetDonneeCritere">
-				<select> SELECT sfd.id_donnee idDonnee, sfdc.champs </select>
+				<select> SELECT sfd.id_donnee idDonnee, sfdc.champ </select>
 				<from> FROM spip_forms_donnees sfd
 				INNER JOIN spip_forms_donnees_champs sfdc ON sfdc.id_donnee = sfd.id_donnee AND sfdc.valeur = '-critere-'
 				 </from>
