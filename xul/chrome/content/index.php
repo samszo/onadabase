@@ -240,7 +240,23 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
 			<button id="btnSync" label="Synchroniser" onclick="SynchroniserExportImport()"/>
 			<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;"/>
-			<label id="infiDiag" value="<?php echo 'Version : '.$_SESSION['version']; echo ' --- Type de critère :'; if ($_SESSION['type_controle']== null) echo 'Aucun'; else foreach($_SESSION['type_controle'] as $controle) echo ' '.$controle; echo ' --- Contexte réglementaire :'; if ($_SESSION['type_contexte']== null) echo 'Aucun'; else foreach($_SESSION['type_contexte'] as $contexte) echo ' '.$contexte;  ?>" class="menubartext"/>
+			<label id="infiDiag" value="
+			<?php echo 'Version : '.$_SESSION['version'];
+				 echo ' ++ Type de critère :';
+				 if ($_SESSION['type_controle']== null) echo 'Aucun'; 
+				 else foreach($_SESSION['type_controle'] as $controle) {
+				 	if ($controle=='multiple_1_1') echo ' Réglementaire -'; 
+				 	if ($controle=='multiple_1_2') echo ' Souhaitable -'; 
+				 }
+				 echo ' ++ Contexte réglementaire :'; 
+				 if ($_SESSION['type_contexte']== null) echo 'Aucun'; 
+				 else foreach($_SESSION['type_contexte'] as $contexte) {
+				 	if($contexte == 'multiple_2_1' ) echo ' Travail -';
+				 	if($contexte == 'multiple_2_2' ) echo ' ERP/IOP -';  
+				 	if($contexte == 'multiple_2_3' ) echo ' Logement -';  
+				 	if($contexte == 'multiple_2_4' ) echo ' Voirie -';    
+				 }
+				 ?>" class="menubartext"/>
 			<script type="text/javascript">
 				document.getElementById('progressMeter').style.visibility="hidden";
 				if ("<?php echo $_SERVER['REMOTE_ADDR']?>"!="127.0.0.1") {

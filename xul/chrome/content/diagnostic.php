@@ -152,14 +152,14 @@ ChercheAbo ($login, $mdp, $objSite);
 			</SELECT>
 			</p>
 			<p align="center">Type de critère : 
-			<BR/>Souhaitable<input name="type_controle1" type="checkbox" value="souhaitable"/>
-			 Réglementaire<INPUT type=checkbox name="type_controle2" value="reglementaire"/> 
+			<BR/>Souhaitable<input name="type_controle1" type="checkbox" value="multiple_1_2"/>
+			 Réglementaire<INPUT type=checkbox name="type_controle2" value="multiple_1_1"/> 
 			</p>
 			<p align="center">Contexte réglementaire : 
-			<BR/>Travail<input name="type_contexte1" type="checkbox" value="travail"/>
-			 ERP/IOP<INPUT type=checkbox name="type_contexte2" value="erp_iop"/> 
-			<BR/>Voirie<INPUT type=checkbox name="type_contexte3" value="voirie"/>
-			 Logement<INPUT type=checkbox name="type_contexte4" value="logement"/>
+			<BR/>Travail<input name="type_contexte1" type="checkbox" value="multiple_2_1"/>
+			 ERP/IOP<INPUT type=checkbox name="type_contexte2" value="multiple_2_2"/> 
+			<BR/>Voirie<INPUT type=checkbox name="type_contexte3" value="multiple_2_4"/>
+			 Logement<INPUT type=checkbox name="type_contexte4" value="multiple_2_3"/>
 			</p>
 			<INPUT type=hidden name="login_uti" value="<?php echo $login; ?>"/>
 			<INPUT type=hidden name="mdp_uti" value="<?php echo $mdp; ?>"/>
