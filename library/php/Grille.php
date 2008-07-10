@@ -131,7 +131,7 @@ class Grille{
 
 			$xul.="<vbox>";
 				if($r["idRubPar"]!=$oidRubPar){
-					$xul.="<label value='".$r["titreRubPar"]."'/>";
+					$xul.="<label value=\"".$this->site->XmlParam->XML_entities($r["titreRubPar"])."\"/>";
 					$xul.="<hbox>";
 						$xul.="<label id='adminRubPar_".$r["idRubPar"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRubPar"].");\" value=\"Admin\"/>";
 			    		$xul.="<!--<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' /> -->";
@@ -142,7 +142,7 @@ class Grille{
 			
 			$xul.="<vbox>";
 				if($r["idRub"]!=$oidRub){
-					$xul.="<label value='".$r["titreRub"]."'/>";
+					$xul.="<label value=\"".$this->site->XmlParam->XML_entities($r["titreRub"])."\"/>";
 					$xul.="<hbox>";
 						$xul.="<label id='adminRub_".$r["idRub"]."' class='text-linkAdmin' onclick=\"OuvreLienAdmin(".$r["idRub"].");\" value=\"Admin\"/>";
 			    		$xul.="<!--<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' /> -->";
@@ -154,7 +154,7 @@ class Grille{
 			
 			$xul.="<vbox hidden='true'>";
 				if($r["idArt"]!=$oidArt){
-					$xul.="<label value='".$r["titreArt"]."'/>";
+					$xul.="<label value=\"".$this->site->XmlParam->XML_entities($r["titreArt"])."\"/>";
 					$xul.="<hbox>";
 						$xul.="<label id='adminArt_".$r["idArt"]."' class='text-linkAdmin' onclick=\"OuvreArticle(".$r["idArt"].");\" value=\"Admin\"/>";
 						$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_yes.png' />";
@@ -1145,10 +1145,18 @@ class Grille{
 			$db->close();
 			
 			if ($r = $db->fetch_assoc($req)) {
-				if(($typeCritere[0]== $r['valeur'] || $typeCritere[1]== $r['valeur']) ) $ok = $r['valeur'];
-				else return false;
+				if($this->trace)
+					echo "Grille:VerifChoixDiagnostic:typeCritere[0]=".$typeCritere[0]." typeCritere[1]=".$typeCritere[1]." valeur=".$r['valeur']."<br/>";
 				
-				if ($ok ='multiple_1_1') {
+				//vérifie les critère réglémentaire souhaitable
+				if(($typeCritere[0]== $r['valeur'] || $typeCritere[1]== $r['valeur']) ) 
+					$ok = $r['valeur'];
+				else 
+					return false;
+				
+				
+				//vérifie le contexte réglémentaire uniquement dans le cas des critères réglémentaires 
+				if ($ok =='multiple_1_1') {
 					// On recupere la valeur du type de droit régelementaire (multiple_2)
 					$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeChoix']";
 					$Q = $this->site->XmlParam->GetElements($Xpath);
@@ -1162,15 +1170,23 @@ class Grille{
 					$req = $db->query($sql);
 					$db->close();
 					
-					$okReg = true;
-					while ($r = $db->fetch_assoc($req) && $okReg) {
-						if($typeContexte[0]== $r['valeur'] || $typeContexte[1]== $r['valeur'] || $typeContexte[2]== $r['valeur'] || $typeContexte[3]== $r['valeur'])  $okReg = false;
+					while ($r = $db->fetch_assoc($req)) {
+						if($typeContexte[0]== $r['valeur'] 
+							|| $typeContexte[1]== $r['valeur'] 
+							|| $typeContexte[2]== $r['valeur'] 
+							|| $typeContexte[3]== $r['valeur']) 
+							return true;
 					}
-					if ($okReg == true) return false;
+					return false;
 				}
+				if($this->trace)
+					echo "Grille:VerifChoixDiagnostic:ok=".$ok."<br/>";
 				return true;
 			} 	
 		}
+		//if($this->trace)
+			echo "Grille:VerifChoixDiagnostic:END<br/>";
+		return false;
 	}
 	
   	function GetRubDon($idDon) {
