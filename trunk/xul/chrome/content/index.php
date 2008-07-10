@@ -267,7 +267,7 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 		
 		<hbox id="nav-toolbar" >
 			<label id="tbbAccueil" value="Accueil" class="text-link" />
-			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(1942,'Territoires','terre','terre');"/>
+			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(1942,'Territoires','terre','Terre');"/>
 		</hbox>
 		<hbox id="tbFilAriane" />
 		

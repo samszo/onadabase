@@ -3,7 +3,7 @@
   //
   // Fichier contenant les definitions de constantes
   //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/sites/n/naoss.fr/mundigo"); 
-  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."onadabase"); 
+  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
   
 	// *** chemin de toutes les bases et les spip en service ***
   define("TT_CLASS_BASE", PathRoot."/library/php/");
@@ -12,7 +12,7 @@
 
   define ("TRACE", false);
 
-  define ("DEFSITE", "local2");
+  define ("DEFSITE", "local1");
   define ("SYNCSITE", "mundi");
   
   $DB_OPTIONS = array (
@@ -33,8 +33,8 @@ $SiteLocal1 = array(
 	"SQL_LOGIN" => "root", 
 	"SQL_PWD" => "", 
 	"SQL_HOST" => "localhost",
-	"SQL_DB" => "solacc",
-	"NOM" => "SolAcc",//je sais pas
+	"SQL_DB" => "onadabase",
+	"NOM" => "onadabase",//je sais pas
 	"SITE_PARENT" => -1,//je sais pas
 	"SITE_ENFANT" => -1,
 	"GRILLE_GEO" => 1,
@@ -51,14 +51,14 @@ $SiteLocal1 = array(
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
-	"lienAdminSpip" => "http://localhost/onadabase/spip1/ecrire",
+	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",	
 	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://localhost/onadabase/library/php/",
-	"pathUpload" => PathRoot."/spip1/IMG/",
+	"pathUpload" => PathRoot."/spip/IMG/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
-	"pathSpip" => "http://localhost/onadabase/spip1/"
+	"pathSpip" => "http://localhost/onadabase/spip/"
 	); 
 $SiteLocal2 = array(
 	"SQL_LOGIN" => "root", 
