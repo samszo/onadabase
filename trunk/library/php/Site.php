@@ -313,6 +313,7 @@ class Site{
 	  // evite le double caractere \'' 
 	  if (get_magic_quotes_gpc()) $theValue = str_replace("'","''",$theValue);
 	  if (!get_magic_quotes_gpc()) $theValue = str_replace("\"","''",$theValue);
+	  if (!get_magic_quotes_gpc()) $theValue = str_replace("\''","''",$theValue);
 	  //$theValue = htmlentities($theValue);
 	  //echo $theValue."<br/>";
 
