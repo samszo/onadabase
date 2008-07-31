@@ -351,6 +351,10 @@ Class Synchro{
 		return $dom->saveXML();
   	}
 
+  	/*
+  	 * Permet de rajouter les nouvelles rubriques à administrer
+  	 */
+  	
   	public function UpdateAdminRub($idRub, $idAut) {
   		 		
   		$sql = "SELECT id_rubrique, id_auteur
