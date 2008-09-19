@@ -27,6 +27,14 @@
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Bat');"/>
 			</menuDst>
 		</menuSrc>
+		<menuSrc code="Parcelle">
+			<menuDst codeTree="espaceext" codeSaisi="EspaceExt" lib="Espace(s) exterieur" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','EspaceExt');"/>
+			</menuDst>
+			<menuDst codeTree="objetext" codeSaisi="ObjetExt" lib="Objet(s) exterieur" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','ObjetExt');"/>
+			</menuDst>
+		</menuSrc>
 	</XmlParam>
 	<XmlParam nom="GetOntoTree">
 		<Querys>
