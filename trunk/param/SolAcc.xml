@@ -10,6 +10,24 @@
 			<urlDesc nom="Saisie du diagnostic" src="http://localhost/onadabase/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Saisie du diagnostic" dst="http://localhost/onadabase/SaisiDiag.php"/>
 		</menu>
 	</XmlParam>
+	<XmlParam nom="MenuNavig">
+		<menuSrc code="Terre">
+			<menuDst codeTree="etab" codeSaisi="Etab" lib="Etablissement(s)" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Etab');"/>
+			</menuDst>
+			<menuDst codeTree="voirie" codeSaisi="Voirie" lib="Voirie(s)" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Etab');"/>
+			</menuDst>
+		</menuSrc>
+		<menuSrc code="Etab">
+			<menuDst codeTree="parcelle" codeSaisi="Parcelle" lib="Parcelle(s)" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Parcelle');"/>
+			</menuDst>
+			<menuDst codeTree="bat" codeSaisi="Bat" lib="Batiment(s)" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Bat');"/>
+			</menuDst>
+		</menuSrc>
+	</XmlParam>
 	<XmlParam nom="GetOntoTree">
 		<Querys>
 			<Query fonction="GetTreeChildren_SigProb">
@@ -985,10 +1003,10 @@ INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form 
 				<where> WHERE id_form = -idGrille- </where>
 			</Query>
 			<Query fonction="Grille_AddQuestion">
-				<select>SELECT fd.id_form, '59' FormRep, a.id_article, fdc1.valeur ref, fdc2.valeur question, '124' valdef, fdc3.valeur typecon, fdc4.valeur droit </select>
+				<select>SELECT fd.id_donnee, fd.id_form, '59' FormRep, a.id_article, fdc1.valeur ref, fdc2.valeur question, '124' valdef, fdc3.valeur typecon, fdc4.valeur droit </select>
 				<from> FROM spip_articles a
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
-INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = 54
+INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = -idForm-
 INNER JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee AND fdc1.champ = 'ligne_1'
 INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee AND fdc2.champ = 'texte_1'
 INNER JOIN spip_forms_donnees_champs fdc3 ON fdc3.id_donnee = fd.id_donnee AND fdc3.champ = 'mot_1'

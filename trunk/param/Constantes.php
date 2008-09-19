@@ -3,7 +3,7 @@
   //
   // Fichier contenant les definitions de constantes
   //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/sites/n/naoss.fr/mundigo"); 
-  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
+  define ("PathRoot","C:/wamp/www/"."onadabase"); 
   
 	// *** chemin de toutes les bases et les spip en service ***
   define("TT_CLASS_BASE", PathRoot."/library/php/");
@@ -13,7 +13,8 @@
   define ("TRACE", false);
 
   define ("DEFSITE", "local1");
-  define ("SYNCSITE", "mundi");
+  define ("SYNCSITE", "local2");
+  //define ("SYNCSITE", "mundi");
   
   $DB_OPTIONS = array (
 		'ERROR_DISPLAY' => true
@@ -28,7 +29,6 @@
   
   define('EOL', "\r\n");
 
-
 $SiteLocal1 = array(
 	"SQL_LOGIN" => "root", 
 	"SQL_PWD" => "", 
@@ -41,6 +41,8 @@ $SiteLocal1 = array(
 	"GRILLE_REG_LEG" => 52,
 	"GRILLE_REP_CON" => 59,
 	"GRILLE_SIG_PROB" => 60,
+	"GRILLE_CONTROL_V1" => 54,
+	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
@@ -64,7 +66,7 @@ $SiteLocal2 = array(
 	"SQL_LOGIN" => "root", 
 	"SQL_PWD" => "", 
 	"SQL_HOST" => "localhost",
-	"SQL_DB" => "onadabase",
+	"SQL_DB" => "onadalocal",
 	"NOM" => "onadabase",//je sais pas
 	"SITE_PARENT" => -1,//je sais pas
 	"SITE_ENFANT" => -1,
@@ -72,6 +74,8 @@ $SiteLocal2 = array(
 	"GRILLE_REG_LEG" => 52,
 	"GRILLE_REP_CON" => 59,
 	"GRILLE_SIG_PROB" => 60,
+	"GRILLE_CONTROL_V1" => 54,
+	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
@@ -104,6 +108,8 @@ $SiteNaos = array(
 	"GRILLE_REG_LEG" => 52,
 	"GRILLE_REP_CON" => 59,
 	"GRILLE_SIG_PROB" => 60,
+	"GRILLE_CONTROL_V1" => 54,
+	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
@@ -113,7 +119,7 @@ $SiteNaos = array(
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"gmKey" => gmKey,
+	"gmKey" => "à générer",
 	"lienAdminSpip" => "http://www.naoss.fr:81/mundigo/spip/ecrire",
 	"urlExeAjax" => "http://www.naoss.fr:81/mundigo/library/php/ExeAjax.php",
 	"jsXulParam" => "http://www.naoss.fr:81/mundigo/xul/chrome/content/param/onadabase.xml",	
@@ -137,6 +143,8 @@ $SiteNaos = array(
 	"GRILLE_REP_CON" => 59,
 	"GRILLE_SIG_PROB" => 60,
 	"GRILLE_OBS" => 67,
+	"GRILLE_CONTROL_V1" => 54,
+	"GRILLE_CONTROL_V2" => 70,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,

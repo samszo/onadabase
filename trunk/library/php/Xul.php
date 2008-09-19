@@ -23,6 +23,43 @@ class Xul{
 		
     }
 
+    function GetMenuPopUp($idRub,$typeSrc){
+    	$gra = new Granulat($idRub,$this->site);
+    	$menu ='';
+    	$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst";
+		$menusDst = $this->site->XmlParam->GetElements($Xpath);
+    	
+		if($menusDst){			
+	    	foreach($menusDst as $mDst)
+			{    	
+		    	$rows = $gra->GetTreeChildren($mDst["codeTree"]);
+		    	if($rows){
+		    		$mnuLabel = $this->site->XmlParam->XML_entities($mDst["lib"]." de ".$gra->titre);
+		    		$menu .='<menu id="MenuPopUp_'.$typeSrc.'_'.$mDst["codeTree"].'_'.$idRub.'" label="'.$mnuLabel.'" ><menupopup >';
+			    	while($r = mysql_fetch_assoc($rows))
+					{
+						//récupération du js
+						$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst[@codeTree='".$mDst["codeTree"]."']/js";
+						$js = $this->site->GetJs($Xpath, array($idRub,$mDst["lib"],$mDst["codeTree"],$mDst["codeSaisi"],$r["id"]));
+						//création de l'item
+		    			$mnuLabel = $this->site->XmlParam->XML_entities($r["titre"]);
+						$menu .= '<menuitem '.$js.' label="'.$mnuLabel.'"/>';
+						//vérifie la création d'un sous menu
+						$sousmenu = $this->GetMenuPopUp($r["id"],$mDst["codeSaisi"]);
+						if($sousmenu!=""){
+							$menu .= $sousmenu;
+						}					
+					}
+					$menu .= '</menupopup></menu>';
+		    	}
+				$menu .= '<menuseparator/>';			
+			}			
+		}
+			
+		return $menu;
+
+    }
+    
     function GetPopUp($xul,$titre, $login){
 
 		header('Content-type: application/vnd.mozilla.xul+xml');
@@ -43,11 +80,6 @@ class Xul{
 		echo '<script>
 			var lienAdminSpip = "'.$this->site->infos["lienAdminSpip"].'";
 			var urlExeAjax = "'.$this->site->infos["urlExeAjax"].'";
-			
-			
-			
-			
-			
      	</script>';
 		echo '<vbox  flex="1" style="overflow:auto">
 				<hbox class="menubar">

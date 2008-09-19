@@ -4,28 +4,15 @@ Class Synchro{
 	public $trace;
 	private $siteSrc;
 	private $siteDst;
+	public $nbRubrique;
+	public $nbArticle;
+	public $nbDonnee;
 	
 	function __construct($siteSrc, $siteDst) {
 		$this->trace = TRACE;
 		$this->siteSrc = $siteSrc;
 		$this->siteDst = $siteDst;
 		
-	}
-	
-	public function GetRub($idPar){
-		if($this->trace)
-			echo 'Synchro:GetRub:idPar='.$idPar.'<br/>';
-		$g = new Granulat($idPar,$this->siteSrc);
-		$arrEnfs = $g->GetEnfantIds().split(DELIM);
-		foreach($arrEnfs as $Enf)
-		{
-			
-			//echo $siteparent."=>".$type."<br/>";
-			$valeur .=" ".$this->sites[$siteparent]["NOM"]." ";
-				
-		}
-		
-		return $this->xml->xpath($Xpath);
 	}
 	
 	public function GetNew($titre,$idGroupe)
@@ -41,7 +28,7 @@ Class Synchro{
 			$sql = $Q[0]->insert.$set;
 			if($this->trace)
 				echo "MotClef:GetNew:sql=".$sql."<br/>";
-			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$db->connect();
 			$db->query($sql);
 			$id = mysql_insert_id();
@@ -63,7 +50,7 @@ Class Synchro{
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		if($this->trace)
 			echo "MotClef:VerifExist:sql=".$sql."<br/>";
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$req = $db->query($sql);
 		$db->close();
@@ -85,7 +72,7 @@ Class Synchro{
 		WHERE id_rubrique = ".$idAuteur
 		;//LIMIT 0 , 93";
 
-		$DB = new mysql($siteDst->infos["SQL_HOST"], $siteDst->infos["SQL_LOGIN"], $siteDst->infos["SQL_PWD"], $siteDst->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteDst->infos["SQL_HOST"], $this->siteDst->infos["SQL_LOGIN"], $this->siteDst->infos["SQL_PWD"], $this->siteDst->infos["SQL_DB"]);
 		$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -156,7 +143,7 @@ Class Synchro{
 		$sql = "INSERT INTO `spip_synchro_historique` (`id_auteur`, `synchro_xml`)
 				VALUES (".$idAuteur.", ".$this->siteSrc->GetSQLValueString($src, "text").")";
 		//print_r("siteSrc ".$this->siteSrc);
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		
@@ -169,25 +156,23 @@ Class Synchro{
 	 * Génére un fichier xml des rubriques administrées, retourne le chemin vers ce fichier
 	 * 
 	 */
-	public function Synchronise($siteSrc, $siteDst, $idAuteur=6) {	
-		global $objSite;
-		//global $objSiteSync; //Mundi
+	public function Synchronise($idAuteur=6) {	
     	
 		//récupère les rubriques de l'auteur
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetRubriquesAuteur']";
 		if($this->trace)
 			echo "Synchro:Synchronise:Xpath=".$Xpath."<BR/>";
-		$Q = $siteDst->XmlParam->GetElements($Xpath);
+		$Q = $this->siteSrc->XmlParam->GetElements($Xpath);
 		$where = str_replace("-idAuteur-", $idAuteur, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($siteDst->infos["SQL_HOST"], $siteDst->infos["SQL_LOGIN"], $siteDst->infos["SQL_PWD"], $siteDst->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
 		if($this->trace)
 			echo "Synchro:Synchronise:sql=".$sql."<BR/>";
 		
-		$url = PathRoot."/param/synchroExport.xml";
+		$url = PathRoot."/param/synchroExport-".$idAuteur.".xml";
 		
 		if($this->trace)
 			echo "Synchro:Synchronise:url // Création Xml ".$url."<BR/>";
@@ -261,7 +246,7 @@ Class Synchro{
 				}
 			
 				// Si un article est déjà présent pour une rubrique principale, on n'écrase pas cet article
-				if ($node->article) {
+				if ($node->article['id']) {
 					if ($g->VerifExistArticle($node->article["id"], $node->article['idRub'])==-1) {
 		
 						$nouvelArt = $dom->createElement("art");
@@ -351,17 +336,13 @@ Class Synchro{
 		return $dom->saveXML();
   	}
 
-  	/*
-  	 * Permet de rajouter les nouvelles rubriques à administrer
-  	 */
-  	
   	public function UpdateAdminRub($idRub, $idAut) {
   		 		
   		$sql = "SELECT id_rubrique, id_auteur
 				FROM spip_auteurs_rubriques 
 				WHERE id_rubrique = ".$idRub." AND id_auteur = ".$idAut;
 			//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 
@@ -373,7 +354,7 @@ Class Synchro{
 			if($this->trace)
 				echo $sql2."<br/>";
 				
-			$DB2 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+			$DB2 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 			$req = $DB2->query($sql2);
 			$DB2->close();
 		}
@@ -383,7 +364,7 @@ Class Synchro{
   		
   		$sql = "SELECT max(".$nomChamp.") as valeurMax FROM ".$table;
   		
-  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 
@@ -393,13 +374,13 @@ Class Synchro{
   		
   		$sql = "INSERT INTO ".$table." (".$nomChamp.") VALUES(".$idValeur.")";
   		
-  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 
 		$sql = "DELETE FROM ".$table." WHERE ".$nomChamp." = ".$idValeur;
   	  		
-  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+  		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -411,7 +392,7 @@ Class Synchro{
 				FROM spip_auteurs_rubriques 
 				WHERE id_auteur = ".$idAut;
 			//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 
@@ -430,9 +411,7 @@ Class Synchro{
  */
 	public function GetChildren($idRub, $dom, $parent) {
 		
-		global $objSite;
-		
-		$gSrc = new Granulat($idRub,$objSite);
+		$gSrc = new Granulat($idRub,$this->siteSrc);
 		//echo " ".$gSrc->GetMotClef()." ";
 		
 		$nouvelleRubrique = $dom->createElement("rubrique");
@@ -646,7 +625,7 @@ Class Synchro{
 			WHERE a.id_article = ".$idArticle." ".$extraSql."
 				";
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -668,7 +647,7 @@ Class Synchro{
 			WHERE a.id_rubrique = ".$idRubrique." ".$extraSql."
 				";
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -689,7 +668,7 @@ Class Synchro{
 				FROM spip_mots_rubriques 
 				WHERE id_rubrique = ".$idRubrique;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}
@@ -700,7 +679,7 @@ Class Synchro{
 				FROM spip_articles 
 				WHERE id_article = ".$idArticle;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}
@@ -715,7 +694,7 @@ Class Synchro{
 				FROM spip_forms_articles 
 				WHERE id_article = ".$idArticle;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}
@@ -730,7 +709,7 @@ Class Synchro{
 				FROM spip_forms_donnees_champs 
 				WHERE id_donnee = ".$idDonnee;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}
@@ -745,7 +724,7 @@ Class Synchro{
 				FROM spip_forms_donnees_articles 
 				WHERE id_article = ".$idArticle;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}
@@ -756,7 +735,7 @@ Class Synchro{
 				FROM spip_documents_articles 
 				WHERE id_article = ".$idArticle;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}
@@ -768,7 +747,7 @@ Class Synchro{
 			WHERE a.id_donnee = ".$idDonnee." ".$extraSql."
 				";
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -787,7 +766,7 @@ Class Synchro{
 				WHERE a.id_rubrique = ".$idRub." ".$extraSql."
 				";
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -811,7 +790,7 @@ Class Synchro{
 				FROM spip_forms_donnees 
 				WHERE id_donnee = ".$idDonnee;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}
@@ -826,7 +805,7 @@ Class Synchro{
 				FROM spip_auteurs_articles 
 				WHERE id_article = ".$idArticle;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}
@@ -841,7 +820,7 @@ Class Synchro{
 				FROM spip_forms_donnees_articles da 
 				WHERE da.id_article = ".$idArticle;
 			
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -861,7 +840,7 @@ Class Synchro{
 				FROM spip_articles a 
 				WHERE a.id_article = ".$idArticle;
 			
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	
@@ -880,7 +859,7 @@ Class Synchro{
 				INNER JOIN spip_forms_donnees_champs sfdc ON sfdc.id_donnee = sfda.id_donnee AND sfdc.champ = '".$champ."' AND sfdc.valeur = '".$critere."'
 				WHERE id_form = ".$idGrille." GROUP BY IdArt DESC;";
 			
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -897,7 +876,7 @@ Class Synchro{
 		$sql = "SELECT id_article
 				FROM spip_articles;";
 			
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -908,7 +887,7 @@ Class Synchro{
 				FROM spip_mots_articles
 				WHERE id_mot = 152 AND id_article = ".$data['id_article'].";";
 			
-			$DB2 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+			$DB2 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 			$req2 = $DB2->query($sql2);
 			$DB2->close();
 			
@@ -916,7 +895,7 @@ Class Synchro{
 			if ($donnee->sizeof == 0) {
 				$sql1 = "INSERT INTO spip_mots_articles(id_mot, id_article) VALUES (152, ".$data['id_article'].");";
 				
-				$DB1 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+				$DB1 = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 				$req1 = $DB1->query($sql1);
 				$DB1->close();
 				echo ' Ajout version '.$data['id_article'];
@@ -927,7 +906,7 @@ Class Synchro{
 	function ChangeAutoIncrement($table, $val){
 		$sql = "ALTER TABLE `".$table."` AUTO_INCREMENT = ".$val;
 			
-		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 	}

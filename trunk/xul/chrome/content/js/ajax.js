@@ -94,6 +94,25 @@ function UploadFile(url, file){
 		
 }
 
+function GetAjaxResult(url) {
+  try {
+	dump("GetAjaxResult IN "+url+"\n");
+    response = "";
+	p = new XMLHttpRequest();
+	p.onload = null;
+	p.open("GET", url, false);
+	p.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	p.send(null);
+
+	if (p.status != "200" ){
+	      alert("Réception erreur " + p.status);
+	}else{
+	    response = p.responseText;
+	}
+	return response;
+	dump("GetAjaxResult OUT \n");
+   } catch(ex2){alert("Ajax:GetAjaxResult:"+ex2);}
+}
 
 function GetResult(url) {
   try {

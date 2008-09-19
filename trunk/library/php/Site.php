@@ -313,7 +313,6 @@ class Site{
 	  // evite le double caractere \'' 
 	  if (get_magic_quotes_gpc()) $theValue = str_replace("'","''",$theValue);
 	  if (!get_magic_quotes_gpc()) $theValue = str_replace("\"","''",$theValue);
-	  if (!get_magic_quotes_gpc()) $theValue = str_replace("\''","''",$theValue);
 	  //$theValue = htmlentities($theValue);
 	  //echo $theValue."<br/>";
 
@@ -461,14 +460,18 @@ class Site{
 	{
 		$nodesJs = $this->XmlParam->GetElements($Xpath);		
 		$js = "";
-		$i = 0;
 		foreach($nodesJs as $nodeJs)
 		{
-			if($arrParam[$i])
-				$Param = $arrParam[$i];
-			$function = str_replace("-param".$i."-", $Param, $nodeJs["function"]);
+			$i=0;
+			$function = $nodeJs["function"];
+			if($arrParam[$i]){
+				foreach($arrParam as $Param)
+				{
+					$function = str_replace("-param".$i."-", $Param, $function);
+					$i++;	
+				}
+			}
 			$js .= " ".$nodeJs["evt"]."=\"".$function."\"";
-			$i ++;
 		}
 		return $js;
 	}

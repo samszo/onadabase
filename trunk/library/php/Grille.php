@@ -45,7 +45,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-ids-", $ids, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		if($this->trace)
@@ -225,7 +225,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-ids-", $ids, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		if($this->trace)
@@ -346,7 +346,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-ids-", $ids, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		if($this->trace)
@@ -387,7 +387,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-id-", $donId, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
@@ -510,7 +510,7 @@ class Grille{
 					$where = str_replace("-id-", $id, $Q[0]->where);
 					$set = str_replace("-param-", $row['valeur'], $Q[0]->set);
 					$sql = $Q[0]->update.$set.$where;
-					$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+					$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 					$db->connect();
 					$db->query($sql);
 					$db->close();
@@ -533,7 +533,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-id-", $idMot, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
@@ -548,7 +548,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-titre-", $titre, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
@@ -655,7 +655,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-idRub-", $idRubSrc, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
@@ -682,7 +682,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-idRub-", $idRubSrc, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
@@ -697,8 +697,10 @@ class Grille{
 			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_AddQuestion']";
 			$Q = $this->site->XmlParam->GetElements($Xpath);
 			$where = str_replace("-idRubSrc-", $row['idRub'], $Q[0]->where);
-			$sql = $Q[0]->select.$Q[0]->from.$where;
-			$dbQ = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+			//ajoute les critère de version
+			$from = str_replace("-idForm-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $Q[0]->from);			
+			$sql = $Q[0]->select.$from.$where;
+			$dbQ = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$dbQ->connect();
 			$rowsQ = $dbQ->query($sql);
 			$dbQ->close();
@@ -728,7 +730,11 @@ class Grille{
 						$this->SetChamp($r,$idDon,false);
 						//ajoute la réponse par défaut
 						$r = array("champ"=>"mot_1","valeur"=>$rowQ["valdef"]);
-						$this->SetChamp($r,$idDon,false);					
+						$this->SetChamp($r,$idDon,false);
+						//ajoute la donnée référente
+						$r = array("champ"=>"ligne_3","valeur"=>$rowQ["id_donnee"]);
+						$this->SetChamp($r,$idDon,false);
+								
 						$rowQo = $rowQ["ref"];
 					}
 				}
@@ -779,7 +785,7 @@ class Grille{
 		$where = str_replace("-id-", $idDon, $Q[0]->where);
 		$where = str_replace("-champ-", $champ, $where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
@@ -793,7 +799,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-id-", $id, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
 		$db->close();
@@ -850,7 +856,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-idGrille-", $idGrille, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		$db->close();
@@ -882,7 +888,7 @@ class Grille{
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		if($this->trace)
 			echo "Grille:DelDonnee:".$sql."<br/>";
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		$db->close();
@@ -898,7 +904,7 @@ class Grille{
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		if($this->trace)
 			echo "Grille:DelGrilleDonnee:".$sql."<br/>";
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		$db->close();
@@ -915,7 +921,7 @@ class Grille{
 		$where = str_replace("-idArt-", $idArt, $Q[0]->where);
 		$from = str_replace("-idGrille-", $idGrille, $Q[0]->from);
 		$sql = $Q[0]->select.$from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		$db->close();
@@ -950,7 +956,7 @@ class Grille{
 		$sql = $Q[0]->insert.$values;
 		if($this->trace)
 			echo $this->site->infos["SQL_DB"]." ".$sql."<br/>";
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		$db->close();
@@ -974,7 +980,7 @@ class Grille{
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		if($this->trace)
 			echo $sql." ".substr($row['champ'], 0, 8)."<br/>";
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		$db->close();
@@ -991,7 +997,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-id-", $id, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		if($this->trace)
@@ -1002,6 +1008,7 @@ class Grille{
 		$tabbox = '<tabbox flex="1" id="tabbox_'.$src.'_'.$dst.'_'.$id.'">';
 		$tabbox .= '<tabs>';
 		$i=0;
+		$tabpanels ="";
 		while ($r =  $db->fetch_assoc($result)) {
 			$tabbox .= '<tab id="tab'.$r["id"].'" label="'.$r["titre"].'" />';
 			//vérifie s'il faut créer un formulaire ou un sous onglet
@@ -1044,7 +1051,7 @@ class Grille{
 		$where = str_replace("-id-", $id, $Q[0]->where);
 		$where = str_replace("-src-", $src, $where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		if($this->trace)
 			echo "GetXulTabPanels ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$req = $db->query($sql);
@@ -1123,7 +1130,7 @@ class Grille{
 		$from = str_replace("-critere-", $critere, $Q[0]->from);
 				
 		$sql = $Q[0]->select.$from.$Q[0]->where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		if($this->trace)
 			echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->connect();
@@ -1137,7 +1144,7 @@ class Grille{
 			$where = str_replace("-id-", $r['idDonnee'], $Q[0]->where);
 					
 			$sql = $Q[0]->select.$Q[0]->from.$where.$Q[0]->and_multiple1;
-			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			if($this->trace)
 				echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 			$db->connect();
@@ -1163,7 +1170,7 @@ class Grille{
 					$where = str_replace("-id-", $r['idDonnee'], $Q[0]->where);
 							
 					$sql = $Q[0]->select.$Q[0]->from.$where.$Q[0]->and_multiple2;
-					$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+					$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 					if($this->trace)
 						echo "VerifChoixDiagnostic ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 					$db->connect();
@@ -1197,7 +1204,7 @@ class Grille{
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-id-", $idDon, $Q[0]->where);
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		if($this->trace)
 			echo "GetRubDon ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->connect();
@@ -1221,7 +1228,7 @@ class Grille{
 		$where = str_replace("-idGrille-", $idGrille, $where);
 		
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		if($this->trace)
 			echo "GetXulForm ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->connect();
@@ -1239,6 +1246,7 @@ class Grille{
 			$controls = '<column flex="1">';
 		}
 		$oChamp = "";
+		$MultiSelect = "";
 		while($r = $db->fetch_assoc($req)) {
 			
 			$idDoc = 'val'.DELIM.$idGrille.DELIM.$r["id_donnee"].DELIM.$r["champ"].DELIM.$r["id_article"];
@@ -1485,7 +1493,7 @@ class Grille{
 		$where = str_replace("-multiSelect-", $multiSelect, $where);
 				
 		$sql = $Q[0]->select.$Q[0]->from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		if($this->trace)
 			echo "GetChoixVal ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->connect();
