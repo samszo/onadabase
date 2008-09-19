@@ -16,6 +16,7 @@ var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
 
+
 function CopyRub(idDst) {
 	try {
 		var verif = true;
@@ -36,7 +37,7 @@ function CopyRub(idDst) {
 			alert("Copie terminée");
 		}
 
-  	} catch(ex2){alert("AddNewGrille::"+ex2+" "+type);;}
+  	} catch(ex2){alert("CopyRub::"+ex2+" "+type);;}
 }
 
 function OuvreLienAdmin(idRub){
@@ -603,15 +604,21 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 	//ajoute le lien vers spip admin
 	//SetLienAdmin(document.getElementById("idRub").value);	
 
+	var doc = document.getElementById(idDst);
+	if(document.getElementById(idSrc))
+		var id = document.getElementById(idSrc).value;
+	else
+		var id = idSrc;
+
 	//gestion de menu contextuel du formulaire
 	if(document.getElementById('dataBox').childNodes.length>0){
-		var fs = document.getElementById('FormSaisi');
+		//construction dynamique du menu
+		ChargeMenuFromAjax(id,idDst,type);
+		//attribution du menu
+		var fs = document.getElementById(idDst);
 		fs.setAttribute("context","pop"+type);
 	}
-	
-	var doc = document.getElementById(idDst);
-	var id = document.getElementById(idSrc).value;
-	
+		
 	while(doc.hasChildNodes())
 		doc.removeChild(doc.firstChild);
   
@@ -624,6 +631,37 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
    } catch(ex2){dump(":ChargeTabboxFromAjax:"+ex2);}
 	
 }
+
+function ChargeMenuFromAjax(id,idDst,type)
+{
+  try {
+	dump("ChargeMenuFromAjax IN "+type+"\n");
+	
+	var doc = document.getElementById("menu_"+type+"_voir");
+	
+	while(doc.hasChildNodes())
+		doc.removeChild(doc.firstChild);
+  
+	var url = urlExeAjax+"?f=GetMenuPopUp&id="+id+"&type="+type;
+	//AppendResult(url,doc);
+	var menu = GetAjaxResult(url);
+	xulData="<menupopup id='popup_"+type+"_voir' " +
+          " xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul' >" +
+          menu + "</menupopup>";
+	var parser=new DOMParser();
+	var resultDoc=parser.parseFromString(xulData,"text/xml");
+	//ajoute le résultat
+	doc.appendChild(resultDoc.documentElement);
+	
+	
+	//AjaxRequest(url,'AppendTreeChildren',item)
+	
+	dump("ChargeMenuFromAjax OUT\n");
+   
+   } catch(ex2){dump(":ChargeMenuFromAjax:"+ex2);}
+	
+}
+
 
 function ChargeTreeFromKml(file,parentitem)
 {

@@ -79,7 +79,7 @@ echo '<' . '?xml-stylesheet href="chrome://global/skin/" type="text/css"?' . '>'
 echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 
 //chargement du menu overlay
-echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
+//echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 
 ?>
 
@@ -116,16 +116,34 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 
 	<popupset >
 		<popup id="popterre" onpopupshowing="javascript:;">
-			<menuitem label="Voir le(s) établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
-			<menuitem label="Ajouter un établissement" oncommand="AddNewGrille('Etab');"/>
-			<menuitem label="Voir le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
-			<menuitem label="Ajouter un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
-			<menuitem label="Ajouter un territoire" oncommand="AddNewRubrique(document.getElementById('idRub').value);"/>
+		    <menu id="menu_terre_voir" label="Voir">
+		      <menupopup id="popup_terre_voir">
+				<menuitem label="Le(s) établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
+				<menuitem label="Le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
+		      </menupopup>
+		    </menu>
+		    <menu id="menu_terre_ajouter" label="Ajouter">
+		      <menupopup id="popup_terre_ajouter">
+				<menuitem label="Un établissement" oncommand="AddNewGrille('Etab');"/>
+				<menuitem label="Un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
+				<menuitem label="Un territoire" oncommand="AddNewRubrique(document.getElementById('idRub').value);"/>
+		      </menupopup>
+		    </menu>
 		</popup>
 		<popup id="popTerre" onpopupshowing="javascript:;">
-			<menuitem label="Ajouter un établissement" oncommand="AddNewGrille('Etab');"/>
-			<menuitem label="Ajouter un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
-			<menuitem label="Ajouter un territoire" oncommand="AddNewRubrique(document.getElementById('idRub').value);"/>
+		    <menu id="menu_Terre_voir" label="Voir">
+		      <menupopup id="popup_Terre_voir">
+				<menuitem label="Le(s) établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
+				<menuitem label="Le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
+		      </menupopup>
+		    </menu>
+		    <menu id="menu_Terre_ajouter" label="Ajouter">
+		      <menupopup id="popup_Terre_ajouter">
+				<menuitem label="Un établissement" oncommand="AddNewGrille('Etab');"/>
+				<menuitem label="Un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
+				<menuitem label="Un territoire" oncommand="AddNewRubrique(document.getElementById('idRub').value);"/>
+		      </menupopup>
+		    </menu>
 		</popup>
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menuitem label="Voir le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
@@ -138,7 +156,7 @@ echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 		</popup>
 		<popup id="popEtab" onpopupshowing="javascript:;">
 			<menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
-			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
+			<menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>			
 		</popup>
 		<popup id="popvoirie" onpopupshowing="javascript:;">
 			<menuitem label="Voir les éléments de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');"/>

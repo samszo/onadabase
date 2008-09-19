@@ -35,6 +35,37 @@ class Granulat
 		$this->GetDocs();
 	}
   }
+  
+  
+	function GetTreeChildren($type,$id=-1){
+
+	    if($this->trace)
+	    	echo "Granulat:GetTreeChildren: type = $type Cols = $Cols, id= $id<br/>";
+		
+		$Xpath = "/XmlParams/XmlParam[@nom='GetOntoTree']/Querys/Query[@fonction='GetTreeChildren_".$type."']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		if($id==-1){
+			$id = $this->id;
+		}
+	
+		$where = str_replace("-parent-", $id, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		
+	    if($this->trace)
+			echo "Granulat:GetTreeChildren:sql=".$sql."<br/>";
+
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$req = $db->query($sql);
+		$db->close();
+		
+		if(mysql_num_rows($req)>0)
+			return $req;
+		else
+			return false;
+
+	}
+  
  
 /*
  * Parcourt récursivement les enfants afin de créer l'arborescence des rubriques et articles dans spip (correspondant à l'import)  
@@ -156,7 +187,7 @@ class Granulat
 				WHERE id_rubrique = ".$idRub." AND id_parent = ".$idParent;
 		;//LIMIT 0 , 93";
 
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -177,7 +208,7 @@ class Granulat
 				WHERE id_article = ".$idArt." AND id_rubrique = ".$idRub;
 		;//LIMIT 0 , 93";
 
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -201,7 +232,7 @@ class Granulat
 				SET id_rubrique = ".$idRubNew."
 				WHERE id_rubrique = ".$idRubOld;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -210,7 +241,7 @@ class Granulat
 				SET id_parent = ".$idParent."
 				WHERE id_rubrique = ".$idRubNew;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -219,7 +250,7 @@ class Granulat
 				SET id_rubrique = ".$idRubNew."
 				WHERE id_rubrique = ".$idRubOld;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -239,7 +270,7 @@ class Granulat
 				SET id_article = ".$idArtNew."
 				WHERE id_article = ".$idArtOld;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -248,7 +279,7 @@ class Granulat
 				SET id_article = ".$idArtNew."
 				WHERE id_article = ".$idArtOld;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -257,7 +288,7 @@ class Granulat
 				SET id_article = ".$idArtNew."
 				WHERE id_article = ".$idArtOld;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -266,7 +297,7 @@ class Granulat
 				SET id_article = ".$idArtNew."
 				WHERE id_article = ".$idArtOld;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -275,7 +306,7 @@ class Granulat
 				SET id_rubrique = ".$idRubNew."
 				WHERE id_article = ".$idArtNew;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		//$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -286,7 +317,7 @@ class Granulat
 	public function GetIdAdmin($idRub) {
 		
 		$sql = "SELECT id_auteur, id_rubrique FROM spip_auteurs_rubriques a WHERE a.id_rubrique=".$idRub;					
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -307,7 +338,7 @@ class Granulat
 				//association de l'article à l'auteur
 				$sql = "INSERT INTO spip_auteurs_".$objet."s (id_".$objet.",id_auteur)
 					SELECT ".$newId.", id_auteur FROM spip_auteurs where login='".$this->site->scope["login"]."'";					
-				$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+				$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 				$req = $DB->query($sql);
 				$DB->close();
 		}
@@ -316,7 +347,7 @@ class Granulat
   
   	function AddAuteur($idArt, $idAuteur) {
   		$sql = "INSERT INTO spip_auteurs_articles (id_auteur, id_article) VALUES (".$idAuteur.", ".$idArt."	)"	;	
- 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+ 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
   	}
@@ -325,7 +356,7 @@ class Granulat
 	  
 		//association de l'article à l'auteur
 		$sql = "SELECT id_auteur, id_article FROM spip_auteurs_articles a WHERE a.id_article=".$idArt;					
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -344,7 +375,7 @@ class Granulat
 	$sql = "INSERT INTO spip_rubriques
 		SET titre = ".$this->site->GetSQLValueString($titre, "text").", id_parent=".$id;
 	
-	$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+	$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 	$req = $DB->query($sql);
 	$newId = mysql_insert_id();
 	$DB->close();
@@ -365,7 +396,7 @@ class Granulat
 				, date = now()"
 				.", id_rubrique=".$id;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$newId = mysql_insert_id();
 		$DB->close();
@@ -388,7 +419,7 @@ class Granulat
 				."', maj ='".$maj
 				."', id_rubrique=".$id;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$newId = mysql_insert_id();
 		$DB->close();
@@ -408,7 +439,7 @@ class Granulat
 		$sql = "INSERT INTO spip_mots_rubriques
 				SET id_mot = ".$id_mot.", id_rubrique=".$id;
 			
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$newId = mysql_insert_id();
 		$DB->close();
@@ -487,7 +518,7 @@ class Granulat
 				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique  
 			WHERE r.id_rubrique = ".$this->id." ".$extraSql;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		//vérifie l'existance de l'article pour les forms
@@ -498,7 +529,7 @@ class Granulat
 			$NomGrille = $this->site->GetSQLValueString($this->titre, "text");
 			$sql = "INSERT INTO `spip_articles` (`titre`, id_rubrique, statut, date)
 				VALUES (".$NomGrille.",".$this->id.",'prepa', now())";
-			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$req = $DB->query($sql);
 			$artId = mysql_insert_id();
 			$DB->close();
@@ -520,7 +551,7 @@ class Granulat
 			WHERE r.id_rubrique = ".$this->id." ".$extraSql."
 				";
 		//echo $sql."<br/>";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -545,7 +576,7 @@ class Granulat
 				
 			WHERE fa.id_article = ".$idArticle;
 		//echo $sql."<br/>"; spip_forms_articles
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 			
@@ -562,7 +593,7 @@ class Granulat
 				
 			WHERE fd.id_donnee = ".$idDonnee;
 		//echo $sql."<br/>"; spip_forms_articles
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 			
@@ -587,7 +618,7 @@ class Granulat
 				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = ".$idGrille."
 				WHERE da.id_article = ".$idArticle;
 			
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -610,7 +641,7 @@ class Granulat
 				FROM `spip_forms_donnees_champs`
 				WHERE `id_donnee` =".$idDonnee;
 		
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -639,7 +670,7 @@ class Granulat
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = ".$formId."
 			WHERE da.id_article = ".$artId;
 			//echo $sql."<br/>";
-			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$req = $DB->query($sql);
 			$DB->close();
 			$r = $DB->fetch_assoc($req);
@@ -650,20 +681,20 @@ class Granulat
 			//attache le form à l'article
 			$sql = "INSERT INTO `spip_forms_articles` (id_form, id_article)
 				VALUES (".$formId.",".$artId.")";
-			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$req = $DB->query($sql);
 			$DB->close();
 			//création de la donnée du formulaire
 			$sql = "INSERT INTO `spip_forms_donnees` (`id_form`, `date`,`confirmation`, `statut`, `rang`)
 				VALUES (".$formId.", now(), 'valide', 'prop', 1)";
-			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$req = $DB->query($sql);
 			$donId = mysql_insert_id();
 			$DB->close();
 			//attache la donnée à l'article
 			$sql = "INSERT INTO `spip_forms_donnees_articles` (`id_donnee`, `id_article`)
 				VALUES (".$donId.", ".$artId.")";
-			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$req = $DB->query($sql);
 			$DB->close();
 			//echo "-- création de la donnée ".$donId." \n<br/>"; 
@@ -681,21 +712,21 @@ class Granulat
 		//attache le form à l'article
 		/*$sql = "INSERT INTO `spip_forms_articles` (id_form, id_article)
 				VALUES (".$formId.",".$artId.")";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();*/
 			
 		//création de la donnée du formulaire
 		$sql = "INSERT INTO `spip_forms_donnees` (`id_form`, `date`, `maj`, `confirmation`, `statut`, `rang`)
 				VALUES (".$formId.", '".$date."', '".$maj."', 'valide', 'prop', 1)";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$donId = mysql_insert_id();
 		$DB->close();
 		//attache la donnée à l'article
 		$sql = "INSERT INTO `spip_forms_donnees_articles` (`id_donnee`, `id_article`)
 				VALUES (".$donId.", ".$artId.")";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		//echo "-- création de la donnée ".$donId." \n<br/>"; 
@@ -710,7 +741,7 @@ class Granulat
 			FROM `spip_syndic`
 			WHERE statut = 'publie' AND id_rubrique =".$this->id;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
@@ -725,56 +756,6 @@ class Granulat
 		return $valeur;
 	}
 
-	function GetCommuneId($id=-1){
-
-	if($id==-1)
-		$id=$this->id;
-	
-	//récupère le granulat parent
-	$sql = "SELECT r.descriptif, rp.descriptif rpdesc, rp.id_rubrique
-		FROM spip_rubriques r
-			INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
-		WHERE r.id_rubrique = ".$id;
-		//echo "GetCommuneId ".$sql."<br/>";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
-		$req = $DB->query($sql);
-		$DB->close();
-		while ($r = $DB->fetch_assoc($requete))
-		{
-			if(strstr($r["descriptif"], 'Code INSEE :')!="")
-				return $id;
-			if(strstr($r["rpdesc"], 'Code INSEE :')!="")
-				return $r["id_rubrique"];
-			//une rubrique commune doit avoir une grille commune
-			$cTitre = $this->GetValeurForm($this->site->infos["GRILLE_Commune"], 'Titre',"","","",$r["id_rubrique"]);
-			//echo "GetCommuneId ".$cTitre."<br/>";
-			if($cTitre!="")
-				return $r["id_rubrique"];
-			else
-				$this->GetCommuneId($r["id_rubrique"]);
-		}
-  
-  }
-
-	function GetCommune($champ="titre",$complet=false){
-	
-		//récupère la commune du granulat
-		$sql = "SELECT rCom.titre, rCom.id_rubrique
-			FROM spip_rubriques r, spip_rubriques rCom
-			WHERE r.id_rubrique = ".$this->id."
-				AND rCom.descriptif LIKE '%".substr($this->descriptif, 0, 5)."%'";
-		//echo $sql."<br/>";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
-		$req = $DB->query($sql);
-		$DB->close();
-		$r = $DB->fetch_assoc($req);
-		
-		if($complet)
-			return $r;
-		else
-			return $r[$champ];
-		
-	}
 
 	public function TronqueTexte($max_caracteres , $space='1' , $points='1',$tocut="")
 	{
@@ -825,7 +806,7 @@ class Granulat
 			FROM spip_rubriques r
 			WHERE r.id_rubrique = ".$id;
 	
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 
@@ -850,7 +831,7 @@ class Granulat
 			WHERE r.id_parent = ".$id;
 		//echo $this->site->infos["SQL_LOGIN"]."<br/>";
 	
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 
@@ -866,7 +847,7 @@ class Granulat
 
 	public function GetProps()
 	{
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 		if($this->trace)
 			echo "//charge les propiétés du granulat $this->id -<br/>";
@@ -896,29 +877,12 @@ class Granulat
 
 	}
 	
-	function GetOaiSet(){
-
-		$sql = "SELECT CONCAT( '".$this->site->id."', 'site', ':', r.id_secteur, 'sect', ':', r.id_parent, 'rubpar', ':', r.id_rubrique, 'rub' ) setSpec
-			FROM spip_rubriques r
-			WHERE id_rubrique = ".$this->id;
-		//echo $sql;
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
-		$DB->connect();
-		$req = $DB->query($sql);
-		$DB->close();
-		$r = $DB->fetch_assoc($req);
-		$val = $r['setSpec'];
-		
-		return $val;
-	
-	}
-
 	public function GetValeurForm($form, $champ, $valdefaut="", $sep="", $deb="", $id=-1)
 	{
 		if($id==-1)
 			$id=$this->id;
 
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 	
 		//récupère les sous thème
@@ -947,7 +911,7 @@ class Granulat
 
 	public function GetGrille($IdGrille, $ExtraSql="")
 	{
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 	
 		//récupère les sous thème
@@ -969,7 +933,7 @@ class Granulat
 	
 	public function GetDocs()
 	{
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 		//charge les documents du granulat
 		$sql = "SELECT r.titre rtitre, r.id_rubrique, r.descriptif
@@ -994,7 +958,7 @@ class Granulat
 			FROM spip_rubriques
 			WHERE id_parent = ".$this->id
 			." ORDER BY titre";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 		$req = $DB->query($sql);
 		$DB->close();
@@ -1015,7 +979,7 @@ class Granulat
 			FROM spip_rubriques
 			WHERE id_parent = ".$this->id
 			." ORDER BY titre";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 		$req = $DB->query($sql);
 		$i = 0;
@@ -1058,26 +1022,22 @@ class Granulat
 		return $GranulatTofs;
 	}
 
-	public function GetLogo()
-	{
-		return 'GetLogo<br/>';
-	}
-
 	public function GetMotClef() {
 		//récupère lid du granulat
 		$sql = "SELECT id_mot, id_rubrique
 			FROM `spip_mots_rubriques`
 			WHERE id_rubrique =".$this->id;
 		//echo $sql."<br/>";
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 				
 		$valeur="";
 		while($r = $DB->fetch_assoc($req)) {
-			$valeur = $r['id_mot'];
+			$valeur .= $r['id_mot'].DELIM;
 		}
-		
+		//enlève le dernier délmiteur
+		$valeur = substr($valeur,0,-1);
 		return $valeur;
 	}
 
@@ -1091,7 +1051,7 @@ class Granulat
 			FROM spip_rubriques r
 			WHERE r.id_rubrique = ".$id;
 	
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		

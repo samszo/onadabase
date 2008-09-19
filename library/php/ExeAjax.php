@@ -1,4 +1,9 @@
 <?php
+	session_start();
+	if(!isset($_SESSION['version'])) {
+		$_SESSION['version']="V1";
+	}
+	
 	$ajax = true;
 	require_once ("../../param/Constantes.php");
 	require_once ("../../param/ParamPage.php");
@@ -42,6 +47,9 @@
 		case 'GetFilAriane':
 			$resultat = GetFilAriane(array($_GET['titre'],$_GET['typeDrc'],$_GET['typeDst']),$id);
 			break;
+		case 'GetMenuPopUp':
+			$resultat = GetMenuPopUp($_GET['id'],$objSite,$_GET['type']);
+			break;
 		case 'GetTree':
 			$resultat = GetTree($_GET['type'],$cols,$id,$objSite);
 			break;
@@ -64,20 +72,20 @@
 			$resultat = GetCurl($_GET['url']);
 			break;
 		case 'AddXmlDonnee':
-			$resultat = AddXmlDonnee($_GET['url']);
+			$resultat = AddXmlDonnee($_GET['url'], $objSite);
 			break;
 		case 'AddNewGrille':
-			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type'], $_GET['login']);
+			$resultat = AddNewGrille($_GET['src'], $_GET['dst'], $_GET['type'], $objSite);
 			break;
 		case 'NewRubrique':
 			$resultat = NewRubrique($_GET['idRubSrc'], $_GET['idRubDst'], $_GET['idAuteur']);
 			break;
 		case 'Synchronise':
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
-			$resultat = Synchronise($siteSrc, $siteDst=-1, $_GET['idAuteur']);
+			$resultat = Synchronise($objSite,$objSiteSync, $_GET['idAuteur']);
 			break;
 		case 'SynchroImport':
-			$resultat = SynchroImport($_GET['idAuteur']);
+			$resultat = SynchroImport($objSiteSync, $_GET['idAuteur']);
 			break;
 		case 'CleanArticle':
 			$resultat = CleanArticle($_GET['deb'], $_GET['fin']);
@@ -276,11 +284,8 @@
 	 * actualise les id rubriques et articles
 	 * et import les nouvelles rubriques et articles du serveur
 	 */
-	function Synchronise($siteSrc, $siteDst=-1, $idAuteur){
-    	
-		global $objSite;
-		global $objSiteSync; //Mundi
-		    	
+	function Synchronise($siteSrc, $siteDst, $idAuteur){
+    			    	
 		if(TRACE)
 			echo "ExeAjax:Synchronise:idAuteur $idAuteur<br/>";
 
@@ -299,9 +304,9 @@
 			echo $row['id_rubrique']." ".$row['id_auteur'];
 		}*/
 			
-		$synchro = new Synchro($objSite, $objSite);
-    	$xmlUrl = $synchro->synchronise($objSiteSync, $objSite, $idAuteur);
-    	$url = $objSiteSync->infos["urlExeAjax"]."?f=SynchroImport&idAuteur=".$idAuteur;
+		$synchro = new Synchro($siteSrc, $siteDst);
+    	$xmlUrl = $synchro->synchronise($idAuteur);
+    	$url = $siteDst->infos["urlExeAjax"]."?f=SynchroImport&idAuteur=".$idAuteur;
 		if(TRACE)
 			echo "ExeAjax:Synchronise:url=$url<br/>";
 
@@ -344,13 +349,12 @@
 		return $FilAriane;
 	}
 	
-	function AddXmlDonnee($url)
+	function AddXmlDonnee($url,$objSite)
 	{
 		if(TRACE)
 			echo "ExeAjax:AddXmlDonnee:<br/>";
-		global $objSite;
 		$g = new Grille($objSite);
-		$url = PathRoot."/param/controles.xml";
+		$url = PathRoot."/param/controlesAccueil.xml";
 		$g->AddXmlDonnee($url);
 	}
 
@@ -360,24 +364,27 @@
 	 * et synchronise les nouvelles rubriques et articles du serveur
 	 * 
 	 */
-	function SynchroImport($idAuteur) {	
-		global $objSite;
-		global $objSiteSync;
+	function SynchroImport($objSite,$idAuteur) {	
+		
+		$debug = true;
 		
 		if(TRACE){
 			echo "ExeAjax:SynchroImport:idAuteur=".$idAuteur."<br/>";
 			print_r($_POST);
 			print_r($_FILES);
-		}	
+		}
 		
-		if ((isset($_FILES['file']['name'])&&($_FILES['nom_du_fichier']['error'] == UPLOAD_ERR_OK))) {
+		//if ((isset($_FILES['file']['name'])&&($_FILES['nom_du_fichier']['error'] == UPLOAD_ERR_OK))) {
 			if(TRACE){
 				echo "ExeAjax:SynchroImport:PATH = ".PathRoot."/param/";
 			}
-			$chemin_destination = PathRoot."/param/";
-			move_uploaded_file($_FILES['file']['tmp_name'], $chemin_destination.$_FILES['file']['name']);
-			
-			$src = $chemin_destination.$_FILES['file']['name'];
+			if($debug){
+				$src = PathRoot."/param/synchroExport-6.xml";
+			}else{
+				$chemin_destination = PathRoot."/param/";
+				move_uploaded_file($_FILES['file']['tmp_name'], $chemin_destination.$_FILES['file']['name']);			
+				$src = $chemin_destination.$_FILES['file']['name'];
+			}
 			if(TRACE){
 				echo "ExeAjax:SynchroImport:urlSRC = ".$src;
 			}
@@ -391,7 +398,7 @@
 			$doc->loadXML($reponseSynch);
 			
 			$doc2 = new DOMDocument();
-			$xmlUrl = $sync->synchronise($objSiteSync, $objSite, $idAuteur);
+			$xmlUrl = $sync->synchronise($idAuteur);
 			$doc2->load($xmlUrl);
 
 			//$node = $doc->importNode($doc2->firstChild, true);
@@ -406,7 +413,7 @@
 			echo "ExeAjax:SynchroImport:SOURCE = ".$doc->saveXML(); // Ne pas mettre dans les traces
 			
 			//echo $reponseSynch;
-		}
+		//}
 	}
 	
 	function GetAdminRub($idAuteur) {
@@ -550,6 +557,8 @@
 		//récupération des js
 		$Xpath = "/XmlParams/XmlParam[@nom='".$objSite->scope['ParamNom']."']/Querys/Query[@fonction='GetTreeChildren_".$type."']/js";
 		$js = $objSite->GetJs($Xpath, array($type,$id));
+		$objXul = new Xul($objSite);
+		//$tree = $objXul->GetTree($type,$Cols,$js,$id); 
 		
 		$tree = "<tree flex=\"1\" 
 			id=\"tree".$type."\"
@@ -628,6 +637,14 @@
 		
 	}
 	
+	function GetMenuPopUp($idRub,$objSite,$type){
+
+		$xul = new Xul($objSite);
+			
+		return $xul->GetMenuPopUp($idRub,$type);
+	
+	}
+	
 	function GetTreeCsv($idRub){
 		global $objSite;
 		$g = new Grille($objSite);
@@ -653,10 +670,10 @@
 		
 	}
 	
-	function AddNewGrille($idRubSrc, $idRubDst, $trs)		{
+	function AddNewGrille($idRubSrc, $idRubDst, $trs, $objSite)		{
 
-		global $objSite;
-		echo "ExeAjax:AddNewGrille:".$idRubSrc.", ".$idRubDst.", ".$trs."<br/>";
+		if(TRACE)
+			echo "ExeAjax:AddNewGrille:".$idRubSrc.", ".$idRubDst.", ".$trs."<br/>";
 		$g = new Granulat($idRubDst,$objSite);
 		$id = $g->SetNewEnfant($trs." Sans Nom ".date('j/m/y - H:i:s'));
 		//ajoute une sous-rubrique
@@ -682,15 +699,11 @@
 		if($trs=="EspaceExt")
 			AddNewEspaceGenExt(63, $id, "ParamGenEspace");
 		if($trs=="ObjetIntBat") {
-			
 			/*$idArt = $g->SetNewArticle($g->titre." ".date('j/m/y - H:i:s'));
-			
 				echo ":GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
 			//ajoute une nouvelle donnee
 			$idDon = $grille->AddDonnee($id, $idRubDst, false, $idArt);*/
-		
 		}
-		
 		if($trs=="ObjetInt") {
 			//AddNewObjetInt(1167, $id, "ParamObjetInt");
 			//$g->SetMotClef($mot,$id);
