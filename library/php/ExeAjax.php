@@ -354,7 +354,7 @@
 		if(TRACE)
 			echo "ExeAjax:AddXmlDonnee:<br/>";
 		$g = new Grille($objSite);
-		$url = PathRoot."/param/controlesAccueil.xml";
+		$url = PathRoot."/param/controlesAirStatio.xml";
 		$g->AddXmlDonnee($url);
 	}
 
