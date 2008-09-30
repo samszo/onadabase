@@ -1,76 +1,16 @@
 <?php
-require_once ("../../../param/ParamPage.php");
 session_start();
+require_once ("../../../param/ParamPage.php");
 
-extract($_SESSION,EXTR_OVERWRITE);
-extract($_POST,EXTR_OVERWRITE);
+$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
+$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
+$_SESSION['version']= $_POST['version'];
 
-if(!isset($_SESSION['loginSess'])) {
-	$login=$_POST['login_uti'];
-	$mdp=$_POST['mdp_uti'];
-} else {
-	$login=$_SESSION['loginSess'];
-	$mdp=$_SESSION['mdpSess'];
-	$idAuteur=$_SESSION['IdAuteur'];
-}
-
-/*if(!isset($_SESSION['type_controle']))
-{*/
-	//$login=$_POST['login_uti'];
-	//$mdp=$_POST['mdp_uti'];
-	$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
-	$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
-	$_SESSION['version']= $_POST['version'];
-//}
-
-function ChercheAbo ($login, $mdp, $objSite)
-	{
-		// connexion serveur
-		$link = mysql_connect($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"]) or die("Impossible de se connecter : " . mysql_error());	
-		// Sélection de la base de données
-		//mysql_select_db("solacc", $link);	
-		mysql_select_db($objSite->infos["SQL_DB"], $link);	
-		
-		$sql = "SELECT id_auteur, nom, login, email  FROM spip_auteurs WHERE login = '".$login."' AND pass = md5( CONCAT(alea_actuel,'$mdp'))";
-		//echo $sql;
-		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
-			//echo $nbResultat."<br/>";
-			
-		mysql_close($link);
-	  	$nbre_lignes = mysql_num_rows($req);
-	  	//echo $nbre_lignes;
-		if ($nbre_lignes == 1)
-		{
-			while($resultat = mysql_fetch_assoc($req))
-				{	
-					$_SESSION['IdAuteur'] = $resultat['id_auteur'];
-					$_SESSION['NomSess'] = $resultat['nom'];
-					$_SESSION['EmailSess'] = $resultat['email'];
-					$_SESSION['loginSess'] = $resultat['login'];	
-					$_SESSION['IpSess'] = $_SERVER['REMOTE_ADDR'];
-					$_SESSION['mdpSess'] = $mdp;
-				}
-			
-		}
-		else
-		{
-			include("log.php");
-			exit;
-		}
-	}
-
-/*function Test ($syncSite)
-	{
-		// connexion serveur
-		$link = mysql_connect($syncSite->infos["SQL_HOST"], $syncSite->infos["SQL_LOGIN"], $syncSite->infos["SQL_PWD"]) or die("Impossible de se connecter : " . mysql_error());	
-		// Sélection de la base de données
-		//mysql_select_db("solacc", $link);	
-		mysql_select_db($syncSite->infos["SQL_DB"], $link) or die("Impossible de se connecter a la base : " . mysql_error());	
-	}
-
-Test (	$objSiteSync);*/
+if(TRACE)
+	echo "index:login=$login, $mdp<br/>";
 ChercheAbo ($login, $mdp, $objSite);
-//$idAuteur=$_SESSION['IdAuteur'];
+if(TRACE)
+	echo "index:login=$login, $mdp<br/>";
 
 header ("Content-type: application/vnd.mozilla.xul+xml; charset=iso-8859-15");
 header ("title: Saisi des diagnosics d'accessibilité");
@@ -80,6 +20,8 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 
 //chargement du menu overlay
 //echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
+//echo '<'.'?xul-overlay href="overlay/choix_diagnostic.xul" ?'.'>';
+echo '<'.'?xul-overlay href="overlay/PopupMenuSet.xul"?'.'>';
 
 ?>
 
@@ -251,38 +193,48 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 	<vbox  flex="1" style="overflow:auto">
 	
 		<hbox class="menubar">
+			<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;" hidden="true"/>
 			<image src="images/logo.png" />
-			<label id="idAuteur" value="<?php echo $_SESSION['IdAuteur'];?>" class="menubartext"/>
-			<script type="text/javascript">document.getElementById('idAuteur').style.visibility="hidden";</script>
-			<label value="Auteur du diagnostic : " class="menubartext"/>
-			<label id="login" value="<?php echo $login; ?>" class="menubartext" onclick="window.location.replace('exit.php') ; "/>
-			<button id="btnSync" label="Synchroniser" onclick="SynchroniserExportImport()"/>
-			<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;"/>
-			<label id="infiDiag" value="
-			<?php echo 'Version : '.$_SESSION['version'];
-				 echo ' ++ Type de critère :';
-				 if ($_SESSION['type_controle']== null) echo 'Aucun'; 
-				 else foreach($_SESSION['type_controle'] as $controle) {
-				 	if ($controle=='multiple_1_1') echo ' Réglementaire -'; 
-				 	if ($controle=='multiple_1_2') echo ' Souhaitable -'; 
-				 }
-				 echo ' ++ Contexte réglementaire :'; 
-				 if ($_SESSION['type_contexte']== null) echo 'Aucun'; 
-				 else foreach($_SESSION['type_contexte'] as $contexte) {
-				 	if($contexte == 'multiple_2_1' ) echo ' Travail -';
-				 	if($contexte == 'multiple_2_2' ) echo ' ERP/IOP -';  
-				 	if($contexte == 'multiple_2_3' ) echo ' Logement -';  
-				 	if($contexte == 'multiple_2_4' ) echo ' Voirie -';    
-				 }
-				 ?>" class="menubartext"/>
-			<script type="text/javascript">
-				document.getElementById('progressMeter').style.visibility="hidden";
-				if ("<?php echo $_SERVER['REMOTE_ADDR']?>"!="127.0.0.1") {
-					document.getElementById('btnSync').style.visibility="hidden";
-				}
-			</script>
+			<menubar id='choix_diagnostic'>
+				<menu label="Gestion des bases">
+					<menupopup >
+						<menuitem accesskey="d" label="Déconnexion" oncommand="window.location.replace('exit.php');"/>
+						<?php 
+							if($_SERVER['REMOTE_ADDR']=="127.0.0.1")
+								echo '<menuitem label="Synchroniser" oncommand="SynchroniserExportImport();"/>';
+						?>
+					</menupopup>
+				</menu>
+				<menu label="Version" >
+					<menupopup id="mnuVersion" onpopupshowing="javascript:;">
+						<menuitem id="version" checked="<?php if($_SESSION['version']=="V1") echo "true"; ?>" type="radio" label="V1" value='V1' oncommand="SetChoixDiagnostic();"/>
+						<menuitem id="version" checked="<?php if($_SESSION['version']=="V2") echo "true"; ?>" type="radio" label="V2" value='V2' oncommand="SetChoixDiagnostic();"/>
+					</menupopup>
+				</menu>
+				<menu label="Type de critère" >
+					<menupopup id="mnuTypeCrit" onpopupshowing="javascript:;">
+						<menuitem id="type_controle1" type="checkbox" checked="<?php if($_SESSION['type_controle'][1]=="multiple_1_1") echo "true"; ?>" label="Réglementaire" value='multiple_1_1' oncommand="SetChoixDiagnostic();" />
+						<menuitem id="type_controle2" type="checkbox" checked="<?php if($_SESSION['type_controle'][0]=="multiple_1_2") echo "true"; ?>" label="Souhaitable" value='multiple_1_2' oncommand="SetChoixDiagnostic();" />
+					</menupopup>
+				</menu>
+				<menu label="Contexte réglementaire" onpopupshowing="javascript:;">
+					<menupopup id="mnuContReg" >
+						<menuitem id="type_contexte1" type="checkbox" checked="<?php if($_SESSION['type_contexte'][0]=="multiple_2_1") echo "true"; ?>" label="Travail" value='multiple_2_1' oncommand="SetChoixDiagnostic();"/>
+						<menuitem id="type_contexte2" type="checkbox" checked="<?php if($_SESSION['type_contexte'][1]=="multiple_2_2") echo "true"; ?>" label="ERP/IOP" value='multiple_2_2' oncommand="SetChoixDiagnostic();"/>
+						<menuitem id="type_contexte3" type="checkbox" checked="<?php if($_SESSION['type_contexte'][3]=="multiple_2_3") echo "true"; ?>" label="Logement" value='multiple_2_3' oncommand="SetChoixDiagnostic();"/>
+						<menuitem id="type_contexte4" type="checkbox" checked="<?php if($_SESSION['type_contexte'][2]=="multiple_2_4") echo "true"; ?>" label="Voirie" value='multiple_2_4' oncommand="SetChoixDiagnostic();"/>
+					</menupopup>
+				</menu>
+			</menubar>
 		</hbox>	
-		
+		<hbox >
+			<label hidden="true" id="idAuteur" value="<?php echo $_SESSION['IdAuteur'];?>" />
+			<label hidden="false" id="login" value="<?php echo $login; ?>" />
+			<label hidden="false" value="sur" />
+			<label hidden="false" value="<?php echo $objSite->infos["NOM"]; ?>" />
+			<label id="ChoixDiagnostic" value="" />
+		</hbox>
+
 		<hbox id="nav-toolbar" >
 			<label id="tbbAccueil" value="Accueil" class="text-link" />
 			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(1942,'Territoires','terre','Terre');"/>
@@ -345,6 +297,8 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 
 <script type="application/x-javascript" >
    ChargeTreeFromAjax('idRub','treeRub','terre');
+	//met à jour le choix du diagnostic
+	SetChoixDiagnostic();
 </script>
 
 </window>

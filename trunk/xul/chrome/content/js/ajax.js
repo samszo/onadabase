@@ -2,7 +2,12 @@
 // AJAX Functions
 //--------------------------------------------
 
+
 function AppendResult(url,doc,ajoute) {
+	AppendResult(url,doc,ajoute,"box");
+}
+
+function AppendResult(url,doc,ajoute,cont) {
   try {
 	dump("AppendResult IN "+url+"\n");
 	p = new XMLHttpRequest();
@@ -15,9 +20,9 @@ function AppendResult(url,doc,ajoute) {
 	      alert("Réception erreur " + p.status);
 	}else{
 	    response = p.responseText;
-		xulData="<box id='dataBox' flex='1'  " +
+		xulData="<"+cont+" id='dataBox' flex='1'  " +
 	          "xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>" +
-	          response + "</box>";
+	          response + "</"+cont+">";
 		var parser=new DOMParser();
 		var resultDoc=parser.parseFromString(xulData,"text/xml");
 		if(!ajoute){
@@ -32,6 +37,37 @@ function AppendResult(url,doc,ajoute) {
 	dump("AppendResult OUT \n");
    } catch(ex2){alert(ex2);dump("::"+ex2);}
 }
+
+function InsertBeforeResult(url,doc) {
+  try {
+	dump("InsertBeforeResult IN "+url+"\n");
+	p = new XMLHttpRequest();
+	p.onload = null;
+	p.open("GET", url, false);
+	p.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	p.send(null);
+
+	if (p.status != "200" ){
+	      alert("Réception erreur " + p.status);
+	}else{
+	    response = p.responseText;
+		xulData="<vbox id='dataBox' flex='1'  " +
+	          "xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>" +
+	          response + "</vbox>";
+		var parser=new DOMParser();
+		var resultDoc=parser.parseFromString(xulData,"text/xml");
+		//ajoute le résultat
+		parent = doc.parentNode
+		parent.insertBefore(resultDoc.documentElement, doc.nextSibling
+		);
+	}
+	return resultDoc ;
+	dump("InsertBeforeResult OUT \n");
+   } catch(ex2){alert(ex2);dump("::"+ex2);}
+}
+
+
+
 
 function UploadFile(url, file){
 	
