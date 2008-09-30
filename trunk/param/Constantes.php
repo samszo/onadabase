@@ -25,6 +25,7 @@
   define ("jsPathRoot",PathRoot."/library/js/");
 
   define ("XmlParam",PathRoot."/param/SolAcc.xml");
+  define ("XmlScena",PathRoot."/param/scenarisation.xml");
   //define ("XmlParam","http://www.naoss.fr:81/mundigo/param/SolAcc.xml");
   
   define('EOL', "\r\n");
@@ -44,6 +45,7 @@ $SiteLocal1 = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"MOT_CLEF_OBS" => 151,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
@@ -53,21 +55,21 @@ $SiteLocal1 = array(
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
-	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
+	"lienAdminSpip" => "http://localhost/onadabase/spipsync/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",	
 	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
 	"urlLibPhp" => "http://localhost/onadabase/library/php/",
-	"pathUpload" => PathRoot."/spip/IMG/",
+	"pathUpload" => PathRoot."/spipsync/IMG/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
-	"pathSpip" => "http://localhost/onadabase/spip/"
+	"pathSpip" => "http://localhost/onadabase/spipsync/"
 	); 
 $SiteLocal2 = array(
 	"SQL_LOGIN" => "root", 
 	"SQL_PWD" => "", 
 	"SQL_HOST" => "localhost",
 	"SQL_DB" => "onadalocal",
-	"NOM" => "onadabase",//je sais pas
+	"NOM" => "onadalocal",//je sais pas
 	"SITE_PARENT" => -1,//je sais pas
 	"SITE_ENFANT" => -1,
 	"GRILLE_GEO" => 1,
@@ -77,6 +79,7 @@ $SiteLocal2 = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"MOT_CLEF_OBS" => 151,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
@@ -111,6 +114,7 @@ $SiteNaos = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"MOT_CLEF_OBS" => 151,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
@@ -145,6 +149,7 @@ $SiteNaos = array(
 	"GRILLE_OBS" => 67,
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
+	"MOT_CLEF_OBS" => 151,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,

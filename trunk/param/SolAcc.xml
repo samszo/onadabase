@@ -35,7 +35,26 @@
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','ObjetExt');"/>
 			</menuDst>
 		</menuSrc>
+
+		<menuSrc code="Bat">
+			<menuDst codeTree="niveau" codeSaisi="Niveau" lib="Niveau" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Niveau');"/>
+			</menuDst>
+			<menuDst codeTree="objetintbat" codeSaisi="ObjetExt" lib="Cabines Ascenseurs" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','ObjetIntBat');"/>
+			</menuDst>
+		</menuSrc>
+		<menuSrc code="Niveau">
+			<menuDst codeTree="espaceint" codeSaisi="EspaceInt" lib="Espaces intérieurs" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','EspaceInt');"/>
+			</menuDst>
+			<menuDst codeTree="objetint" codeSaisi="ObjetInt" lib="Objet(s) intérieurs" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','ObjetInt');"/>
+			</menuDst>
+		</menuSrc>
+
 	</XmlParam>
+
 	<XmlParam nom="GetOntoTree">
 		<Querys>
 			<Query fonction="GetTreeChildren_SigProb">
@@ -721,6 +740,8 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					, fdcc1.valeur TextCont
 					, m.titre RepCont
 					, m1.titre ReponsePhoto
+					, fdc21.valeur regle
+					, fdp2.id_donnee idDonneCont
 				</select>
 				<from> 
 					FROM spip_rubriques r
@@ -755,6 +776,16 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					AND fdcc2.champ = 'mot_1'
 					INNER JOIN spip_mots m ON m.id_mot = fdcc2.valeur
 					
+					INNER JOIN spip_forms_donnees fdp2 ON fdp2.id_form =-idFormCont-
+					INNER JOIN spip_forms_donnees_champs fdc22 ON fdc22.id_donnee = fdp2.id_donnee
+					AND fdc22.champ = 'ligne_1' AND fdc22.valeur = fdc.valeur 
+					LEFT JOIN spip_forms_donnees_champs fdc21 ON fdc21.id_donnee = fdp2.id_donnee
+					AND fdc21.champ = 'multiple_1' AND fdc21.valeur = 'multiple_1_1' 
+					
+					
+
+					
+					
 				</from>
 				<where> WHERE r.id_rubrique IN(-ids-) GROUP BY idRubPar, idRub, IdArt ORDER BY idRubPar, idRub, IdArt, idCont</where>
 				<dst>Art</dst>
@@ -772,6 +803,8 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					, fdcc1.valeur TextCont
 					, m.titre RepCont
 					, m1.titre ReponsePhoto
+					, fdc21.valeur regle
+					, fdc21.id_donnee idDonneCont
 				</select>
 				<from> 
 					FROM spip_rubriques r
@@ -796,7 +829,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					INNER JOIN spip_articles a1 ON a1.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda1 ON fda1.id_article = a1.id_article
 					INNER JOIN spip_forms_donnees fdp ON fdp.id_donnee = fda1.id_donnee
-					AND fdp.id_form =59
+					AND fdp.id_form =-idFormRep-
 					INNER JOIN spip_forms_donnees_champs fdcc ON fdcc.id_donnee = fdp.id_donnee
 					AND fdcc.champ = 'ligne_1'
 					 AND fdcc.valeur = fdc.valeur
@@ -805,6 +838,14 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					INNER JOIN spip_forms_donnees_champs fdcc2 ON fdcc2.id_donnee = fdcc.id_donnee
 					AND fdcc2.champ = 'mot_1'
 					INNER JOIN spip_mots m ON m.id_mot = fdcc2.valeur
+
+					INNER JOIN spip_articles a2 ON a2.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda2 ON fda2.id_article = a2.id_article
+					LEFT JOIN spip_forms_donnees fdp2 ON fdp2.id_donnee = fda2.id_donnee
+					AND fdp2.id_form =-idFormCont-
+					LEFT JOIN spip_forms_donnees_champs fdc21 ON fdc21.id_donnee = fdp2.id_donnee
+					AND fdc21.champ = 'multiple_1' AND fdc21.valeur = 'multiple_1_1' 
+
 					
 				</from>
 				<where> WHERE r.id_rubrique IN(-ids-) GROUP BY idRubPar, idRub, IdArt ORDER BY idRubPar, idRub, IdArt, idCont</where>
@@ -902,6 +943,15 @@ INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
 				<where> WHERE da.id_article =-src-  AND fd.id_form =-id-</where>
 				<dst>Form</dst>
 			</Query>
+
+			<Query fonction="Grille_GetLegendeControle">
+				<select>SELECT dc.valeur, dc.champ, dc.id_donnee, fc.id_form grille, fc.titre, fc.type, fc.extra_info </select>
+				<from> FROM spip_forms_donnees_champs dc
+				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ
+				 </from>
+				<where> WHERE dc.id_donnee =-id- AND fc.id_form =-idGrille-
+				ORDER BY dc.id_donnee, fc.rang, dc.champ</where>
+			</Query>
 			
 			<Query fonction="Grille_GetDonnee">
 				<select>SELECT fda.id_article, dc.valeur, dc.champ, dc.id_donnee, fc.id_form grille, fc.titre, fc.type, fc.extra_info </select>
@@ -923,7 +973,7 @@ INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
 				<from> FROM spip_forms_donnees sfd
 				INNER JOIN spip_forms_donnees_champs sfdc ON sfdc.id_donnee = sfd.id_donnee AND sfdc.valeur = '-critere-'
 				 </from>
-				<where> WHERE sfd.id_form = 54 GROUP BY idDonnee DESC</where>
+				<where> WHERE sfd.id_form = -idForm- GROUP BY idDonnee DESC</where>
 			</Query>
 			
 			<Query fonction="Grille_GetDonneeChoix">
@@ -1218,6 +1268,20 @@ LIMIT 0 , 1
 			<Query fonction="AddNewArtDoc">
 				<insert>INSERT INTO spip_documents_articles (id_article, id_document) </insert>
 				<values> VALUES (-idArt-, -idDoc-)</values>
+			</Query>
+		</Querys>
+	</XmlParam>
+
+	<XmlParam nom="Scenarisation">
+		<Querys>
+			<Query fonction="GetDonneeCritere">
+				<select>SELECT da.id_donnee </select>
+				<from> FROM spip_articles a
+					INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+					INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = da.id_donnee
+						AND fdc.champ='ligne_1' AND fdc.valeur = '-critere-' 
+				 </from>
+				<where> WHERE a.id_article = -idArt- </where>
 			</Query>
 		</Querys>
 	</XmlParam>

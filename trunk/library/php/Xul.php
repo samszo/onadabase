@@ -23,7 +23,7 @@ class Xul{
 		
     }
 
-    function GetMenuPopUp($idRub,$typeSrc){
+    function GetMenuPopUp($idRub,$typeSrc,$niv=0){
     	$gra = new Granulat($idRub,$this->site);
     	$menu ='';
     	$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst";
@@ -45,14 +45,14 @@ class Xul{
 		    			$mnuLabel = $this->site->XmlParam->XML_entities($r["titre"]);
 						$menu .= '<menuitem '.$js.' label="'.$mnuLabel.'"/>';
 						//vérifie la création d'un sous menu
-						$sousmenu = $this->GetMenuPopUp($r["id"],$mDst["codeSaisi"]);
+						$sousmenu = $this->GetMenuPopUp($r["id"],$mDst["codeSaisi"],$niv+1);
 						if($sousmenu!=""){
 							$menu .= $sousmenu;
+							$menu .= '<menuseparator/>';			
 						}					
 					}
 					$menu .= '</menupopup></menu>';
 		    	}
-				$menu .= '<menuseparator/>';			
 			}			
 		}
 			
