@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<overlay id="popupMenuSet"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<popupset >
+	    <box id="popterre" />
+		<popup id="popterre" onpopupshowing="javascript:;">
+		    <menu id="menu_terre_voir" label="Voir">
+		      <menupopup id="popup_terre_voir">
+				<menuitem label="Le(s) établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
+				<menuitem label="Le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
+		      </menupopup>
+		    </menu>
+		    <menu id="menu_terre_ajouter" label="Ajouter">
+		      <menupopup id="popup_terre_ajouter">
+				<menuitem label="Un établissement" oncommand="AddNewGrille('Etab');"/>
+				<menuitem label="Un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
+				<menuitem label="Un territoire" oncommand="AddNewRubrique(document.getElementById('idRub').value);"/>
+		      </menupopup>
+		    </menu>
+		</popup>
+		<popup id="popTerre" onpopupshowing="javascript:;">
+		    <menu id="menu_Terre_voir" label="Voir">
+		      <menupopup id="popup_Terre_voir">
+				<menuitem label="Le(s) établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
+				<menuitem label="Le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
+		      </menupopup>
+		    </menu>
+		    <menu id="menu_Terre_ajouter" label="Ajouter">
+		      <menupopup id="popup_Terre_ajouter">
+				<menuitem label="Un établissement" oncommand="AddNewGrille('Etab');"/>
+				<menuitem label="Un tronçon de voirie" oncommand="AddNewGrille('Voirie');"/>
+				<menuitem label="Un territoire" oncommand="AddNewRubrique(document.getElementById('idRub').value);"/>
+		      </menupopup>
+		    </menu>
+		</popup>
+		<popup id="popetab" onpopupshowing="javascript:;">
+			<menu id="menu_etab_voir" label="Voir">
+			  <menupopup id="popup_etab_voir">
+				<menuitem label="Le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+				<menuitem label="La(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
+			    <menuitem label="La(les) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
+			    <menuitem label="Le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
+			  </menupopup>
+			 </menu>
+			 <menu id="menu_etab_ajouter" label="Ajouter">
+			  <menupopup id="popup_etab_ajouter">
+			   <menuitem label="Un bâtiment" oncommand="AddNewGrille('Bat');"/>
+			   <menuitem label="Une parcelle" oncommand="AddNewGrille('Parcelle');"/>
+			  </menupopup>
+			 </menu>
+			 <menu id="menu_etab_générer" label="Générer">
+			  <menupopup id="popup_etab_générer">
+			    <menuitem label="csv" oncommand="ChargeTreeCsv('idRub','FormSaisi');"/>
+		       </menupopup>
+			 </menu>
+		</popup>
+		<popup id="popEtab" onpopupshowing="javascript:;">
+		  <menu id="menu_Etab_ajouter" label="Ajouter">
+			<menupopup id="popup_Etab_ajout">
+			  <menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
+			  <menuitem label="Ajouter une parcelle" oncommand="AddNewGrille('Parcelle');"/>
+			</menupopup>
+		  </menu>			
+		</popup>
+		<popup id="popvoirie" onpopupshowing="javascript:;">
+		  <menu id="menu_voirie_voir" label="Voir">
+			<menupopup id="popup_voirie_voir">
+				<menuitem label="Les éléments de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');"/>
+		   </menupopup>
+	     </menu>
+		</popup>
+		<popup id="popespace" onpopupshowing="javascript:;">
+		  <menu id="menu_espace_voir" label="Voir">
+			<menupopup id="popup_espace_voir">
+			  <menuitem label="L'(es) espace(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces','espace','Espace');"/>
+			</menupopup>
+	     </menu>
+	      <menu id="menu_espace_ajout" label="Ajouter">
+			<menupopup id="popup_espace_voir">
+		       <menuitem label="Un espace" oncommand="AddNewGrille('Espace');"/>
+		    </menupopup>
+	     </menu>
+		</popup>
+		<popup id="popbat" onpopupshowing="javascript:;">
+			<menu id="menu_bat_voir" label="Voir">
+			  <menupopup id="popup_bat_voir">
+			    <menuitem label="Le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			    <menuitem label="La(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
+			    <menuitem label="Le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
+			    <menuitem label="La(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>
+			  </menupopup>
+			 </menu>
+			 <menu id="menu_bat_ajouter" label="Ajouter">
+			  <menupopup id="popup_bat_ajouter">
+			  	<menuitem label="Un niveau" oncommand="AddNewGrille('Niveau');"/>
+			    <menuitem label="La(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('ObjetIntBat');"/>
+			  </menupopup>
+			 </menu>
+			 <menu id="menu_bat_copier" label="Copier">
+			  <menupopup id="popup_bat_copier">
+			    <menuitem label="Le bâtiment" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+		      </menupopup>
+			 </menu>
+			 <menu id="menu_bat_générer" label="Générer">
+			  <menupopup id="popup_bat_générer">
+		        <menuitem label="csv" oncommand="ChargeTreeCsv('idRub','FormSaisi');"/>
+		      </menupopup>
+			 </menu>
+		</popup>
+		<popup id="popBat" onpopupshowing="javascript:;">
+		   <menu id="menu_Bat_ajouter" label="Ajouter">
+			  <menupopup id="popup_Bat_ajouter">
+				<menuitem label="Un niveau" oncommand="AddNewGrille('Niveau');"/>
+				<menuitem label="La(les) cabine(s) d'ascenseur" oncommand="AddNewGrille('ObjetIntBat');"/>
+			 </menupopup>
+		   </menu>
+		</popup>
+		<popup id="popniveau" onpopupshowing="javascript:;">
+		  <menu id="menu_niveau_voir" label="Voir">
+			<menupopup id="popup_niveau_voir">
+			  <menuitem label="Le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			  <menuitem label="La(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
+			  <menuitem label="Le(s) espace(s) intérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces intérieurs','espaceint','EspaceInt');"/>
+			  <menuitem label="Les objets intérieurs" oncommand="RefreshEcran(document.getElementById('idRub').value,'Tous les objets','objetint','ObjetInt');"/>
+			</menupopup>
+		   </menu>
+		   <menu id="menu_niveau_voir" label="Ajouter">
+			 <menupopup id="popup_niveau_ajouter">
+			   <menuitem label="Un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
+			   <menuitem label="Un objet intérieur" oncommand="AddNewGrille('ObjetInt');"/>
+			</menupopup>
+		   </menu>
+		   <menu id="menu_niveau_copier" label="Copier">
+			 <menupopup id="popup_niveau_copier">
+			  <menuitem label="Le niveau" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+		    </menupopup>
+		   </menu>
+		   <menu id="menu_niveau_générer" label="Générer">
+			 <menupopup id="popup_niveau_générer">
+		       <menuitem label=" csv" oncommand="ChargeTreeCsv('idRub','FormSaisi');"/>
+		     </menupopup>
+		   </menu> 
+		</popup>
+		<popup id="popNiveau" onpopupshowing="javascript:;">
+		  <menu id="menu_Niveau_voir" label="Ajouter">
+			<menupopup id="popup_Niveau_ajout">
+			 <menuitem label="Un espace intérieur" oncommand="AddNewGrille('EspaceInt');"/>
+			 <menuitem label="Un objet intérieur" oncommand="AddNewGrille('ObjetInt');"/>
+			</menupopup>
+		   </menu>
+		</popup>
+		
+		<popup id="popobjetintbat" onpopupshowing="javascript:;">
+		  <menu id="menu_objetintbat_voir" label="Voir">
+			<menupopup id="popup_objetintbat_voir">
+				<menuitem label="Les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');"/>
+			</menupopup>
+		   </menu>
+		   <menu id="menu_objetintbat_copier" label="Copier">
+			<menupopup id="popup_objetintbat_copier">
+			  <menuitem label="La cabine d'ascenseur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+		    </menupopup>
+		   </menu>
+		</popup>
+			
+		<popup id="popObjetInt" onpopupshowing="javascript:;">
+		  <menu id="menu_objetint_voir" label="Voir">
+			<menupopup id="popup_ObjetInt_voir">
+			  <menuitem label="Les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');"/>
+			</menupopup>
+		   </menu>
+		    <menu id="menu_objetint_copier" label="Copier">
+			   <menupopup id="popup_objetint_copier">
+			    <menuitem label="L'objet intérieur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+		     </menupopup>
+		   </menu>
+		</popup>
+		<popup id="popEspaceInt" onpopupshowing="javascript:;">
+		  <menu id="menu_EspaceInt_voir" label="Voir">
+			<menupopup id="popup_espaceint_voir">
+			    <menuitem label="Les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espacegen','EspaceGen');"/>
+			 </menupopup>
+		   </menu>
+		   <menu id="menu_espaceint_copier" label="Copier">
+			  <menupopup id="popup_espaceint_copier">
+			     <menuitem label="Copier l'espace intérieur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+		      </menupopup>
+		   </menu>
+		</popup>
+		<popup id="popparcelle" onpopupshowing="javascript:;">
+		  <menu id="menu_parcelle_voir" label="Voir">
+			<menupopup id="popup_parcelle_voir">
+			  <menuitem label="Le(s) espace(s) extérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces extérieurs','espaceext','EspaceExt');"/>
+			  <menuitem label="Les objets extérieurs" oncommand="RefreshEcran(document.getElementById('idRub').value,'Objets extérieurs','objetext','ObjetExt');"/>
+			 </menupopup>
+		   </menu>
+		   <menu id="menu_parcelle_ajouter" label="Ajouter">
+			<menupopup id="popup_parcelle_ajouter">
+			  <menuitem label="Un espace extérieur" oncommand="AddNewGrille('EspaceExt');"/>
+			  <menuitem label="Un objet extérieur" oncommand="AddNewGrille('ObjetExt');"/>
+			</menupopup>
+		   </menu>
+		   <menu id="menu_parcelle_copier" label="Copier">
+			<menupopup id="popup_parcelle_copier">
+			  <menuitem label="Copier la parcelle" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+		    </menupopup>
+		   </menu>
+		</popup>
+		<popup id="popParcelle" onpopupshowing="javascript:;">
+		 <menu id="menu_Parcelle_ajouter" label="Ajouter">
+			<menupopup id="popup_Parcelle_ajouter">
+			   <menuitem label="Ajouter un espace extérieur" oncommand="AddNewGrille('EspaceExt');"/>
+			   <menuitem label="Ajouter un objet extérieur" oncommand="AddNewGrille('ObjetExt');"/>
+		   </menupopup>
+		 </menu>
+		</popup>
+		<popup id="popespaceext" onpopupshowing="javascript:;">
+		  <menu id="menu_espaceext_voir" label="Voir">
+			<menupopup id="popup_espaceext_voir">
+			 <menuitem label="Le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			 <menuitem label="La(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
+			 <menuitem label="Les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espaceextparamgen','EspaceExtParamGen');"/>
+		    </menupopup>
+		 </menu>	
+		 <menu id="menu_espaceext_copier" label="Copier">
+			<menupopup id="popup_espaceext_copier">
+			    <menuitem label="L'espace extérieur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+			</menupopup>
+		 </menu>
+		 <menu id="menu_espaceext_générer" label="Générer">
+			<menupopup id="popup_espaceext_générer">	
+		      <menuitem label=" csv" oncommand="ChargeTreeCsv('idRub','FormSaisi');"/>
+		   </menupopup>
+		 </menu>
+		</popup>
+		<popup id="popObjetExt" onpopupshowing="javascript:;">
+		  <menu id="menu_ObjetExt_voir" label="Voir">
+			<menupopup id="popup_objetext_voir">
+			  <menuitem label="Le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			  <menuitem label="La(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
+			  <menuitem label="Les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgenext','ObjetGenExt');"/>
+			</menupopup>
+		 </menu>
+		<menu id="menu_objetext_copier" label="Copier">
+		  <menupopup id="popup_objetext_copier">
+			  <menuitem label="L'objet extérieur" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+		   </menupopup>
+		</menu>
+			<menu id="menu_objetext_générer" label="Générer">
+			  <menupopup id="popup_objetext_générer">	
+			    <menuitem label="csv" oncommand="ChargeTreeCsv('idRub','FormSaisi');"/>
+			 </menupopup>
+		   </menu>
+		  </popup>
+		<popup id="popSyncSrc" onpopupshowing="javascript:;">
+			<menuitem label="Ajouter les objets local au serveur" oncommand="SyncAjout(document.getElementById('idRub').value,'Paramètres généraux','espaceextparamgen','EspaceExtParamGen');"/>
+		</popup>
+		<popup id="popEspaceExtParamGen" onpopupshowing="javascript:;">
+			<menuitem label="Voir les problèmes signalés" oncommand="RefreshEcran(document.getElementById('idRub').value,'Signalements problèmes','aucun','SignalementProbleme');"/>
+		</popup>
+		<popup id="popEspaceGen" onpopupshowing="javascript:;">
+			<menuitem label="Voir les problèmes signalés" oncommand="RefreshEcran(document.getElementById('idRub').value,'Signalements problèmes','aucun','SignalementProbleme');"/>
+		</popup>
+		<popup id="popObjetGen" onpopupshowing="javascript:;">
+			<menuitem label="Voir les problèmes signalés" oncommand="RefreshEcran(document.getElementById('idRub').value,'Signalements problèmes','aucun','SignalementProbleme');"/>
+		</popup>
+	</popupset>
+</overlay>

@@ -16,6 +16,49 @@ var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
 
+function GetValueChecked(doc){
+	var ValChecked = "";
+	var url=""; 
+	for (var i = 0; i < doc.childNodes.length; i++){
+		if(doc.childNodes[i].getAttribute("checked")=="true"){
+			ValChecked += " - "+doc.childNodes[i].getAttribute("label"); 
+			url += "&"+doc.childNodes[i].id+"="+doc.childNodes[i].value;
+		}
+	}
+	return new Array(ValChecked,url);
+}
+
+function SetChoixDiagnostic() {
+	try {
+		var url = urlExeAjax+"?f=SetSessionValues"
+		var libChoix = "Diagnostique : ";
+		var arrRep;
+		//choix des versions
+		var doc = document.getElementById("mnuVersion");
+		arrRep = GetValueChecked(doc,url);
+		libChoix += arrRep[0]; 
+		url+=arrRep[1];
+		//choix des types de critères
+		doc = document.getElementById("mnuTypeCrit");
+		arrRep = GetValueChecked(doc,url);
+		libChoix += arrRep[0]; 
+		url+=arrRep[1];
+		
+		//choix des types de critères
+		doc = document.getElementById("mnuContReg");
+		arrRep = GetValueChecked(doc,url);
+		libChoix += arrRep[0]; 
+		url+=arrRep[1];
+		
+		doc = document.getElementById("ChoixDiagnostic");
+		doc.value = libChoix;
+		
+		//met à jour les valeurs de session
+		AppendResult(url,doc);
+		
+
+  	} catch(ex2){alert("interface:SetChoixDiagnostic:"+ex2);}
+}
 
 function CopyRub(idDst) {
 	try {
@@ -47,6 +90,11 @@ function OuvreLienAdmin(idRub){
 function OuvreArticle(idArt){
 	window.open(lienAdminSpip+"/?exec=articles&id_article="+idArt);
 }
+
+function OuvreControle(idDonnee){
+	window.open(lienAdminSpip+"/?exec=donnees_edit&id_donnee="+idDonnee);
+}
+
 
 function OuvreDonnee(idForm,idDon){
 	window.open(lienAdminSpip+"/?exec=donnees_edit&id_form="+idForm+"&id_donnee="+idDon);
@@ -285,6 +333,24 @@ function AddNewRubrique(idDst) {
 	} catch(ex2){alert(":AddNewRubrique:"+ex2+" url="+url);}
 }
 
+function AddObservation(idDoc,val){
+  try {
+	//alert(idDoc);
+	var arrDoc = idDoc.split(DELIM);
+	
+	var f = "SetVal";
+	var val;
+			
+
+	var login = document.getElementById('login').value;
+	
+	var url = urlExeAjax+"?f="+f+"&idGrille="+arrDoc[1]+"&idDon="+arrDoc[2]+"&champ=mot_1&val="+val+"&login="+login;
+	url +="&ppp=2";
+	window.open(url,'_blank','width=650,height=300,resizable=no,left=200,top=200');
+		
+  } catch(ex2){alert("interface:AddObservation:"+ex2);}
+}
+
 function SetVal(idDoc){
   try {
 	var verif = true;
@@ -329,17 +395,15 @@ function SetVal(idDoc){
 		if (arrDoc[3]=="mot_1" && val==2 || arrDoc[3]=="Modif" ) {
 			//var reponse = GetXmlFicToDoc(url);
 			//ajout de l'argument du popup
-			url +="&ppp=1";
-			window.open(url,'_blank','width=650,height=400,resizable=no,left=200,top=200');
+			window.open(url+"&ppp=1",'_blank','width=650,height=400,resizable=no,left=200,top=200');
+			//récupère la ligne des question intermédiaires
+			var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
+			AppendResult(url,docQi,false,"vbox");
 		} else {
-			if (arrDoc[3]=="mot_1" && val==151 || arrDoc[3]=="Sup") {
-				//var reponse = GetXmlFicToDoc(url);
-				//ajout de l'argument du popup
-				url +="&ppp=2";
-				window.open(url,'_blank','width=650,height=300,resizable=no,left=200,top=200');
-			}  else {
-					AppendResult(url,doc.parentNode,true);
-					}
+			//récupère la ligne des question intermédiaires
+			var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
+			AppendResult(url,docQi,false,"vbox");
+			//InsertBeforeResult(url,doc.parentNode);
 		}
 		
 	}else
@@ -638,6 +702,8 @@ function ChargeMenuFromAjax(id,idDst,type)
 	dump("ChargeMenuFromAjax IN "+type+"\n");
 	
 	var doc = document.getElementById("menu_"+type+"_voir");
+	if(!doc)
+		return;
 	
 	while(doc.hasChildNodes())
 		doc.removeChild(doc.firstChild);
