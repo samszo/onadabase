@@ -1,11 +1,12 @@
 <?php
 	session_start();
 	if(!isset($_SESSION['version'])) {
-		$_SESSION['version']="V1";
+		$_SESSION['version']="V2";
+		$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
+		$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
 	}
 	
 	$ajax = true;
-	require_once ("../../param/Constantes.php");
 	require_once ("../../param/ParamPage.php");
 	//charge le fichier de paramètrage
 	$objSite->XmlParam = new XmlParam(PathRoot."/param/SolAcc.xml");
@@ -128,11 +129,22 @@
 		case 'ChangeAutoIncrement':
 			$resultat = ChangeAutoIncrement($_GET['table'], $_GET['val']) ;
 			break;
+		case 'SetSessionValues':
+			$resultat = SetSessionValues($_GET['type_controle1'], $_GET['type_controle2'],$_GET['type_contexte1'], $_GET['type_contexte2'], $_GET['type_contexte3'], $_GET['type_contexte4'],$_GET['version']) ;
+			break;
 		default:
 			//$resultat = AddDocToArt();
 	}
 
 	echo  utf8_encode($resultat);	
+
+	function SetSessionValues($type_controle1, $type_controle2,$type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4, $version){
+		$_SESSION['type_controle'] = array ($type_controle1, $type_controle2);
+		$_SESSION['type_contexte'] = array ($type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4);
+		$_SESSION['version']= $version;
+		
+	}
+	
 	
 	/*
 		ajoute un document à un article 
@@ -354,7 +366,7 @@
 		if(TRACE)
 			echo "ExeAjax:AddXmlDonnee:<br/>";
 		$g = new Grille($objSite);
-		$url = PathRoot."/param/controlesAirStatio.xml";
+		$url = PathRoot."/param/controlesEclairageV2.xml";
 		$g->AddXmlDonnee($url);
 	}
 
@@ -508,12 +520,16 @@
 		if(TRACE)
 			echo "ExeAjax:SetVal:row=".print_r($row)."<br/>";
 		
-		if($champ!="Modif" && $champ!="Sup" && $val!=151) //151 mot clef observations
+		if($champ!="Modif" && $champ!="Sup" && $val!=$objSite->infos["MOT_CLEF_OBS"]) //151 mot clef observations
 			$g->SetChamp($row, $idDon);
 
 		//gestion du workflow
 		$xul = $g->GereWorkflow($row, $idDon);		
-
+		
+		//gestion de la scénarisation
+		if($idGrille==59 && $_SESSION['version']=="V2" && $ppp==-1)
+			$xul = $g->GereScenarisation($row, $idDon);		
+		
 		if(TRACE)
 			echo "ExeAjax:SetVal:ppp=".$ppp."<br/>";
 		if ($ppp==1){
