@@ -33,6 +33,31 @@
 		      </menupopup>
 		    </menu>
 		</popup>
+
+		<popup id="popvoirie" onpopupshowing="javascript:;">
+			<menuitem label="Voir les éléments de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');"/>
+		</popup>
+
+		<popup id="popvoirie" onpopupshowing="javascript:;">
+			<menu id="menu_voirie_voir" label="Voir">
+			  <menupopup id="popup_voirie_voir">
+				<menuitem label="problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+				<menuitem label="observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
+				<menuitem label="éléments de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');"/>
+			  </menupopup>
+			 </menu>
+			 <menu id="menu_voirie_ajouter" label="Ajouter">
+			  <menupopup id="popup_etab_ajouter">
+			  </menupopup>
+			 </menu>
+			 <menu id="menu_voirie_générer" label="Générer">
+			  <menupopup id="popup_voirie_générer">
+			    <menuitem label="csv" oncommand="ChargeTreeCsv('idRub','FormSaisi');"/>
+		       </menupopup>
+			 </menu>
+		</popup>
+
+		
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menu id="menu_etab_voir" label="Voir">
 			  <menupopup id="popup_etab_voir">
@@ -55,6 +80,10 @@
 			 </menu>
 		</popup>
 		<popup id="popEtab" onpopupshowing="javascript:;">
+		  <menu id="menu_Etab_voir" label="Voir">
+			<menupopup id="popup_Etab_voir">
+			</menupopup>
+		  </menu>			
 		  <menu id="menu_Etab_ajouter" label="Ajouter">
 			<menupopup id="popup_Etab_ajout">
 			  <menuitem label="Ajouter un bâtiment" oncommand="AddNewGrille('Bat');"/>
@@ -163,9 +192,9 @@
 		   </menu>
 		</popup>
 			
-		<popup id="popObjetInt" onpopupshowing="javascript:;">
+		<popup id="popobjetint" onpopupshowing="javascript:;">
 		  <menu id="menu_objetint_voir" label="Voir">
-			<menupopup id="popup_ObjetInt_voir">
+			<menupopup id="popup_objetint_voir">
 			  <menuitem label="Les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');"/>
 			</menupopup>
 		   </menu>
@@ -175,7 +204,7 @@
 		     </menupopup>
 		   </menu>
 		</popup>
-		<popup id="popEspaceInt" onpopupshowing="javascript:;">
+		<popup id="popespaceint" onpopupshowing="javascript:;">
 		  <menu id="menu_EspaceInt_voir" label="Voir">
 			<menupopup id="popup_espaceint_voir">
 			    <menuitem label="Les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espacegen','EspaceGen');"/>
@@ -187,6 +216,7 @@
 		      </menupopup>
 		   </menu>
 		</popup>
+		
 		<popup id="popparcelle" onpopupshowing="javascript:;">
 		  <menu id="menu_parcelle_voir" label="Voir">
 			<menupopup id="popup_parcelle_voir">

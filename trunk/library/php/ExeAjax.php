@@ -137,7 +137,7 @@
 	}
 
 	echo  utf8_encode($resultat);	
-
+	
 	function SetSessionValues($type_controle1, $type_controle2,$type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4, $version){
 		$_SESSION['type_controle'] = array ($type_controle1, $type_controle2);
 		$_SESSION['type_contexte'] = array ($type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4);
