@@ -52,6 +52,16 @@
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','ObjetInt');"/>
 			</menuDst>
 		</menuSrc>
+		<menuSrc code="EspaceInt">
+			<menuDst codeTree="espacegen" codeSaisi="EspaceGen" lib="Paramètres de contôle" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','EspaceGen');"/>
+			</menuDst>
+		</menuSrc>
+		<menuSrc code="ObjetInt">
+			<menuDst codeTree="espacegen" codeSaisi="EspaceGen" lib="Paramètres de contôle" >
+				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','EspaceGen');"/>
+			</menuDst>
+		</menuSrc>
 
 	</XmlParam>
 

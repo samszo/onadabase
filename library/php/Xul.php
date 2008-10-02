@@ -34,13 +34,14 @@ class Xul{
 			{    	
 		    	$rows = $gra->GetTreeChildren($mDst["codeTree"]);
 		    	if($rows){
-		    		$mnuLabel = $this->site->XmlParam->XML_entities($mDst["lib"]." de ".$gra->titre);
+		    		$lib = utf8_decode($mDst["lib"]);
+		    		$mnuLabel = " - ".$lib."";
 		    		$menu .='<menu id="MenuPopUp_'.$typeSrc.'_'.$mDst["codeTree"].'_'.$idRub.'" label="'.$mnuLabel.'" ><menupopup >';
 			    	while($r = mysql_fetch_assoc($rows))
 					{
 						//récupération du js
 						$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst[@codeTree='".$mDst["codeTree"]."']/js";
-						$js = $this->site->GetJs($Xpath, array($idRub,$mDst["lib"],$mDst["codeTree"],$mDst["codeSaisi"],$r["id"]));
+						$js = $this->site->GetJs($Xpath, array($idRub,$lib,$mDst["codeTree"],$mDst["codeSaisi"],$r["id"]));
 						//création de l'item
 		    			$mnuLabel = $this->site->XmlParam->XML_entities($r["titre"]);
 						$menu .= '<menuitem '.$js.' label="'.$mnuLabel.'"/>';

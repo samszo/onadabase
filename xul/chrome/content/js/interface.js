@@ -528,8 +528,6 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 			tbb.setAttribute("class","text-link");		
 			tbb.setAttribute("onclick","RefreshEcran("+id+",'"+titre+"','"+typeSrc+"','"+typeDst+"');");
 			tb.appendChild(tbb);
-			//met à jour le titre tree
-			document.getElementById("titreRub").value = "Sélectionner un(e) des "+titre;
 		}else{
 			//récupère la place du tbb
 			j = -1;		 
@@ -545,6 +543,9 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 				}
 			}
 		}
+		//met à jour le titre tree
+		document.getElementById("titreRub").value = "Sélectionner un(e) des "+titre;
+		
 	}
 	//alert("RefreshEcran OUT\n");
    
@@ -675,13 +676,13 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 		var id = idSrc;
 
 	//gestion de menu contextuel du formulaire
-	if(document.getElementById('dataBox').childNodes.length>0){
+	//if(document.getElementById('dataBox').childNodes.length>0){
 		//construction dynamique du menu
 		ChargeMenuFromAjax(id,idDst,type);
 		//attribution du menu
 		var fs = document.getElementById(idDst);
 		fs.setAttribute("context","pop"+type);
-	}
+	//}
 		
 	while(doc.hasChildNodes())
 		doc.removeChild(doc.firstChild);

@@ -38,7 +38,7 @@
 // Database configuration
 
 $db_server   = 'localhost';
-$db_name     = 'onadabase';
+$db_name     = 'onadagilles';
 $db_username = 'root';
 $db_password = '';
 

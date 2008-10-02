@@ -12,7 +12,8 @@
 
   define ("TRACE", false);
 
-  define ("DEFSITE", "local1");
+  define ("DEFSITE", "localGilles");
+  //define ("DEFSITE", "local1");
   define ("SYNCSITE", "local2");
   //define ("SYNCSITE", "mundi");
   
@@ -70,6 +71,41 @@ $SiteLocal2 = array(
 	"SQL_HOST" => "localhost",
 	"SQL_DB" => "onadalocal",
 	"NOM" => "onadalocal",//je sais pas
+	"SITE_PARENT" => -1,//je sais pas
+	"SITE_ENFANT" => -1,
+	"GRILLE_GEO" => 1,
+	"GRILLE_REG_LEG" => 52,
+	"GRILLE_REP_CON" => 59,
+	"GRILLE_SIG_PROB" => 60,
+	"GRILLE_CONTROL_V1" => 54,
+	"GRILLE_CONTROL_V2" => 70,
+	"GRILLE_OBS" => 67,
+	"MOT_CLEF_OBS" => 151,
+	"RUB_PORTE1" => 50,
+	"RUB_PORTE2" => 74,
+	"RUB_PORTE_FACE1" => 1342,
+	"RUB_PORTE_FACE2" => 1341,
+	"DEF_LAT" => 50.63705,
+	"DEF_LNG" => 3.06994,
+	"DEF_ZOOM" => 14,
+	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
+	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRR8S4b2oMC5BlotEgOIFwvu2Zfg4BRD2eEaRYw3NNB3VDcldikKtbZtsw",
+	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
+	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
+	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",
+	"urlSite" => "http://localhost/onadabase/library/php/Site.php",	
+	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
+	"urlLibPhp" => "http://localhost/onadabase/library/php/",
+	"pathUpload" => PathRoot."/spip/IMG/",
+	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
+	"pathSpip" => "http://localhost/onadabase/spip/"
+	); 
+$SiteLocalGilles = array(
+	"SQL_LOGIN" => "root", 
+	"SQL_PWD" => "", 
+	"SQL_HOST" => "localhost",
+	"SQL_DB" => "onadagilles",
+	"NOM" => "onadagilles",//je sais pas
 	"SITE_PARENT" => -1,//je sais pas
 	"SITE_ENFANT" => -1,
 	"GRILLE_GEO" => 1,
@@ -173,6 +209,7 @@ $SiteNaos = array(
 $SITES = array(
 	"local1" => $SiteLocal1
 	,"local2" => $SiteLocal2
+	,"localGilles" => $SiteLocalGilles
 	,"naos" => $SiteNaos
 	,"mundi" => $SiteMundi
 	);
