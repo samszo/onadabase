@@ -1,1 +1,4885 @@
-<tabbox flex="1" id="tabbox_Terre_Terre_4560"><tabs><tab id="tab1788" label="Territoire Test" /></tabs><tabpanels><tabpanel flex="1" id="tabpanel_Terre_Art_1788"><tabbox flex="1" id="tabbox_Terre_Grille_1788"><tabs><tab id="tab66" label="Information territoire" /></tabs><tabpanels><tabpanel flex="1" id="tabpanel_1788_Form_66"><grid flex="1"><columns flex="1"><label class="labelForm" control="first" multiligne="true" value="Nom du territoire"/><label class="labelForm" control="first" multiligne="true" value="Type de territoire"/><label class="labelForm" control="first" multiligne="true" value="découpage territorial spécifique"/></column><textbox  onchange="SetVal('val*66*18368*ligne_1*1788')" id="val*66*18368*ligne_1*1788" value="Territoire Test" /><label id="traceval*66*18368*ligne_1*1788" hidden="true" value=""/><menulist id="val*66*18368*mot_1*1788"  oncommand="SetVal('val*66*18368*mot_1*1788');" ><menupopup ><menuitem id='138' value='138' selected='false' label="Canton"/><menuitem id='59' value='59' selected='true' label="Commune"/><menuitem id='57' value='57' selected='false' label="Département"/><menuitem id='60' value='60' selected='false' label="Ilot"/><menuitem id='58' value='58' selected='false' label="Intercommunalité"/><menuitem id='139' value='139' selected='false' label="N.A."/><menuitem id='54' value='54' selected='false' label="Pays"/><menuitem id='146' value='146' selected='false' label="Quartier"/><menuitem id='56' value='56' selected='false' label="Région"/></menupopup></menulist><label id="traceval*66*18368*mot_1*1788" hidden="true" value=""/><menulist id="val*66*18368*mot_2*1788"  oncommand="SetVal('val*66*18368*mot_2*1788');" ><menupopup ><menuitem id='140' value='140' selected='false' label="N.A."/></menupopup></menulist><label id="traceval*66*18368*mot_2*1788" hidden="true" value=""/></column></columns></grid></tabpanel></tabpanels></tabbox></tabpanel></tabpanels></tabbox>
+<tree flex="1" 
+			id="treeCompareSrcDst"
+			seltype='multiple'
+			context='mnuSynchro'
+			
+			>
+<treecols>
+<treecol  id="id" primary="true" cycler="true" flex="1" persist="width ordinal hidden"/>
+<splitter class="tree-splitter"/>
+<treecol id="treecol_id1" hidden="false" label="valeur" flex="1"  persist="width ordinal hidden" />
+<splitter class="tree-splitter"/>
+<treecol id="treecol_id2" hidden="false" label="Type" flex="1"  persist="width ordinal hidden" />
+<splitter class="tree-splitter"/>
+<treecol id="treecol_id2" hidden="false" label="Action" flex="1"  persist="width ordinal hidden" />
+<splitter class="tree-splitter"/>
+<treecol id="completed" label="Avancement" flex="1" type="progressmeter"/>
+</treecols>
+<treechildren>
+<treeitem id="treeCompareSrcDst*rubrique*80" container="true" empty="false" open="true" >
+<treerow  >
+<treecell label="80"/>
+<treecell label="ContrÃ´les" />
+
+<treecell label="rubrique"></treecell>
+<treecell label="AUCUNE"/>
+<treecell value="100" id="treeCompareSrcDst*rubrique*80*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*id*80*id" container="false" empty="false"  >
+<treerow >
+<treecell label="80"/>
+<treecell label="80" />
+<treecell label="id"/>
+<treecell label="AUCUNE"/>
+<treecell id="treeCompareSrcDst*id*80*idpm" value="100%" mode="normal"/>
+</treerow>
+</treeitem>
+<treeitem id="treeCompareSrcDst*id_parent*80*id_parent" container="false" empty="false"  >
+<treerow >
+<treecell label="80"/>
+
+<treecell label="0" />
+<treecell label="id_parent"/>
+<treecell label="AUCUNE"/>
+<treecell id="treeCompareSrcDst*id_parent*80*id_parentpm" value="100%" mode="normal"/>
+</treerow>
+</treeitem>
+<treeitem id="treeCompareSrcDst*auteur*8" container="false" empty="false" open="true" >
+<treerow properties='YellowRow' >
+<treecell label="8"/>
+<treecell label="synchro" />
+<treecell label="auteur"/>
+<treecell label="MAJ"/>
+<treecell value="0" id="treeCompareSrcDst*auteur*8*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*rubrique*625" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="625"/>
+<treecell label="ContrÃ´les Etablissement" />
+<treecell label="rubrique"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*rubrique*625*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*rubrique*81" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="81"/>
+<treecell label="Accueil" />
+<treecell label="rubrique"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*rubrique*81*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+<treeitem id="treeCompareSrcDst*mot*5" container="false" empty="false" open="true" >
+<treerow properties='YellowRow' >
+<treecell label="5"/>
+<treecell label="Mixte" />
+<treecell label="mot"/>
+<treecell label="MAJ"/>
+<treecell value="0" id="treeCompareSrcDst*mot*5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*doc*13" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="13"/>
+<treecell label="http://localhost/onadabase/spipsync/IMG/jpg/audio-2.jpg" />
+<treecell label="doc"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*doc*13*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*article*44" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="44"/>
+<treecell label="Accueil" />
+<treecell label="article"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*article*44*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*mot*141" container="false" empty="false" open="true" >
+<treerow properties='YellowRow' >
+
+<treecell label="141"/>
+<treecell label="Ne sais pas" />
+<treecell label="mot"/>
+<treecell label="MAJ"/>
+<treecell value="0" id="treeCompareSrcDst*mot*141*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*doc*12" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12"/>
+<treecell label="http://localhost/onadabase/spipsync/IMG/jpg/audio.jpg" />
+<treecell label="doc"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*doc*12*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*grille*54" container="true" empty="false" open="true" >
+<treerow properties='YellowRow' >
+<treecell label="54"/>
+<treecell label="ContrÃ´le" />
+<treecell label="grille"/>
+<treecell label="MAJ"/>
+<treecell value="0" id="treeCompareSrcDst*grille*54*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*champ*ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="ligne_1"/>
+<treecell label="Identifiant" />
+<treecell label="champ"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="mot_1"/>
+<treecell label="Type de contrÃ´le" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*champ*multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="multiple_1"/>
+<treecell label="Type de critÃ¨re" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="multiple_2"/>
+<treecell label="Type de droit" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*champ*multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="texte_1"/>
+<treecell label="CritÃ¨res" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12441" container="true" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="12441"/>
+<treecell label="12441" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12441*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12441-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12441-ligne_1"/>
+<treecell label="cr_acc_01" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12441-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12441-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12441-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12441-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12441-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12441-multiple_1"/>
+<treecell label="multiple_1_1" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12441-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12441-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12441-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12441-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12441-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12441-texte_1"/>
+<treecell label="S'il existe plusieurs points d'accueil Ã  proximitÃ© les uns des autres, un au moins est accessible" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12441-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12442" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12442"/>
+
+<treecell label="12442" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12442*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12442-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12442-ligne_1"/>
+<treecell label="cr_acc_02" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12442-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*12442-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12442-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12442-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12442-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12442-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*12442-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12442-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12442-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12442-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12442-texte_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="12442-texte_1"/>
+<treecell label="Il est prioritairement ouvert" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12442-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12443" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12443"/>
+<treecell label="12443" />
+<treecell label="donnee"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12443*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12443-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12443-ligne_1"/>
+<treecell label="cr_acc_03" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12443-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12443-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="12443-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12443-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12443-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12443-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12443-multiple_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12443-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12443-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12443-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12443-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12443-texte_1"/>
+
+<treecell label="Il est signalÃ© de maniÃ¨re adaptÃ©e dÃ¨s l'entrÃ©e" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12443-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12444" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12444"/>
+<treecell label="12444" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12444*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12444-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12444-ligne_1"/>
+<treecell label="cr_acc_04" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12444-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12444-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12444-mot_1"/>
+<treecell label="35" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12444-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12444-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12444-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12444-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12444-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12444-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12444-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12444-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12444-texte_1"/>
+<treecell label="La banque d'accueil est utilisable en position Â« debout Â»" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12444-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12445" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12445"/>
+<treecell label="12445" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12445*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+<treeitem id="treeCompareSrcDst*valeur*12445-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12445-ligne_1"/>
+<treecell label="cr_acc_05" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12445-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12445-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12445-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*12445-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12445-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12445-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12445-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12445-multiple_2" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="12445-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12445-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12445-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12445-texte_1"/>
+<treecell label="La banque d'accueil est utilisable en position Â« assis Â»" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12445-texte_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12446" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12446"/>
+<treecell label="12446" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12446*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12446-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="12446-ligne_1"/>
+<treecell label="cr_acc_06" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12446-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12446-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12446-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12446-mot_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12446-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12446-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12446-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12446-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12446-multiple_2"/>
+
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12446-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12446-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12446-texte_1"/>
+<treecell label="La banque d'accueil permet la communication visuelle entre les usagers et le personnel" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12446-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12447" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12447"/>
+<treecell label="12447" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12447*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12447-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12447-ligne_1"/>
+<treecell label="cr_acc_07" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12447-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12447-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12447-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12447-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12447-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12447-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12447-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12447-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12447-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12447-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12447-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12447-texte_1"/>
+<treecell label="Lorsque les usages ' lire, Ã©crire, utiliser un clavier ' sont requis, la partie d'usage est Ã  une hauteur maximale de 80 cm" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12447-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12448" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12448"/>
+<treecell label="12448" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12448*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12448-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12448-ligne_1"/>
+<treecell label="cr_acc_08" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*12448-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12448-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12448-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12448-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12448-multiple_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="12448-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12448-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12448-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12448-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12448-multiple_2*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12448-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12448-texte_1"/>
+<treecell label="Lorsque les usages ' lire, Ã©crire, utiliser un clavier ' sont requis, la partie infÃ©rieure de l'Ã©quipement laisse un vide d'au moins 30 cm de profondeur" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12448-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*donnee*12449" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12449"/>
+<treecell label="12449" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12449*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12449-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12449-ligne_1"/>
+<treecell label="cr_acc_09" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12449-ligne_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12449-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12449-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12449-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12449-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12449-multiple_1"/>
+
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12449-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12449-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12449-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12449-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12449-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12449-texte_1"/>
+<treecell label="Lorsque les usages ' lire, Ã©crire, utiliser un clavier ' sont requis, la partie infÃ©rieure de l'Ã©quipement laisse un vide d'au moins 60 cm de largeur" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12449-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12450" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="12450"/>
+<treecell label="12450" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12450*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12450-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12450-ligne_1"/>
+<treecell label="cr_acc_10" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12450-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12450-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12450-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12450-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12450-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12450-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12450-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12450-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12450-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12450-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*12450-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12450-texte_1"/>
+<treecell label="Lorsque les usages ' lire, Ã©crire, utiliser un clavier ' sont requis, la partie infÃ©rieure de l'Ã©quipement laisse un vide d'au moins 70 cm de hauteur" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12450-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12451" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12451"/>
+<treecell label="12451" />
+
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12451*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12451-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12451-ligne_1"/>
+<treecell label="cr_acc_11" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12451-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12451-mot_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="12451-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12451-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12451-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12451-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12451-multiple_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12451-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12451-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12451-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12451-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="12451-texte_1"/>
+<treecell label="Toute information sonore fait l'objet d'une transmission par des moyens adaptÃ©s ou est doublÃ©e par une information visuelle" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12451-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12452" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12452"/>
+<treecell label="12452" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*donnee*12452*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12452-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12452-ligne_1"/>
+<treecell label="cr_acc_12" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12452-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12452-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12452-mot_1"/>
+
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12452-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12452-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12452-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12452-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12452-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12452-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12452-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12452-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12452-texte_1"/>
+<treecell label="Si l'accueil est sonorisÃ©, il est Ã©quipÃ© d'un systÃ¨me de transmission du signal acoustique par induction magnÃ©tique" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12452-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12453" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12453"/>
+<treecell label="12453" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12453*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12453-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12453-ligne_1"/>
+<treecell label="cr_acc_13" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12453-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12453-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12453-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12453-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12453-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12453-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12453-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*12453-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12453-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12453-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12453-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12453-texte_1"/>
+<treecell label="Si l'accueil est sonorisÃ©, il est signalÃ© par un pictogramme" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*12453-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12454" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12454"/>
+<treecell label="12454" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12454*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12454-ligne_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="12454-ligne_1"/>
+<treecell label="cr_acc_14" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12454-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12454-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12454-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12454-mot_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12454-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12454-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12454-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12454-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="12454-texte_1"/>
+<treecell label="Dans le cas d'un systÃ¨me de boucle magnÃ©tique, absence d'interfÃ©rences entre boucles" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12454-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12455" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12455"/>
+<treecell label="12455" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*donnee*12455*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12455-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12455-ligne_1"/>
+<treecell label="cr_acc_15" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12455-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12455-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12455-mot_1"/>
+
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12455-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12455-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12455-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12455-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12455-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12455-texte_1"/>
+<treecell label="PossibilitÃ© de s'asseoir (sans limiter le passage des autres personnes)" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12455-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12456" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="12456"/>
+<treecell label="12456" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12456*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12456-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12456-ligne_1"/>
+<treecell label="cr_acc_16" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12456-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12456-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12456-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12456-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12456-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12456-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12456-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12456-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12456-texte_1"/>
+<treecell label="Absence de guide-file en corde" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12456-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12457" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12457"/>
+<treecell label="12457" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12457*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12457-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12457-ligne_1"/>
+<treecell label="cr_acc_17" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*12457-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12457-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12457-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12457-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12457-multiple_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="12457-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12457-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12457-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12457-texte_1"/>
+<treecell label="PrÃ©sence aux heures d'ouvertures d'au moins une personne formÃ©e Ã  l'accueil des personnes dÃ©ficientes (toutes formes)" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12457-texte_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12458" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12458"/>
+<treecell label="12458" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12458*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12458-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="12458-ligne_1"/>
+<treecell label="cr_acc_18" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12458-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12458-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12458-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12458-mot_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12458-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12458-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12458-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12458-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12458-texte_1"/>
+
+<treecell label="Le personnel de l'accueil n'est pas Ã  contre-jour par rapport Ã  l'usager" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12458-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*12459" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12459"/>
+<treecell label="12459" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*12459*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*12459-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12459-ligne_1"/>
+<treecell label="cr_acc_19" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12459-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12459-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12459-mot_1"/>
+<treecell label="35" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12459-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12459-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12459-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12459-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12459-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12459-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12459-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*12459-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="12459-texte_1"/>
+<treecell label="Les espaces ou Ã©quipements destinÃ©s Ã  la communication ont une qualitÃ© d'Ã©clairage renforcÃ©e (minimum 200 lux)" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*12459-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*grille*70" container="true" empty="false" open="true" >
+<treerow properties='YellowRow' >
+<treecell label="70"/>
+<treecell label="ContrÃ´les V2" />
+<treecell label="grille"/>
+<treecell label="MAJ"/>
+<treecell value="0" id="treeCompareSrcDst*grille*70*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*champ*ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="ligne_1"/>
+<treecell label="Identifiant" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="ligne_2"/>
+<treecell label="Handicateur moteur" />
+
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="ligne_3"/>
+<treecell label="Handicateur auditif" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="ligne_4"/>
+<treecell label="Handicateur visuel" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="ligne_5"/>
+<treecell label="Handicateur cognitif" />
+<treecell label="champ"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="mot_1"/>
+<treecell label="Type de contrÃ´le" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*champ*multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="multiple_1"/>
+<treecell label="Type de critÃ¨re" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="multiple_2"/>
+<treecell label="Type de droit" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*champ*multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="multiple_3"/>
+<treecell label="DÃ©ficience concernÃ©e" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*texte_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="texte_1"/>
+<treecell label="CritÃ¨res" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*champ*texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="texte_2"/>
+<treecell label="Affirmations" />
+<treecell label="champ"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*champ*texte_2*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21128" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128"/>
+<treecell label="21128" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21128*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21128-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-ligne_1"/>
+<treecell label="qi_acc_01" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21128-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21128-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21128-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21128-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21128-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21128-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21128-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21128-texte_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21128-texte_1"/>
+<treecell label="Il existe plusieurs points d'accueil Ã  proximitÃ© les uns des autres" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21128-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21128-texte_2"/>
+<treecell label=" " />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21128-texte_2*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21129" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129"/>
+<treecell label="21129" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21129*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21129-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21129-ligne_1"/>
+<treecell label="qi_acc_02" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-ligne_2*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-ligne_4"/>
+
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-multiple_1"/>
+<treecell label="multiple_1_1" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-texte_1"/>
+<treecell label="L'usage du point d'accueil nÃ©cessite de &#34; lire, Ã©crire, utiliser un clavier &#34; " />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21129-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21129-texte_2"/>
+<treecell label=" " />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21129-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21130" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130"/>
+<treecell label="21130" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21130*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+<treeitem id="treeCompareSrcDst*valeur*21130-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130-ligne_1"/>
+<treecell label="qi_acc_03" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-ligne_4" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21130-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-ligne_5*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21130-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-multiple_2*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130-texte_1"/>
+<treecell label="L'accueil est sonorisÃ©" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21130-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21130-texte_2"/>
+
+<treecell label=" " />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21130-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21131" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131"/>
+<treecell label="21131" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21131*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21131-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-ligne_1"/>
+<treecell label="cr_acc_01" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-ligne_2"/>
+<treecell label="2" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-ligne_3"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-ligne_4"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-ligne_5"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21131-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-multiple_3" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21131-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-multiple_3"/>
+<treecell label="multiple_3_3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-multiple_3*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-multiple_3"/>
+<treecell label="multiple_3_4" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21131-texte_1"/>
+<treecell label="Un point d'accueil au moins est amÃ©nagÃ© pour l'accÃ¨s des personnes dÃ©ficientes" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21131-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21131-texte_2"/>
+<treecell label="Il existe plusieurs points d'accueil Ã  proximitÃ© les uns des autres, mais aucun d'entre eux n'est amÃ©nagÃ© pour l'accÃ¨s des personnes dÃ©ficientes" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21131-texte_2*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21132" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132"/>
+<treecell label="21132" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21132*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21132-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-ligne_1"/>
+
+<treecell label="cr_acc_02" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-ligne_2"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-ligne_3"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-ligne_4"/>
+<treecell label="2" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-ligne_5"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21132-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-multiple_3"/>
+<treecell label="multiple_3_3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-multiple_3" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21132-multiple_3"/>
+<treecell label="multiple_3_4" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-texte_1"/>
+<treecell label="Il est prioritairement ouvert" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-texte_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21132-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21132-texte_2"/>
+<treecell label="Il existe plusieurs points d'accueil Ã  proximitÃ© les uns des autres, dont un au moins est accessible, mais il n'est pas prioritairement ouvert" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21132-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*donnee*21133" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133"/>
+<treecell label="21133" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21133*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21133-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-ligne_1"/>
+<treecell label="cr_acc_03" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-ligne_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-ligne_2"/>
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-ligne_3"/>
+
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-ligne_4"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-ligne_5"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-mot_1"/>
+<treecell label="35" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21133-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-multiple_3"/>
+<treecell label="multiple_3_3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-multiple_3"/>
+<treecell label="multiple_3_4" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21133-texte_1"/>
+<treecell label="Il est signalÃ© de maniÃ¨re adaptÃ©e dÃ¨s l'entrÃ©e" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21133-texte_2" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21133-texte_2"/>
+<treecell label="Le point d'accueil accessible n'est pas signalÃ© de maniÃ¨re adaptÃ©e dÃ¨s l'entrÃ©e" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21133-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21134" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134"/>
+<treecell label="21134" />
+<treecell label="donnee"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21134*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21134-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-ligne_1"/>
+<treecell label="cr_acc_04" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21134-ligne_2"/>
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-ligne_3*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-ligne_5"/>
+
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-multiple_3"/>
+<treecell label="multiple_3_1" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-texte_1"/>
+<treecell label="La banque d'accueil est utilisable en position Â« debout Â»" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21134-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21134-texte_2"/>
+<treecell label="La banque d'accueil n'est pas utilisable en position &#34;debout&#34;" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21134-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21135" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135"/>
+
+<treecell label="21135" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21135*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21135-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135-ligne_1"/>
+<treecell label="cr_acc_05" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21135-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135-ligne_2"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21135-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21135-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21135-ligne_5" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21135-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21135-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-mot_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21135-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21135-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21135-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21135-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135-texte_1"/>
+<treecell label="La banque d'accueil est utilisable en position Â« assis Â»" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-texte_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21135-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21135-texte_2"/>
+<treecell label="La banque d'accueil n'est pas utilisable en position &#34;assise&#34;" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21135-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21136" container="true" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21136"/>
+<treecell label="21136" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21136*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21136-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-ligne_1"/>
+<treecell label="cr_acc_06" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-ligne_2"/>
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-ligne_3"/>
+<treecell label="3" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-ligne_4"/>
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-ligne_5"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21136-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-multiple_3" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21136-multiple_3"/>
+<treecell label="multiple_3_3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-multiple_3"/>
+<treecell label="multiple_3_4" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-multiple_3*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21136-texte_1"/>
+<treecell label="La banque d'accueil permet la communication visuelle entre les usagers et le personnel" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21136-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21136-texte_2"/>
+<treecell label="La banque d'acceil ne permet pas la comunication visuelle entre les usagers et le personnel" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21136-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21137" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137"/>
+<treecell label="21137" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*donnee*21137*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21137-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-ligne_1"/>
+<treecell label="cr_acc_07" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-ligne_2"/>
+
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-ligne_5"/>
+<treecell label="0" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21137-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-texte_1"/>
+<treecell label="La partie d'usage est Ã  une hauteur maximale de 80 cm" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21137-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21137-texte_2"/>
+<treecell label="Les usages &#34;lire, Ã©cricre, utiliser un clavier&#34; sont requis mais la partie d'usage n'est pas Ã  une hauteur maximale de 80 cm" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21137-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21138" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138"/>
+<treecell label="21138" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21138*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21138-ligne_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21138-ligne_1"/>
+<treecell label="cr_acc_08" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-ligne_2"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-ligne_2*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21138-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-ligne_5*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-multiple_1"/>
+
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-texte_1"/>
+<treecell label="La partie infÃ©rieure de l'Ã©quipement laisse un vide d'au moins 30 cm de profondeur" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21138-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21138-texte_2"/>
+<treecell label="Les usages &#34;lire, Ã©cricre, utiliser un clavier&#34; sont requis mais la partie infÃ©rieure de l'Ã©quipement ne laisse pas de vide d'au moins 30 cm de profondeur" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21138-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21139" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139"/>
+<treecell label="21139" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21139*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21139-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-ligne_1"/>
+<treecell label="cr_acc_09" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-ligne_2"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21139-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-mot_1" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21139-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-multiple_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21139-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-texte_1"/>
+<treecell label="La partie infÃ©rieure de l'Ã©quipement laisse un vide d'au moins 60 cm de largeur" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-texte_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21139-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21139-texte_2"/>
+<treecell label="Les usages &#34;lire, Ã©cricre, utiliser un clavier&#34; sont requis mais la partie infÃ©rieure de l'Ã©quipement ne laisse pas de vide d'au moins 60 cm de largeur" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21139-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21140" container="true" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21140"/>
+<treecell label="21140" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21140*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21140-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-ligne_1"/>
+<treecell label="cr_acc_10" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-ligne_2"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-ligne_3"/>
+<treecell label="0" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21140-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21140-texte_1"/>
+<treecell label="La partie infÃ©rieure de l'Ã©quipement laisse un vide d'au moins 70 cm de hauteur" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21140-texte_2" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21140-texte_2"/>
+<treecell label="Les usages &#34;lire, Ã©cricre, utiliser un clavier&#34; sont requis mais la partie infÃ©rieure de l'Ã©quipement ne laisse pas de vide d'au moins 70 cm de hauteur" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21140-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21141" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141"/>
+<treecell label="21141" />
+<treecell label="donnee"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21141*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21141-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-ligne_1"/>
+<treecell label="cr_acc_11" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21141-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-ligne_3"/>
+<treecell label="3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-ligne_3*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-ligne_5"/>
+
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-multiple_2"/>
+<treecell label="multiple_2_2" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-multiple_3"/>
+<treecell label="multiple_3_4" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-texte_1"/>
+<treecell label="Toute information sonore fait l'objet d'une transmission par des moyens adaptÃ©s ou est doublÃ©e par une information visuelle" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21141-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21141-texte_2"/>
+<treecell label="Toute information sonore ne fait pas l'objet d'une transmission par des moyens adaptÃ©s et n'est pas doublÃ©e par une information visuelle" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21141-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21142" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142"/>
+<treecell label="21142" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21142*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21142-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-ligne_1"/>
+<treecell label="cr_acc_12" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-ligne_3" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21142-ligne_3"/>
+<treecell label="3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-ligne_4*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21142-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-multiple_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-multiple_3"/>
+
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-texte_1"/>
+<treecell label="L'accueil est Ã©quipÃ© d'un systÃ¨me de transmission du signal acoustique par induction magnÃ©tique" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21142-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21142-texte_2"/>
+<treecell label="L'accueil est sonorisÃ© mais il n'est pas Ã©quipÃ© d'un systÃ¨me de transmission du signal accoustique par induction magnÃ©tique" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21142-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21143" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21143"/>
+<treecell label="21143" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21143*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21143-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-ligne_1"/>
+<treecell label="cr_acc_13" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-ligne_3"/>
+<treecell label="1" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21143-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-multiple_2" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21143-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-multiple_3*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21143-texte_1"/>
+<treecell label="Le point d'accueil sonorisÃ© est signalÃ© par un pictogramme" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21143-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21143-texte_2"/>
+<treecell label="L'accueil est sonorisÃ© mais il n'est pas signalÃ© par un pictogramme" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21143-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21144" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144"/>
+<treecell label="21144" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*donnee*21144*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21144-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-ligne_1"/>
+<treecell label="cr_acc_14" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21144-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-ligne_2"/>
+
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21144-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-ligne_3"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21144-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21144-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-ligne_5"/>
+<treecell label="0" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21144-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21144-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21144-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21144-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-texte_1"/>
+<treecell label="Dans le cas d'un systÃ¨me de boucle magnÃ©tique, absence d'interfÃ©rences entre boucles" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21144-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21144-texte_2"/>
+<treecell label="Le systÃ¨me de boucle magnÃ©tique prÃ©sente des interfÃ©rences entre les boucles" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21144-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21145" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145"/>
+<treecell label="21145" />
+
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21145*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21145-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145-ligne_1"/>
+<treecell label="cr_acc_15" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-ligne_2" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21145-ligne_2"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-ligne_3*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145-ligne_4"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21145-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-mot_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145-multiple_3"/>
+
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145-texte_1"/>
+<treecell label="PossibilitÃ© de s'asseoir (sans limiter le passage des autres personnes)" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21145-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21145-texte_2"/>
+<treecell label="Il n'est pas possible de s'asseoir" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21145-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21146" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21146"/>
+<treecell label="21146" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21146*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21146-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-ligne_1"/>
+<treecell label="cr_acc_16" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21146-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21146-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-ligne_3"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21146-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-ligne_4"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21146-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21146-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21146-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21146-multiple_3" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21146-multiple_3"/>
+<treecell label="multiple_3_3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21146-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-texte_1"/>
+<treecell label="Absence de guide-file en corde" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-texte_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21146-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21146-texte_2"/>
+<treecell label="PrÃ©sence d'un (ou de plusieurs) guide-file(s) en corde" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21146-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*donnee*21147" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147"/>
+<treecell label="21147" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21147*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21147-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-ligne_1"/>
+<treecell label="cr_acc_17" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-ligne_1*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-ligne_2"/>
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-ligne_3"/>
+
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-ligne_4"/>
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-ligne_5"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-mot_1"/>
+<treecell label="35" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-multiple_3"/>
+<treecell label="multiple_3_3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21147-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-multiple_3"/>
+<treecell label="multiple_3_4" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-texte_1"/>
+<treecell label="PrÃ©sence aux heures d'ouvertures d'au moins une personne formÃ©e Ã  l'accueil des personnes dÃ©ficientes (toutes formes)" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21147-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21147-texte_2"/>
+<treecell label="Absence aux heures d'ouvertures d'au moins une personne formÃ©e Ã  l'accueil des personnes dÃ©ficientes (toutes formes)" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21147-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21148" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148"/>
+<treecell label="21148" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21148*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21148-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-ligne_1"/>
+<treecell label="cr_acc_18" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-ligne_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21148-ligne_3"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-ligne_4"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-ligne_4*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-ligne_5" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-ligne_5"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-mot_1"/>
+
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-multiple_1"/>
+<treecell label="multiple_1_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-multiple_3"/>
+<treecell label="multiple_3_3" />
+
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-texte_1"/>
+<treecell label="Le personnel de l'accueil n'est pas Ã  contre-jour par rapport Ã  l'usager" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21148-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21148-texte_2"/>
+<treecell label="Le personnel de l'accueil est Ã  contre-jour par rapport Ã  l'usager" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21148-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21149" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149"/>
+
+<treecell label="21149" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21149*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21149-ligne_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-ligne_1"/>
+<treecell label="cr_acc_19" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-ligne_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21149-ligne_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-ligne_2"/>
+<treecell label="0" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-ligne_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-ligne_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-ligne_3"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-ligne_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-ligne_4" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-ligne_4"/>
+<treecell label="2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-ligne_4*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-ligne_5" container="false" empty="false" open="true" >
+
+<treerow properties='RedRow' >
+<treecell label="21149-ligne_5"/>
+<treecell label="1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-ligne_5*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-mot_1*pm" mode="normal"/>
+
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21149-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-multiple_3"/>
+<treecell label="multiple_3_2" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-multiple_3*pm" mode="normal"/>
+</treerow>
+
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-multiple_3"/>
+<treecell label="multiple_3_3" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-multiple_3"/>
+
+<treecell label="multiple_3_4" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-texte_1"/>
+<treecell label="Les espaces ou Ã©quipements destinÃ©s Ã  la communication ont une qualitÃ© d'Ã©clairage renforcÃ©e (minimum 200 lux)" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21149-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21149-texte_2"/>
+<treecell label="L'espace, l' (les) Ã©quipement(s) destinÃ©(s) Ã  la communication n'a (n'ont) pas une qualitÃ© d'Ã©clairage renforcÃ©e d'au moins 200 lux" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21149-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*donnee*21399" container="true" empty="false" open="true" >
+<treerow properties='RedRow' >
+
+<treecell label="21399"/>
+<treecell label="21399" />
+<treecell label="donnee"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*donnee*21399*pm" mode="normal"/>
+</treerow>
+<treechildren>
+<treeitem id="treeCompareSrcDst*valeur*21399-mot_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21399-mot_1"/>
+<treecell label="35" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21399-mot_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21399-multiple_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21399-multiple_1"/>
+<treecell label="multiple_1_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21399-multiple_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21399-multiple_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21399-multiple_2"/>
+<treecell label="multiple_2_2" />
+<treecell label="valeur"/>
+
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21399-multiple_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21399-multiple_3" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21399-multiple_3"/>
+<treecell label="multiple_3_1" />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21399-multiple_3*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+
+<treeitem id="treeCompareSrcDst*valeur*21399-texte_1" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21399-texte_1"/>
+<treecell label=" " />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+<treecell value="0" id="treeCompareSrcDst*valeur*21399-texte_1*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+<treeitem id="treeCompareSrcDst*valeur*21399-texte_2" container="false" empty="false" open="true" >
+<treerow properties='RedRow' >
+<treecell label="21399-texte_2"/>
+<treecell label=" " />
+<treecell label="valeur"/>
+<treecell label="AJOUT"/>
+
+<treecell value="0" id="treeCompareSrcDst*valeur*21399-texte_2*pm" mode="normal"/>
+</treerow>
+<treechildren>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+</treechildren>
+</treeitem>
+
+</treechildren>
+</tree>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <XmlParams>
+	<!-- Gestion des menus contextuels -->		
 	<XmlParam nom="MenuUrl">
 		<menu nom="Diagnostic">
 			<urlDesc nom="Sur la voirie" src="http://localhost/onadabase/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Sur%20la%20voirie" dst="http://localhost/onadabase/TreeCartOng.php"/>
@@ -65,6 +66,7 @@
 
 	</XmlParam>
 
+	<!-- Gestion des requêtes SPIP -->		
 	<XmlParam nom="GetOntoTree">
 		<Querys>
 			<Query fonction="GetTreeChildren_SigProb">
@@ -79,6 +81,36 @@
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Terre');"/>
 			</Query>
 			
+			<Query fonction="GetTreeChildren_SynchroRub">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<select>SELECT r.id_rubrique id, r.titre
+					,mr.id_mot
+					,a.id_article
+				</select>
+				<from> FROM spip_rubriques r
+					INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+				</from>
+				<where def="1942"> WHERE r.id_parent = -parent-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Terre');"/>
+			</Query>
+			<Query fonction="GetTreeChildren_SynchroArt">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>
+				<select>SELECT a.id_article id, a.titre
+					,ma.id_mot
+					,a.id_article
+				</select>
+				<from> FROM spip_articles a
+					INNER JOIN spip_mots_articles ma ON mr.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+				</from>
+				<where def="1942"> WHERE r.id_article = -idArt-</where>
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Terre');"/>
+			</Query>
+
+
 			<Query fonction="GetTreeChildren_terre">
 				<!-- récupère par rapport au parent les rubriques qui ont un mot clef type de territoire-->
 				<col tag="id" parse="Integer"/>
@@ -925,9 +957,6 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<dst>Art</dst>
 			</Query>
 
-<!--  			
-
--->			
 			<Query fonction="Grille_GetXulTabFormGrille">
 				<select>SELECT f.id_form id, f.titre, fda.id_article idArt </select>
 				<from> FROM spip_forms f
@@ -1106,6 +1135,7 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 
 		</Querys>
 	</XmlParam>
+	<!-- Gestion du Workflow -->		
 	<XmlParam nom="Workflow">
 	
 		<!-- Mise à jour des noms des articles et rubriques -->
@@ -1255,7 +1285,8 @@ LIMIT 0 , 1
 			</Query>
 		</Querys>
 	</XmlParam>
-	<XmlParam nom="Synchronise2">
+	<!-- Gestion de la synchronisation -->		
+	<XmlParam nom="Synchronise">
 		<Querys>
 			<Query fonction="GetRubriquesAuteur">
 				<select>SELECT r.id_auteur , r.id_rubrique </select>
@@ -1267,8 +1298,39 @@ LIMIT 0 , 1
 				<from> FROM spip_rubriques r </from>
 				<where> WHERE r.id_rubrique =-idRubrique- </where>
 			</Query>
+			<Query fonction="InsertDbType">
+				<insertfrom>
+					INSERT INTO -dbDst-.spip_-type-s
+					SELECT * 
+					FROM -dbSrc-.spip_-type-s
+				</insertfrom>
+				<where> WHERE id_-type- = -id- </where>			
+			</Query>
+			<Query fonction="InsertDbTypeAuteur">
+				<insertfrom>
+					INSERT INTO -dbDst-.spip_auteurs_-type-s
+					SELECT * 
+					FROM -dbSrc-.spip_auteurs_-type-s 
+				</insertfrom>			
+				<where> WHERE id_-type- = -id- </where>			
+			</Query>
+			<Query fonction="InsertDbTypeMot">
+				<insertfrom>
+					INSERT INTO -dbDst-.spip_mots_-type-s
+					SELECT * 
+					FROM -dbSrc-.spip_mots_-type-s 
+				</insertfrom>			
+				<where> WHERE id_-type- = -id- </where>			
+			</Query>
 		</Querys>
+		<synchro action="AJOUT" type="rubrique" >
+			<Query fonction="InsertDbType" />
+			<Query fonction="InsertDbTypeAuteur"/>
+			<Query fonction="InsertDbTypeMot"/>
+		</synchro>
+		
 	</XmlParam>
+	<!-- Gestion des documents -->		
 	<XmlParam nom="Documents">
 		<Querys>
 			<Query fonction="AddNewDoc">
@@ -1282,6 +1344,7 @@ LIMIT 0 , 1
 		</Querys>
 	</XmlParam>
 
+	<!-- Gestion de la scénarisation -->		
 	<XmlParam nom="Scenarisation">
 		<Querys>
 			<Query fonction="GetDonneeCritere">

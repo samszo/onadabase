@@ -9,13 +9,6 @@ require_once ("../../../param/ParamPage.php");
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Paramètres de diagnostic</title>
-<SCRIPT LANGUAGE="JavaScript">
-
-    <!--
-    if (window !=top ) {top.location=window.location;}
-   //-->
-
-</SCRIPT>
 <style type="text/css">
 #globalPass
 	{
@@ -49,6 +42,19 @@ require_once ("../../../param/ParamPage.php");
 		<div class='BlocTextePass'>	
 			<h3 align="center">Vous allez entrer dans une zone sécurisée</h3>		
 			<form name="formulaire" method="post" action="index.php">
+			<p align="center">Base de données : <SELECT name="site">
+			<?php 
+				foreach($objSite->sites as $k => $s){
+					echo $objSite->id." ".$k;
+					if($site == $k){
+						echo "<OPTION VALUE='".$k."' selected='selected' >".$s["NOM"]."</OPTION>";
+					}else{
+						echo "<OPTION VALUE='".$k."' >".$s["NOM"]."</OPTION>";
+					}
+				}
+			?>
+			</SELECT>
+			</p>
 			<p align="center">Login : 
 			<input name="login_uti" type="text" id="login_uti" />
 			</p>
@@ -57,7 +63,7 @@ require_once ("../../../param/ParamPage.php");
 			</p>
 			<h3 align="center">Veuillez choisir la version de votre diagnostic</h3>		
 			<p align="center">Version : <SELECT name="version">
-				<OPTION VALUE="V1" [SELECTED] >V1</OPTION>
+				<OPTION VALUE="V1" selected="selected" >V1</OPTION>
 				<OPTION VALUE="V2">V2</OPTION>
 			</SELECT>
 			</p>

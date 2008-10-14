@@ -4,7 +4,7 @@ Class XmlParam{
 	public $trace;
 	private $xml;
 
-	function __construct($FicXml = -1, $src=-1) {
+	function __construct($FicXml = -1, $src=-1, $dom=-1) {
 		$this->trace = TRACE;
 		
 		if ($FicXml !=-1) {
@@ -12,9 +12,12 @@ Class XmlParam{
 			
 			if ($xml = simplexml_load_file($FicXml))
 				$this->xml = $xml;
-		}else{
-			if ($xml = simplexml_load_string($src))
-    			$this->xml = $xml;	
+		}
+    	if($dom!=-1)
+    		$this->xml = simplexml_import_dom($dom);	
+		if ($src !=-1) {
+    		if ($xml = simplexml_load_string($src))
+    			$this->xml = $xml;
 		}
 	}
 	

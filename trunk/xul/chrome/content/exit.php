@@ -5,6 +5,13 @@ extract($_SESSION,EXTR_OVERWRITE);
 $_SESSION = array();
 if (isset($_COOKIE[session_name()])) {    setcookie(session_name(), '', time()-42000, '/');}
 session_destroy ();
+
+if(isset($_GET['site'])){
+	$urlsite = "diagnostic.php?site=".$_GET['site'];
+}else{
+	$urlsite = "diagnostic.php";
+}
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -19,7 +26,7 @@ session_destroy ();
 </SCRIPT>
 
 <script language='Javascript'>
-location.href = 'index.php'
+location.href = '<?php echo $urlsite; ?>'
 </script>
 </body>
 </html>

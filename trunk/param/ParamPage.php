@@ -22,7 +22,10 @@ if(TRACE)
 if(isset($_GET['site'])){
 	$site = $_GET['site'];
 }else{
-	$site = DEFSITE;
+	if(isset($_POST['site']))
+		$site = $_POST['site'];
+	else
+		$site = DEFSITE;
 }
 
 if(isset($_GET['type']))

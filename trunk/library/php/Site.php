@@ -5,8 +5,8 @@ class Site{
   public $scope;
   public $NbsTopics;
   public $XmlParam;
-  private $sites;
-  private $trace;
+  public $sites;
+  public $trace;
   
   function __tostring() {
     return "Cette classe permet de définir et manipuler un site.<br/>";

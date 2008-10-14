@@ -9,7 +9,9 @@ function AppendResult(url,doc,ajoute) {
 
 function AppendResult(url,doc,ajoute,cont) {
   try {
-	dump("AppendResult IN "+url+"\n");
+	//dump("AppendResult IN "+url+"\n");
+	document.documentElement.style.cursor = "wait";
+
 	p = new XMLHttpRequest();
 	p.onload = null;
 	p.open("GET", url, false);
@@ -33,9 +35,11 @@ function AppendResult(url,doc,ajoute,cont) {
 		//ajoute le résultat
 		doc.appendChild(resultDoc.documentElement);
 	}
+	document.documentElement.style.cursor = "auto";
+	
 	return resultDoc ;
-	dump("AppendResult OUT \n");
-   } catch(ex2){alert(ex2);dump("::"+ex2);}
+	//dump("AppendResult OUT \n");
+   } catch(ex2){alert(ex2);}
 }
 
 function InsertBeforeResult(url,doc) {
@@ -156,7 +160,8 @@ function GetResult(url) {
     response = "";
 	p = new XMLHttpRequest();
 	p.onload = null;
-	p.open("GET", urlExeAjax+"?f=GetCurl&url="+url, false);
+	//p.open("GET", urlExeAjax+"?f=GetCurl&url="+url, false);
+	p.open("GET", url, false);
 	p.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	p.send(null);
 

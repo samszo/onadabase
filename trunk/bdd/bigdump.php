@@ -38,7 +38,7 @@
 // Database configuration
 
 $db_server   = 'localhost';
-$db_name     = 'onadagilles';
+$db_name     = 'onada2';
 $db_username = 'root';
 $db_password = '';
 
@@ -47,7 +47,7 @@ $db_password = '';
 $filename         = '';     // Specify the dump filename to suppress the file selection dialog
 $csv_insert_table = '';     // Destination table for CSV files
 $ajax             = true;   // AJAX mode: import will be done without refreshing the website
-$linespersession  = 300000;   // Lines to be executed per one import session
+$linespersession  = 30000000;   // Lines to be executed per one import session
 $delaypersession  = 0;      // You can specify a sleep time in milliseconds after each session
                             // Works only if JavaScript is activated. Use to reduce server overrun
 

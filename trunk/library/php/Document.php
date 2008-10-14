@@ -20,13 +20,13 @@ class Document{
 		if($data!=-1){
 		    $this->type = $data['id_type'];
 		    $this->id = $data['id_document'];
-		    $this->fichier = $site->infos["REP_SPIP"].$data['fichier'];
+		    $this->fichier = $site->infos["pathSpip"].$data['fichier'];
 		    $this->largeur = $data['largeur'];
 		    $this->hauteur = $data['hauteur'];
 			if($data['dtitre'])
-				$this->titre = $data['dtitre'];
-			else
 				$this->titre = $data['rtitre'];
+		    if($data['dtitre'])
+				$this->titre = $data['dtitre'];
 	  	}	
 
 

@@ -403,8 +403,21 @@ class Xul{
 
 	}
 	
-	
 	function GetTree($type, $Cols, $js, $id){
+		
+
+		//récupération des colonnes
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='GetTreeChildren_".$type."']/col";
+		$Cols = $this->site->XmlParam->GetElements($Xpath);		
+
+		
+		//une seule sélection possible seltype='single' onselect=\"GetTreeSelect('tree".$type."','TreeTrace',2)" seltype='multiple' single
+		//	class='editableTree' 			width='100px' height='100px' 
+
+		//récupération des js
+		$Xpath = "/XmlParams/XmlParam[@nom='".$objSite->scope['ParamNom']."']/Querys/Query[@fonction='GetTreeChildren_".$type."']/js";
+		$js = $this->site->GetJs($Xpath, array($type,$id));
+		
 		
 		$tree = "<tree flex=\"1\" 
 			id=\"tree".$type."\"
@@ -440,6 +453,15 @@ class Xul{
 		
 		return $tree;
 		
+	}
+
+	function GetTreeItem($idXul, $cells, $style){
+		$this->xul .= '<treeitem id="'.$idXul.'" '.$style.' >'.EOL;
+		$this->xul .= '<treerow>'.EOL;
+		foreach($cells as $cell)
+			$this->xul .= '<treecell label="'.$cell.'"/>'.EOL;
+		$this->xul .= '</treerow>'.EOL;
+		$this->xul .= '<treechildren >'.EOL;		
 	}
 	
 	function GetTreeChildren($type, $Cols=-1, $id=-1){
