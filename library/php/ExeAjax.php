@@ -85,6 +85,18 @@
 			//$resultat = NewRubrique($_GET['src'], $_GET['dst'], $_GET['type'], $cols);
 			$resultat = Synchronise($objSite,$objSiteSync, $_GET['idAuteur']);
 			break;
+		case 'ShowSynchro':
+			$sync = new Synchro($objSite,$objSiteSync);
+			$resultat = $sync->ShowSynchro($objSite,$objSite->infos["AUTEUR_SYNCHRO"]);
+			break;
+		case 'CompareSrcDst':
+			$sync = new Synchro($objSite,$objSiteSync);
+			$resultat = $sync->CompareSrcDst($_GET['idRub']);
+			break;
+		case 'SynchroDstLoc':
+			$sync = new Synchro($objSite,$objSiteSync);
+			$resultat = $sync->SynchroDstLoc($_GET['idRub'],$_GET['id'],$_GET['val'],$_GET['type'],$_GET['action']);
+			break;
 		case 'SynchroImport':
 			$resultat = SynchroImport($objSiteSync, $_GET['idAuteur']);
 			break;
@@ -391,7 +403,7 @@
 				echo "ExeAjax:SynchroImport:PATH = ".PathRoot."/param/";
 			}
 			if($debug){
-				$src = PathRoot."/param/synchroExport-6.xml";
+				$src = PathRoot."/param/synchroExport-8.xml";
 			}else{
 				$chemin_destination = PathRoot."/param/";
 				move_uploaded_file($_FILES['file']['tmp_name'], $chemin_destination.$_FILES['file']['name']);			

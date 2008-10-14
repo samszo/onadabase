@@ -16,6 +16,11 @@ var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
 
+function ChangeBase(site){
+		var url = "exit.php?site="+site;
+		location.href = url;
+}
+
 function GetValueChecked(doc){
 	var ValChecked = "";
 	var url=""; 
@@ -215,6 +220,162 @@ function GetXmlUrlToDoc(url){
 	
 	return doc;
 
+}
+
+function CompareRubSrcDst() {
+	try {
+		var doc = document.getElementById("FormSaisi");
+		var progressMeter = document.getElementById('progressMeter');	
+		document.getElementById('progressMeter').style.visibility="visible";
+		if (progressMeter.getAttribute("mode")=="determined") {
+			progressMeter.setAttribute("mode", "undetermined");
+		}
+		
+		var url = urlExeAjax+"?f=CompareSrcDst&idRub=80";
+		AppendResult(url,doc);
+		
+		progressMeter.setAttribute("mode", "determined");
+		progressMeter.setAttribute("value", "100");
+		
+		document.getElementById('progressMeter').style.visibility="hidden";
+		progressMeter.setAttribute("value", "0");
+		
+	} catch(ex2){
+		alert("interface:CompareRubSrcDst:"+ex2+" " +"url="+url);
+	}
+}
+
+function SynchroTree(idRub) {
+	try {
+		
+		var url="";
+		var idTree = "treeCompareSrcDst";
+		var tree = document.getElementById(idTree);
+
+		SynchroInitTree(idTree);
+
+		//construction des variables
+		var cId = tree.treeBoxObject.columns[0];
+		var cVal = tree.treeBoxObject.columns[1];
+		var cType = tree.treeBoxObject.columns[2];
+		var cAction = tree.treeBoxObject.columns[3];
+		var cProgress = tree.treeBoxObject.columns[4];
+	
+		var i, id, val, type, action;
+
+		var progressMeter = document.getElementById('progressMeter');	
+		ProgressDeb(progressMeter);
+		
+		//for (i=0; i<tree.treeBoxObject.view.rowCount; i++)
+		for (i=0; i<1; i++)
+		{
+			id = tree.treeBoxObject.view.getCellText(i,cId);
+			val = tree.treeBoxObject.view.getCellText(i,cVal);
+			type = tree.treeBoxObject.view.getCellText(i,cType);
+			action = tree.treeBoxObject.view.getCellText(i,cAction);
+			//récupère le progressmeter
+			var idPm = idTree+DELIM+type+DELIM+id+DELIM+"pm";
+			var pm = document.getElementById(idPm);
+			pm.setAttribute("value", "10%");
+			url = urlExeAjax+"?f=SynchroDstLoc&idRub="+idRub+"&id="+id+"&val="+val+"&type="+type+"&action="+action ;
+			var r = GetResult(url);
+			pm.setAttribute("value", "100%");
+			if(r!=1)
+				pm.setAttribute("properties", "RedBar");
+		}		
+
+		ProgressEnd(progressMeter);
+
+	} catch(ex2){
+		alert("interface:SynchroTree:"+ex2+" " +"url="+url);
+	}
+}
+
+
+function SynchroInitTree(idTree){
+
+	try {
+
+		var tree = document.getElementById(idTree);
+
+		var cId = tree.treeBoxObject.columns[0];
+		var cType = tree.treeBoxObject.columns[2];
+
+		var i;
+		
+		for (i=0; i<tree.treeBoxObject.view.rowCount; i++)
+		{
+			id = tree.treeBoxObject.view.getCellText(i,cId);
+			type = tree.treeBoxObject.view.getCellText(i,cType);
+			//récupère le progressmeter
+			var idPm = idTree+DELIM+type+DELIM+id+DELIM+"pm";
+			var pm = document.getElementById(idPm);
+			if(pm)
+				pm.setAttribute("value", "0%");
+		}		
+
+
+	} catch(ex2){
+		alert("interface:InitSynchroTree:"+ex2);
+	}
+
+}
+
+
+function ProgressDeb(progressMeter){
+
+	try {
+
+		progressMeter.style.visibility="visible";
+		progressMeter.setAttribute("hidden", "false");
+		if (progressMeter.getAttribute("mode")=="determined") {
+			progressMeter.setAttribute("mode", "undetermined");
+		}
+
+	} catch(ex2){
+		alert("interface:ProgressDeb:"+ex2);
+	}
+
+}
+
+function ProgressEnd(progressMeter){
+
+	try {
+
+		progressMeter.setAttribute("mode", "determined");
+		progressMeter.setAttribute("value", "100");		
+		progressMeter.style.visibility="hidden";
+		progressMeter.setAttribute("hidden", "true");
+		progressMeter.setAttribute("value", "0");
+
+	} catch(ex2){
+		alert("interface:ProgressEnd:"+ex2);
+	}
+
+}
+
+
+function SynchroniserMajParam() {
+	try {
+		var doc = document.getElementById("FormSaisi");
+		var progressMeter = document.getElementById('progressMeter');	
+		document.getElementById('progressMeter').style.visibility="visible";
+		if (progressMeter.getAttribute("mode")=="determined") {
+			progressMeter.setAttribute("mode", "undetermined");
+		}
+		
+		var url = urlExeAjax+"?f=ShowSynchro";
+		AppendResult(url,doc);
+		
+		progressMeter.setAttribute("mode", "determined");
+		progressMeter.setAttribute("value", "100");
+		
+		document.getElementById('progressMeter').style.visibility="hidden";
+		progressMeter.setAttribute("value", "0");
+		
+	} catch(ex2){
+		alert("SynchroniserMajParam::"+ex2+" " +"url="+url3);
+	}
 }
 
 function SynchroniserExportImport() {

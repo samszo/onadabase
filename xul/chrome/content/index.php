@@ -22,6 +22,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 //echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 //echo '<'.'?xul-overlay href="overlay/choix_diagnostic.xul" ?'.'>';
 echo '<'.'?xul-overlay href="overlay/PopupMenuSet.xul"?'.'>';
+echo '<'.'?xul-overlay href="overlay/mnuSynchro.xul"?'.'>';
 
 ?>
 
@@ -61,7 +62,6 @@ echo '<'.'?xul-overlay href="overlay/PopupMenuSet.xul"?'.'>';
 	<vbox  flex="1" style="overflow:auto">
 	
 		<hbox class="menubar">
-			<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;" hidden="true"/>
 			<image src="images/logo.png" />
 			<menubar id='choix_diagnostic'>
 				<menu label="Gestion des bases">
@@ -71,6 +71,21 @@ echo '<'.'?xul-overlay href="overlay/PopupMenuSet.xul"?'.'>';
 							if($_SERVER['REMOTE_ADDR']=="127.0.0.1")
 								echo '<menuitem label="Synchroniser" oncommand="SynchroniserExportImport();"/>';
 						?>
+						<menuitem accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
+						<menuitem accesskey="v" label="Vérifier la synchronisation" oncommand="CompareRubSrcDst();"/>
+					    <menu label="Bases disponibles">
+					      <menupopup >
+							<?php 
+								foreach($SITES as $k => $s){
+									if($site == $k)
+										$check = "true";
+									else
+										$check = "false";
+									echo "<menuitem checked='".$check."' type='radio' label=\"".$s["NOM"]."\" oncommand=\"ChangeBase('".$k."');\"/>";
+								}
+							?>
+					      </menupopup>
+					    </menu>
 					</menupopup>
 				</menu>
 				<menu label="Version" >
@@ -94,7 +109,8 @@ echo '<'.'?xul-overlay href="overlay/PopupMenuSet.xul"?'.'>';
 					</menupopup>
 				</menu>
 			</menubar>
-		</hbox>	
+		</hbox>
+		<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;" hidden="true"/>	
 		<hbox >
 			<label hidden="true" id="idAuteur" value="<?php echo $_SESSION['IdAuteur'];?>" />
 			<label hidden="false" id="login" value="<?php echo $login; ?>" />

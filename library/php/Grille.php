@@ -9,6 +9,7 @@ class Grille{
   public $XmlParam;
   public $XmlScena;
   public $trace;
+  public $titre;
   private $site;
 
   function __tostring() {
@@ -26,12 +27,29 @@ class Grille{
 	$this->XmlScena = new XmlParam(XmlScena);
 		
 	if($complet){
+		$this->GetProps();
 	}
 
 	//echo "FIN new grille <br/>";
 		
     }
 
+	public function GetProps()
+	{
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$DB->connect();
+		if($this->trace)
+			echo "//charge les propiétés de la grille $this->id -<br/>";
+		$sql = "SELECT titre
+			FROM spip_forms 
+			WHERE id_form = ".$this->id;
+		//echo $sql."<br/>";
+		$req = $DB->query($sql);
+		$DB->close();
+		$data = $DB->fetch_assoc($req);
+		$this->titre = $data['titre'];
+
+	}
     
     function GetTreeProb($idRub){
     	
@@ -336,6 +354,23 @@ class Grille{
     	
     }
     
+
+    function GetListeChamp($idGrille=-1){
+    	
+    	if($idGrille==-1)
+    		$idGrille=$this->id;
+    	
+		$sql = "SELECT fc.titre, fc.champ
+				FROM spip_forms_champs fc 
+				WHERE fc.id_form = ".$idGrille;
+			
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		return $req;	
+    	
+    }
     
     function GetTreeObs($idRub){
     	

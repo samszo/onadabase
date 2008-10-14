@@ -1,4 +1,4 @@
-/*** Démonstration de XUL ***/
+/*** Dï¿½monstration de XUL ***/
 window{
   background-color: #FFFFFF;  
 }
@@ -233,6 +233,22 @@ treechildren::-moz-tree-col
 treechildren::-moz-tree-row 
 {
 	background-color: #73BE1E;
+}
+
+.treechildren::-moz-tree-progressmeter(RedBar)
+{
+  background-color: red;
+  color:red;
+}
+
+
+treechildren::-moz-tree-row(RedRow)
+{
+  background-color: red;
+}
+treechildren::-moz-tree-row(YellowRow)
+{
+  background-color: yellow;
 }
 
 .footer 

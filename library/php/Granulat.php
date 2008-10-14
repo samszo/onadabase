@@ -15,7 +15,7 @@ class Granulat
   public $IdParent;
   public $trace;
   
-  private $site;
+  public $site;
   
 
   	function __tostring() {
@@ -70,7 +70,7 @@ class Granulat
 /*
  * Parcourt récursivement les enfants afin de créer l'arborescence des rubriques et articles dans spip (correspondant à l'import)  
  */ 
-  	function GetChildren($xml, $idParent, $rubriques, $articles, $dom, $update) {
+  	function SetRubElements($xml, $idParent, $rubriques, $articles, $dom, $update) {
   		
   		//$rubriques = $xml->GetElements($Xpath);
   		/*if($this->trace)
@@ -171,7 +171,7 @@ class Granulat
 		  		}
   			} else $idEnfant = $rubrique['id'];
 	  			
-  			$g->GetChildren($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom, $update);
+  			$g->SetRubElements($xml, $idEnfant, $rubrique->rubrique, $rubrique->article, $dom, $update);
   			//$i++;  //$rubriques[$i]->rubrique, $rubriques[$i]->article
   		}	
   	}
@@ -320,7 +320,7 @@ class Granulat
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
-		
+		$idAuteur=-1;
 		if ($r = $DB->fetch_assoc($req)){
 			$idAuteur = $r['id_auteur']; 
 		}
@@ -545,91 +545,51 @@ class Granulat
 	 */
 	function GetArticleInfo($extraSql=""){
 		//récupère pour la rubrique l'article ayant les condition de extra
-		$sql = "SELECT a.id_article ,a.titre, a.date, a.maj, a.statut
-			FROM spip_rubriques r
-				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique	
-			WHERE r.id_rubrique = ".$this->id." ".$extraSql."
+		$sql = "SELECT a.id_article ,a.titre, a.date, a.maj, a.statut, aa.id_auteur
+			FROM spip_articles a 
+				LEFT JOIN spip_auteurs_articles aa ON aa.id_article = a.id_article 	
+			WHERE a.id_rubrique = ".$this->id." ".$extraSql."
 				";
 		//echo $sql."<br/>";
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
-		
-		$i = 0;
-		while($data = $DB->fetch_assoc($req)) {
-			$arrliste2[$i] = array("id"=>$data['id_article'], "titre"=>$data['titre'], "date"=>$data['date'], "maj"=>$data['maj']);
-			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
-			$i ++;
-		}
 
-		return $arrliste2; 
+		return $req; 
 			
 	}
   
 	/*
-	 * Retourne l'id de la grille pour un article
+	 * Retourne les id de grille pour un article
 	 */
-	function GetFormId($idArticle) {
+	function GetFormIds($idArticle) {
 		
-		$sql = "SELECT fa.id_donnee ,fa.id_article
+		$sql = "SELECT DISTINCT fd.id_form
 			FROM spip_forms_donnees_articles fa
-				
+				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fa.id_donnee
 			WHERE fa.id_article = ".$idArticle;
 		//echo $sql."<br/>"; spip_forms_articles
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
-			
-		$i = 0;
-		while($data = $DB->fetch_assoc($req)) {
-			
-			$idDonnee = $data['id_donnee'];
-			//echo ' IDDD '.$idForm;		
-			$i ++;
-		}
-		
-		$sql = "SELECT fd.id_form ,fd.id_donnee
-			FROM spip_forms_donnees fd
-				
-			WHERE fd.id_donnee = ".$idDonnee;
-		//echo $sql."<br/>"; spip_forms_articles
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
-		$req = $DB->query($sql);
-		$DB->close();
-			
-		$i = 0;
-		while($data = $DB->fetch_assoc($req)) {
-			
-			$idForm = $data['id_form'];
-			//echo ' IDDD '.$idForm;		
-			$i ++;
-		}
-		
-		return $idForm; 	
+		return $req; 	
 	}
 	
 	/*
 	 * Retourne l'ensemble des id de données d'une grille donnée pour un article 
 	 */
-	function GetIdDonneesTable($idGrille, $idArticle) {
+	function GetIdDonnees($idGrille, $idArticle) {
 		
 		$sql = "SELECT fd.id_donnee, fd.date, fd.maj
 				FROM spip_forms_donnees_articles da 
-				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = ".$idGrille."
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = ".$idGrille."
 				WHERE da.id_article = ".$idArticle;
 			
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
-		$i = 0;
-		while($data = $DB->fetch_assoc($req)) {
-			$arrliste[$i] = array("id"=>$data['id_donnee'], "date"=>$data['date'], "maj"=>$data['maj']);
-			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
-			$i ++;
-		}
-
-		return $arrliste;		
+		return $req;	
 	}
 	
 	/*
@@ -637,22 +597,18 @@ class Granulat
 	 */
 	function GetInfosDonnee($idDonnee) {
 		
-		$sql = "SELECT id_donnee, champ, valeur, maj
-				FROM `spip_forms_donnees_champs`
-				WHERE `id_donnee` =".$idDonnee;
+		$sql = "SELECT fdc.id_donnee, fdc.champ, fdc.valeur, fdc.maj
+					,fc.titre
+				FROM spip_forms_donnees_champs fdc
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fdc.id_donnee
+					INNER JOIN spip_forms_champs fc ON fc.champ = fdc.champ AND fc.id_form = fd.id_form
+				WHERE fdc.id_donnee =".$idDonnee;
 		
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
 		$DB->close();
 		
-		$i = 0;
-		while($data = $DB->fetch_assoc($req)) {
-			$arrliste[$i] = array("id"=>$data['id_donnee'], "champ"=>$data['champ'], "valeur"=>$data['valeur'], "maj"=>$data['maj']);
-			//echo "Liste article : ".$arrliste2[$i]['id']." ".$arrliste2[$i]['titre'];
-			$i ++;
-		}
-
-		return $arrliste;	
+		return $req;	
 		
 	}
 	
@@ -851,8 +807,8 @@ class Granulat
 		$DB->connect();
 		if($this->trace)
 			echo "//charge les propiétés du granulat $this->id -<br/>";
-		$sql = "SELECT r.titre rtitre, r.id_rubrique, r.descriptif, r.texte
-				, rp.titre rptitre, rp.id_rubrique rpid
+		$sql = "SELECT r.titre rtitre, r.id_rubrique, r.descriptif, r.texte, r.id_parent rpid
+				, rp.titre rptitre
 				, a.texte atexte, a.chapo , a.descriptif adesc, a.ps, a.extra, a.date
 			FROM spip_rubriques r
 				LEFT JOIN spip_articles a ON a.id_rubrique = r.id_rubrique AND a.statut = 'publie'
@@ -950,8 +906,30 @@ class Granulat
 			$this->arrDoc[$i] = new Document($this->site, $data);
 			$i ++;
 		}
+		return $this->arrDoc;
 	}
-
+	
+	public function GetArtDocs($idArt)
+	{
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$DB->connect();
+		//charge les documents du granulat
+		$sql = "SELECT d.fichier, d.hauteur, d.largeur, d.id_document, d.id_type, d.titre dtitre
+			FROM spip_documents_articles da 
+				INNER JOIN spip_documents d ON d.id_document = da.id_document
+			WHERE da.id_article = ".$idArt
+			." ORDER by d.id_type";
+		$req = $DB->query($sql);
+		$DB->close();
+		$i = 0;
+		$arrDoc=array();
+		while($data = $DB->fetch_assoc($req)) {
+			$arrDoc[$i] = new Document($this->site, $data);
+			$i ++;
+		}
+		return $arrDoc;
+	}
+	
 	public function GetEnfants()
 	{
 		$sql = "SELECT id_rubrique, titre
@@ -984,6 +962,7 @@ class Granulat
 		$req = $DB->query($sql);
 		$i = 0;
 		$DB->close();
+		$arrliste = array();
 		while($data = $DB->fetch_assoc($req)) {
 			$arrliste[$i] = array("id"=>$data['id_rubrique'], "titre"=>$data['titre'], "descriptif"=>$data['descriptif']);
 			$i ++;
@@ -1040,6 +1019,43 @@ class Granulat
 		$valeur = substr($valeur,0,-1);
 		return $valeur;
 	}
+
+	public function GetTypeMotClef($type,$id=-1) {
+		if($id==-1)
+			$id=$this->id;
+		//récupère lid du granulat
+		$sql = "SELECT id_mot
+			FROM spip_mots_".$type."s
+			WHERE id_".$type." =".$id;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+				
+		$valeur=array();
+		$i=0;
+		while($r = $DB->fetch_assoc($req)) {
+			$m = new MotClef($r['id_mot'],$this->site);
+			$valeur[$i] = $m;
+		}
+		return $valeur;
+}
+	
+	public function GetTypeAuteur($type,$id=-1) {
+		if($id==-1)
+			$id=$this->id;
+		//récupère lid du granulat
+		$sql = "SELECT a.id_auteur, a.nom, a.login
+			FROM spip_auteurs a 
+				INNER JOIN spip_auteurs_".$type."s at ON at.id_auteur = a.id_auteur
+			WHERE at.id_".$type." =".$id;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+				
+		return $req;
+}
 
 	public function GetParent($id = "") {
 		

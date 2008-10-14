@@ -22,7 +22,7 @@ class MotClef
 
 	public function GetProps()
 	{
-		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $DB_OPTIONS);
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 		//charge les propiétés du mot
 		$sql = "SELECT id_groupe , titre, descriptif
