@@ -71,17 +71,17 @@ echo '<'.'?xul-overlay href="overlay/mnuSynchro.xul"?'.'>';
 							if($_SERVER['REMOTE_ADDR']=="127.0.0.1")
 								echo '<menuitem label="Synchroniser" oncommand="SynchroniserExportImport();"/>';
 						?>
-						<menuitem accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
+						<menuitem hidden="true" accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
 						<menuitem accesskey="v" label="Vérifier la synchronisation" oncommand="CompareRubSrcDst();"/>
 					    <menu label="Bases disponibles">
-					      <menupopup >
+					      <menupopup id='mnuSite' >
 							<?php 
 								foreach($SITES as $k => $s){
 									if($site == $k)
 										$check = "true";
 									else
 										$check = "false";
-									echo "<menuitem checked='".$check."' type='radio' label=\"".$s["NOM"]."\" oncommand=\"ChangeBase('".$k."');\"/>";
+									echo "<menuitem id='site' checked='".$check."' type='radio' label=\"".$s["NOM"]."\" value='".$k."' oncommand=\"ChangeBase('".$k."');\"/>";
 								}
 							?>
 					      </menupopup>
@@ -130,7 +130,7 @@ echo '<'.'?xul-overlay href="overlay/mnuSynchro.xul"?'.'>';
 			<vbox class="BoiteV" flex="0" width="300px">
 				<hbox id="RefId" >
 				 	<label id="titreRub" value="Selectionner un territoire" class="titre" />
-					<label id="idRub" value="-1" class="titreLiens" hidden="true"/>
+					<label id="idRub" value="<?php echo $objSite->infos["RUB_TERRE"]; ?>" class="titreLiens" hidden="true"/>
 				</hbox>
 				<hbox id='treeRub' class="BoiteV" context="popterre" ></hbox>
 			</vbox>
@@ -180,9 +180,9 @@ echo '<'.'?xul-overlay href="overlay/mnuSynchro.xul"?'.'>';
 	</vbox>
 
 <script type="application/x-javascript" >
-   ChargeTreeFromAjax('idRub','treeRub','terre');
 	//met à jour le choix du diagnostic
 	SetChoixDiagnostic();
+   ChargeTreeFromAjax('idRub','treeRub','terre');
 </script>
 
 </window>

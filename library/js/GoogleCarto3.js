@@ -219,6 +219,72 @@ function GetMarkers(id, query) {
 					//construction de la carte suivant le type de requête
 					switch (query)
 					{
+					  case 'admin':
+							if(n==0) {
+								//alert('Markers INFO ' + query + ' | ' + n + ' | ' + id_rubrique + ' | ' + lat + ' | ' + lng + ' | ' + zoommin + ' | ' + zoommax + ' | ' + adresse);
+								n++;
+								if(lat!='')
+									var point = new GLatLng(lat,lng);
+								else
+									var point = map.getCenter();
+								write_line('admin - point ' + point, 'red');
+								var marker = new GMarker(point, {draggable: true});
+								map.addOverlay(marker);
+								marker.marker_id = n;
+								for (var eventName in markerEvents)
+								{
+									addShowEvent(marker, 'marker[n]<', eventName, 'green', markerEvents[eventName]);
+								}
+								write_line('added overlay ' + marker.marker_id, 'red');
+								//contenu admin
+								contenu_topic = '<form name="marker" ><table >';
+								contenu_topic += '<tr><td><input type="hidden" name="id" value="' + id_rubrique + '" /></td></tr>';
+								contenu_topic += '<tr><td>Titre : ' + titre + '</td></tr>';
+								contenu_topic += '<tr><td>Lat : <input type="text" name="lat" value="' + point.lat() + '" /></td></tr>';
+								contenu_topic += '<tr><td>Lng : <input type="text" name="lng" value="' + point.lng() + '" /></td></tr>';
+								contenu_topic += '<tr><td>zoom min : <input type="text" name="zoommin" value="' + zoommin + '" /></td></tr>';
+								contenu_topic += '<tr><td>zoom max : <input type="text" name="zoommax" value="' + zoommax + '" /></td></tr>';
+								contenu_topic += '<tr><td>Type : <input type="text" name="type" value="' + cartotype + '" /></td></tr>';
+								contenu_topic += '<tr><td>Adresse : <input type="text" name="adresse" value="' + adresse + '" /></td></tr>';
+								contenu_topic += '<tr><td>Action : <select name="action">';
+								contenu_topic += '<option value="Modifier">Modifier</option>';
+								contenu_topic += '</select></td></tr>';
+								contenu_topic += '<tr><td><input type="button" name="Submit" value="Executer" onclick="SauveMarker(' + id_rubrique + ')" />';
+								contenu_topic +='<tr><td><input type="button" name="GL" value="Geolocaliser" onclick="showAddress(window.document.marker.adresse.value,' + id_rubrique + ')" />';
+								contenu_topic +='<div id="result' + id_rubrique + '" ></div><div id="err' + id_rubrique + '" ></div>';
+								contenu_topic += '</tr></table></form>';
+								//GESTION DU DRAG & DROP
+								GEvent.addListener(marker, "dragstart", function() {
+								  map.closeInfoWindow();
+								  });
+								//GEvent.addListener(marker, "dragend", function() {
+								//  window.document.forms["marker"].lat.value=point.lat();
+								//  });
+								GEvent.addListener(marker, "dragend", function() {
+								  marker.openInfoWindowHtml(contenu_topic);
+								  p = marker.getPoint();
+								  window.document.forms["marker"].lat.value=p.lat();
+								  window.document.forms["marker"].lng.value=p.lng();
+								  window.document.forms["marker"].zoommin.value=map.getZoom();
+								  window.document.forms["marker"].zoommax.value=17;
+								  window.document.forms["marker"].type.value=map.getCurrentMapType().getName();
+								  });
+								//construction des onglets
+								var infoTabs = new Array(new GInfoWindowTab("Topic",contenu_topic));
+								marker_info[n]=infoTabs;
+								marker.openInfoWindowTabsHtml(infoTabs);
+								//attribut le type de carte
+								GetMapType(cartotype);
+								GetRubKml(id_rubrique,query,urlKml);
+								
+								write_line('zoommin ' + zoommin, 'red');
+								
+								map.setCenter(new GLatLng(lat, lng), zoommin);
+								
+								//map.setZoom(zoommin);
+							}
+					   break;
+
 					  case 'idFiche':
 							if(lat!='') {
 								var point = new GLatLng(lat,lng);

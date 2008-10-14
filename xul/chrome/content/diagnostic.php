@@ -45,7 +45,7 @@ require_once ("../../../param/ParamPage.php");
 			<p align="center">Base de données : <SELECT name="site">
 			<?php 
 				foreach($objSite->sites as $k => $s){
-					echo $objSite->id." ".$k;
+					//echo $objSite->id." ".$k;
 					if($site == $k){
 						echo "<OPTION VALUE='".$k."' selected='selected' >".$s["NOM"]."</OPTION>";
 					}else{

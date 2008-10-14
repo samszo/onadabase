@@ -38,8 +38,15 @@ function SetChoixDiagnostic() {
 		var url = urlExeAjax+"?f=SetSessionValues"
 		var libChoix = "Diagnostique : ";
 		var arrRep;
+		
+		//choix du site
+		var doc = document.getElementById("mnuSite");
+		arrRep = GetValueChecked(doc,url);
+		libChoix += arrRep[0]; 
+		url+=arrRep[1];
+		
 		//choix des versions
-		var doc = document.getElementById("mnuVersion");
+		doc = document.getElementById("mnuVersion");
 		arrRep = GetValueChecked(doc,url);
 		libChoix += arrRep[0]; 
 		url+=arrRep[1];
@@ -281,7 +288,7 @@ function SynchroTree(idRub) {
 			var r = GetResult(url);
 			pm.setAttribute("value", "100%");
 			if(r!=1)
-				pm.setAttribute("properties", "RedBar");
+				pm.setAttribute("style", "RedBar");
 		}		
 
 		ProgressEnd(progressMeter);

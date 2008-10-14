@@ -142,7 +142,7 @@
 			$resultat = ChangeAutoIncrement($_GET['table'], $_GET['val']) ;
 			break;
 		case 'SetSessionValues':
-			$resultat = SetSessionValues($_GET['type_controle1'], $_GET['type_controle2'],$_GET['type_contexte1'], $_GET['type_contexte2'], $_GET['type_contexte3'], $_GET['type_contexte4'],$_GET['version']) ;
+			$resultat = SetSessionValues($_GET['site'], $_GET['type_controle1'], $_GET['type_controle2'],$_GET['type_contexte1'], $_GET['type_contexte2'], $_GET['type_contexte3'], $_GET['type_contexte4'],$_GET['version']) ;
 			break;
 		default:
 			//$resultat = AddDocToArt();
@@ -150,11 +150,11 @@
 
 	echo  utf8_encode($resultat);	
 	
-	function SetSessionValues($type_controle1, $type_controle2,$type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4, $version){
+	function SetSessionValues($site, $type_controle1, $type_controle2,$type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4, $version){
 		$_SESSION['type_controle'] = array ($type_controle1, $type_controle2);
 		$_SESSION['type_contexte'] = array ($type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4);
 		$_SESSION['version']= $version;
-		
+		$_SESSION['site']= $site;
 	}
 	
 	

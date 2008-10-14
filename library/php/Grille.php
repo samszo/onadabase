@@ -1668,7 +1668,7 @@ class Grille{
 	{
 		$xul="";
 		if($idRub!=-1)
-			$xul = "<iframe height='300px' width='350px' src='".$this->site->infos["urlCarto"]."?id=".$idRub."'  id='BrowerGlobal' />";
+			$xul = "<iframe height='550px' width='450px' src='".$this->site->infos["urlCarto"]."?id=".$idRub."'  id='BrowerGlobal' />";
 		else
 			$xul = "<iframe height='550px' width='450px' src='".$this->site->infos["urlCarto"]."?id=".$this->GetRubDon($idDon)."'  id='BrowerGlobal' />";
 		

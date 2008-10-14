@@ -20,20 +20,20 @@ $arrGeo = $g->GetGeo();
 	var pathRoot = '<?php echo $objSite->infos["urlLibPhp"]; ?>';
 	var deflat = <?php echo $arrGeo['lat']; ?>;
 	var deflng = <?php echo $arrGeo['lng']; ?>;
-	var defzoom = <?php echo 13;//$arrGeo['zoom']; ?>;
+	var defzoom = <?php $arrGeo['zoom']; ?>;
 	var defType = <?php echo $arrGeo['type'];	?>;
 	var idRub = <?php echo $g->id; ?>;
 	var mot = -1;
-	var mapQuery = 'idFiche';
+	var mapQuery = 'admin';
 	var site = '<?php echo $objSite->id; ?>';
 	var alpha = 'a';
-	MiniCarte = true;
+	MiniCarte = false;
 
 </script>
   </head>
   <body onload="initPage()" onunload="GUnload()" >
 
-		<div id='map' style="height:200px;width:300px;" ></div>
+		<div id='map' style="height:550px;width:450px;" ></div>
 
   </body>
 </html>
