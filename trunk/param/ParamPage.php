@@ -15,19 +15,21 @@ if(isset($_POST['login_uti'])) {
 		echo "ParamPage:session:$login, $mdp, $idAuteur<br/>";
 }
 
+// vérification du site en cours
+if(isset($_GET['site']))
+	$site = $_GET['site'];
+if(isset($_POST['site']))
+	$site = $_POST['site'];
+if(isset($_SESSION['site']))
+	$site=$_SESSION['site'];
+if(!$site)
+	$site = DEFSITE;
+$_SESSION['site']=$site;
+
 if(TRACE)
 	echo "ParamPage:session".print_r($_SESSION)."<br/>";
 
-// vérification du site en cours
-if(isset($_GET['site'])){
-	$site = $_GET['site'];
-}else{
-	if(isset($_POST['site']))
-		$site = $_POST['site'];
-	else
-		$site = DEFSITE;
-}
-
+	
 if(isset($_GET['type']))
 	$type = $_GET['type'];
 else

@@ -53,7 +53,7 @@ Class Synchro{
 					$db = new mysql ($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 					$db->connect();
 					$result = $db->query($sql);
-					$r = mysql_affected_rows();			
+					$r .= mysql_affected_rows().",";			
 					$db->close();
 				}
 			}

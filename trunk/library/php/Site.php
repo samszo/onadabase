@@ -500,7 +500,7 @@ class Site{
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		
 	    if($this->trace)
-			echo $sql."<br/>";
+			echo "site::GetTreeChildren:".$this->infos["SQL_DB"]." ".$sql."<br/>";
 
 		$db = new mysql ($this->infos["SQL_HOST"], $this->infos["SQL_LOGIN"], $this->infos["SQL_PWD"], $this->infos["SQL_DB"], $dbOptions);
 		$db->connect();

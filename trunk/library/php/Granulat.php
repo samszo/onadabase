@@ -449,9 +449,10 @@ class Granulat
   }
   
   	function GetGeo($id=-1) {
-		
 		if($id==-1)
-			$id = $this->id;
+			$g = $this;
+		else
+			$g = new Granulat($id,$this->site);
 		
 			
 		$sql = "SELECT r.id_rubrique, r.titre, r.descriptif, r.id_parent, da.id_donnee
@@ -464,52 +465,41 @@ class Granulat
 				LEFT JOIN spip_forms_donnees_champs dc2 ON dc2.id_donnee = da.id_donnee AND dc2.champ = 'ligne_2'
 				LEFT JOIN spip_forms_donnees_champs dc3 ON dc3.id_donnee = da.id_donnee AND dc3.champ = 'ligne_3'
 				LEFT JOIN spip_forms_donnees_champs dc4 ON dc4.id_donnee = da.id_donnee AND dc4.champ = 'ligne_5'
-			WHERE r.id_rubrique =".$id."
+			WHERE r.id_rubrique =".$g->id."
 			GROUP BY r.id_rubrique
 			LIMIT 0 , ".MaxMarker;
 		//echo $sql."<br/>";
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 	
 		$db->connect();
 		$requete =  $db->query($sql);
 		$db->close();
-		$result = false;
-		while ($r =  $db->fetch_assoc($requete)) {
-			//gestion de la localisation parente si localisation  null
-			if($r['lat']==""){
-				if($r['id_parent']!=0){
-					$result = $this->GetGeo($r['id_parent']);
-				}else{
-					$result['lat'] = $this->site->infos["DEF_LAT"];
-					$result['lng'] = $this->site->infos["DEF_LNG"];
-					$result['zoom'] = $this->site->infos["DEF_ZOOM"];
-					$result['type'] = $this->site->infos["DEF_CARTE_TYPE"];
-				}
-			}else {
-				$result['lat'] = $r['lat'];
-				$result['lng'] = $r['lng'];
+		$result['lat'] = $this->site->infos["DEF_LAT"];
+		$result['lng'] = $this->site->infos["DEF_LNG"];
+		$result['zoom'] = $this->site->infos["DEF_ZOOM"];
+		$result['type'] = $this->site->infos["DEF_CARTE_TYPE"];
+		$r =  $db->fetch_assoc($requete);
+		//gestion de la localisation parente si localisation  null
+		if(!$r['lat']){
+			if($g->IdParent!=0)
+				$result = $this->GetGeo($g->IdParent);
+		}else {
+			$result['lat'] = $r['lat'];
+			$result['lng'] = $r['lng'];
+			if($r['zoom'])
 				$result['zoom'] = $r['zoom'];
-				$GmapType = "G_SATELLITE_MAP";
-				if($r['type']=="Plan")
-					$GmapType = "G_NORMAL_MAP";
-				if($r['type']=="Mixte")
-					$GmapType = "G_HYBRID_MAP";
-				if($r['type']=="Satellite")
-					$GmapType = "G_SATELLITE_MAP";				
-				$result['type'] = $GmapType;
-			}
+			$GmapType = "G_SATELLITE_MAP";
+			if($r['type']=="Plan")
+				$GmapType = "G_NORMAL_MAP";
+			if($r['type']=="Mixte")
+				$GmapType = "G_HYBRID_MAP";
+			if($r['type']=="Satellite")
+				$GmapType = "G_SATELLITE_MAP";				
+			$result['type'] = $GmapType;
 		}
-		if(!$result){
-			$result['lat'] = $this->site->infos["DEF_LAT"];
-			$result['lng'] = $this->site->infos["DEF_LNG"];
-			$result['zoom'] = $this->site->infos["DEF_ZOOM"];
-			$result['type'] = $this->site->infos["DEF_CARTE_TYPE"];		
-		}
-		
 		
 		return $result;
-
-		}
+	}
   
 	function GetArticle($extraSql=""){
 		//récupère pour la rubrique l'article ayant les condition de extra
