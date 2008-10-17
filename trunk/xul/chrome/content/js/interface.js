@@ -1,20 +1,52 @@
-//position la sécurité
-//netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-//netscape.security.PrivilegeManager.enablePrivilege("UniversalBrowserRead");
-//netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect UniversalBrowserAccess');
-/*
- try  {
-  //netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-  netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-  
- } catch (e) {
-  alert("Permission refusée de lire le fichier (" + e + ")");
- }
-*/
 
 var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
+
+function GetListeEtatDiag(idDoc) {
+	try {
+		var idRub = document.getElementById('idRub').value;
+		var url = urlExeAjax+"?f=GetListeEtatDiag&id="+idRub+"&idDoc="+idDoc;
+		var doc = document.getElementById('ListeEtatDiag');
+		//met à jour les valeurs de session
+		AppendResult(url,doc);
+
+  	} catch(ex2){alert("interface:GetListeEtatDiag:"+ex2);}
+}
+
+
+function ShowEtatDiag(idRub) {
+	try {
+		document.documentElement.style.cursor = "wait";
+		var url = urlExeAjax+"?f=GetEtatDiag&id="+idRub;
+		var xmlRep;
+		
+		//masque la boite de saisi
+		document.getElementById("FormSaisi").setAttribute("hidden","true");
+		//affiche la boite d'état des lieux
+		document.getElementById("EtatDiag").setAttribute("hidden","false");
+		
+		//récupère l'état du diagnostic
+		xmlRep = GetXmlUrlToDoc(url);
+		//met à jour les valeurs du tableau
+		for (var i = 0; i < xmlRep.firstChild.childNodes.length; i++){
+			var e = xmlRep.firstChild.childNodes[i];
+			var idDoc = e.getAttribute("id");
+			var val = e.getAttribute("moteur");
+			document.getElementById(idDoc+"moteur").setAttribute("value",val);
+			var val = e.getAttribute("audio");
+			document.getElementById(idDoc+"audio").setAttribute("value",val);
+			var val = e.getAttribute("visu");
+			document.getElementById(idDoc+"visu").setAttribute("value",val);
+			var val = e.getAttribute("cog");
+			document.getElementById(idDoc+"cog").setAttribute("value",val);
+		}
+
+		document.documentElement.style.cursor = "auto";
+
+  	} catch(ex2){alert("interface:ShowEtatDiag:"+ex2);}
+}
+
 
 function ChangeBase(site){
 		var url = "exit.php?site="+site;
@@ -660,6 +692,12 @@ function ChargeBrower(id,url)
 function RefreshEcran(id,titre,typeSrc,typeDst)
 {
   try {	
+
+	//masque la boite de saisi
+	document.getElementById("FormSaisi").setAttribute("hidden","false");
+	//affiche la boite d'état des lieux
+	document.getElementById("EtatDiag").setAttribute("hidden","true");
+
 	document.getElementById('idRub').value=id;
 	
 	//récupération des objets  du serveur

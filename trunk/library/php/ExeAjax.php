@@ -36,6 +36,12 @@
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
 			break;*/
+		case 'GetListeEtatDiag':
+			$resultat = $g->GetListeEtatDiag($_GET['idDoc']);
+			break;
+		case 'GetEtatDiag':
+			$resultat = $g->GetEtatDiag();
+			break;
 		case 'GetTreeProb':
 			$resultat = GetTreeProb($_GET['id']);
 			break;
@@ -525,7 +531,7 @@
 	function SetVal($idGrille,$idDon,$champ,$val, $login){
 	
 		global $objSite, $ppp;
-		$g = new Grille($objSite,$login);
+		$g = new Grille($objSite,$idGrille);
 
 		//modifie la valeur 
 		$row = array("grille"=>$idGrille,"champ"=>$champ,"valeur"=>utf8_decode($val));

@@ -69,6 +69,7 @@
 	<!-- Gestion des requêtes SPIP -->		
 	<XmlParam nom="GetOntoTree">
 		<Querys>
+				
 			<Query fonction="GetTreeChildren_SigProb">
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
@@ -894,41 +895,103 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<dst>Art</dst>
 			</Query>
 
-			<Query fonction="Grille_GetListeSignalementProblemeStat">
+			<Query fonction="Grille_GetEtatDiagOui">
 				<select>
-					SELECT r.id_rubrique idRub
-						, fd.id_donnee idDon
-						, fdc.valeur idDonCont
-						, fdcc.id_donnee
-						, fcc1.titre TypeCrit
-						, fcc2.titre TypeDroit
-						, fcc3.titre TypeAndy
+					SELECT  COUNT(fdcMoteur.valeur) moteur
+					, COUNT(fdcAudio.valeur) audio
+					, COUNT(fdcVisu.valeur) visu
+					, COUNT(fdcCog.valeur) cog
 				</select>
 				<from> 
-					FROM spip_rubriques r
-						INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
-						INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
-						INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee
-							AND fd.id_form =60
-						INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
-							AND fdc.champ = 'ligne_3'
-						INNER JOIN spip_forms_donnees_champs fdcc ON fdcc.champ = 'ligne_1'
-							AND fdcc.valeur = fdc.valeur
-						INNER JOIN spip_forms_donnees_champs fdcc1 ON fdcc1.id_donnee = fdcc.id_donnee
-							AND fdcc1.champ = 'multiple_1'
-						INNER JOIN spip_forms_champs_choix fcc1 ON fcc1.choix = fdcc1.valeur
-							AND fcc1.id_form =54
-						INNER JOIN spip_forms_donnees_champs fdcc2 ON fdcc2.id_donnee = fdcc.id_donnee
-							AND fdcc2.champ = 'multiple_2'
-						INNER JOIN spip_forms_champs_choix fcc2 ON fcc2.choix = fdcc2.valeur
-							AND fcc1.id_form =54
-						INNER JOIN spip_forms_donnees_champs fdcc3 ON fdcc3.id_donnee = fdcc.id_donnee
-							AND fdcc3.champ = 'multiple_3'
-						INNER JOIN spip_forms_champs_choix fcc3 ON fcc3.choix = fdcc3.valeur
-							AND fcc3.id_form =54
+					FROM spip_rubriques r 
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee 
+					   AND fd.id_form =-idFormRep- 
+					INNER JOIN spip_forms_donnees_champs fdcRef ON fdcRef.id_donnee = fd.id_donnee 
+					   AND fdcRef.champ = 'ligne_1'
+					INNER JOIN spip_forms_donnees_champs fdcRep ON fdcRep.id_donnee = fd.id_donnee 
+					   AND fdcRep.champ = 'mot_1'
+					INNER JOIN spip_mots m ON m.id_mot = fdcRep.valeur AND m.titre='Oui'
+					
+					INNER JOIN spip_forms_donnees fdCont ON fdCont.id_form =-idFormCont-
+					INNER JOIN spip_forms_donnees_champs fdcCont ON fdcCont.id_donnee = fdCont.id_donnee
+					   AND fdcCont.champ = 'ligne_1' AND fdcCont.valeur = fdcRef.valeur 
+					LEFT JOIN spip_forms_donnees_champs fdcMoteur ON fdcMoteur.id_donnee = fdCont.id_donnee
+					   AND fdcMoteur.champ = 'multiple_3'  AND fdcMoteur.valeur = 'multiple_3_1'
+					LEFT JOIN spip_forms_donnees_champs fdcAudio ON fdcAudio.id_donnee = fdCont.id_donnee
+					   AND fdcAudio.champ = 'multiple_3'  AND fdcAudio.valeur = 'multiple_3_2'
+					LEFT JOIN spip_forms_donnees_champs fdcVisu ON fdcVisu.id_donnee = fdCont.id_donnee
+					   AND fdcVisu.champ = 'multiple_3'  AND fdcVisu.valeur = 'multiple_3_3'
+					LEFT JOIN spip_forms_donnees_champs fdcCog ON fdcCog.id_donnee = fdCont.id_donnee
+					   AND fdcCog.champ = 'multiple_3'  AND fdcCog.valeur = 'multiple_3_4'
 				</from>
-				<where> WHERE r.id_rubrique IN(-ids-) ORDER BY idRubPar, idRub, IdArt</where>
-				<dst>Art</dst>
+				<where> WHERE r.id_rubrique IN(-ids-)</where>
+			</Query>
+			<Query fonction="Grille_GetEtatDiagHandi">
+				<select>
+					SELECT  
+					 COUNT(fdcM.valeur)	moteur			 
+					, COUNT(fdcA.valeur) audio			 
+					, COUNT(fdcV.valeur) visu			 
+					, COUNT(fdcC.valeur) cog			 
+				</select>
+				<from> 
+					FROM spip_rubriques r 
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee 
+					   AND fd.id_form =-idFormRep- 
+					INNER JOIN spip_forms_donnees_champs fdcRef ON fdcRef.id_donnee = fd.id_donnee 
+					   AND fdcRef.champ = 'ligne_1'
+					INNER JOIN spip_forms_donnees_champs fdcRep ON fdcRep.id_donnee = fd.id_donnee 
+					   AND fdcRep.champ = 'mot_1'
+					INNER JOIN spip_mots m ON m.id_mot = fdcRep.valeur AND m.titre='Non'
+					
+					INNER JOIN spip_forms_donnees fdCont ON fdCont.id_form =-idFormCont-
+					INNER JOIN spip_forms_donnees_champs fdcCont ON fdcCont.id_donnee = fdCont.id_donnee
+					   AND fdcCont.champ = 'ligne_1' AND fdcCont.valeur = fdcRef.valeur 
+
+					LEFT JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = fdCont.id_donnee
+					   AND fdcM.champ = 'ligne_2' AND fdcM.valeur = -handi- 
+					
+					LEFT JOIN spip_forms_donnees_champs fdcA ON fdcA.id_donnee = fdCont.id_donnee
+					   AND fdcA.champ = 'ligne_3' AND fdcA.valeur = -handi- 
+ 
+					LEFT JOIN spip_forms_donnees_champs fdcV ON fdcV.id_donnee = fdCont.id_donnee
+					   AND fdcV.champ = 'ligne_4' AND fdcV.valeur = -handi- 
+ 
+					LEFT JOIN spip_forms_donnees_champs fdcC ON fdcC.id_donnee = fdCont.id_donnee
+					   AND fdcC.champ = 'ligne_5' AND fdcC.valeur = -handi- 
+
+				</from>
+				<where> WHERE r.id_rubrique IN(-ids-)</where>
+			</Query>
+
+			<Query fonction="Grille_GetEtatDiagListe">
+				<select>
+					SELECT  fdcAff.valeur affirm, fdCont.id_donnee idDonCont			 
+				</select>
+				<from> 
+					FROM spip_rubriques r 
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee 
+					   AND fd.id_form =-idFormRep- 
+					INNER JOIN spip_forms_donnees_champs fdcRef ON fdcRef.id_donnee = fd.id_donnee 
+					   AND fdcRef.champ = 'ligne_1'	   
+					INNER JOIN spip_forms_donnees_champs fdcRep ON fdcRep.id_donnee = fd.id_donnee 
+					   AND fdcRep.champ = 'mot_1'
+					INNER JOIN spip_mots m ON m.id_mot = fdcRep.valeur AND m.titre='-reponse-'
+					
+					
+					INNER JOIN spip_forms_donnees fdCont ON fdCont.id_form =-idFormCont-
+					INNER JOIN spip_forms_donnees_champs fdcCont ON fdcCont.id_donnee = fdCont.id_donnee
+					   AND fdcCont.champ = 'ligne_1' AND fdcCont.valeur = fdcRef.valeur 
+					INNER JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = fdCont.id_donnee
+					   AND fdcM.champ = '-champ-' AND fdcM.valeur = -handi- 
+					LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = fdCont.id_donnee 
+					   AND fdcAff.champ = 'texte_2'	   
+
+				</from>
+				<where> WHERE r.id_rubrique IN(-ids-)</where>
 			</Query>
 
 			<Query fonction="Grille_GetListeSignalementProblemeStat">
