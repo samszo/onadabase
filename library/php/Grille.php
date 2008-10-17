@@ -34,6 +34,103 @@ class Grille{
 		
     }
 
+	public function GetEtatDiagListe($ids, $idDoc)
+	{
+		//récupère les info de l'id xul
+		$arrDoc = split("_",$idDoc);
+		
+		//récupère les critère suivant kleur validation
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagListe']";
+		if($this->trace)
+			echo "Grille:GetEtatDiagListe:Xpath".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $ids, $Q[0]->where);
+		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
+		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
+		if($arrDoc[0]==0){
+			$reponse = "Oui";
+		}else{
+			$reponse = "Non";
+			$champ = $this->site->infos["CHAMPS_CONTROL_DIAG"][$arrDoc[1]];
+		}
+		$from = str_replace("-reponse-", $reponse, $from);
+		$from = str_replace("-handi-", $arrDoc[0], $from);
+		$from = str_replace("-champ-", $champ, $from);
+		
+		$sql = $Q[0]->select.$from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "GetEtatDiagListe".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->close();
+			
+		//construction du xul
+		$xul = "<vbox >";
+		while ($r =  $db->fetch_assoc($result)) {
+				$xul .= "<label value=\"".$r['affirm']."\" />";
+				$xul .= $this->GetXulLegendeControle($r['idDonCont'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
+		}
+		$xul .= "</vbox>";
+		
+		return $xul;
+	}
+    
+    
+    public function GetEtatDiagOui($ids)
+	{
+		//récupère le nombre de critéres validés
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagOui']";
+		if($this->trace)
+			echo "Grille:GetEtatDiagOui:Xpath".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $ids, $Q[0]->where);
+		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
+		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
+		$sql = $Q[0]->select.$from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "Grille:GetEtatDiagOui".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->close();
+			
+		//construction du xml
+		$r =  $db->fetch_assoc($result);
+		$xml = "<CritsValides id='0_' moteur='".$r['moteur']."' audio='".$r['audio']."' visu='".$r['visu']."' cog='".$r['cog']."' ></CritsValides>";
+		
+		return $xml;
+	}
+
+	public function GetEtatDiagHandi($ids,$handi)
+	{
+		//récupère le nombre de critéres validés
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagHandi']";
+		if($this->trace)
+			echo "Grille:GetEtatDiagHandi:Xpath".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $ids, $Q[0]->where);
+		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
+		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
+		$from = str_replace("-handi-", $handi, $from);
+		$sql = $Q[0]->select.$from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "Grille:GetEtatDiagHandi".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$db->close();
+			
+		//construction du xml
+		$r =  $db->fetch_assoc($result);
+		$xml = "<Obstacles id='".$handi."_' moteur='".$r['moteur']."' audio='".$r['audio']."' visu='".$r['visu']."' cog='".$r['cog']."' ></Obstacles>";
+		if($this->trace)
+			echo "Grille:GetEtatDiagHandi:r=".print_r($r)."<br/>";
+		
+		return $xml;
+	}
+	
+    
 	public function GetProps()
 	{
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
@@ -1543,7 +1640,7 @@ class Grille{
 								//vérifie s'il faut ajouter la légende de la donnée dans la liste des réponses
 								if($idGrille== $this->site->infos["GRILLE_REP_CON"]
 									&& $r['champ']=="ligne_3")
-									$controls .= "";//$this->GetXulLegendeControle($r['valeur'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
+									$controls .= $this->GetXulLegendeControle($r['valeur'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
 								else
 									$controls .= $this->GetXulControl($idDoc, $r);
 							}
@@ -1568,13 +1665,6 @@ class Grille{
 			$labels .= '</column>';	
 			$form .= $labels.$controls.'</columns>';
 		}
-		if($idGrille == $this->site->infos["GRILLE_GEO"]){
-			$form .= '<groupbox >';	
-			$form .= '<caption label="Cartographie"/>';
-			//ajoute la carte
-			$form .= $this->GetXulCarto($idDon);
-			$form .= '</groupbox>';
-		}
 		
 		if($idGrille==$this->site->infos["GRILLE_REP_CON"]){
 			//ajout un bouton observation
@@ -1585,6 +1675,14 @@ class Grille{
 		}else
 			$form .= '</grid>';	
 
+		if($idGrille == $this->site->infos["GRILLE_GEO"]){
+			//$form .= '<groupbox >';	
+			//$form .= '<caption label="Cartographie"/>';
+			//ajoute la carte
+			$form .= $this->GetXulCarto($idDon);
+			//$form .= '</groupbox>';
+		}
+			
 		return $form;
 	
 	}
@@ -1667,11 +1765,14 @@ class Grille{
 	function GetXulCarto($idDon,$idRub=-1)
 	{
 		$xul="";
-		if($idRub!=-1)
-			$xul = "<iframe height='550px' width='450px' src='".$this->site->infos["urlCarto"]."?id=".$idRub."'  id='BrowerGlobal' />";
-		else
-			$xul = "<iframe height='550px' width='450px' src='".$this->site->infos["urlCarto"]."?id=".$this->GetRubDon($idDon)."'  id='BrowerGlobal' />";
-		
+		if($idRub!=-1){
+			$xul = "<iframe height='450px' width='500px' src='".$this->site->infos["urlCarto"]."?id=".$idRub."'  id='BrowerGlobal' />";
+			$xul = "<iframe height='450px' width='500px' src='http://www.mundilogiweb.com/onadabase/kml/garedelille.kmz'  id='BrowerGlobal' />";			
+		}else{
+			$xul = "<iframe height='450px' width='500px' src='".$this->site->infos["urlCarto"]."?id=".$this->GetRubDon($idDon)."'  id='BrowerGlobal' />";
+			//$xul = "<iframe height='450px' width='500px' src='http://maps.google.fr/maps?f=q&hl=fr&geocode=&q=http:%2F%2Fwww.mundilogiweb.com%2Fonadabase%2Fkml%2Fgaredelille.kmz&ie=UTF8&t=h&z=16'  id='BrowerGlobal' />";
+			//$xul = "<iframe height='450px' width='500px' src='http://www.mundilogiweb.com/onadabase/kml/garedelille.kmz'  id='BrowerGlobal' />";			
+		}		
 		return	$xul;	
 	
 	}

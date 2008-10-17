@@ -1,0 +1,38 @@
+
+<html>
+  <head>
+	<link rel="stylesheet" href="../css/styles.css" type="text/css">
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="../js/GoogleDocs.js"></script>
+    <script type="text/javascript" src="../js/ajax.js"></script>
+    <script type="text/javascript">
+     load();
+     var result= new Array(); ;var Nbr=2;var urlAjax="../";var j=0;
+   </script>
+  </head>
+
+  <body>
+  <h1>onadabase</h1>
+  <table>
+  	<tr>
+  		<td>
+		  <div id="left">
+		  	<table>
+		  		<tr>
+		  			<td><button onclick="ViewSpeardsheet('http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw&output=html&gid=0&single=true&widget=true');"> Espace Interieur speardsheet </button></td>
+		  			<td><button onclick="handleQueryResponse(result[0]);">Espace Interieur rapport</button></td>
+		  			<td><div id="repport"></div></td>
+		  		</tr>
+		  	</table>
+		  </div>
+		 </td>
+		 <td>
+		  <div id="right">
+		  	<iframe id="ViewSpeardsheet" width='900' height='500' frameborder='0' src='http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw&output=html&gid=0&single=true&widget=true'></iframe>
+		  </div>
+		</td>
+  	</tr>
+  </table>
+ 
+  </body>
+</html>

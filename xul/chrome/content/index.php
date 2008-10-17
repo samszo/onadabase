@@ -23,6 +23,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 //echo '<'.'?xul-overlay href="overlay/choix_diagnostic.xul" ?'.'>';
 echo '<'.'?xul-overlay href="overlay/PopupMenuSet.xul"?'.'>';
 echo '<'.'?xul-overlay href="overlay/mnuSynchro.xul"?'.'>';
+echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 
 ?>
 
@@ -143,11 +144,8 @@ echo '<'.'?xul-overlay href="overlay/mnuSynchro.xul"?'.'>';
 				 <label value="Sélectionnez un établissement dans" id="TitreFormSaisi" class="titre" />
 				 <label id="libRub" value="Le département du Nord" class="titre" />
 				</hbox>
-				<hbox class="FormBox" id="FormSaisi" flex="1">
-				
-				
-				</hbox>
-				
+				<hbox id="EtatDiag" hidden="true" flex="1" />
+				<hbox class="FormBox" id="FormSaisi" flex="1" />		
 			</vbox>
 
 			<vbox class="BoiteV" id="syncV1" flex="1" hidden="true">

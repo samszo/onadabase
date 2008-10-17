@@ -36,6 +36,50 @@ class Granulat
 	}
   }
   
+
+	function GetListeEtatDiag($idDoc){
+		
+		if($this->trace)
+	    	echo "Granulat:GetListeEtatDiag: id=$this->id idDoc=$idDoc<br/>";
+
+		//récupère les enfants
+		$ids = $this->GetEnfantIds($this->id,",").$this->id;
+
+		//construction du xml
+		$grille = new Grille($this->site);
+		$xul = $grille->GetEtatDiagListe($ids,$idDoc);
+		
+		return $xul;
+		
+	}
+
+
+	function GetEtatDiag(){
+		
+		if($this->trace)
+	    	echo "Granulat:GetEtatDiag: id= $this->id<br/>";
+
+		//initialisation du xml
+		$xml = "<EtatDiag idRub='".$this->id."'>";
+	    	
+		//récupère les enfants
+		$ids = $this->GetEnfantIds($this->id,",").$this->id;
+
+		//construction du xml
+		$grille = new Grille($this->site);
+		$xml .= $grille->GetEtatDiagOui($ids);
+		$xml .= $grille->GetEtatDiagHandi($ids,1);
+		$xml .= $grille->GetEtatDiagHandi($ids,2);
+		$xml .= $grille->GetEtatDiagHandi($ids,3);
+		
+				
+		//finalisation du xml
+		$xml .= "</EtatDiag>";
+		
+		return $xml;
+		
+	}
+  
   
 	function GetTreeChildren($type,$id=-1){
 
@@ -766,10 +810,12 @@ class Granulat
 
 	}
 
-	public function GetEnfantIds($id = "")
+	public function GetEnfantIds($id = "", $sep="")
 	{
 		if($id =="")
 			$id = $this->id;
+		if($sep=="")
+			$sep=DELIM;
 
 		//récupère les sous thème
 		$sql = "SELECT id_rubrique, titre
@@ -783,8 +829,8 @@ class Granulat
 
 		$valeur="";
 		while($r = $DB->fetch_assoc($req)) {
-			$valeur .= $this->GetEnfantIds($r['id_rubrique']);
-			$valeur .= $r['id_rubrique'].DELIM;
+			$valeur .= $this->GetEnfantIds($r['id_rubrique'],$sep);
+			$valeur .= $r['id_rubrique'].$sep;
 		}
 		
 		return $valeur;

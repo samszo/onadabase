@@ -13,7 +13,7 @@
   define ("TRACE", false);
 
   //define ("DEFSITE", "localPicardieCentre");
-  define ("DEFSITE", "local2");
+  define ("DEFSITE", "local1");
   define ("SYNCSITE", "local1");
   //define ("SYNCSITE", "mundi");
   
@@ -48,6 +48,7 @@ $localPicardieCentre = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -85,6 +86,7 @@ $SiteLocal1 = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -121,6 +123,7 @@ $SiteLocal2 = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -158,6 +161,7 @@ $SiteAmel = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -194,6 +198,7 @@ $SiteLocalGilles = array(
 	"GRILLE_SIG_PROB" => 60,
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
+	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"GRILLE_OBS" => 67,
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
@@ -232,6 +237,7 @@ $SiteNaos = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -269,6 +275,7 @@ $SiteNaos = array(
 	"GRILLE_OBS" => 67,
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
+	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,

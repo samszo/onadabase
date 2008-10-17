@@ -151,7 +151,6 @@ function GetMarkers(id, query) {
 	mgr = new GMarkerManager(map, mgrOptions);
 
 	//affiche le loading
-	//alert('toto');
 	//loadDiv = document.getElementById("loadDiv");
 	//loadDiv.style.display = 'block';
 
@@ -257,9 +256,6 @@ function GetMarkers(id, query) {
 								GEvent.addListener(marker, "dragstart", function() {
 								  map.closeInfoWindow();
 								  });
-								//GEvent.addListener(marker, "dragend", function() {
-								//  window.document.forms["marker"].lat.value=point.lat();
-								//  });
 								GEvent.addListener(marker, "dragend", function() {
 								  marker.openInfoWindowHtml(contenu_topic);
 								  p = marker.getPoint();
@@ -342,13 +338,13 @@ function GetRubKml(id, query, url){
 	//bug ie sur chargement kml
    	//if(window.XMLHttpRequest){
 		//calcul de l'url un flux kml
-		//url = pathRoot+'ExecDonneeCarto.php?f=get_rub_kml&site='+site+'&id='+id+'&query='+query;
-	//url = 'http://www.mundilogiweb.com/onadabase/spip/IMG/kml/Gare_Lille_Flandre_a_Rue_Negrier_59800_Lille.kml';
-	alert("GetRubKml:"+url);
+	//url = pathRoot+'ExecDonneeCarto.php?f=get_rub_kml&site='+site+'&id='+id+'&query='+query;
+	//url = 'http://localhost/onadabase/kml/samTest.kmz';
+	//alert("GetRubKml:"+url);
 	if(url){
 		urls = url.split('<>');
 		if(urls.length<2) {
-			alert("GetRubKml::"+url);
+			//alert("GetRubKml::"+url);
 			geoXmlRub = new GGeoXml(url);
 			map.addOverlay(geoXmlRub);
 			write_line('GetRubKml url ' + url,'red');
@@ -360,7 +356,7 @@ function GetRubKml(id, query, url){
 			}
 		}	
 	}
-   } catch(ex2){alert(ex2);dump("::"+ex2);}
+   } catch(ex2){alert("erreur:"+ex2);}
 }
 
 function GetMapType(type){
@@ -686,21 +682,9 @@ function initMap() {
 		map.addMapType(custommap);
 		*/
 
-		//attribut le type de carte
-		map.setMapType(defType);
-
- 		//console.log('mapQuery: '+mapQuery);
 		//récupère les coordonnées des markers à afficher par rapport à l'identifiant et la requête
-		//GetMarkers(idRub,mapQuery);
+		GetMarkers(idRub,mapQuery);
 		
-		//GetMarkers(idRub, 'idFicheEnfant');
-		//charge le kml
-		//GetRubKml(idRub,mapQuery);
-
-		var geoXmlRub = new GGeoXml('http://www.mundilogiweb.com/onadabase/spip/IMG/kml/1811_18560_19-05-08_08-57-25.kml');
-		map.addOverlay(geoXmlRub);
-				
-
 		GEvent.addListener(map, 'click', map_click_handler);
 		GEvent.addListener(map, 'moveend', function() {write_line('moveend: '+map.getCenter(),'#0000ff')});
 		GEvent.addListener(map, 'dragend', function() {

@@ -8,6 +8,7 @@
 		      <menupopup id="popup_terre_voir">
 				<menuitem label="Le(s) établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
 				<menuitem label="Le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
+				<menuitem label="L'état des lieux" oncommand="ShowEtatDiag(document.getElementById('idRub').value);"/>
 		      </menupopup>
 		    </menu>
 		    <menu id="menu_terre_ajouter" label="Ajouter">

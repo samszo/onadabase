@@ -2,7 +2,7 @@
 //vérifie si la page est include ou ajax
 if(!$g){
 	$ajax = true;
-	require_once($_SERVER["DOCUMENT_ROOT"]."/onadabase/param/ParamPage.php");
+	require_once("../param/ParamPage.php");
 }
 
 //création du bloc 
@@ -20,7 +20,7 @@ $arrGeo = $g->GetGeo();
 	var pathRoot = '<?php echo $objSite->infos["urlLibPhp"]; ?>';
 	var deflat = <?php echo $arrGeo['lat']; ?>;
 	var deflng = <?php echo $arrGeo['lng']; ?>;
-	var defzoom = <?php $arrGeo['zoom']; ?>;
+	var defzoom = <?php echo $arrGeo['zoom']; ?>;
 	var defType = <?php echo $arrGeo['type'];	?>;
 	var idRub = <?php echo $g->id; ?>;
 	var mot = -1;
@@ -33,7 +33,7 @@ $arrGeo = $g->GetGeo();
   </head>
   <body onload="initPage()" onunload="GUnload()" >
 
-		<div id='map' style="height:550px;width:450px;" ></div>
+		<div id='map' style="height:500px;width:450px;" ></div>
 
   </body>
 </html>
