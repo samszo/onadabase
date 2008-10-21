@@ -150,6 +150,8 @@
 		case 'SetSessionValues':
 			$resultat = SetSessionValues($_GET['site'], $_GET['type_controle1'], $_GET['type_controle2'],$_GET['type_contexte1'], $_GET['type_contexte2'], $_GET['type_contexte3'], $_GET['type_contexte4'],$_GET['version']) ;
 			break;
+		case 'explorerDir':
+			$resultat=explorerDir($_GET['dir']);
 		default:
 			//$resultat = AddDocToArt();
 	}
@@ -384,7 +386,7 @@
 		if(TRACE)
 			echo "ExeAjax:AddXmlDonnee:<br/>";
 		$g = new Grille($objSite);
-		$url = PathRoot."/param/controlesEclairageV2.xml";
+		$url = PathRoot."/param/".$url;
 		$g->AddXmlDonnee($url);
 	}
 
@@ -1134,6 +1136,16 @@
 		global $objSite;
 		$synchro = new Synchro($objSite, -1);
 		$synchro->ChangeAutoIncrement($table, $val);
+	}
+	function explorerDir($dir){
+		$dossier = opendir("../../param/XMLlControleV2");
+		while($entree = readdir($dossier)){
+			if ($entree != "." && $entree != "..") {
+				//AddXmlDonnee($url,$objSite);
+				echo $entree."</br>";
+			}
+		}
+   
 	}
 	
 ?>
