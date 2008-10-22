@@ -3,7 +3,8 @@
   //
   // Fichier contenant les definitions de constantes
   //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/sites/n/naoss.fr/mundigo"); 
-  define ("PathRoot","C:/wamp/www/"."onadabase"); 
+  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
+  //define ("PathRoot","C:/wamp/www/"."onadabase"); 
   
 	// *** chemin de toutes les bases et les spip en service ***
   define("TT_CLASS_BASE", PathRoot."/library/php/");
@@ -13,9 +14,10 @@
   define ("TRACE", false);
 
   //define ("DEFSITE", "localPicardieCentre");
-  define ("DEFSITE", "local1");
-  define ("SYNCSITE", "local1");
-  //define ("SYNCSITE", "mundi");
+  //define ("DEFSITE", "local1");
+  define ("DEFSITE", "mundi");
+  //define ("SYNCSITE", "local1");
+  define ("SYNCSITE", "mundi");
   
   $DB_OPTIONS = array (
 		'ERROR_DISPLAY' => true
@@ -49,6 +51,7 @@ $localPicardieCentre = array(
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
+	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -87,6 +90,7 @@ $SiteLocal1 = array(
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
+	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -124,6 +128,7 @@ $SiteLocal2 = array(
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
+	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -162,6 +167,7 @@ $SiteAmel = array(
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
+	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -199,6 +205,7 @@ $SiteLocalGilles = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
+	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"GRILLE_OBS" => 67,
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
@@ -238,6 +245,7 @@ $SiteNaos = array(
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
+	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -276,6 +284,7 @@ $SiteNaos = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
+	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
@@ -295,17 +304,17 @@ $SiteNaos = array(
 	"urlLibPhp" => "http://www.mundilogiweb.com/onadabase/library/php/",
 	"pathXulJs" => "http://www.mundilogiweb.com/onadabase/xul/chrome/content/js/",	
 	"pathUpload" => PathRoot."/spip/IMG/",
-	"pathSpip" => "http://localhost/onadabase/spip/"	
+	"pathSpip" => "http://www.mundilogiweb.com/onadabase/spip/"	
 	); 
 	
 $SITES = array(
-	"local1" => $SiteLocal1
-	,"local2" => $SiteLocal2
-	,"OnadaAmel" => $SiteAmel
-	,"localGilles" => $SiteLocalGilles
-	,"naos" => $SiteNaos
-	,"mundi" => $SiteMundi
-	,"localPicardieCentre" =>$localPicardieCentre
+//	"local1" => $SiteLocal1
+//	,"local2" => $SiteLocal2
+//	,"OnadaAmel" => $SiteAmel
+//	,"localGilles" => $SiteLocalGilles
+//	,"naos" => $SiteNaos
+	"mundi" => $SiteMundi
+//	,"localPicardieCentre" =>$localPicardieCentre
 	);
 
 ?>
