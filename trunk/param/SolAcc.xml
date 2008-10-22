@@ -966,7 +966,34 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<where> WHERE r.id_rubrique IN(-ids-)</where>
 			</Query>
 
-			<Query fonction="Grille_GetEtatDiagListe">
+			<Query fonction="Grille_GetEtatDiagOuiListe">
+				<select>
+					SELECT  fdcAff.valeur affirm, fdCont.id_donnee idDonCont			 
+				</select>
+				<from> 
+					FROM spip_rubriques r 
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee 
+					   AND fd.id_form =-idFormRep- 
+					INNER JOIN spip_forms_donnees_champs fdcRef ON fdcRef.id_donnee = fd.id_donnee 
+					   AND fdcRef.champ = 'ligne_1'
+					INNER JOIN spip_forms_donnees_champs fdcRep ON fdcRep.id_donnee = fd.id_donnee 
+					   AND fdcRep.champ = 'mot_1'
+					INNER JOIN spip_mots m ON m.id_mot = fdcRep.valeur AND m.titre='Oui'
+					
+					INNER JOIN spip_forms_donnees fdCont ON fdCont.id_form =-idFormCont-
+					INNER JOIN spip_forms_donnees_champs fdcCont ON fdcCont.id_donnee = fdCont.id_donnee
+					   AND fdcCont.champ = 'ligne_1' AND fdcCont.valeur = fdcRef.valeur 					   
+					INNER JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = fdCont.id_donnee
+					   AND fdcM.champ = '-champ-'  AND fdcM.valeur = '-valeur-'
+					LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = fdCont.id_donnee 
+					   AND fdcAff.champ = 'texte_2'	   
+				</from>
+				<where> WHERE r.id_rubrique IN(-ids-)</where>
+			</Query>
+
+
+			<Query fonction="Grille_GetEtatDiagHandiListe">
 				<select>
 					SELECT  fdcAff.valeur affirm, fdCont.id_donnee idDonCont			 
 				</select>
@@ -979,16 +1006,16 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					   AND fdcRef.champ = 'ligne_1'	   
 					INNER JOIN spip_forms_donnees_champs fdcRep ON fdcRep.id_donnee = fd.id_donnee 
 					   AND fdcRep.champ = 'mot_1'
-					INNER JOIN spip_mots m ON m.id_mot = fdcRep.valeur AND m.titre='-reponse-'
+					INNER JOIN spip_mots m ON m.id_mot = fdcRep.valeur AND m.titre='Non'
 					
 					
 					INNER JOIN spip_forms_donnees fdCont ON fdCont.id_form =-idFormCont-
 					INNER JOIN spip_forms_donnees_champs fdcCont ON fdcCont.id_donnee = fdCont.id_donnee
 					   AND fdcCont.champ = 'ligne_1' AND fdcCont.valeur = fdcRef.valeur 
 					INNER JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = fdCont.id_donnee
-					   AND fdcM.champ = '-champ-' AND fdcM.valeur = -handi- 
+					   AND fdcM.champ = '-champ-' AND fdcM.valeur = -valeur- 
 					LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = fdCont.id_donnee 
-					   AND fdcAff.champ = 'texte_2'	   
+					   AND fdcAff.champ = 'texte_1'	   
 
 				</from>
 				<where> WHERE r.id_rubrique IN(-ids-)</where>

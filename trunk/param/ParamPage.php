@@ -20,11 +20,11 @@ if(isset($_GET['site']))
 	$site = $_GET['site'];
 if(isset($_POST['site']))
 	$site = $_POST['site'];
-if(isset($_SESSION['site']))
-	$site=$_SESSION['site'];
 if(!$site)
 	$site = DEFSITE;
-$_SESSION['site']=$site;
+//if(isset($_SESSION['site']))
+//	$site=$_SESSION['site'];
+//$_SESSION['site']=$site;
 
 if(TRACE)
 	echo "ParamPage:session".print_r($_SESSION)."<br/>";
