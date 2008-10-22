@@ -1141,8 +1141,8 @@
 		$dossier = opendir("../../param/XMLlControleV2");
 		while($entree = readdir($dossier)){
 			if ($entree != "." && $entree != "..") {
-				//AddXmlDonnee($url,$objSite);
-				echo $entree."</br>";
+			    AddXmlDonnee($entree,$objSite);
+				//echo $entree."</br>";
 			}
 		}
    
