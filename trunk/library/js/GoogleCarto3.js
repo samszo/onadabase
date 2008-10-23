@@ -268,7 +268,7 @@ function GetMarkers(id, query) {
 								//construction des onglets
 								var infoTabs = new Array(new GInfoWindowTab("Topic",contenu_topic));
 								marker_info[n]=infoTabs;
-								marker.openInfoWindowTabsHtml(infoTabs);
+								//marker.openInfoWindowTabsHtml(infoTabs);
 								//attribut le type de carte
 								GetMapType(cartotype);
 								GetRubKml(id_rubrique,query,urlKml);

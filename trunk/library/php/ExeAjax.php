@@ -67,7 +67,7 @@
 			$resultat = AddGrilles($_GET['src'], $_GET['dst'], false);
 			break;
 		case 'AddPlacemark':
-			$resultat = AddPlacemark($_GET['dst'], $_GET['kml']);
+			$resultat = AddPlacemark($_GET['dst'], $_GET['kml'],$_GET['BBOX']);
 			break;
 		case 'SetVal':
 			$resultat = SetVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val'], $_GET['login']);
@@ -386,7 +386,8 @@
 		if(TRACE)
 			echo "ExeAjax:AddXmlDonnee:<br/>";
 		$g = new Grille($objSite);
-		$url = PathRoot."/param/".$url;
+		//$url = PathRoot."/param/".$url;
+		$url = PathRoot."/param/V1Accueil.xml";
 		$g->AddXmlDonnee($url);
 	}
 
@@ -636,6 +637,7 @@
 
 	function GetTabForm($type, $idRub){
 		global $objSite;
+
 		$g = new Grille($objSite);
 		
 		$xul = $g->GetXulTab($type, $idRub, $type);
@@ -902,7 +904,7 @@
 		return $xul;
 	}
 		
-	function AddPlacemark($idRubDst, $kml){
+	function AddPlacemark($idRubDst, $kml, $bbox){
 		global $objSite;
 		$g = new Grille($objSite);
 		//création de la grille géolocalisation
@@ -911,7 +913,29 @@
 		//ajoute la valeur du kml
 		$row = array("champ"=>"texte_1","valeur"=>$kml);
 		$g->SetChamp($row, $idDon);
-
+	
+		if($bbox!=-1){
+			$values = explode(",", $bbox);
+			foreach($values as $k=>$val){
+				$row = array("champ"=>$k,"valeur"=>$val);
+				$g->SetChamp($row, $idDon);			
+			}
+		}else{
+			$row = array("champ"=>'ligne_1',"valeur"=>$objSite->infos["DEF_LAT"]);
+			$g->SetChamp($row, $idDon);			
+			$row = array("champ"=>'ligne_2',"valeur"=>$objSite->infos["DEF_LNG"]);
+			$g->SetChamp($row, $idDon);			
+			$row = array("champ"=>'ligne_3',"valeur"=>$objSite->infos["DEF_ZOOM"]);
+			$g->SetChamp($row, $idDon);			
+			$row = array("champ"=>'ligne_4',"valeur"=>$objSite->infos["DEF_ZOOM"]+4);
+			$g->SetChamp($row, $idDon);			
+			$row = array("champ"=>'ligne_7',"valeur"=>"inconnue");
+			$g->SetChamp($row, $idDon);			
+			$row = array("champ"=>'mot_1',"valeur"=>$objSite->infos["MOT_CLEF_DEF_TYPE_CARTE"]);
+			$g->SetChamp($row, $idDon);			
+			
+		}
+		
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
 
