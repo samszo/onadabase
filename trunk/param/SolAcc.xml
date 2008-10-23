@@ -1067,6 +1067,18 @@ INNER JOIN spip_forms_donnees fdV ON fdV.id_donnee = fdaV.id_donnee AND fdV.id_f
 				<where> WHERE fd.id_donnee = -idDon- </where>
 				<dst>Form</dst>
 			</Query>
+
+			<Query fonction="Grille_RechercheDonneeId">
+				<select>SELECT fd.id_donnee idDon </select>
+				<from> FROM spip_forms_donnees fd
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee 
+	AND fda.id_article = -idArt-
+INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee 
+	AND fdc.champ = "-champ-" AND fdc.valeur = "-valeur-"
+				 </from>
+				<where> </where>
+			</Query>
+
 			
 			<Query fonction="Grille_GetXulTabPanelsArt">
 				<select>SELECT id_article id, titre </select>

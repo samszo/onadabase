@@ -648,6 +648,27 @@ class Grille{
 		}    	
     }
     
+    function RechercheDonneeId($grille,$idArt,$champ,$valeur) {
+		if($this->trace)
+			echo "Grille:RechercheDonneeId://recherche l'id d'une donnée avec son article $idArt sa valeur = $valeur et son champ=$champ <br/>";
+
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_RechercheDonneeId']";
+    	
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$from = str_replace("-champ-", $champ, $Q[0]->from);
+		$from = str_replace("-valeur-", $valeur, $from);
+		$from = str_replace("-idArt-", $idArt, $from);
+		$sql = $Q[0]->select.$from.$Q[0]->where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$rows = $db->query($sql);
+		$db->close();
+		$row =  $db->fetch_assoc($rows);
+		return $row["idDon"];
+    	
+    }
+    
+    
     function GetObjId($donId,$obj) {
 		if($this->trace)
 			echo "Grille:GetObjId://récupère l'identifiant de l'objet ".$obj." ".$donId."<br/>";
@@ -879,6 +900,8 @@ class Grille{
 			echo "Grille/AddXmlDonnee IN //récuparation de la définition des données ".$xmlSrc."<br/>";
 		$xml = new XmlParam($xmlSrc);		
 		
+		$action = $xml->xml->grille["action"]."";
+		
 		$Xpath = "/donnees";
 		$donnees = $xml->GetElements($Xpath);
 		if($this->trace)
@@ -904,23 +927,33 @@ class Grille{
 			if($this->trace)
 				echo "Grille/AddXmlDonnee/- récupération ou création du dernier article en cours de rédaction ".$idArt."<br/>";
 			
-			if($first){
-				$this->DelGrilleArt($idGrille,$idArt);
+				//vérifie s'il fut supprimer les valeurs
+			if($action!="ajout"){
+				if($first){
+					$this->DelGrilleArt($idGrille,$idArt);
+					if($this->trace)
+						echo "Grille/AddXmlDonnee/suppression des anciennes données ".$idArt."<br/>";
+					$first=false;
+				}
+					
+				$idDon = $g->GetIdDonnee($idGrille, $idArt, true);
 				if($this->trace)
-					echo "Grille/AddXmlDonnee/suppression des anciennes données ".$idArt."<br/>";
-				$first=false;
+					echo "Grille/AddXmlDonnee/- création de la donnee ".$idDon."<br/>";
+				$supChamp = false;
+			}else{
+				$supChamp = true;
 			}
-				
-			$idDon = $g->GetIdDonnee($idGrille, $idArt, true);
-			if($this->trace)
-				echo "Grille/AddXmlDonnee/- création de la donnee ".$idDon."<br/>";
-
+			
 			$i=0;
 			foreach($donnee->valeur as $valeur)
 			{
+				$valeur=utf8_decode($valeur);
+				$champ = $champs[0]->champ[$i];
+				//vérifie s'il faut récupérer l'id_donnée
+				if($i==0 && $action=="ajout"){
+					$idDon = $this->RechercheDonneeId($idGrille,$idArt,$champ,$valeur);	
+				}
 				if($valeur!='non'){
-					$valeur=utf8_decode($valeur);
-					$champ = $champs[0]->champ[$i];
 					if($this->trace)
 						echo "Grille/AddXmlDonnee/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
 					if(substr($champ,0,8)=="multiple"){
@@ -933,7 +966,7 @@ class Grille{
 					$row = array('champ'=>$champ, 'valeur'=>$valeur);
 					if($this->trace)
 						echo "Grille/AddXmlDonnee/-- récupération de la valeur du champ ".$valeur."<br/>";
-					$this->SetChamp($row, $idDon,false);
+					$this->SetChamp($row, $idDon,$supChamp);
 					if($this->trace)
 						echo "Grille/AddXmlDonnee/--- création du champ <br/>";
 				}

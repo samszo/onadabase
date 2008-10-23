@@ -2,7 +2,7 @@
 Class XmlParam{
 	public $FicXml;
 	public $trace;
-	private $xml;
+	public $xml;
 
 	function __construct($FicXml = -1, $src=-1, $dom=-1) {
 		$this->trace = TRACE;
