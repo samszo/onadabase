@@ -8,9 +8,7 @@ header('Content-type: text/html; charset=UTF-8');
 require_once("../../param/ParamPage.php");
 
 
-$site = $objSite->infos;
-
-$GrilleGeo = $site["GRILLE_GEO"];
+$GrilleGeo = $objSite->infos["GRILLE_GEO"];
 
 $resultat = "";
 if(isset($_GET['f'])){
@@ -29,7 +27,7 @@ if(isset($_GET['theme'])){
 
 switch ($fonction) {
 	case 'get_markers':
-		$resultat = $markers = get_marker($site, $objSite, $_GET['id'], $_GET['southWestLat'], $_GET['northEastLat'],$_GET['southWestLng'], $_GET['northEastLng'], $_GET['zoom'], $_GET['MapQuery'], $themes);
+		$resultat = $markers = get_marker($objSite, $_GET['id'], $_GET['southWestLat'], $_GET['northEastLat'],$_GET['southWestLng'], $_GET['northEastLng'], $_GET['zoom'], $_GET['MapQuery'], $themes);
 		break;
 	case 'get_theme_markers':
 		get_theme_markers($_GET['id']);
@@ -49,7 +47,7 @@ echo $resultat;
 
 function sauve_marker($action,$id,$zoommin,$zoommax,$lat,$lng,$adresse,$type) {
 
-	global $site, $GrilleGeo;
+	global $objSite, $GrilleGeo;
 
 	// on vérifie qu'un choix est bien pass?
 	switch ($action) {
@@ -61,7 +59,7 @@ function sauve_marker($action,$id,$zoommin,$zoommax,$lat,$lng,$adresse,$type) {
 					INNER JOIN spip_articles a ON a.id_article = da.id_article AND a.id_rubrique = ".$id."
 				WHERE fd.id_form = ".$GrilleGeo;
 			//echo $sql;
-			$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+			$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 			$DB->connect();
 			$req = $DB->query($sql);
 			$DB->close();
@@ -72,7 +70,7 @@ function sauve_marker($action,$id,$zoommin,$zoommax,$lat,$lng,$adresse,$type) {
 				$row = mysql_fetch_assoc($req);
 				$IdDon = $row['id_donnee'];
 				//echo "suprrime les champs sauf kml<br/>";
-				$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 				$sql = "DELETE FROM spip_forms_donnees_champs WHERE id_donnee = ".$IdDon." AND champ <> 'texte_1'" ;
 				$DB->connect();
 				$req = $DB->query($sql);
@@ -81,25 +79,25 @@ function sauve_marker($action,$id,$zoommin,$zoommax,$lat,$lng,$adresse,$type) {
 				//mise à jour des champs
 				$sql = "INSERT INTO `spip_forms_donnees_champs` (valdec,`id_donnee`, `champ`, `valeur`, `maj`)
 					VALUES (".$lat.", ".$IdDon.", 'ligne_1', ".$lat.", now())";
-				$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 				$DB->connect();
 				$req = $DB->query($sql);
 				$DB->close();
 				$sql = "INSERT INTO `spip_forms_donnees_champs` (valdec,`id_donnee`, `champ`, `valeur`, `maj`)
 					VALUES (".$lng.", ".$IdDon.", 'ligne_2', ".$lng.", now())";
-				$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 				$DB->connect();
 				$req = $DB->query($sql);
 				$DB->close();
 				$sql = "INSERT INTO `spip_forms_donnees_champs` (valint,`id_donnee`, `champ`, `valeur`, `maj`)
 					VALUES (".$zoommin.", ".$IdDon.", 'ligne_3', ".$zoommin.", now())";
-				$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 				$DB->connect();
 				$req = $DB->query($sql);
 				$DB->close();
 				$sql = "INSERT INTO `spip_forms_donnees_champs` (valint,`id_donnee`, `champ`, `valeur`, `maj`)
 					VALUES (".$zoommax.", ".$IdDon.", 'ligne_4', ".$zoommax.", now())";
-				$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 				$DB->connect();
 				$req = $DB->query($sql);
 				$DB->close();
@@ -114,7 +112,7 @@ function sauve_marker($action,$id,$zoommin,$zoommax,$lat,$lng,$adresse,$type) {
 				$sql = "INSERT INTO `spip_forms_donnees_champs` (`id_donnee`, `champ`, `valeur`, `maj`, valint)
 					VALUES (".$IdDon.", 'mot_1', '".$type."', now(), ".$type.")";
 				echo "ExeDonneCarto:SauveMarker:sql=".$sql."<br/>";;
-				$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 				$DB->connect();
 				$req = $DB->query($sql);
 				$DB->close();
@@ -122,7 +120,7 @@ function sauve_marker($action,$id,$zoommin,$zoommax,$lat,$lng,$adresse,$type) {
 				$sql = "INSERT INTO `spip_forms_donnees_champs` (`id_donnee`, `champ`, `valeur`, `maj`)
 					VALUES (".$IdDon.", 'ligne_7', \"".$adresse."\", now())";
 				//echo $sql."<br/>";
-				$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 				$DB->connect();
 				$req = $DB->query($sql);
 				$DB->close();
@@ -152,12 +150,13 @@ function tronquer($tocut , $max_caracteres , $space='1' , $points='1') {
 }
 
 
-function get_marker($site, $objSite, $id, $southWestLat, $northEastLat, $southWestLng, $northEastLng, $zoom, $query="", $themes="", $i = 0) {
+function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, $northEastLng, $zoom, $query="", $themes="", $i = 0) {
 
-	//$site = $_SESSION["Site"];
 
 	// on récupère les markers suivants les coordonnée
 	$NewQuery = "idFiche";
+	$statut = " AND a.statut = 'publie' ";
+	$statut = " ";
 	switch ($query) {
 		case "idFiche":
 			//requète pour un élément
@@ -178,8 +177,8 @@ function get_marker($site, $objSite, $id, $southWestLat, $northEastLat, $southWe
 					, dc8.valeur kml
 					, d.fichier dockml
 					FROM spip_rubriques r
-					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique AND a.statut = 'publie'
-					INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article ".$statut."
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = ".$objSite->infos["GRILLE_GEO"]."
 					INNER JOIN spip_forms_donnees_champs dc1 ON dc1.id_donnee = da.id_donnee AND dc1.champ = 'ligne_1'
 					INNER JOIN spip_forms_donnees_champs dc2 ON dc2.id_donnee = da.id_donnee AND dc2.champ = 'ligne_2'
@@ -197,12 +196,12 @@ function get_marker($site, $objSite, $id, $southWestLat, $northEastLat, $southWe
 		  	break;
 	}
 
-	$DB = new mysql($site["SQL_HOST"], $site["SQL_LOGIN"], $site["SQL_PWD"], $site["SQL_DB"]);
+	$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 	$DB->connect();
 	//charge les propiétés du granulat
 	$req = $DB->query($sql);
 	$DB->close();
-	//echo $site["SQL_DB"]." ".$sql."<br/>";
+	//echo $objSite->infos["SQL_DB"]." ".$sql."<br/>";
 	
 	//$i = 0;
 	while($row = mysql_fetch_assoc($req))
@@ -278,7 +277,7 @@ function get_marker($site, $objSite, $id, $southWestLat, $northEastLat, $southWe
 				$site = $objSite->sites[$siteenfant];
 				//echo $objSite->sites."<br/>"; 
 				$objSiteNew = new Site($objSite->sites, $siteenfant, $objSite->scope, false);
-				echo get_marker($site, $objSiteNew, $id, $southWestLat, $northEastLat, $southWestLng, $northEastLng, $zoom, $query, $themes, $i);
+				echo get_marker($objSiteNew, $id, $southWestLat, $northEastLat, $southWestLng, $northEastLng, $zoom, $query, $themes, $i);
 		}
 	}
 			

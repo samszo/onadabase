@@ -6,33 +6,35 @@
     <script type="text/javascript" src="../js/GoogleDocs.js"></script>
     <script type="text/javascript" src="../js/ajax.js"></script>
     <script type="text/javascript">
+     var result= new Array();var Nbr=2;var urlAjax="../";var j=0;urlImg="../images/";var f=0;var liste="";
+     var signature= new Array();var in_array=false;var l=0;var id_feuil; var ul="";var m=0;urlRapport="../rapports/";
+     var urlSpreadsheet='http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw';
      load();
-     var result= new Array(); ;var Nbr=2;var urlAjax="../";var j=0;
    </script>
   </head>
 
   <body>
-  <h1>onadabase</h1>
-  <table>
-  	<tr>
-  		<td>
-		  <div id="left">
-		  	<table>
-		  		<tr>
-		  			<td><button onclick="ViewSpeardsheet('http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw&output=html&gid=0&single=true&widget=true');"> Espace Interieur speardsheet </button></td>
-		  			<td><button onclick="handleQueryResponse(result[0]);">Espace Interieur rapport</button></td>
-		  			<td><div id="repport"></div></td>
-		  		</tr>
-		  	</table>
-		  </div>
-		 </td>
-		 <td>
-		  <div id="right">
-		  	<iframe id="ViewSpeardsheet" width='900' height='500' frameborder='0' src='http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw&output=html&gid=0&single=true&widget=true'></iframe>
-		  </div>
-		</td>
-  	</tr>
-  </table>
+    <h1>onadabase</h1> 
+ 	<div id="main">
+	   <table border="1" aligne="center">
+		 <tr>
+		   <td><button onclick="ViewSpeardsheet(id_feuil[1]);"> Afficher speardsheet </button></td>
+		   <td><button onclick="ViewRapport(result[id_feuil[1]]);">Afficher rapport</button></td>
+		 </tr>
+	     <tr>
+	     	<td colspan="2" >
+	     		<ul id="ListeFeuilles">
+	     		</ul>
+	     	</td>
+	     	
+	     </tr> 	
+	  </table>
+  </div>
+  <div id="right">
+	<iframe id="ViewSpeardsheet" width='900' height='500' frameborder='0' src='http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw&output=html&gid=0&single=true&widget=true'></iframe>
+  </div>
+  
+
  
   </body>
 </html>

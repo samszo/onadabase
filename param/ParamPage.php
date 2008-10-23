@@ -22,9 +22,9 @@ if(isset($_POST['site']))
 	$site = $_POST['site'];
 if(!$site)
 	$site = DEFSITE;
-//if(isset($_SESSION['site']))
-//	$site=$_SESSION['site'];
-//$_SESSION['site']=$site;
+if(isset($_SESSION['site']))
+	$site=$_SESSION['site'];
+$_SESSION['site']=$site;
 
 if(TRACE)
 	echo "ParamPage:session".print_r($_SESSION)."<br/>";
@@ -63,7 +63,7 @@ else
 if(isset($_GET['id']))
 	$id = $_GET['id'];
 else
-	$id = -1;
+	$id = $SITES[$site]["DEF_ID"];
 
 $scope = array(
 		"site" => $site

@@ -39,22 +39,25 @@ class Grille{
 		//récupère les info de l'id xul
 		$arrDoc = split("_",$idDoc);
 		
-		//récupère les critère suivant kleur validation
-		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagListe']";
+		if($arrDoc[0]==0){
+			//récupère les critère suivant leur validation
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagOuiListe']";
+			$champ = $this->site->infos["CHAMPS_CONTROL_DEFFICIENCE"]["champ"];
+			$valeur = $this->site->infos["CHAMPS_CONTROL_DEFFICIENCE"]["valeur"][$arrDoc[1]];
+		}else{
+			//récupère les critère suivant leur validation
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagHandiListe']";
+			$champ = $this->site->infos["CHAMPS_CONTROL_DIAG"][$arrDoc[1]];
+			$valeur = $arrDoc[0];
+		}
+
 		if($this->trace)
 			echo "Grille:GetEtatDiagListe:Xpath".$Xpath."<br/>";
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-ids-", $ids, $Q[0]->where);
 		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
 		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
-		if($arrDoc[0]==0){
-			$reponse = "Oui";
-		}else{
-			$reponse = "Non";
-			$champ = $this->site->infos["CHAMPS_CONTROL_DIAG"][$arrDoc[1]];
-		}
-		$from = str_replace("-reponse-", $reponse, $from);
-		$from = str_replace("-handi-", $arrDoc[0], $from);
+		$from = str_replace("-valeur-", $valeur, $from);
 		$from = str_replace("-champ-", $champ, $from);
 		
 		$sql = $Q[0]->select.$from.$where;
@@ -66,9 +69,9 @@ class Grille{
 		$db->close();
 			
 		//construction du xul
-		$xul = "<vbox >";
+		$xul = "<vbox flex='1'>";
 		while ($r =  $db->fetch_assoc($result)) {
-				$xul .= "<label value=\"".$r['affirm']."\" />";
+				$xul .= '<textbox  multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($r['affirm']).'"/>';			
 				$xul .= $this->GetXulLegendeControle($r['idDonCont'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
 		}
 		$xul .= "</vbox>";
@@ -1322,12 +1325,15 @@ class Grille{
 		$i=0;
 		$tabpanels ="";
 		while ($r =  $db->fetch_assoc($result)) {
-			$tabbox .= '<tab id="tab'.$r["id"].'" label="'.$r["titre"].'" />';
-			//vérifie s'il faut créer un formulaire ou un sous onglet
-			if($Q[0]->dst=='Form')
-				$tabpanels .= $this->GetXulTabPanels($r["idArt"], $r["id"],'Form',$recur);
-			else
-				$tabpanels .= $this->GetXulTabPanels($src, $r["id"],$Q[0]->dst,$recur);
+			//on exclu les grille géo
+			if($r["id"]!=$this->site->infos["GRILLE_GEO"]){
+				$tabbox .= '<tab id="tab'.$r["id"].'" label="'.$r["titre"].'" />';
+				//vérifie s'il faut créer un formulaire ou un sous onglet
+				if($Q[0]->dst=='Form' )
+					$tabpanels .= $this->GetXulTabPanels($r["idArt"], $r["id"],'Form',$recur);
+				else
+					$tabpanels .= $this->GetXulTabPanels($src, $r["id"],$Q[0]->dst,$recur);
+			}
 			$i++;
 		}
 		
@@ -1357,6 +1363,10 @@ class Grille{
 
 	function GetXulTabPanels($src, $id, $dst="Rub", $recur = false){
 
+		//on n'affiche pas les grille géolo
+		if($id == $this->site->infos["GRILLE_GEO"])
+			return;
+			
 		//récupère les articles de la rubrique
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetXulTabPanels".$dst."']";
 		$Q = $this->site->XmlParam->GetElements($Xpath);
@@ -1396,30 +1406,40 @@ class Grille{
 			//$tabpanel .= '<groupbox >';	
 			//$tabpanel .= '<caption label="'.$r["titre"].'"/>';
 			if($Q[0]->dst=='Form'){
-				//pour le signalement d'un problème
-				if($id==$this->site->infos["GRILLE_SIG_PROB"]){
-					$tabpanel .='<hbox>';
-					$tabpanel .='<vbox>';
-					//ajoute le nom de l'article 
-					$tabpanel .='<label value="'.$r["titre"].'" />';
-					//ajoute la carte 
-					$tabpanel .= $this->GetXulCarto(-1,$src);
-					$tabpanel .='</vbox>';
-					//ajoute les données de chaque article
-					$tabpanel .= $this->GetXulForm($r["id"], $id);
-					$tabpanel .='</hbox>';
-				}else{
-					//ajoute les données de chaque article
-					// S'il s'agit d'une grille diagnostic, on filtre les questions a poser
-					if($id==$this->site->infos["GRILLE_REP_CON"]){
+				//exécution suivant les type de grille
+				switch ($id) {
+					case $this->site->infos["GRILLE_GEO"]:
+						$tabpanel .= "";
+						break;
+					case $this->site->infos["GRILLE_SIG_PROB"]:
+						$tabpanel .='<hbox>';
+						$tabpanel .='<vbox>';
+						//ajoute le nom de l'article 
+						$tabpanel .='<label value="'.$r["titre"].'" />';
+						//ajoute la carte 
+						$tabpanel .= $this->GetXulCarto(-1,$src);
+						$tabpanel .='</vbox>';
+						//ajoute les données de chaque article
+						$tabpanel .= $this->GetXulForm($r["id"], $id);
+						$tabpanel .='</hbox>';
+						break;
+					case $this->site->infos["GRILLE_REP_CON"]:
 						$verif = $this->VerifChoixDiagnostic($r["id"], $_SESSION['type_controle'], $_SESSION['type_contexte']); 
 						if ($verif) {							
 							$tabpanel .= $this->GetXulForm($r["id"], $id);
 						}
-					} else {
-						$tabpanel .= $this->GetXulForm($r["id"], $id);
-					}
-				}
+						break;
+					default:
+						//vérifie s'il faut afficher une carte
+						$idDon = $this->VerifDonneeLienGrille($r["id"],$this->site->infos["GRILLE_GEO"]);
+						if($idDon){
+							$tabpanel .= $this->GetXulForm($r["id"], $id);
+							$tabpanel .= $this->GetXulForm($idDon, $this->site->infos["GRILLE_GEO"]);
+						}else
+							$tabpanel .= $this->GetXulForm($r["id"], $id);
+				}				
+				
+			
 			}else{
 				//ajoute la tabbox de destination
 				$tabpanel .= $this->GetXulTab($src, $r["id"], $Q[0]->dst, $recur);	
@@ -1437,6 +1457,29 @@ class Grille{
 		return $tabpanel;
 	}
 
+
+	function VerifDonneeLienGrille($idDon,$idGrille){
+		
+		//vérifie si une grille est dans l'article de la donnee
+		//dans le cas où la donnee est d'une autre grille que celle recherchhée
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_VerifDonneeLienGrille']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-idDon-", $idDon, $Q[0]->where);
+		$from = str_replace("-idGrille-", $idGrille, $Q[0]->from);
+		$sql = $Q[0]->select.$from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		if($this->trace)
+			echo "VerifDonneeLienGrille ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$req = $db->query($sql);
+		$r = $db->fetch_assoc($req);
+		$db->close();
+		
+		if($r['idDonV'])
+			return $r['idDonV'];
+		else
+			return false;
+	}
+	
 	function VerifQuestionIntermediaire($critere){
 		
 		$Xpath = "/questionnaire/grille/question[@id='".$critere."']";
@@ -1585,7 +1628,7 @@ class Grille{
 		$labels ="";
 		$controls="";
 		//ajoute les controls pour chaque grille
-		If($idGrille==$this->site->infos["GRILLE_REP_CON"]){
+		if($idGrille==$this->site->infos["GRILLE_REP_CON"]){
 			$form = '<row id="row_'.$idGrille.'_'.$idDon.'" >';	
 		}else{
 			$form = '<grid flex="1">';	
@@ -1606,6 +1649,11 @@ class Grille{
 					//construstion de la règle législative
 					$labels .= '<label class="labelForm" control="first" multiligne="true" value="'.$r['titre'].'"/>';
 					$controls .= $this->GetXulRegLeg($idDoc, $r);
+					break;					
+				case $this->site->infos["GRILLE_GEO"]:
+					//on ne construit pas la grille GEO
+					$labels .= '';
+					$controls .= '';
 					break;					
 				default:
 					if($this->trace)
@@ -1662,7 +1710,7 @@ class Grille{
 		}
 		if($idGrille!=$this->site->infos["GRILLE_REP_CON"]){
 			$controls .= '</column>';	
-			$labels .= '</column>';	
+			$labels .= '</column>';
 			$form .= $labels.$controls.'</columns>';
 		}
 		
@@ -1674,13 +1722,18 @@ class Grille{
 			$form .= '<row id="row_'.$idGrille.'_'.$idDon.'_qi" />';	
 		}else
 			$form .= '</grid>';	
-
+		
 		if($idGrille == $this->site->infos["GRILLE_GEO"]){
+			$carto = true;
 			//$form .= '<groupbox >';	
 			//$form .= '<caption label="Cartographie"/>';
 			//ajoute la carte
-			$form .= $this->GetXulCarto($idDon);
+			$form = $this->GetXulCarto($idDon);
 			//$form .= '</groupbox>';
+		}
+		//vérifie s'il faut ajouter le bouton de création de placemark
+		if(!$this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_GEO"])){
+			$form .="<button label='Ajouter une géolocalisation' oncommand=\"AddPlacemark();\"/>";
 		}
 			
 		return $form;
@@ -1767,7 +1820,7 @@ class Grille{
 		$xul="";
 		if($idRub!=-1){
 			$xul = "<iframe height='450px' width='500px' src='".$this->site->infos["urlCarto"]."?id=".$idRub."'  id='BrowerGlobal' />";
-			$xul = "<iframe height='450px' width='500px' src='http://www.mundilogiweb.com/onadabase/kml/garedelille.kmz'  id='BrowerGlobal' />";			
+			//$xul = "<iframe height='450px' width='500px' src='http://www.mundilogiweb.com/onadabase/kml/garedelille.kmz'  id='BrowerGlobal' />";			
 		}else{
 			$xul = "<iframe height='450px' width='500px' src='".$this->site->infos["urlCarto"]."?id=".$this->GetRubDon($idDon)."'  id='BrowerGlobal' />";
 			//$xul = "<iframe height='450px' width='500px' src='http://maps.google.fr/maps?f=q&hl=fr&geocode=&q=http:%2F%2Fwww.mundilogiweb.com%2Fonadabase%2Fkml%2Fgaredelille.kmz&ie=UTF8&t=h&z=16'  id='BrowerGlobal' />";

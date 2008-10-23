@@ -25,6 +25,10 @@ function ShowEtatDiag(idRub) {
 		document.getElementById("FormSaisi").setAttribute("hidden","true");
 		//affiche la boite d'état des lieux
 		document.getElementById("EtatDiag").setAttribute("hidden","false");
+		//vide le doc pour la liste
+		var doc = document.getElementById('ListeEtatDiag');
+		while(doc.hasChildNodes())
+				doc.removeChild(doc.firstChild);
 		
 		//récupère l'état du diagnostic
 		xmlRep = GetXmlUrlToDoc(url);
@@ -444,6 +448,44 @@ function SynchroniserExportImport() {
 	}
 }
 
+
+function AddPlacemark(){
+  try {
+	var verif = true;
+	
+	//récupère les paramètres
+	var Xpath ="/Params/Param[@nom='AddObjGeo']";
+	var iterator = xmlParam.evaluate(Xpath, xmlParam, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+	var n = iterator.iterateNext();
+	var id = n.attributes["id"].value;
+	var messNoVerif = n.childNodes[1].textContent;
+	var TitreFormSaisi =  n.childNodes[3].textContent;
+	
+	
+	var dst = document.getElementById('idRub').value;
+	var login = document.getElementById('login').value;
+	var typeDst = document.getElementById('typeDst').value;
+
+	if(dst=="?"){
+		alert(messNoVerif);
+		verif = false;
+	}
+	var doc = document.getElementById("FormSaisi");
+	document.getElementById("TitreFormSaisi").value=TitreFormSaisi;
+	//purge les formulaires déjà affiché
+	while(doc.hasChildNodes())
+		doc.removeChild(doc.firstChild);
+
+	if(verif){
+		var url = urlExeAjax+"?f=AddPlacemark&dst="+dst+"&kml=&BBOX=-1&login="+login;
+		//dump("SetNewGrille "+url+"\n");
+		GetResult(url);
+		ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
+	}
+
+  } catch(ex2){alert("interface:AddPlacemark::"+ex2+" "+type);;}
+}
+
 function AddNewGrille(type){
   try {
 	var verif = true;
@@ -698,7 +740,11 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 	//affiche la boite d'état des lieux
 	document.getElementById("EtatDiag").setAttribute("hidden","true");
 
+	//enregistre les variables dans l'interface
 	document.getElementById('idRub').value=id;
+	document.getElementById('typeSrc').value=typeSrc;
+	document.getElementById('typeDst').value=typeDst;
+
 	
 	//récupération des objets  du serveur
 	if(typeSrc!="aucun"){

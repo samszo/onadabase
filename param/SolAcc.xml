@@ -1056,6 +1056,17 @@ INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
 				<where> WHERE fda.id_article = -id- GROUP BY f.id_form</where>
 				<dst>Form</dst>
 			</Query>
+
+			<Query fonction="Grille_VerifDonneeLienGrille">
+				<select>SELECT fdV.id_donnee idDonV </select>
+				<from> FROM spip_forms_donnees fd
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
+INNER JOIN spip_forms_donnees_articles fdaV ON fdaV.id_article = fda.id_article
+INNER JOIN spip_forms_donnees fdV ON fdV.id_donnee = fdaV.id_donnee AND fdV.id_form = -idGrille-
+				 </from>
+				<where> WHERE fd.id_donnee = -idDon- </where>
+				<dst>Form</dst>
+			</Query>
 			
 			<Query fonction="Grille_GetXulTabPanelsArt">
 				<select>SELECT id_article id, titre </select>

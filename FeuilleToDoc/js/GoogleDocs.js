@@ -4,78 +4,102 @@
     	google.load("visualization", "1");
     	google.setOnLoadCallback(initialize); // Set callback to run when API is loaded
     }
-    function initialize() {
-    	    
-    	    for(i=0;i<4;i++){
-    	    	query="query";
+    function initialize() { 
+    
+    		
+       		query = new google.visualization.Query("http://spreadsheets.google.com/feeds/worksheets/key/visibility/projection);
+       		query.send(teste);  // Send the query with a callback function
+
+    	    //recupperation de toutes les feuilles de calcul 
+    	    /*
+    	    for(i=0;i<350;i++){
     	    	query="query"+i;
-        		query = new google.visualization.Query("http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw&gid="+i);
+        		query = new google.visualization.Query(urlSpreadsheet+"&gid="+i);
         		query.send(teste);  // Send the query with a callback function
+    	    	
     	    }
+    	    */
     }
     
-      function teste(response){
-      	
-      	result[j]=response;
-      	j++;
-      	
+     function teste(response){
+     	//verfier si la feuille existe , on compere la signature des feuilles
+        for(k=0;k<signature.length;k++){
+        	if(signature[k]==response.xa){
+        		in_array=true;
+        		
+        	}
+        } 
+      	if(!in_array){
+      		signature[j]=response.xa;
+      		result[l]=response;
+      		ListeFeuilles(response,l);
+       		handleQueryResponse(result[l])
+      	    j++;
+      	}
+      	in_array=false;
+      	l++;
       }
-      // Query response handler function.
+     // Query response handler function.
       function handleQueryResponse(response) {
-       
         if (response.isError()) {
           alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
           return;
         }
-
+        // construction de document html
         var data = response.getDataTable(); 
         var html = [];
         html.push("<html>");
         html.push("<body>");
-        html.push("<h3>Problème: ESPACE INTERIEURS </h3>");
-        html.push("<h3>Diagnostic des critères réglementaires posant problèmes</h3>");
-        html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
-        	html.push("<th>Critère réglementaire</th>");
-       	    html.push("<th>Mesure et observation</th>");
-        	for (var row = 0; row < data.getNumberOfRows()-1; row++) {
-        		if(escapeHtml(data.getFormattedValue(row, 7))=="f"){
-        			html.push("<tr>");
-        				html.push("<td>");
-        					html.push(escapeHtml(data.getFormattedValue(row, 1)));
-        				html.push("</td>");
-        				html.push("<td>");html.push("</td>");
-        	    	html.push("</tr>");
-        		}
+        for (var row = 0; row < data.getNumberOfRows()-3; row++) {
+        	if(escapeHtml(data.getFormattedValue(row, 7))=="f"){
+	        html.push("<h3>Problème  "+row+"</h3>");
+	        html.push("<h3>Diagnostic des critères réglementaires posant problèmes</h3>");
+	        html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
+	        	html.push("<th>Critère réglementaire</th>");
+	       	    html.push("<th>Mesure et observation</th>");
+	        	html.push("<tr>");
+	        		html.push("<td>");
+	        			html.push(escapeHtml(data.getFormattedValue(row, 1)));
+	        		html.push("</td>");
+	        		html.push("<td>");
+	        			html.push(escapeHtml(data.getFormattedValue(row, 8)));
+	        		html.push("</td>");
+	        	   html.push("</tr>");
+	        	
+	        html.push("</table>");
+	        html.push("<h3>Diagnostic par type de déficience :</h3>");
+	        html.push("<table border='1'>");
+	        	html.push("<tr>");
+	        		html.push("<td>"); 
+	        			html.push("<img src='"+urlImg+"indice1.png'/>");
+	        		html.push("</td>");
+	        		html.push("<td>"); 
+	        			html.push("<img src='"+urlImg+"indice2.png'/>");
+	        		html.push("</td>");
+	        		html.push("<td>"); 
+	        			html.push("<img src='"+urlImg+"indice3.png'/>");
+	        		html.push("</td>");
+	        		html.push("<td>"); 
+	        			html.push("<img src='"+urlImg+"indice4.png'/>");
+	        		html.push("</td>");
+	        	html.push("</tr>");
+	        	html.push("<tr>");
+	        		html.push("<td valign='middle' >"+data.getFormattedValue(row, 3)+"</td>");
+	        		html.push("<td valign='middle' >"+data.getFormattedValue(row, 4)+"</td>");
+	        		html.push("<td valign='middle' >"+data.getFormattedValue(row, 5)+"</td>");
+	        		html.push("<td valign='middle' >"+data.getFormattedValue(row, 6)+"</td>");
+	        	html.push("</tr>");
+	        html.push("</table>");
+	        html.push("<h3>Solutions :</h3>");
+	        html.push("<h3>Couts :</h3>");
+	        html.push("<p>Le coût est donnée HT, il est donnée en fonction des conditions de marché avec une approximation de 15 et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...)*euro</p> ");
         	}
-        html.push("</table>");
-        html.push("<h3>Diagnostic par type de déficience :</h3>");
-        html.push("<table border='1'>");
-        	html.push("<tr>");
-        		html.push("<td>"); 
-        			html.push("<img src='../images/indice1.png'/>");
-        		html.push("</td>");
-        		html.push("<td>"); 
-        			html.push("<img src='../images/indice2.png'/>");
-        		html.push("</td>");
-        		html.push("<td>"); 
-        			html.push("<img src='../images/indice3.png'/>");
-        		html.push("</td>");
-        		html.push("<td>"); 
-        			html.push("<img src='../images/indice4.png'/>");
-        		html.push("</td>");
-        	html.push("</tr>");
-        	html.push("<tr>");
-        		html.push("<td valign='middle' >0</td>");
-        		html.push("<td valign='middle' >0</td>");
-        		html.push("<td valign='middle' >0</td>");
-        		html.push("<td valign='middle' >0</td>");
-        	html.push("</tr>");
-        html.push("</table>");
-        html.push("<h3>Solutions :</h3>");
-        html.push("<h3>Couts :</h3>");
-        html.push("<p>Le coût est donnée HT, il est donnée en fonction des conditions de marché avec une approximation de 15 et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...)*euro</p> ");
-        AjaxRequest(urlAjax+"php/CreatRepport.php?f=CreatRepport&html="+ html.join('')+"&file=EspaceEnterieur.doc",'CreatLien' ,'');
-        //document.getElementById('repport').innerHTML = html.join('');
+	    }
+	   
+	    file=data.getColumnLabel(1).split(".");
+	    params="f=CreatRepport&html="+ html.join('')+"&file="+file[0]+".doc";
+        AjaxRequestPost(urlAjax+"php/CreatRepport.php",params,'','',false);
+        
         
       }
       function escapeHtml(text) {
@@ -88,13 +112,29 @@
           .replace(/"/g, '&quot;');
       }
 
-     function CreatLien(result){
-     	 
-     	  lien=result.split("*");
-     	  a="<a href="+lien[0]+">"+lien[1]+"</a>";
-          document.getElementById('repport').innerHTML =a;
+     function CreatLien(response){
+     	 //file=eval('('+response+')');
+     	 ul+="<li><a href='"+file.PATH+"'>"+file.File+"</a></li>";
+     	 document.getElementById('ListeRapports').innerHTML = ul;
      }
      
-     function ViewSpeardsheet(url){
+     function ViewSpeardsheet(f){
+     	//id=f.split("_");
+     	var url=urlSpreadsheet+'&output=html&gid='+f+'&single=true&widget=true';
      	document.getElementById('ViewSpeardsheet').setAttribute("src",url);
      }
+     function ListeFeuilles(response,m){
+     	        var Feuille=response.getDataTable().getColumnLabel(1).split(".");    
+     			liste+="<li>";
+     			liste+="<a id='Feuille_"+m+"' href='#' onclick='id_feuil=this.id.split(\"_\");'>"+Feuille[0]+"</a>";
+     			liste+="</li>";
+     		    ul+="<li><a href='"+urlRapport+Feuille[0].replace(" ","_")+".doc '>"+Feuille[0]+".doc </a></li>";
+     	        //document.getElementById('ListeRapports').innerHTML = ul;
+     			document.getElementById('ListeFeuilles').innerHTML = liste;
+     		    
+     }
+     function ViewRapport(response){
+     	var Feuille=response.getDataTable().getColumnLabel(1).split(".");
+     	window.open(urlRapport+Feuille[0].replace(" ","_")+".doc");
+     }
+     

@@ -3,8 +3,8 @@
   //
   // Fichier contenant les definitions de constantes
   //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/sites/n/naoss.fr/mundigo"); 
-  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
-  //define ("PathRoot","C:/wamp/www/"."onadabase"); 
+  //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
+  define ("PathRoot","C:/wamp/www/"."onadabase"); 
   
 	// *** chemin de toutes les bases et les spip en service ***
   define("TT_CLASS_BASE", PathRoot."/library/php/");
@@ -14,10 +14,11 @@
   define ("TRACE", false);
 
   //define ("DEFSITE", "localPicardieCentre");
-  //define ("DEFSITE", "local1");
-  define ("DEFSITE", "mundi");
-  //define ("SYNCSITE", "local1");
-  define ("SYNCSITE", "mundi");
+  define ("DEFSITE", "local1");
+  //define ("DEFSITE", "mundi");
+  define ("SYNCSITE", "local1");
+  //define ("SYNCSITE", "mundi");
+ 
   
   $DB_OPTIONS = array (
 		'ERROR_DISPLAY' => true
@@ -53,11 +54,13 @@ $localPicardieCentre = array(
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
+	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
 	"RUB_PORTE_FACE2" => 1341,
+	"DEF_ID" => 2152,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
@@ -92,11 +95,13 @@ $SiteLocal1 = array(
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
+	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
 	"RUB_PORTE_FACE2" => 1341,
+	"DEF_ID" => 2152,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
@@ -130,11 +135,13 @@ $SiteLocal2 = array(
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
+	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
 	"RUB_PORTE_FACE2" => 1341,
+	"DEF_ID" => 2152,
 	"DEF_LAT" => 50.63705,
 	"DEF_LNG" => 3.06994,
 	"DEF_ZOOM" => 14,
@@ -169,11 +176,13 @@ $SiteAmel = array(
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
+	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
 	"RUB_PORTE_FACE2" => 1341,
+	"DEF_ID" => 2152,
 	"DEF_LAT" => 50.63705,
 	"DEF_LNG" => 3.06994,
 	"DEF_ZOOM" => 14,
@@ -208,11 +217,13 @@ $SiteLocalGilles = array(
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"GRILLE_OBS" => 67,
 	"MOT_CLEF_OBS" => 151,
+	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
 	"RUB_PORTE_FACE2" => 1341,
+	"DEF_ID" => 2152,
 	"DEF_LAT" => 50.63705,
 	"DEF_LNG" => 3.06994,
 	"DEF_ZOOM" => 14,
@@ -247,11 +258,13 @@ $SiteNaos = array(
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
+	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
 	"RUB_PORTE_FACE2" => 1341,
+	"DEF_ID" => 2152,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
@@ -286,11 +299,13 @@ $SiteNaos = array(
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
+	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
 	"RUB_PORTE_FACE1" => 1342,
 	"RUB_PORTE_FACE2" => 1341,
+	"DEF_ID" => 2152,
 	"DEF_LAT" => 50.63705,
 	"DEF_LNG" => 3.06994,
 	"DEF_ZOOM" => 4,
@@ -308,12 +323,12 @@ $SiteNaos = array(
 	); 
 	
 $SITES = array(
-//	"local1" => $SiteLocal1
-//	,"local2" => $SiteLocal2
+	"local1" => $SiteLocal1
+	,"local2" => $SiteLocal2
 //	,"OnadaAmel" => $SiteAmel
 //	,"localGilles" => $SiteLocalGilles
 //	,"naos" => $SiteNaos
-	"mundi" => $SiteMundi
+	,"mundi" => $SiteMundi
 //	,"localPicardieCentre" =>$localPicardieCentre
 	);
 

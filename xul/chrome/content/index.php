@@ -115,6 +115,8 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 		<hbox >
 			<label hidden="true" id="idAuteur" value="<?php echo $_SESSION['IdAuteur'];?>" />
 			<label hidden="false" id="login" value="<?php echo $login; ?>" />
+			<label hidden="false" id="typeSrc" value="terre" />
+			<label hidden="false" id="typeDst" value="Terre" />
 			<label hidden="false" value="sur" />
 			<label hidden="false" value="<?php echo $objSite->infos["NOM"]; ?>" />
 			<label id="ChoixDiagnostic" value="" />
@@ -176,7 +178,15 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 		</hbox>	
 		
 	</vbox>
-
+	<splitter collapse="before" resizeafter="farthest">
+		<grippy/>
+	</splitter>
+	<!-- 
+	<vbox flex="1" style="overflow:auto">
+		<iframe flex="1"  src='<?php echo $objSite->infos["urlCarto"];?>'  id='BrowerGlobal' />
+	</vbox>
+ 	-->
+ 
 <script type="application/x-javascript" >
 	//met à jour le choix du diagnostic
 	SetChoixDiagnostic();
