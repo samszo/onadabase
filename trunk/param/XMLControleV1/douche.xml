@@ -7,6 +7,6 @@
 <donnee>	<valeur>cr_douche_04</valeur>	<valeur>Absence d'appui permettant la position débout</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>1062</rub>	</donnee>
 <donnee>	<valeur>cr_douche_05</valeur>	<valeur>Absence d'appui permettant le transfert en position assis</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>1062</rub>	</donnee>
 <donnee>	<valeur>cr_douche_06</valeur>	<valeur>Absence d'un espace d'usage latéral de dimension 80 cm x 130 cm</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>1062</rub>	</donnee>
-<donnee>	<valeur>cr_douche_07</valeur>	<valeur>Absence d'équipements accessibles (notamment paterre, robinetterie, miroirs…) permettant d'être utilisé en position "assis" (hauteur comprise entre 90 et 130 cm)</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>1062</rub>	</donnee>
+<donnee>	<valeur>cr_douche_07</valeur>	<valeur>Absence d'équipements accessibles (notamment paterre, robinetterie, miroirs…) permettant d'être utilisé en position \"assis\" (hauteur comprise entre 90 et 130 cm)</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>1062</rub>	</donnee>
 <donnee>	<valeur>cr_douche_08</valeur>	<valeur>Absence d'un syphon de sol</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>1062</rub>	</donnee>
 </donnees>								

@@ -17,8 +17,8 @@
 <donnee>	<valeur>cr_esc_meca_14</valeur>	<valeur>La zone d'arrivée n'est pas mise en évidence par un contraste de couleur ou de lumière</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<rub>83</rub>	</donnee>
 <donnee>	<valeur>cr_esc_meca_15</valeur>	<valeur>La commande d'arrêt d'urgence n'est pas facilement repérable</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>83</rub>	</donnee>
 <donnee>	<valeur>cr_esc_meca_16</valeur>	<valeur>La commande d'arrêt d'urgence n'est pas facilement accessible</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>83</rub>	</donnee>
-<donnee>	<valeur>cr_esc_meca_17</valeur>	<valeur>La commande d'arrêt d'urgence n'est pas manoeuvrable en position "debout"</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>83</rub>	</donnee>
-<donnee>	<valeur>cr_esc_meca_18</valeur>	<valeur>La commande d'arrêt d'urgence n'est pas manoeuvrable en position "assis"</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>83</rub>	</donnee>
+<donnee>	<valeur>cr_esc_meca_17</valeur>	<valeur>La commande d'arrêt d'urgence n'est pas manoeuvrable en position \"debout\"</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>83</rub>	</donnee>
+<donnee>	<valeur>cr_esc_meca_18</valeur>	<valeur>La commande d'arrêt d'urgence n'est pas manoeuvrable en position \"assis\"</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>83</rub>	</donnee>
 <donnee>	<valeur>cr_esc_meca_19</valeur>	<valeur>Un signal tactile ou sonore ne permet pas de détecter l'arrivée sur la partie fixe </valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<rub>83</rub>	</donnee>
 <donnee>	<valeur>cr_esc_meca_20</valeur>	<valeur>L'éclairage est inférieur à 150 lux</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>83</rub>	</donnee>
 </donnees>								
