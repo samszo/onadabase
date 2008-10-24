@@ -39,6 +39,9 @@ class Grille{
 		//récupère les info de l'id xul
 		$arrDoc = split("_",$idDoc);
 		
+		//construit les objets nécessaires
+		$objXul = new Xul($this->site);
+		
 		if($arrDoc[0]==0){
 			//récupère les critère suivant leur validation
 			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagOuiListe']";
@@ -71,8 +74,15 @@ class Grille{
 		//construction du xul
 		$xul = "<vbox flex='1'>";
 		while ($r =  $db->fetch_assoc($result)) {
-				$xul .= '<textbox  multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($r['affirm']).'"/>';			
+				//ajoute le fil d'ariane
+				//$xul .= '<hbox class="menubar">'.$objXul->GetFilAriane("",$r["id_rubrique"]).'</hbox>';
+				//ajoute les infos du granulat
+				$g = new Granulat($r["id_rubrique"],$this->site);
+				$xul .= '<hbox class="menubar" >'.$g->TitreParent.' | '.$g->titre.'</hbox>';
+				//ajoute la légende
 				$xul .= $this->GetXulLegendeControle($r['idDonCont'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
+				//ajoute l'affirmation
+				$xul .= '<textbox  multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($r['affirm']).'"/>';			
 		}
 		$xul .= "</vbox>";
 		
@@ -1838,6 +1848,10 @@ class Grille{
 				case "ligne_5":
 					if($r['valeur']!="0")
 						$ico4 .= '<label value="'.$r['valeur'].'"/>';
+					break;
+				case "mot_1":
+					$m = new MotClef($r['valeur'],$this->site);
+					$labels .= '<label value="'.$r['titre'].' : '.$m->titre.'"/>';
 					break;
 			}					
 		}

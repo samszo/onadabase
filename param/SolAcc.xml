@@ -968,7 +968,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 
 			<Query fonction="Grille_GetEtatDiagOuiListe">
 				<select>
-					SELECT  fdcAff.valeur affirm, fdCont.id_donnee idDonCont			 
+					SELECT r.id_rubrique, fdcAff.valeur affirm, fdCont.id_donnee idDonCont			 
 				</select>
 				<from> 
 					FROM spip_rubriques r 
@@ -995,7 +995,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 
 			<Query fonction="Grille_GetEtatDiagHandiListe">
 				<select>
-					SELECT  fdcAff.valeur affirm, fdCont.id_donnee idDonCont			 
+					SELECT  r.id_rubrique, fdcAff.valeur affirm, fdCont.id_donnee idDonCont			 
 				</select>
 				<from> 
 					FROM spip_rubriques r 
@@ -1102,7 +1102,7 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ
 				 </from>
 				<where> WHERE dc.id_donnee =-id- AND fc.id_form =-idGrille-
-				ORDER BY dc.id_donnee, fc.rang, dc.champ</where>
+				ORDER BY fc.rang, dc.champ</where>
 			</Query>
 			
 			<Query fonction="Grille_GetDonnee">
