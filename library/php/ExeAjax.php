@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	if(!isset($_SESSION['version'])) {
-		$_SESSION['version']="V2";
+		$_SESSION['version']="V1";
 		$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
 		$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
 	}
@@ -35,7 +35,10 @@
 			// le site = $objSiteSync
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
-			break;*/
+			break;*/		
+		case 'ShowPopUp':
+			$resultat = ShowPopUp($_GET['idGrille'],$_GET['idDon'],$_GET['login']);
+			break;
 		case 'GetListeEtatDiag':
 			$resultat = $g->GetListeEtatDiag($_GET['idDoc']);
 			break;
@@ -165,6 +168,15 @@
 		$_SESSION['site']= $site;
 	}
 	
+	function ShowPopUp($idGrille,$idDon,$login){
+		global $objSite;
+		$g = new Grille($objSite,$idGrille);
+		$xul = $g->GetXulForm($idDon,$idGrille);
+		
+		$oXul = new Xul($objSite);
+		return $oXul->GetPopUp($xul,$g->GetValeur($idDon,"ligne_1"), $login);
+		
+	}
 	
 	/*
 		ajoute un document à un article 

@@ -108,6 +108,7 @@ class Xul{
 			
 		//création du granulat
 		$g = new Granulat($id, $this->site);
+		$FilAriane="";
 		
 		//if($niv==0)
 		//	$FilAriane = "<toolbar id='fa-toolbar' class='toolbar'>";	

@@ -112,6 +112,12 @@ function GetMarkers(id, query) {
 	var bounds = map.getBounds();
 	var southWest = bounds.getSouthWest();
 	var northEast = bounds.getNorthEast();
+
+	//pour gérer les fonction vers l'iframe
+	//= pas de string comme paramètre
+	if(query==0)
+		query=='adminDon';
+	
 	mapQuery = query;
 	idRub = id;
 	if(!alpha)
@@ -142,7 +148,9 @@ function GetMarkers(id, query) {
 	}
 	if(query=='theme')
 		url = url + '&theme=' + mot;
-
+	if(query=='adminDon')
+		query='admin';
+	//alert('GoogleCarto3.js:GetMarkers:query='+query);
 
 	//supprime tout les markers
 	map.clearOverlays();
@@ -638,6 +646,10 @@ function map_click_handler(overlay,point) {
 		write_line('exception2 in map_click_handler:'+e,'red');
 	}
 }
+function beep() {
+	alert('beep');
+}
+
 function initMap() {
 	// Event Listeners
 	//

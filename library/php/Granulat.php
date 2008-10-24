@@ -492,13 +492,21 @@ class Granulat
   
   }
   
-  	function GetGeo($id=-1) {
+  	function GetGeo($id=-1,$idDon=-1) {
 		if($id==-1)
 			$g = $this;
 		else
 			$g = new Granulat($id,$this->site);
+		if($idDon==-1){
+			$where = " WHERE r.id_rubrique =".$g->id;
+			$result['query'] = "admin";
+			$result['id'] = $g->id;
+		}else{
+			$where = " WHERE fd.id_donnee =".$idDon;
+			$result['query'] = "adminDon";
+			$result['id'] = $idDon;
+		}
 		
-			
 		$sql = "SELECT r.id_rubrique, r.titre, r.descriptif, r.id_parent, da.id_donnee
 				,dc1.valeur lat, dc2.valeur lng, dc3.valeur zoom, dc4.valeur type
 			FROM spip_rubriques r
@@ -509,7 +517,7 @@ class Granulat
 				LEFT JOIN spip_forms_donnees_champs dc2 ON dc2.id_donnee = da.id_donnee AND dc2.champ = 'ligne_2'
 				LEFT JOIN spip_forms_donnees_champs dc3 ON dc3.id_donnee = da.id_donnee AND dc3.champ = 'ligne_3'
 				LEFT JOIN spip_forms_donnees_champs dc4 ON dc4.id_donnee = da.id_donnee AND dc4.champ = 'ligne_5'
-			WHERE r.id_rubrique =".$g->id."
+			".$where."
 			GROUP BY r.id_rubrique
 			LIMIT 0 , ".MaxMarker;
 		//echo $sql."<br/>";

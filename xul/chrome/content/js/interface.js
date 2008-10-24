@@ -659,6 +659,24 @@ function SetVal(idDoc){
   } catch(ex2){alert("SetVal::"+ex2);dump("::"+ex2);}
 }
 
+function ExecCarto(idRub,idDon){
+  try {
+	var iframe = document.getElementById('frameGM');
+	var url = urlCarto+"?id="+idRub+"&idDon="+idDon;
+	if(iframe)
+	 	iframe.setAttribute("src",url); 
+	
+	//GetMarkers(idDon, query);
+  } catch(ex2){alert("ExecCarto::"+ex2+" url="+url);}
+
+}
+
+function ShowPopUp(idGrille,idDon){
+	var login = document.getElementById('login').value;
+	var url = urlExeAjax+"?f=ShowPopUp&idGrille="+idGrille+"&idDon="+idDon+"&login="+login;
+	window.open(url,'_blank','width=650,height=400,resizable=no,left=200,top=200');
+}
+
 function SetNewGrille(kml, src, dst, doc){
   try {
 	var verif = true;

@@ -5,8 +5,8 @@ if(!$g){
 	require_once("../param/ParamPage.php");
 }
 
-//création du bloc 
-$arrGeo = $g->GetGeo();
+//récupération de donnée géo 
+$arrGeo = $g->GetGeo(-1,$idDon);
 //print_r($arrGeo);
 
 ?>
@@ -22,9 +22,9 @@ $arrGeo = $g->GetGeo();
 	var deflng = <?php echo $arrGeo['lng']; ?>;
 	var defzoom = <?php echo $arrGeo['zoom']; ?>;
 	var defType = <?php echo $arrGeo['type'];	?>;
-	var idRub = <?php echo $g->id; ?>;
+	var idRub = <?php echo $arrGeo['id'];	?>;
 	var mot = -1;
-	var mapQuery = 'admin';
+	var mapQuery = '<?php echo $arrGeo['query'];	?>';
 	var site = '<?php echo $objSite->id; ?>';
 	var alpha = 'a';
 	MiniCarte = false;
