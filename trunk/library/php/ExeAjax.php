@@ -386,8 +386,8 @@
 		if(TRACE)
 			echo "ExeAjax:AddXmlDonnee:<br/>";
 		$g = new Grille($objSite);
-		//$url = PathRoot."/param/".$url;
-		$url = PathRoot."/param/V1Accueil.xml";
+		$url = PathRoot."/param/".$url;
+		//$url = PathRoot."/param/V1Accueil.xml";
 		$g->AddXmlDonnee($url);
 	}
 
@@ -1165,7 +1165,7 @@
 		$dossier = opendir("../../param/XMLlControleV2");
 		while($entree = readdir($dossier)){
 			if ($entree != "." && $entree != "..") {
-			    AddXmlDonnee($entree,$objSite);
+			    AddXmlDonnee("XMLlControleV2/".$entree,$objSite);
 				//echo $entree."</br>";
 			}
 		}

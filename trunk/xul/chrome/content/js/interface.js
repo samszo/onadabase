@@ -483,7 +483,7 @@ function AddPlacemark(){
 		ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
 	}
 
-  } catch(ex2){alert("interface:AddPlacemark::"+ex2+" "+type);;}
+  } catch(ex2){alert("interface:AddPlacemark::"+ex2+" ");}
 }
 
 function AddNewGrille(type){
