@@ -151,7 +151,7 @@
 			$resultat = SetSessionValues($_GET['site'], $_GET['type_controle1'], $_GET['type_controle2'],$_GET['type_contexte1'], $_GET['type_contexte2'], $_GET['type_contexte3'], $_GET['type_contexte4'],$_GET['version']) ;
 			break;
 		case 'explorerDir':
-			$resultat=explorerDir($_GET['dir']);
+			$resultat=explorerDir($_GET['dir'],$objSite);
 		default:
 			//$resultat = AddDocToArt();
 	}
@@ -383,12 +383,12 @@
 	
 	function AddXmlDonnee($url,$objSite)
 	{
-		if(TRACE)
-			echo "ExeAjax:AddXmlDonnee:<br/>";
+		//if(TRACE)
+			echo "ExeAjax:AddXmlDonnee:début importation $url ".date(DATE_W3C)."<br/>";
 		$g = new Grille($objSite);
-		$url = PathRoot."/param/".$url;
-		//$url = PathRoot."/param/V1Accueil.xml";
 		$g->AddXmlDonnee($url);
+		//if(TRACE)
+			echo "--- ExeAjax:AddXmlDonnee:fin importation ".date(DATE_W3C)."<br/>";
 	}
 
 	/*
@@ -1161,11 +1161,12 @@
 		$synchro = new Synchro($objSite, -1);
 		$synchro->ChangeAutoIncrement($table, $val);
 	}
-	function explorerDir($dir){
-		$dossier = opendir("../../param/XMLlControleV2");
+	function explorerDir($dir,$objSite){
+		$dir = PathRoot."/param/".$dir;
+		$dossier = opendir($dir);
 		while($entree = readdir($dossier)){
-			if ($entree != "." && $entree != "..") {
-			    AddXmlDonnee("XMLlControleV2/".$entree,$objSite);
+			if ($entree != "." && $entree != ".." && substr($entree,0,1) != ".") {
+			    AddXmlDonnee($dir."/".$entree,$objSite);
 				//echo $entree."</br>";
 			}
 		}
