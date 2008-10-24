@@ -1,0 +1,17 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_san_01</valeur>	<valeur>Dans le lieu de travail, il y a pas de wc aménagé avec un lavabo placé à proximité</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_02</valeur>	<valeur>Il n'existe pas à ce niveau de sanitaires pour le public qui comporte au moins un cabinet d'aisance aménagé et un lavabo accessible</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_03</valeur>	<valeur>Les cabinets d'aisance aménagés ne sont pas installés au même emplacement que les autres</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_04</valeur>	<valeur>Les cabinets d'aisance sont séparés pour chaque sexe et il n'existe pas de cabinet d'aisance aménagé pour chaque sexe</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_05</valeur>	<valeur>Il n'y a pas de lavabo aménagé par groupe (avec miroir, distributeur de savon, sèche mains)</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_06</valeur>	<valeur>La hauteur du lavabo adapté est supérieure à 80 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_07</valeur>	<valeur>Le lavabo adapté ne comporte pas de vide de 30 cm au point de profondeur</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_08</valeur>	<valeur>Le lavabo adapté ne comporte pas de vide d’au moins 60 cm de largeur</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_09</valeur>	<valeur>Le lavabo adapté ne possède pas de vide d’au moins 70 cm de haut au niveau des jambes </valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_10</valeur>	<valeur>Les robinets ne sont pas à déclenchement automatique</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_11</valeur>	<valeur>L'inclinaison du miroir n'est pas variable</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_12</valeur>	<valeur>Les urinoirs sont disposés en batterie, mais ils ne sont pas positionnés à des hauteurs différentes </valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+<donnee>	<valeur>cr_san_13</valeur>	<valeur>L’éclairage est inférieur à 100 lux</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>94</rub>	</donnee>
+</donnees>								

@@ -1,0 +1,8 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_ent_01</valeur>	<valeur>Le niveau d’accès principal n'est pas accessible en continuité avec le chemin extérieur accessible </valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>89</rub>	</donnee>
+<donnee>	<valeur>cr_ent_02</valeur>	<valeur>L'entrée principale n'est pas repérable facilement, faute d'éléments architecturaux ou de traitement des matériaux différents ou visuellement contrasté</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>2</valeur>	<rub>89</rub>	</donnee>
+<donnee>	<valeur>cr_ent_03</valeur>	<valeur>Les équipements visant à se signaler, restreindre l’accès au bâtiment ne sont pas repérables par un contraste visuel ou une signalétique appropriée</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>2</valeur>	<rub>89</rub>	</donnee>
+<donnee>	<valeur>cr_ent_04</valeur>	<valeur>Absence d'un plan d'orientation lisible, visible et compréhensible placé à l'entrée du bâtiment </valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>2</valeur>	<rub>89</rub>	</donnee>
+</donnees>								

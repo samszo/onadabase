@@ -1,0 +1,8 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_sor_01</valeur>	<valeur>La sortie n'est pas repérable par une signalisation adaptée en tout point où le public est admis</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<valeur>2</valeur>	<rub>97</rub>	</donnee>
+<donnee>	<valeur>cr_sor_02</valeur>	<valeur>La sortie n'est pas atteignable</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>97</rub>	</donnee>
+<donnee>	<valeur>cr_sor_03</valeur>	<valeur>La sortie n'est pas utilisable</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<valeur>2</valeur>	<rub>97</rub>	</donnee>
+<donnee>	<valeur>cr_sor_04</valeur>	<valeur>La signalisation indiquant la sortie peut être confondue avec le repérage des issues de secours</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<rub>97</rub>	</donnee>
+</donnees>								

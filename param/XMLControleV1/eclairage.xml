@@ -1,0 +1,15 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_lux_01</valeur>	<valeur>L’éclairage artificiel ou naturel est une gêne pour une personne en position "debout"</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_02</valeur>	<valeur>L’éclairage artificiel ou naturel est une gêne pour une personne en position "assis"</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_03</valeur>	<valeur>La qualité d’éclairage n'est pas renforcée pour les dispositifs d’accès</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_04</valeur>	<valeur>La qualité d’éclairage n'est pas renforcée pour la signalétique</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_05</valeur>	<valeur>L’extinction temporisée n'est pas progressive</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_06</valeur>	<valeur>La couverture du dispositif de détection automatique n'est pas totale</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_07</valeur>	<valeur>L'éclairage n'est pas automatisé lors des entrées dans les pièces, sas, etc (et n'est pas débrayable en cas de besoin).</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_08</valeur>	<valeur>L'interrupteur n'est pas placé à côté de la porte d'entrée</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_09</valeur>	<valeur>Les interrupteurs ne sont pas équipés de variateurs</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_10</valeur>	<valeur>La disposition des éclairages n'est pas conçue comme un guide, une aide à l'orientation</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>88</rub>	</donnee>
+<donnee>	<valeur>cr_lux_11</valeur>	<valeur>L'éclairage artificiel des espaces intérieurs est inférieur à 100 lux</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>88</rub>	</donnee>
+</donnees>								

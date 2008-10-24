@@ -1,0 +1,18 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_voirie_esca_01</valeur>	<valeur>L'escalier ne comporte aucun mur de chaque côté et la largeur minimale de l'escalier est inférieure à 120 cm</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_02</valeur>	<valeur>L'escalier comporte un mur d'un seul côté et la largeur minimale de l'escalier est inférieure à 130 cm</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_03</valeur>	<valeur>L'escalier est placé entre deux murs et la largeur minimale de l'escalier est inférieure à 140 cm</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_04</valeur>	<valeur>La hauteur des marches est supérieure à 16 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_05</valeur>	<valeur>Toutes les marches de l'escalier n'ont pas la même hauteur</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_06</valeur>	<valeur>Le giron est inférieur à 28 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_07</valeur>	<valeur>Le nez de la première marche n'est pas visuellement contrasté</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_08</valeur>	<valeur>Le nez de la dernière marche n'est pas visuellement contrasté</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_09</valeur>	<valeur>L'escalier ne comporte pas deux mains courantes ou une main courante centrale </valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_10</valeur>	<valeur>L'escalier à une largeur supérieure à 420 cm mais il ne comporte pas de main courante intermédiaire</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_11</valeur>	<valeur>La largeur entre les mains courantes est inférieure à 120 cm</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_12</valeur>	<valeur>Les mains courantes ne dépassent pas la première marche de chaque volée d'une largeur au moins égale au giron</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_13</valeur>	<valeur>Les mains courantes ne dépassent pas la dernière marche de chaque volée d'une largeur au moins égale au giron</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_esca_14</valeur>	<valeur>La main courante n'est pas à une hauteur comprise entre 80 cm et 100 cm à la verticale du nez de marche</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>583</rub>	</donnee>
+</donnees>								
