@@ -65,6 +65,11 @@ if(isset($_GET['id']))
 else
 	$id = $SITES[$site]["DEF_ID"];
 
+if(isset($_GET['idDon']))
+	$idDon = $_GET['idDon'];
+else
+	$idDon = -1;
+	
 $scope = array(
 		"site" => $site
 		,"type" => $type
@@ -83,6 +88,7 @@ $objSiteSync = new Site($SITES, SYNCSITE, $scope, false);
 
 if($id!=-1)
 	$g = new Granulat($id,$objSite);
+	
 	
 function ChercheAbo ($login, $mdp, $objSite)
 	{

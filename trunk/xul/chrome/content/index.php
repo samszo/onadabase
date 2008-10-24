@@ -51,6 +51,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 		var syncurlExeAjax = "<?php echo $objSiteSync->infos["urlExeAjax"]; ?>";
 		var syncxmlParam = GetXmlUrlToDoc("<?php echo $objSiteSync->infos["jsXulParam"]; ?>");
 		var urlSite = "<?php echo $objSite->infos["urlSite"]; ?>";
+		var urlCarto = "<?php echo $objSite->infos["urlCarto"]; ?>";
 		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";
 
 		//var win = window.open("chrome://myextension/content/about.xul", "aboutMyExtension", "chrome,centerscreen"); 
@@ -115,10 +116,10 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 		<hbox >
 			<label hidden="true" id="idAuteur" value="<?php echo $_SESSION['IdAuteur'];?>" />
 			<label hidden="false" id="login" value="<?php echo $login; ?>" />
-			<label hidden="false" id="typeSrc" value="terre" />
-			<label hidden="false" id="typeDst" value="Terre" />
-			<label hidden="false" value="sur" />
-			<label hidden="false" value="<?php echo $objSite->infos["NOM"]; ?>" />
+			<label hidden="true" id="typeSrc" value="terre" />
+			<label hidden="true" id="typeDst" value="Terre" />
+			<label hidden="true" value="sur" />
+			<label hidden="true" value="<?php echo $objSite->infos["NOM"]; ?>" />
 			<label id="ChoixDiagnostic" value="" />
 		</hbox>
 

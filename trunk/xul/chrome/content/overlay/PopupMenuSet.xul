@@ -6,9 +6,9 @@
 		<popup id="popterre" onpopupshowing="javascript:;">
 		    <menu id="menu_terre_voir" label="Voir">
 		      <menupopup id="popup_terre_voir">
-				<menuitem label="Le(s) établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
-				<menuitem label="Le(s) tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
-				<menuitem label="L'état des lieux" oncommand="ShowEtatDiag(document.getElementById('idRub').value);"/>
+				<menuitem label="établissement(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');"/>
+				<menuitem label="tronçon(s) de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');"/>
+				<menuitem label="état des lieux" oncommand="ShowEtatDiag(document.getElementById('idRub').value);"/>
 		      </menupopup>
 		    </menu>
 		    <menu id="menu_terre_ajouter" label="Ajouter">
@@ -62,10 +62,11 @@
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menu id="menu_etab_voir" label="Voir">
 			  <menupopup id="popup_etab_voir">
-				<menuitem label="Le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
-				<menuitem label="La(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
-			    <menuitem label="La(les) parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
-			    <menuitem label="Le(s) bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
+				<menuitem label="problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+				<menuitem label="observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
+			    <menuitem label="parcelle(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');"/>
+			    <menuitem label="bâtiment(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');"/>
+				<menuitem label="état des lieux" oncommand="ShowEtatDiag(document.getElementById('idRub').value);"/>
 			  </menupopup>
 			 </menu>
 			 <menu id="menu_etab_ajouter" label="Ajouter">

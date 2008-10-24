@@ -74,14 +74,24 @@ class Grille{
 		//construction du xul
 		$xul = "<vbox flex='1'>";
 		while ($r =  $db->fetch_assoc($result)) {
+			
 				//ajoute le fil d'ariane
-				//$xul .= '<hbox class="menubar">'.$objXul->GetFilAriane("",$r["id_rubrique"]).'</hbox>';
+				$xul .= '<hbox class="menubar">'.$objXul->GetFilAriane("",$r["id_rubrique"]).'</hbox>';
+				
 				//ajoute les infos du granulat
-				$g = new Granulat($r["id_rubrique"],$this->site);
-				$xul .= '<hbox class="menubar" >'.$g->TitreParent.' | '.$g->titre.'</hbox>';
+				//$g = new Granulat($r["id_rubrique"],$this->site);
+				//$xul .= '<hbox class="menubar" >'.$g->TitreParent.' | '.$g->titre.'</hbox>';
+				
 				//ajoute la légende
+				$xul.="<hbox>";
 				$xul .= $this->GetXulLegendeControle($r['idDonCont'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
-				//ajoute l'affirmation
+				
+				//ajoute les liens 
+				$xul.="<label id='adminArt_".$r["idArt"]."' class='text-linkAdmin' onclick=\"OuvreArticle(".$r["idArt"].");\" value=\"Admin\"/>";
+				$xul.= $this->GetXulLiensDonnee($r['idDonRep']);
+		    	$xul.="</hbox>";
+				
+		    	//ajoute l'affirmation
 				$xul .= '<textbox  multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($r['affirm']).'"/>';			
 		}
 		$xul .= "</vbox>";
@@ -89,7 +99,25 @@ class Grille{
 		return $xul;
 	}
     
-    
+    public function GetXulLiensDonnee($idDon)
+	{
+		$xul = "";
+		//vérifie s'il y a une grille geo
+		$idDonV = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_GEO"]);
+		if($idDonV)
+			$xul.="<image onclick=\"ExecCarto(".$this->GetRubDon($idDonV).",".$idDonV.");\" src='images/terre.gif' />";
+		//vérifie s'il y a une grille observation
+		$idDonV = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_OBS"]);
+		if($idDonV)
+			$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_OBS"].", ".$idDonV.");\" src='images/icone_voir.jpg' />";
+		//vérifie s'il y a une grille signalement probleme
+		$idDonV = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_SIG_PROB"]);
+		if($idDonV)
+			$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_OBS"].", ".$idDonV.");\" src='images/check_no.png' />";
+			
+		return $xul;
+	}
+	
     public function GetEtatDiagOui($ids)
 	{
 		//récupère le nombre de critéres validés
@@ -184,23 +212,6 @@ class Grille{
 			echo "Grille:GetTreeProb:".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->close();
 		
-		/*
-		$xul = '<tree flex="1">
-		  <treecols>
-		    <treecol label="Titre" flex="1"/>
-		    <treecol label="Type" flex="1"/>
-		    <treecol label="Modifier" />
-		    <treecol label="Supprimer" />
-		  </treecols>
-		  <treechildren>';
-		$xul ="<richlistbox>
-		   <richlistitem> <!-- 1ere ligne -->
-		     <label value='Titre'/>
-		     <label value='Type'/>
-		     <label value='Modifier'/>
-		     <label value='Supprimer'/>
-		   </richlistitem>";
-		*/
 		$xul ='<grid flex="1">';
 		//on cache la colonne de référence	
 		$xul.='<columns>';	
@@ -211,47 +222,12 @@ class Grille{
 			$xul.='<column flex="1"/>';			
 		$xul.='</columns>';	
 		$xul.='<rows>';
-		/*	
-		$xul.="<row>
-				<label value='Référence' />
-			    <label value='Rubrique parente'/>
-			    <label value='Rubrique'/>
-			    <label value='Article'/>
-			    <label value='N° problème'/>
-			    <label value='Modifier'/>
-			    <label value='Supprimer'/>
-			</row>";	
-		*/
 		$oidRubPar=-1;
 		$oidRub=-1;
 		$oidArt=-1;
 		while ($r =  $db->fetch_assoc($result)) {
 			if($this->trace)
 				echo "Grille:GetTreeProb:".$r["idRub"]." ".$r["idArt"]." ".$r["idDon"]."<br/>";
-			//$xul .= $this->GetXulForm($r["idDon"], $this->site->infos["GRILLE_SIG_PROB"]); 
-    		/*
-			$xul .= "<listitem>
-			        <listcell>".$r["titreRub"]."</listcell>
-			        <listcell>".$r["titreArt"]."</listcell>
-			        <listcell><image src='/images/check_no.png' /></listcell>
-			        <listcell><image src='/images/check_yes.png' /></listcell>
-			    </listitem>";
-		$xul .="<richlistitem>
-		     <label value='".$r["titreRub"]."'/>
-		     <label value='".$r["titreArt"]."'/>
-		     <image src='images/check_yes.png' />
-		     <image src='images/check_no.png' />
-		   </richlistitem>";
-		
-		$xul .="<treeitem>
-		      <treerow>
-		        <treecell label='".$r["titreRub"]."'/>
-		        <treecell label='".$r["titreArt"]."'/>
-		        <treecell onclick=\"alert('yes')\" src='images/check_yes.png' />
-		        <treecell onclick=\"alert('no')\" src='images/check_no.png' />
-		      </treerow>
-		    </treeitem>";
-			*/
 		
 		if 	(!$r["ReponsePhoto"])	$r["ReponsePhoto"] = 'Non';
 				
@@ -312,20 +288,7 @@ class Grille{
 		    		$xul.="<image onclick=\"DelArticle('".$r["idDon"]."', '".$idRub."');\" src='images/check_no.png' />";
 		    	$xul.="</hbox>";
 			$xul.="</vbox>";
-			
-			/*
-			$idDoc=str_replace("-champ-","Modif",$idDoc);
-			$xul.="<vbox>";
-				$xul.="<label id='".$idDoc."' value='".$r["titreArt"]."' hidden='true' />";
-			$xul.="</vbox>";
-		    
-		    $idDoc=str_replace("Modif","Sup",$idDoc);
-			$xul.="<vbox>";
-		    	$xul.="<label id='".$idDoc."' value='".$r["titreArt"]."' hidden='true' />";
-		    	$xul.="<image onclick=\"SetVal('".$idDoc."');\" src='images/check_no.png' />";
-			$xul.="</vbox>";
-		    */
-			
+					
 		    $xul.="</row>";	
 			$oidRubPar=$r["idRubPar"];
 			$oidRub=$r["idRub"];
@@ -333,8 +296,6 @@ class Grille{
 			$oidCont=$r["idCont"];
 		
 		}
-		//$xul .= "</treechildren></tree>";    
-		//$xul .="</richlistbox>";
 		$xul .='</rows>';	
 		$xul .='</grid>';	
 		
