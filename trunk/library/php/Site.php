@@ -318,7 +318,7 @@ class Site{
 
 	  switch ($theType) {
 	    case "text":
-	      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "''";
+	      $theValue = ($theValue != "") ? "\"" . $theValue . "\"" : "''";
 	      break;    
 	    case "long":
 	    case "int":
