@@ -1,0 +1,20 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_asc_01</valeur>	<valeur>Il n'y a pas de signalétique adaptée guidant à l'ascenseur accessible</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_02</valeur>	<valeur>Le revêtement de sol au niveau des paliers devant un ascenseur n'est ni différent, ni rugeux</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_03</valeur>	<valeur>Les commandes palières ne sont pas repérables (visuellement et tactilement)</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_04</valeur>	<valeur>Les commandes palières ne sont pas utilisables (espace d'usage)</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_05</valeur>	<valeur>Les commandes palières ne sont pas à une hauteur comprise entre 90 et 110 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_06</valeur>	<valeur>Les commandes palières sont à moins de 50 cm d'un angle rentrant ou d'un obstacle</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_07</valeur>	<valeur>Les commandes palières ne possèdent pas de témoin d'activation visuel et sonore</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_08</valeur>	<valeur>Le palier devant la porte d'ascenseur fait moins de 140 cm de longueur</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_09</valeur>	<valeur>Absence de flèches précisant le sens de mouvement de la cabine (entre 180 et 250 cm de hauteur)</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_10</valeur>	<valeur>Les flèches ont une hauteur inférieure à 4 cm</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_11</valeur>	<valeur>Absence de signaux sonores différents indiquant la montée et la descente</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_12</valeur>	<valeur>Aucun signal sonore ne prévient du début d'ouverture des portes</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_13</valeur>	<valeur>La temporisation des portes ne permet pas le passage d'un UFR</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_14</valeur>	<valeur>Les portes de l'ascenseur ne sont pas coulissantes</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_15</valeur>	<valeur>L’entrée de l'ascenseur a une largeur de passage inférieure à 80 cm</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+<donnee>	<valeur>cr_asc_16</valeur>	<valeur>La précision de nivelage de la cabine est supérieure à 2 cm max par rapport au niveau du sol de l’étage</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>514</rub>	</donnee>
+</donnees>								

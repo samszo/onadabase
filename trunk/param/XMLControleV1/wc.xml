@@ -1,0 +1,26 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_wc_01</valeur>	<valeur>Absence d'un espace de manœuvre de 150 cm de Ø dans le cabinet</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_02</valeur>	<valeur>Absence d'un espace de manœuvre de 150 cm de Ø devant la porte du cabinet</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_03</valeur>	<valeur>Le WC ne se referme pas une fois entré dedans </valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_04</valeur>	<valeur>Absence d'un espace d'usage latéral de 80 cm x 130 cm (hors débattement de porte)</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_05</valeur>	<valeur>Absence d'espace de 80 x 130 cm de part et d'autre de la cuvette des WC</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_06</valeur>	<valeur>Absence d'une barre d'appui latérale</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_07</valeur>	<valeur>Absence d'une barre d'appui latérale avec une partie horizontale</valeur>	<valeur>3</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_08</valeur>	<valeur>La barre d'appui n'est pas située à une hauteur comprise entre 70 et 80 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_09</valeur>	<valeur>La barre d'appui ne permet pas l'appui d'une personne adulte</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_10</valeur>	<valeur>Le cabinet d'aisance ne comporte pas de lave-main</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_11</valeur>	<valeur>Dans le cabinet d'aisance, le plan supérieur du lave-main est situé à une hauteur supérieure à 85 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_12</valeur>	<valeur>Dans le cabinet d'aisance, le plan inférieur du lave main  n'est pas à une hauteur de 70 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_13</valeur>	<valeur>Le lavabo accessible n'est pas équipé de robinetteries à levier ou automatiques</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_14</valeur>	<valeur>La surface d'assise de la cuvette n'est pas située à une hauteur comprise entre 45 et 50 cm du sol abattant inclus (sauf dans les toilettes pour enfants)</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_15</valeur>	<valeur>La hauteur de la cuvette n'est pas comprise entre 46 cm et 50 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_16</valeur>	<valeur>L'axe de la lunette n'est pas à une distance comprise entre 35 et 40 cm de la paroi où est fixée la barre d’appui</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_17</valeur>	<valeur>L'axe de la lunette n'est pas à une distance comprise entre 40 et 50 cm du mur où est adossée la cuvette</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_18</valeur>	<valeur>La chasse d'eau n'est pas automatique</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_19</valeur>	<valeur>La commande de chasse d'eau n'est pas atteignable</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_20</valeur>	<valeur>La commande de chasse d'eau n'est pas facilement manoeuvrable</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_21</valeur>	<valeur>Le WC n'est pas équipé de dispositifs d'éclairage avec détection de présence</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>98</rub>	</donnee>
+<donnee>	<valeur>cr_wc_22</valeur>	<valeur>L’éclairage est inférieur à 100 lux</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>98</rub>	</donnee>
+</donnees>								

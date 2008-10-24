@@ -1,0 +1,17 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_quai_in_01</valeur>	<valeur>Absence d'une bande d'éveil de la vigilance tout au long du quai</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_02</valeur>	<valeur>Absence de bande d'éveil de la vigilance signalant les extremités du quai</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_03</valeur>	<valeur>La bande d'éveil de la vigilance ne mesure pas 45 cm de large</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_04</valeur>	<valeur>La bande d'éveil de la vigilance n'est pas située à 45 cm du bord du quai</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_05</valeur>	<valeur>La bande d'éveil de la vigilance n'est pas visuellement constrastée par rapport à son environnement</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_06</valeur>	<valeur>La largeur du cheminement est inférieure à 140 cm libre de tout obstacle (ou si un rétrecissemlent ne peut être évité, la largeur n'est pas comprise entre 120 et 140 cm)</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_07</valeur>	<valeur>La largeur du cheminement est inférieure à 160 cm</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_08</valeur>	<valeur>Absence de sièges et d’appui assis-debout sur l’ensemble des quais</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_09</valeur>	<valeur>Toutes les installations ou mobiliers ne sont pas détectables à la canne</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_10</valeur>	<valeur>L'intensité de l'éclairage est inférieure à 100 lux</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_11</valeur>	<valeur>L'intensité moyenne de l'éclairage est inférieure à 120 lux</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_12</valeur>	<valeur>L'intensité de l'éclairage des zones d'attentes est inférieure à 250 lux</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>1077</rub>	</donnee>
+<donnee>	<valeur>cr_quai_in_13</valeur>	<valeur>L'intensité de l'éclairage est inférieure à 250 lux pour signaler les sorties</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<rub>1077</rub>	</donnee>
+</donnees>								

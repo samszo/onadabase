@@ -1,0 +1,16 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_sol_ext_01</valeur>	<valeur>Le sol ou le revêtement est meuble</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_02</valeur>	<valeur>Le sol ou le revêtement est glissant</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_03</valeur>	<valeur>Le sol ou le revêtement est réflechissant</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_04</valeur>	<valeur>Le sol ou le revêtement présente un (ou des) obstacle(s) à la roue</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_05</valeur>	<valeur>Les trous ou fentes ont un diamètre ou une largeur supérieur à 2 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_06</valeur>	<valeur>Les fentes (grilles, etc…) ne sont pas positionnées perpendiculairement au cheminement</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_07</valeur>	<valeur>Les revêtements de sols créent une gêne visuelle</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_08</valeur>	<valeur>Les revêtements de sols créent une gêne sonore </valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_09</valeur>	<valeur>Il existe un obstacle suspendu qui ne laisse pas le passage libre de 220 cm de haut</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_10</valeur>	<valeur>Il existe un obstacle sur le cheminement, ou en saillie de plus de 15 cm sur le cheminement, mais il n'est pas visuellement contrasté par rapport à l'environnement immédiat et ne comporte pas de rappel tactile ou de prolongement au sol</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_11</valeur>	<valeur>Les obstacles sont visuellement constrastés</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<rub>100</rub>	</donnee>
+<donnee>	<valeur>cr_sol_ext_12</valeur>	<valeur>Les parois vitrées sur et en bordure de cheminement ne sont pas repérables par des éléments visuellement contrastés</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<rub>100</rub>	</donnee>
+</donnees>								

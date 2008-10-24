@@ -1,0 +1,10 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_face_po_01</valeur>	<valeur>La porte n'est pas de couleur contrastée avec la paroi de son support</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>99</rub>	</donnee>
+<donnee>	<valeur>cr_face_po_02</valeur>	<valeur>L'extrémité de la poignée de porte est à une distance inférieure à 40 cm d'un angle rentrant de paroi ou d'un obstacle</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>99</rub>	</donnee>
+<donnee>	<valeur>cr_face_po_03</valeur>	<valeur>La poignée n'est pas préhensible et manoeuvrable en position « debout »</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>99</rub>	</donnee>
+<donnee>	<valeur>cr_face_po_04</valeur>	<valeur>La poignée n'est pas préhensible et manoeuvrable en position « assis » (la hauteur de la poignée n'est pas entre 90 et 130 cm)</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>99</rub>	</donnee>
+<donnee>	<valeur>cr_face_po_05</valeur>	<valeur>La poignée n'est pas de couleur contrastée avec la porte</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<rub>99</rub>	</donnee>
+<donnee>	<valeur>cr_face_po_06</valeur>	<valeur>Il n'y a pas de protection de bas de porte</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>99</rub>	</donnee>
+</donnees>								

@@ -1,0 +1,20 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_voirie_gic_01</valeur>	<valeur>Moins de 2 % de l'ensemble des emplacements de chaque zone de stationnement sont accessibles et adaptés aux personnes circulant en fauteuil roulant</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_02</valeur>	<valeur>Les places aménagées ne sont pas librement accessibles</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_03</valeur>	<valeur>Absence d'un marquage au sol</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_04</valeur>	<valeur>Absence d'une signalisation verticale</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_05</valeur>	<valeur>Absence du symbole international pour signaler la place</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_06</valeur>	<valeur>Le panneau de signalisation ne mentionne pas le rappel de l'amende due en cas de non respect</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_07</valeur>	<valeur>La largeur de la place réservée est inférieure à 330 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_08</valeur>	<valeur>La largeur de la place réservée est inférieure à 350 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_09</valeur>	<valeur>La place ne permet pas la sortie par l'arrière du véhicule (dégagement de 350 cm)</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_10</valeur>	<valeur>La pente est supérieure à 2%</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_11</valeur>	<valeur>Le dévers est supérieure à 2%</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_12</valeur>	<valeur>La place n'est pas de plain-pied avec le trottoir et le passage de 80 cm de large n'empruntant pas la chaussée ne relie pas au trottoir</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_13</valeur>	<valeur>Le stationnement longitudinal à gauche est de plain pied avec un trottoir de moins de 180 cm de large, ne comprenant pas une bande latérale matérialisée de 80 cm alors la place réservée à une largeur >= à 200 cm</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_14</valeur>	<valeur>Les emplacements réservés ne sont pas répartis de façon homogène sur la commune</valeur>	<valeur>2</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_15</valeur>	<valeur>Le stationnement est payant et les instructions ne sont pas lisibles en position "assis"</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+<donnee>	<valeur>cr_voirie_gic_16</valeur>	<valeur>Le stationnement est payant et les commandes ne sont pas situées à une hauteur comprise entre 90 et 130 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>584</rub>	</donnee>
+</donnees>								

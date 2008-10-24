@@ -1,0 +1,23 @@
+<donnees>	<grille action="ajout" >54</grille>							
+								
+<champs>	<champ>ligne_1</champ>	<champ>texte_2</champ>	<champ>ligne_2</champ>	<champ>ligne_3</champ>	<champ>ligne_4</champ>	<champ>ligne_5</champ>		</champs>
+<donnee>	<valeur>cr_gig_01</valeur>	<valeur>La place n'est pas horizontale (elle présente un dévers supérieur à 2%)</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_02</valeur>	<valeur>La largeur de la place GIG/GIC est inférieure à 330 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_03</valeur>	<valeur>La largeur de la place GIG/GIC est inférieure à 350 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_04</valeur>	<valeur>Absence d'une bande latérale de 80 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_05</valeur>	<valeur>Absence d'une bande lartérale de 100 cm</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_06</valeur>	<valeur>La bande latérale présente un (ou des) obstacle(s)</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_07</valeur>	<valeur>La bande latérale n'est pas protégée de la circulation automobile</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_08</valeur>	<valeur>La bande latérale n'est pas reliée par un cheminement principal à l'entrée du lieux de travail</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_09</valeur>	<valeur>Un usager en fauteuil roulant ne peut pas quitter l’emplacement une fois le véhicule garé </valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_10</valeur>	<valeur>La place GIG/GIC ne permet pas la sortie par l'arrière du véhicule (il n'ya pas de dégagement de 350 cm)</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_11</valeur>	<valeur>La place GIG/GIC ne permet pas la sortie simultanée des deux côtés du véhicule (la largeur minimale est inférieure à 450 cm)</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_12</valeur>	<valeur>La place n'est pas reliée au cheminement accessible</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_13</valeur>	<valeur>Il y a un (ou plusieurs) ressaut(s) supérieur(s) à 2 cm entre la place GIG/GIC et le cheminement</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_14</valeur>	<valeur>Le cheminement n'est pas horizontal (dévers inférieur à  2%) sur une longueur minimale de 140 cm à partir de la place GIG/GIC</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_15</valeur>	<valeur>Absence d'un marquage au sol</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_16</valeur>	<valeur>Absence d'une signalisation verticale</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_17</valeur>	<valeur>Le symbole international n'est pas utilisé pour signaler la place GIG/GIC</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_18</valeur>	<valeur>Le panneau de signalisation ne mentionne pas le rappel de l'amende due en cas de non respect</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<valeur>1</valeur>	<rub>93</rub>	</donnee>
+<donnee>	<valeur>cr_gig_19</valeur>	<valeur>La place GIG/GIC n'est pas située à proximité de l'entrée, du hall ou de l'ascenseur</valeur>	<valeur>2</valeur>	<valeur>0</valeur>	<valeur>1</valeur>	<valeur>0</valeur>	<rub>93</rub>	</donnee>
+</donnees>								
