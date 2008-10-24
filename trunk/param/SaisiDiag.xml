@@ -1,0 +1,25 @@
+<crits>
+	<crit id="air_sta_01">
+     	<crits srcCheckVal="non"  >
+           <crit id="air_sta_28" >
+		     	<crits srcCheckVal="nsp"  >
+		           <crit id="air_sta_54" />
+		           <crit id="air_sta_4" dstVal="oui" />
+		           <crit id="air_sta_5" dstVal="non" />
+		           <crit id="air_sta_21" dstVal="oui" />
+		     	</crits>
+		     	<crits srcCheckVal="oui"  >
+		           <crit id="air_sta_02" />
+		           <crit id="air_sta_34" />
+		           <crit id="air_sta_678" />
+		     	</crits>
+           </crit>
+     	</crits>
+     	<crits srcCheckVal="oui"  >
+           <crit id="air_sta_54" />
+     	</crits>
+	</crit>
+	<crit id="air_sta_02" />
+	<crit id="air_sta_24" />
+	<crit id="bidule_truc_4536" />
+</crits>
