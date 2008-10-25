@@ -265,7 +265,7 @@ function GetXmlUrlToDoc(url){
 
 }
 
-function CompareRubSrcDst() {
+function CompareRubSrcDst(f,idRub) {
 	try {
 		var doc = document.getElementById("FormSaisi");
 		var progressMeter = document.getElementById('progressMeter');	
@@ -274,7 +274,7 @@ function CompareRubSrcDst() {
 			progressMeter.setAttribute("mode", "undetermined");
 		}
 		
-		var url = urlExeAjax+"?f=CompareSrcDst&idRub=80";
+		var url = urlExeAjax+"?f="+f+"&idRub="+idRub;
 		AppendResult(url,doc);
 		
 		progressMeter.setAttribute("mode", "determined");
@@ -288,12 +288,14 @@ function CompareRubSrcDst() {
 	}
 }
 
-function SynchroTree(idRub) {
+function SynchroTree(scope, idRub) {
 	try {
 		
 		var url="";
 		var idTree = "treeCompareSrcDst";
 		var tree = document.getElementById(idTree);
+		var siteSrc = tree.getAttribute("siteSrc")
+		var siteDst = tree.getAttribute("siteDst")
 
 		SynchroInitTree(idTree);
 
@@ -309,9 +311,8 @@ function SynchroTree(idRub) {
 		var progressMeter = document.getElementById('progressMeter');	
 		ProgressDeb(progressMeter);
 		
-		//for (i=0; i<tree.treeBoxObject.view.rowCount; i++)
-		for (i=0; i<1; i++)
-		{
+//		for (i=0; i<tree.treeBoxObject.view.rowCount; i++)
+//		{
 			id = tree.treeBoxObject.view.getCellText(i,cId);
 			val = tree.treeBoxObject.view.getCellText(i,cVal);
 			type = tree.treeBoxObject.view.getCellText(i,cType);
@@ -319,19 +320,21 @@ function SynchroTree(idRub) {
 			//récupère le progressmeter
 			var idPm = idTree+DELIM+type+DELIM+id+DELIM+"pm";
 			var pm = document.getElementById(idPm);
-			pm.setAttribute("value", "10%");
-			url = urlExeAjax+"?f=SynchroDstLoc&idRub="+idRub+"&id="+id+"&val="+val+"&type="+type+"&action="+action ;
+			if(pm)
+				pm.setAttribute("value", "10%");
+			url = urlExeAjax+"?f=SynchroSrcDst&scope="+scope+"&siteSrc="+siteSrc+"&siteDst="+siteDst+"&idRub="+idRub+"&id="+id+"&val="+val+"&type="+type+"&action="+action ;
 			var r = GetResult(url);
-			pm.setAttribute("value", "100%");
-			if(r!=1)
-				pm.setAttribute("style", "RedBar");
-		}		
-
-		ProgressEnd(progressMeter);
+			if(pm){
+				pm.setAttribute("value", "50%");
+				if(r!=1)
+					pm.setAttribute("style", "RedBar");
+			}
+//		}		
 
 	} catch(ex2){
-		alert("interface:SynchroTree:"+ex2+" " +"url="+url);
+		alert("interface:SynchroTree:"+ex2+" " +"url="+url+" idPm="+idPm);
 	}
+	ProgressEnd(progressMeter);
 }
 
 
@@ -354,7 +357,7 @@ function SynchroInitTree(idTree){
 			var idPm = idTree+DELIM+type+DELIM+id+DELIM+"pm";
 			var pm = document.getElementById(idPm);
 			if(pm)
-				pm.setAttribute("value", "0%");
+				pm.setAttribute("value", "30%");
 		}		
 
 
@@ -465,6 +468,9 @@ function AddPlacemark(){
 	var dst = document.getElementById('idRub').value;
 	var login = document.getElementById('login').value;
 	var typeDst = document.getElementById('typeDst').value;
+	var idDon = -1;
+	if(document.getElementById('idDon'))
+		idDon = document.getElementById('idDon').value;
 
 	if(dst=="?"){
 		alert(messNoVerif);
@@ -480,7 +486,8 @@ function AddPlacemark(){
 		var url = urlExeAjax+"?f=AddPlacemark&dst="+dst+"&kml=&BBOX=-1&login="+login;
 		//dump("SetNewGrille "+url+"\n");
 		GetResult(url);
-		ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
+		if(idDon==-1)
+			ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
 	}
 
   } catch(ex2){alert("interface:AddPlacemark::"+ex2+" ");}
@@ -674,7 +681,7 @@ function ExecCarto(idRub,idDon){
 function ShowPopUp(idGrille,idDon){
 	var login = document.getElementById('login').value;
 	var url = urlExeAjax+"?f=ShowPopUp&idGrille="+idGrille+"&idDon="+idDon+"&login="+login;
-	window.open(url,'_blank','width=650,height=400,resizable=no,left=200,top=200');
+	window.open(url,'_blank','width=800,height=600,resizable=no,left=200,top=200');
 }
 
 function SetNewGrille(kml, src, dst, doc){

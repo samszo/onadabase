@@ -13,8 +13,8 @@
 
   define ("TRACE", false);
 
-  //define ("DEFSITE", "localPicardieCentre");
-  define ("DEFSITE", "local1");
+  define ("DEFSITE", "localPicardieCentre");
+  //define ("DEFSITE", "local1");
   //define ("DEFSITE", "mundi"); 
   define ("SYNCSITE", "local1");
   //define ("SYNCSITE", "mundi");
@@ -336,7 +336,7 @@ $SITES = array(
 //	,"localGilles" => $SiteLocalGilles
 //	,"naos" => $SiteNaos
 	,"mundi" => $SiteMundi
-//	,"localPicardieCentre" =>$localPicardieCentre
+	,"localPicardieCentre" =>$localPicardieCentre
 	);
 
 ?>

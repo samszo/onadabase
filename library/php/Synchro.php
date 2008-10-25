@@ -2,19 +2,28 @@
 
 Class Synchro{
 	public $trace;
+	public $wFic;
 	private $siteSrc;
 	private $siteDst;
+	public $urlSrc;
+	public $urlDst;
 	public $nbRubrique;
 	public $nbArticle;
 	public $nbDonnee;
 	public $dom;
 	public $xul;
+	public $ficXul;
+	public $pathficXul;
 	public $show;
 	
 	function __construct($siteSrc, $siteDst) {
 		$this->trace = TRACE;
+		$this->wFic = true;
 		$this->siteSrc = $siteSrc;
 		$this->siteDst = $siteDst;
+		$this->urlSrc =	PathRoot."/bdd/synchro/VerifSynchro-".$siteDst->id."-".$_SESSION['IdAuteur']."-";		
+		$this->urlDst =	PathRoot."/bdd/synchro/VerifSynchro-".$siteSrc->id."-".$_SESSION['IdAuteur']."-";
+		$this->pathficXul =	PathRoot."/bdd/synchro/CompareSynchro-".$siteSrc->id."-".$siteDst->id."-".$_SESSION['IdAuteur']."-";
 		
 	}
 
@@ -26,12 +35,45 @@ Class Synchro{
 		
 	}
 
-	public function SynchroDstLoc($idRub,$id,$val,$type,$action)
+	public function SynchroArbreSrcDst($idRub,$type,$id)
+	{
+		//récupère le xul de comparaison
+		$ficXul = $this->pathficXul.$idRub.".xul";
+		$this->dom = new XmlParam($ficXul);
+				
+		//récupère les éléments à exécuter
+		//$Xpath = "//".$type."[@id='".$id."']";
+		$Xpath = "//treeitem[@id='treeCompareSrcDst*".$type."*".$id."']/treechildren/treeitem/treerow";
+		if($this->trace)
+			echo "Synchro:SynchroArbreSrcDst//recupère les sous elements à exécuter:Xpath".$Xpath."<br/>";
+		$Es = $this->dom->GetElements($Xpath);
+		if($Es){
+			foreach($Es as $E){
+				$eId= $E->treecell[0]["label"]."";
+				$eVal= $E->treecell[1]["label"]."";
+				$eType= $E->treecell[2]["label"]."";
+				$eAction= $E->treecell[3]["label"]."";
+				//on exclu certaine type
+				if($eType!="id" && $eType!="id_parent"){
+					$this->SynchroBrancheSrcDst($idRub,$eId,$eVal,$eType,$eAction);
+				}		
+			}
+		}
+		//supprime le xul de comparaison
+		unlink($ficXul);
+		//supprime l'arbre src
+		unlink($this->urlSrc.$idRub.".xml");
+		//supprime l'arbre dst
+		unlink($this->urlDst.$idRub.".xml");
+		
+	}
+	
+	public function SynchroBrancheSrcDst($idRub,$id,$val,$type,$action)
 	{
 
 		$Xpath = "/XmlParams/XmlParam[@nom='Synchronise']/synchro[@action='".$action."' and @type='".$type."']/Query";
 		if($this->trace)
-			echo "Synchro:SynchroDstLoc:Xpath".$Xpath."<br/>";
+			echo "Synchro:SynchroBrancheSrcDst:Xpath".$Xpath."<br/>";
 		//récupère les fonction à exécuter
 		$Fs = $this->siteSrc->XmlParam->GetElements($Xpath);
 		$r=0;
@@ -42,11 +84,10 @@ Class Synchro{
 				$Qs = $this->siteSrc->XmlParam->GetElements($Xpath);
 				foreach($Qs as $Q){		
 					$insertfrom = str_replace("-type-", $type, $Q[0]->insertfrom);
-					//ATTENTION la source est ici la base référence
 					//la source d'une requête est toujours le FROM 
-					//la destination = INSERT
-					$insertfrom = str_replace("-dbSrc-", $this->siteDst->infos["SQL_DB"], $insertfrom);
-					$insertfrom = str_replace("-dbDst-", $this->siteSrc->infos["SQL_DB"], $insertfrom);
+					//la destination = INSERT INTO
+					$insertfrom = str_replace("-dbSrc-", $this->siteSrc->infos["SQL_DB"], $insertfrom);
+					$insertfrom = str_replace("-dbDst-", $this->siteDst->infos["SQL_DB"], $insertfrom);
 					$where = str_replace("-id-", $id, $Q[0]->where);
 					$where = str_replace("-type-", $type, $where);
 					$sql = $insertfrom.$where;
@@ -54,77 +95,68 @@ Class Synchro{
 					$db->connect();
 					$result = $db->query($sql);
 					$r .= mysql_affected_rows().",";			
+					//if($this->trace)
+						echo "Synchro:SynchroBrancheSrcDst:r=".$r." sql=".$sql."<br/>";
 					$db->close();
 				}
 			}
 		}
 
-		//pour ne charger qu'une fois le xml
-		if($idRub==$id){
-			/*récupère le dom du site destination de référence
-			$url = PathRoot."/param/VerifSynchroDst-".$idRub.".xml";
-			$this->dom = new XmlParam($url, -1);	
-			*/
-			//récupère le xul de comparaison
-			$xul = $this->CompareSrcDst($idRub);
-			$dom = new domDocument;
-			$dom->loadXML(utf8_encode($xul));
-			$this->dom = new XmlParam(-1,-1,$dom);
-			if($this->trace)
-				echo "Synchro:SynchroDstLoc//recupère les sous elements à exécuter:Xpath".$Xpath."<br/>";
-		}
-		//récupère les éléments à exécuter
-		//$Xpath = "//".$type."[@id='".$id."']";
-		$Xpath = "//treeitem[@id='treeCompareSrcDst*".$type."*".$id."']/treechildren/treeitem/treerow";
-		$Es = $this->dom->GetElements($Xpath);
-		if($Es){
-			foreach($Es as $E){
-				//on exclu certaine type
-				if($E->treecell[2]["label"]!="id" && $E->treecell[2]["label"]!="id_parent"){
-					$this->SynchroDstLoc($idRub
-						,$E->treecell[0]["label"]
-						,$E->treecell[1]["label"]
-						,$E->treecell[2]["label"]
-						,$E->treecell[3]["label"]);
-				}		
-			}
-		}
-		
 		return $r;		
 		
 	}
 
 	public function CompareSrcDst($idRub)
 	{
-		
 		$this->show=false;
 		
 		//récupère le dom du site destination de référence
-		$url = PathRoot."/param/VerifSynchroDst-".$idRub.".xml";
-		$this->dom = new DomDocument("1.0");
-		$nouveauDocument = $this->dom->createElement("documents");
-		$this->dom->appendChild($nouveauDocument);	
-		$parent = $this->dom->lastChild; 			
-		$this->GetRubElements($this->siteDst,$idRub,$parent);
-		$this->dom->save($url);	
+		$url = $this->urlDst.$idRub.".xml";
+		//vérifie s'il faut créer le dom
+		if (!simplexml_load_file($url)){		
+			$this->dom = new DomDocument("1.0");
+			$nouveauDocument = $this->dom->createElement("documents");
+			$this->dom->appendChild($nouveauDocument);	
+			$parent = $this->dom->lastChild; 			
+			$this->GetRubElements($this->siteDst,$idRub,$parent);
+			$this->dom->save($url);	
+		}
 		$xmlDst = new XmlParam($url, -1);	
 		
 		//récupère le dom du site source à vérifier
-		$url = PathRoot."/param/VerifSynchroSrc-".$idRub.".xml";
-		$this->dom = new DomDocument("1.0");
-		$nouveauDocument = $this->dom->createElement("documents");
-		$this->dom->appendChild($nouveauDocument);	
-		$parent = $this->dom->lastChild; 			
-		$this->GetRubElements($this->siteSrc,$idRub,$parent);
-		$this->dom->save($url);	
+		$url = $this->urlSrc.$idRub.".xml";
+		if (!simplexml_load_file($url)){		
+			$this->dom = new DomDocument("1.0");
+			$nouveauDocument = $this->dom->createElement("documents");
+			$this->dom->appendChild($nouveauDocument);	
+			$parent = $this->dom->lastChild; 			
+			$this->GetRubElements($this->siteSrc,$idRub,$parent);
+			$this->dom->save($url);	
+		}
 		$xmlSrc = new XmlParam($url, -1);	
 
+		if($this->wFic){
+			//initialisation du fichier XUL
+			//pour ne pas dépasser la limite de mémoire
+			//pour gérer les problème de mémoire
+			//ini_set("memory_limit","128M");
+			$ficXul =$this->pathficXul.$idRub.".xul";
+			if (file_exists($ficXul)) {
+			   include($ficXul);
+			   return;
+			} else {
+				$this->ficXul = fopen($ficXul, "a");
+			}
+		}
+				
 		//initialisation du tree xul
 		$js = "";
 		$this->xul = "<tree flex=\"1\" 
 			id=\"treeCompareSrcDst\"
 			seltype='multiple'
 			context='mnuSynchro'
+			siteSrc='".$this->siteSrc->id."'
+			siteDst='".$this->siteDst->id."'
 			".$js."
 			>".EOL;
 		$this->xul .= '<treecols>'.EOL;
@@ -139,7 +171,10 @@ Class Synchro{
 		$this->xul .= '<treecol id="completed" label="Avancement" flex="1" type="progressmeter"/>'.EOL;
 		$this->xul .= '</treecols>'.EOL;
 		$this->xul .= '<treechildren>'.EOL;
-		
+		if($this->wFic){
+			fwrite($this->ficXul, $this->xul);		
+			$this->xul = EOL;
+		}		
 		
 		//boucle sur les rubriques de référence
 		$Xpath = "/documents/rubrique";
@@ -147,13 +182,20 @@ Class Synchro{
 		
 		$this->xul .= '</treechildren>'.EOL;
 		$this->xul .= '</tree>';
-		
-		return $this->xul;		
+		if($this->wFic){
+			fwrite($this->ficXul, $this->xul);		
+			$this->xul = EOL;
+    		fclose($this->ficXul);
+			include($ficXul);
+		}else		
+			return $this->xul;		
 		
 	}
 
 	public function CompareXml($type, $Xpath, $xmlSrc, $xmlDst){
 
+		if($this->trace)
+			echo "Synchro:CompareXml : $type, $Xpath </br>";
 		$Dsts = $xmlDst->GetElements($Xpath);
 		if($Dsts!=-1 && $Dsts){
 			$xulPar="";
@@ -166,7 +208,7 @@ Class Synchro{
 				$xulEnf="";
 				$idTree = "treeCompareSrcDst";
 				if(count($Srcs)>0 && $Srcs!=-1){
-					//vérifie que les attributs de la rubrique sont les même 
+					//vérifie que les attributs du type sont les même 
 					foreach($Dst->attributes() as $a => $b){
 						//calcul l'action des attributs
 						if($Srcs[0][$a].""==$b.""){
@@ -179,7 +221,7 @@ Class Synchro{
 						$xulEnf .= '<treeitem id="'.$idXul.'" container="false" empty="false"  >'.EOL;
 						$xulEnf .= '<treerow '.$this->GetClassAction($Action).'>'.EOL;
 						$xulEnf .= '<treecell label="'.$Dst["id"].'"/>'.EOL;
-						$xulEnf .= '<treecell label="'.$this->siteSrc->XmlParam->XML_entities(utf8_decode($b)).'" />'.EOL;
+						$xulEnf .= '<treecell label="'.$this->siteSrc->XmlParam->XML_entities($b).'" />'.EOL;
 						$xulEnf .= '<treecell label="'.$a.'"/>'.EOL;
 						$idXul = $idTree.DELIM.$a.DELIM.$Dst["id"].DELIM.$a."pm";
 						$xulEnf .= '<treecell label="'.$Action.'"/>'.EOL;
@@ -203,16 +245,13 @@ Class Synchro{
 					$Action = $this->VerifReference($type, $Dst["id"]);
 					$Av = $i;				
 				}
-
-				//spécifie un l'élément suivant le type
-				$arrEleEnf = $this->GetTypeElementEnfant($type, $Dst, $Xpath, $xmlSrc, $xmlDst);
 				
 				//création du treeitem
 				$idXul = $idTree.DELIM.$type.DELIM.$Dst["id"];
-				$xulPar .= '<treeitem id="'.$idXul.'" '.$arrEleEnf["treeitemStyle"].' >'.EOL;
+				$xulPar .= '<treeitem id="'.$idXul.'" container="true" empty="false" open="true" >'.EOL;
 				$xulPar .= '<treerow '.$this->GetClassAction($Action).' >'.EOL;
 				$xulPar .= '<treecell label="'.$Dst["id"].'"/>'.EOL;
-				$xulPar .= '<treecell label="'.$this->siteSrc->XmlParam->XML_entities(utf8_decode($Dst)).'" />'.EOL;
+				$xulPar .= '<treecell label="'.$this->siteSrc->XmlParam->XML_entities($Dst).'" />'.EOL;
 				$xulPar .= '<treecell label="'.$type.'"/>'.EOL;
 				$xulPar .= '<treecell label="'.$Action.'"/>'.EOL;
 				$idXul = $idTree.DELIM.$type.DELIM.$Dst["id"].DELIM."pm";
@@ -220,11 +259,35 @@ Class Synchro{
 				$xulPar .= '</treerow>'.EOL;
 				$xulPar .= '<treechildren>'.EOL;
 				$xulPar .= $xulEnf;
-				$xulPar .= $arrEleEnf["xul"]; 
+				if($this->wFic){
+					fwrite($this->ficXul, $xulPar);		
+					$xulPar = EOL;
+				}		
+				
+				//vérifie si on traite les enfants
+				if($type=="rubrique" && $Action=="AJOUT")
+					$xulPar .= EOL;
+				else{ 
+					if($this->wFic){
+						//création des éléments enfant suivant le type
+						$this->GetTypeElementEnfant($type, $Dst, $Xpath, $xmlSrc, $xmlDst);
+					}else{		
+						$xulPar .= $this->GetTypeElementEnfant($type, $Dst, $Xpath, $xmlSrc, $xmlDst);
+					}
+				}
+				
 				$xulPar .= '</treechildren>'.EOL;
 				$xulPar .= '</treeitem>'.EOL;
+				if($this->wFic){
+					fwrite($this->ficXul, $xulPar);		
+					$xulPar = EOL;
+				}		
 			}
-			return $xulPar;	
+			if($this->wFic){
+				fwrite($this->ficXul, $xulPar);		
+				$xulPar = EOL;
+			}else
+				return $xulPar;
 		}
 	}
 	
@@ -278,7 +341,8 @@ Class Synchro{
 				$container ="true";
 				break;
 		}
-		return array("xul"=>$xulEle,"treeitemStyle"=>'container="'.$container.'" empty="false" open="'.$open.'"');
+		//return array("xul"=>$xulEle,"treeitemStyle"=>'container="'.$container.'" empty="false" open="'.$open.'"');
+		return $xulEle;
 	}
 	
 	
@@ -451,7 +515,7 @@ Class Synchro{
 		if($this->trace)
 			echo "Synchro:Synchronise:sql=".$sql."<BR/>";
 		
-		$url = PathRoot."/param/synchroExport-".$idAuteur.".xml";
+		$url = PathRoot."/bdd/synchro/synchroExport-".$idAuteur.".xml";
 		
 		if($this->trace)
 			echo "Synchro:Synchronise:url // Création Xml ".$url."<BR/>";
@@ -758,7 +822,8 @@ Class Synchro{
 		if($docs){
 			$Rub->appendChild($docs);
 		}
-		$arrlisteArticle = $gSrc->GetArticleInfo("AND a.statut='publie'");
+		//$arrlisteArticle = $gSrc->GetArticleInfo("AND a.statut='publie'");
+		$arrlisteArticle = $gSrc->GetArticleInfo();
 		
 		if(mysql_num_rows($arrlisteArticle)>0){
 			while($rowArt = mysql_fetch_assoc($arrlisteArticle)) {
@@ -773,8 +838,8 @@ Class Synchro{
 		
 		$arrliste = $gSrc->GetListeEnfants();
 		if($arrliste){
-			//for ($i = 0; $i < sizeof($arrliste); $i++) {
-			for ($i = 0; $i < 1; $i++) {
+			for ($i = 0; $i < sizeof($arrliste); $i++) {
+			//for ($i = 0; $i < 1; $i++) {
 				$this->GetRubElements($site, $arrliste[$i]['id'],$Rub);
 			}
 		}
@@ -857,13 +922,13 @@ Class Synchro{
 				$nouveauMot = $this->dom->createElement("mot");
 				$nouveauMot->setAttribute("id", $m->id);
 				$nouveauMot->setAttribute("idGroupe", $m->id_groupe);
-				$nouveauMot->appendChild($this->dom->createTextNode($m->titre));				
+				$nouveauMot->appendChild($this->dom->createTextNode(utf8_encode($m->titre)));				
 				if($this->show){
 					$idXul = "treeSynchro_".$type."_".$id."_mot_".$m->id;
 					$this->xul .= '<treeitem id="'.$idXul.'" container="false" empty="false" >'.EOL;
 					$this->xul .= '<treerow>'.EOL;
 					$this->xul .= '<treecell label="'.$m->id.'"/>'.EOL;
-					$this->xul .= '<treecell label="'.$m->titre.'"/>'.EOL;
+					$this->xul .= '<treecell label="'.utf8_encode($m->titre).'"/>'.EOL;
 					$this->xul .= '<treecell label="'.$m->id_groupe.'"/>'.EOL;
 					$this->xul .= '</treerow>'.EOL;
 					$this->xul .= '</treeitem>'.EOL;

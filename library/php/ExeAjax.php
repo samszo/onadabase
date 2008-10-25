@@ -1,9 +1,11 @@
 <?php
 	session_start();
+	//pour le débugage
 	if(!isset($_SESSION['version'])) {
 		$_SESSION['version']="V1";
 		$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
 		$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
+		$_SESSION['IdAuteur']=1;
 	}
 	
 	$ajax = true;
@@ -98,13 +100,23 @@
 			$sync = new Synchro($objSite,$objSiteSync);
 			$resultat = $sync->ShowSynchro($objSite,$objSite->infos["AUTEUR_SYNCHRO"]);
 			break;
-		case 'CompareSrcDst':
+		case 'CompareLocalServeur':
 			$sync = new Synchro($objSite,$objSiteSync);
 			$resultat = $sync->CompareSrcDst($_GET['idRub']);
 			break;
-		case 'SynchroDstLoc':
-			$sync = new Synchro($objSite,$objSiteSync);
-			$resultat = $sync->SynchroDstLoc($_GET['idRub'],$_GET['id'],$_GET['val'],$_GET['type'],$_GET['action']);
+		case 'CompareServeurLocal':
+			$sync = new Synchro($objSiteSync,$objSite);
+			$resultat = $sync->CompareSrcDst($_GET['idRub']);
+			break;
+		case 'SynchroSrcDst':
+			if($_GET['siteSrc']==$objSite->id)
+				$sync = new Synchro($objSite,$objSiteSync);
+			else
+				$sync = new Synchro($objSiteSync,$objSite);
+			if($_GET['scope']=="arbre")
+				$resultat = $sync->SynchroArbreSrcDst($_GET['idRub'],$_GET['type'],$_GET['id']);
+			else	
+				$resultat = $_GET['scope'];//$sync->SynchroBrancheSrcDst($_GET['idRub'],$_GET['id'],$_GET['val'],$_GET['type'],$_GET['action']);
 			break;
 		case 'SynchroImport':
 			$resultat = SynchroImport($objSiteSync, $_GET['idAuteur']);
@@ -173,8 +185,8 @@
 		$g = new Grille($objSite,$idGrille);
 		$xul = $g->GetXulForm($idDon,$idGrille);
 		
-		$oXul = new Xul($objSite);
-		return $oXul->GetPopUp($xul,$g->GetValeur($idDon,"ligne_1"), $login);
+		$oXul = new Xul($objSite,$idGrille);
+		return $oXul->GetPopUp($xul,$g->titre, $login, $idDon);
 		
 	}
 	
