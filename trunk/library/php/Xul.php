@@ -61,7 +61,7 @@ class Xul{
 
     }
     
-    function GetPopUp($xul,$titre, $login){
+    function GetPopUp($xul,$titre, $login, $idDon=-1){
 
 		header('Content-type: application/vnd.mozilla.xul+xml');
 		echo '<' . '?xml version="1.0" encoding="iso-8859-15" ?' . '>';
@@ -81,19 +81,26 @@ class Xul{
 		echo '<script>
 			var lienAdminSpip = "'.$this->site->infos["lienAdminSpip"].'";
 			var urlExeAjax = "'.$this->site->infos["urlExeAjax"].'";
-     	</script>';
-		echo '<vbox  flex="1" style="overflow:auto">
+			var xmlParam = GetXmlUrlToDoc("'.$this->site->infos["jsXulParam"].'");
+		</script>';
+		echo '<vbox  hidden="true" >
 				<hbox class="menubar">
 					<label id="login" value="'.$login.'"/>
-					<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;"/>
+					<label id="idRub" value="'.$this->site->scope['id'].'"/>
+					<label id="typeDst" value="'.$this->id.'"/>
+					<label id="idDon" value="'.$idDon.'"/>
+					<label id="TitreFormSaisi" value=""/>
 				</hbox>	
-			</vbox>
-				';
+			</vbox>';
+		echo '<vbox  flex="1" >';
+		echo '<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;"/>';
 		echo '<script>
-			document.getElementById("login").style.visibility="hidden";
 			document.getElementById("progressMeter").style.visibility="hidden";
 		</script>';
+		echo '<hbox  flex="1" >';
 		echo $xul;
+		echo '</hbox>';
+		echo '</vbox>';
 		echo "</window>";
 
     }

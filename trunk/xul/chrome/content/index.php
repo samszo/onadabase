@@ -69,12 +69,23 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 				<menu label="Gestion des bases">
 					<menupopup >
 						<menuitem accesskey="d" label="Déconnexion" oncommand="window.location.replace('exit.php');"/>
-						<?php 
-							if($_SERVER['REMOTE_ADDR']=="127.0.0.1")
-								echo '<menuitem label="Synchroniser" oncommand="SynchroniserExportImport();"/>';
-						?>
-						<menuitem hidden="true" accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
-						<menuitem accesskey="v" label="Vérifier la synchronisation" oncommand="CompareRubSrcDst();"/>
+					    <menu label="Synchronisation">
+					      <menupopup id='mnuBarSynchro' >
+						    <menu label="serveur->local">
+						      <menupopup >
+								<menuitem hidden="true" accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
+								<menuitem accesskey="v" label="Vérifier les contrôles" oncommand="CompareRubSrcDst('CompareServeurLocal',80);"/>
+								<menuitem label="Vérifier l'élément en cours" oncommand="CompareRubSrcDst('CompareServeurLocal',document.getElementById('idRub').value);"/>
+						      </menupopup>
+						    </menu>
+						    <menu label="local->serveur">
+						      <menupopup >
+								<menuitem hidden="true" accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
+								<menuitem label="Vérifier l'élément en cours" oncommand="CompareRubSrcDst('CompareLocalServeur',document.getElementById('idRub').value);"/>
+						      </menupopup>
+						    </menu>
+					      </menupopup>
+					    </menu>
 					    <menu label="Bases disponibles">
 					      <menupopup id='mnuSite' >
 							<?php 

@@ -87,9 +87,9 @@ class Grille{
 				$xul .= $this->GetXulLegendeControle($r['idDonCont'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
 				
 				//ajoute les liens 
-				$xul.="<label id='adminArt_".$r["idArt"]."' class='text-linkAdmin' onclick=\"OuvreArticle(".$r["idArt"].");\" value=\"Admin\"/>";
 				$xul.= $this->GetXulLiensDonnee($r['idDonRep']);
-		    	$xul.="</hbox>";
+
+				$xul.="</hbox>";
 				
 		    	//ajoute l'affirmation
 				$xul .= '<textbox  multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($r['affirm']).'"/>';			
@@ -112,8 +112,11 @@ class Grille{
 			$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_OBS"].", ".$idDonV.");\" src='images/icone_voir.jpg' />";
 		//vérifie s'il y a une grille signalement probleme
 		$idDonV = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_SIG_PROB"]);
-		if($idDonV)
-			$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_OBS"].", ".$idDonV.");\" src='images/check_no.png' />";
+		if($idDonV){
+				$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_OBS"].", ".$idDonV.");\" src='images/check_no.png' />";
+				$idArt = $this->GetArtDon($idDonV);
+				$xul.="<label id='adminArt_".$idArt."' class='text-linkAdmin' onclick=\"OuvreArticle(".$idArt.");\" value=\"Admin\"/>";
+		}
 			
 		return $xul;
 	}
@@ -1610,6 +1613,27 @@ class Grille{
 		
 		
 	}
+
+  	function GetArtDon($idDon) {
+  
+  
+		//requête pour récupérer l'article de la donnée
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetArtDon']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-id-", $idDon, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		if($this->trace)
+			echo "GetArtDon ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->connect();
+		$req = $db->query($sql);
+		$db->close();
+		$r = $db->fetch_assoc($req);
+		
+		return $r["id"];
+		
+		
+	}
 	
 			
   function GetXulForm($idDon, $idGrille,$qi="") {
@@ -1736,10 +1760,13 @@ class Grille{
 			//$form .= '</groupbox>';
 		}
 		//vérifie s'il faut ajouter le bouton de création de placemark
-		if(!$this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_GEO"])){
+		$geo = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_GEO"]); 
+		if(!$geo && $idGrille!=$this->site->infos["GRILLE_REP_CON"]){
 			$form .="<button label='Ajouter une géolocalisation' oncommand=\"AddPlacemark();\"/>";
 		}
-			
+		if($geo && $idGrille==$this->site->infos["GRILLE_OBS"])
+			$form .= $this->GetXulForm($geo, $this->site->infos["GRILLE_GEO"]);
+		
 		return $form;
 	
 	}
