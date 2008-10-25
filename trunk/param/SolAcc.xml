@@ -486,6 +486,12 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
 				<where> WHERE da.id_donnee = -id-</where>
 			</Query>
+			<Query fonction="Grille_GetArtDon">
+				<select>SELECT id_article id </select>
+				<from> FROM spip_forms_donnees_articles 
+				</from>
+				<where> WHERE id_donnee = -id-</where>
+			</Query>
 			
 			<Query fonction="Grille_GetXulTabFormRub">
 				<select>SELECT id_article id, titre </select>
@@ -1362,12 +1368,12 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<Querys>
 			<Query fonction="update_ArtTitre">
 				<update>UPDATE spip_articles </update>
-				<set> SET titre = '-param-'	</set>
+				<set> SET titre = "-param-"	</set>
 				<where> WHERE id_article = -id-</where>
 			</Query>
 			<Query fonction="update_RubTitre">
 				<update>UPDATE spip_rubriques </update>
-				<set> SET titre = '-param-'	</set>
+				<set> SET titre = "-param-"	</set>
 				<where> WHERE id_rubrique = -id-</where>
 			</Query>
 			<Query fonction="GetIdRubrique">
