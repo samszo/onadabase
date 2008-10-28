@@ -1382,7 +1382,7 @@ class Grille{
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		if($this->trace)
-			echo "GetXulTabPanels ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+			echo "GetXulTabPanels ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
 		$req = $db->query($sql);
 		$db->close();
 
@@ -1648,7 +1648,7 @@ class Grille{
 		$sql = $Q[0]->select.$Q[0]->from.$where;
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		if($this->trace)
-			echo "GetXulForm ".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+			echo "GetXulForm ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
 		$db->connect();
 		$req = $db->query($sql);
 		$db->close();

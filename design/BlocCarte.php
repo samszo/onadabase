@@ -13,7 +13,7 @@ $arrGeo = $g->GetGeo(-1,$idDon);
 <html >
   <head>
 
-	<script src="http://maps.google.com/maps?file=api&v=2.x&key=<?php echo $objSite->infos["gmKey"]; ?>" type="text/javascript"></script>
+<script src="http://maps.google.com/maps?file=api&v=2.x&key=<?php echo $objSite->infos["gmKey"]; ?>" type="text/javascript"></script>
 <script src="../library/js/GoogleCarto3.js" type="text/javascript"></script>
 
 <script type="text/javascript">

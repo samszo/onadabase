@@ -2,7 +2,7 @@
 	session_start();
 	//pour le débugage
 	if(!isset($_SESSION['version'])) {
-		$_SESSION['version']="V1";
+		$_SESSION['version']="V2";
 		$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
 		$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
 		$_SESSION['IdAuteur']=1;

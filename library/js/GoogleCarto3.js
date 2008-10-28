@@ -33,8 +33,10 @@ icon.iconAnchor = new GPoint(6, 20);
 icon.infoWindowAnchor = new GPoint(5, 1);
 */
 
-function showAddress(address, id) {
+function showAddress(address, id, query) {
   if (geocoder) {
+	  var lat;
+	  var lng;
 	geocoder.getLatLng(
 	  address,
 	  function(point) {
@@ -42,14 +44,49 @@ function showAddress(address, id) {
 		  alert(address + " not found");
 		  document.getElementById('err'+id).innerHTML += " pas trouvée";
 		} else {
-		  url = pathRoot+"ExecDonneeCarto.php?site="+site+"&f=sauve_marker&action=Modifier&id="+id+"&lat="+point.lat()+"&lng="+point.lng()+"&zoommin=10&zoommax=18&type=Satellite&adresse="+address;
-		  GetResultFonction(url, 'err'+id);
-		  document.getElementById('result'+id).innerHTML += "trouvée";
+		  lat = point.lat();
+		  lng = point.lng();
+		  url = pathRoot+"ExecDonneeCarto.php?site="+site+"&f=sauve_marker&action=Modifier&id="+id+"&lat="+lat+"&lng="+lng+"&zoommin=10&zoommax=18&type=Mixte&adresse="+address;
+		  GetResultDirect(url, 'err'+id);
+		  GetMarkers(id, query);
+		  //document.getElementById('result'+id).innerHTML = "trouvée";
 		  //AjaxRequest(url,'result'+id);
+		ReverceGeocoding(lat, lng);
 		}
 	  }
 	);
+	
   }
+}
+
+function ReverceGeocoding(lat, lng){
+	latlng = new GLatLng(lat, lng);
+	geocoder.getLocations(latlng, function(addresses) {
+	  //alert(lat+", "+lng+" "+latlng.toUrlValue());
+	  if(addresses.Status.code != 200) {
+	    alert("impossible de trouver l'adresse de la geolocalisation : " + latlng.toUrlValue());
+	  } else { 
+	    var result = addresses.Placemark[0];
+	    if(document.getElementById('formAdresse'))
+			document.getElementById('formAdresse').value = result.address;
+	    //map.openInfoWindow(latlng, result.address);
+	  }
+	});
+
+}
+
+function GetResultDirect(url, div) {
+	p = new XMLHttpRequest();
+	p.onload = null;
+	p.open("GET", url, false);
+	p.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	p.send(null);
+
+	if (p.status != "200" ){
+	      alert("Réception erreur " + p.status);
+	}else{
+		document.getElementById(div).innerHTML = p.responseText;
+	}
 }
 
 function GetResultFonction(url, div) {
@@ -252,12 +289,12 @@ function GetMarkers(id, query) {
 								contenu_topic += '<tr><td>zoom min : <input type="text" name="zoommin" value="' + zoommin + '" /></td></tr>';
 								contenu_topic += '<tr><td>zoom max : <input type="text" name="zoommax" value="' + zoommax + '" /></td></tr>';
 								contenu_topic += '<tr><td>Type : <input type="text" name="type" value="' + cartotype + '" /></td></tr>';
-								contenu_topic += '<tr><td>Adresse : <input type="text" name="adresse" value="' + adresse + '" /></td></tr>';
+								contenu_topic += '<tr><td>Adresse : <input id="formAdresse" type="text" name="adresse" value="' + adresse + '" /></td></tr>';
 								contenu_topic += '<tr><td>Action : <select name="action">';
 								contenu_topic += '<option value="Modifier">Modifier</option>';
 								contenu_topic += '</select></td></tr>';
 								contenu_topic += '<tr><td><input type="button" name="Submit" value="Executer" onclick="SauveMarker(' + id_rubrique + ')" />';
-								contenu_topic +='<tr><td><input type="button" name="GL" value="Geolocaliser" onclick="showAddress(window.document.marker.adresse.value,' + id_rubrique + ')" />';
+								contenu_topic +="<tr><td><input type='button' name='GL' value='Geolocaliser' onclick=\"showAddress(window.document.marker.adresse.value," + id_rubrique + ",'" + query + "')\" />";
 								contenu_topic +='<div id="result' + id_rubrique + '" ></div><div id="err' + id_rubrique + '" ></div>';
 								contenu_topic += '</tr></table></form>';
 								//GESTION DU DRAG & DROP
@@ -272,6 +309,7 @@ function GetMarkers(id, query) {
 								  window.document.forms["marker"].zoommin.value=map.getZoom();
 								  window.document.forms["marker"].zoommax.value=17;
 								  window.document.forms["marker"].type.value=map.getCurrentMapType().getName();
+								  ReverceGeocoding(p.lat(), p.lng());
 								  });
 								//construction des onglets
 								var infoTabs = new Array(new GInfoWindowTab("Topic",contenu_topic));
@@ -315,7 +353,7 @@ function GetMarkers(id, query) {
 	    //map.addOverlay(geoXmlDep);
 	//}
 
-	write_line('mgr.getMarkerCount('+map.getZoom()+'): '+mgr.getMarkerCount(map.getZoom()), "red");
+	//write_line('mgr.getMarkerCount('+map.getZoom()+'): '+mgr.getMarkerCount(map.getZoom()), "red");
 
 }
 

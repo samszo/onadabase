@@ -3,6 +3,33 @@ var fichierCourant;
 var numFic = 0;
 var DELIM = "*";
 
+
+function AppliDroit(role) {
+	try {
+		
+		if(role=='AUCUN')
+			return;
+		
+		//récupère le context en cours
+		var contexte = document.getElementById('treeRub').getAttribute("context");
+		var menu = document.getElementById(contexte);
+		for (var j = 0; j < menu.childNodes.length; j++){
+			var menupopup = menu.childNodes[j].firstChild;
+			for (var i = 0; i < menupopup.childNodes.length; i++){
+				var m = menupopup.childNodes[i];
+				var itemRoles = m.getAttribute("role");
+				var s = itemRoles.search(role);
+				if (s == -1){
+					m.setAttribute("hidden","true");
+				}else{
+					m.setAttribute("hidden","false");
+				}
+			}
+		}
+
+  	} catch(ex2){alert("interface:AppliDroit:"+ex2);}
+}
+
 function GetListeEtatDiag(idDoc) {
 	try {
 		var idRub = document.getElementById('idRub').value;
@@ -640,11 +667,20 @@ function SetVal(idDoc){
 	//récupère le formulaire de signalisation d'un problème dans le cas d'un diagnostic
 	if(arrDoc[1]=="59" || arrDoc[3]=="Modif" || arrDoc[3]=="Sup") {
 		//var reponse = AppendResult(url,doc.parentNode,true);
-		
+				
 		if (arrDoc[3]=="mot_1" && val==2 || arrDoc[3]=="Modif" ) {
 			//var reponse = GetXmlFicToDoc(url);
-			//ajout de l'argument du popup
-			window.open(url+"&ppp=1",'_blank','width=650,height=400,resizable=no,left=200,top=200');
+			//vérifie si on traite une question intermédiaire
+			var valRef = -1;
+			var docRef = document.getElementById("val*"+arrDoc[1]+"*"+arrDoc[2]+"*ligne_1*"+arrDoc[4]);
+			if(docRef){
+				valRef = docRef.value;
+				valRef = valRef.search("qi_");
+			}
+			if(valRef==-1){
+				//ajout de l'argument du popup et ouvre la fenêtre
+				window.open(url+"&ppp=1",'_blank','width=650,height=400,resizable=no,left=200,top=200');
+			}
 			//récupère la ligne des question intermédiaires
 			var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
 			AppendResult(url,docQi,false,"vbox");
@@ -659,8 +695,7 @@ function SetVal(idDoc){
 		AjaxRequest(url,"AfficheResult","trace"+doc.id);
 	
 	//modifie le titre du panel dans le cas du titre de l'établissement
-	if(arrDoc[1]=="55")
-		if(arrDoc[3]=="ligne_1")
+	if(arrDoc[1]=="55" && arrDoc[3]=="ligne_1")
 			document.getElementById("tab"+arrDoc[4]).label=val;
 		
   } catch(ex2){alert("SetVal::"+ex2);dump("::"+ex2);}
@@ -825,6 +860,7 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 		
 	}
 	//alert("RefreshEcran OUT\n");
+	AppliDroit(role);
    
    } catch(ex2){alert(":RefreshEcran:"+ex2+"");dump("::"+ex2);}
 	
@@ -931,6 +967,8 @@ function ChargeTreeFromAjax(idSrc,idDst,type)
 	//alert("ChargeTreeFromAjax url "+url+"\n");
 	//AjaxRequest(url,'AppendTreeChildren',parentitem)
 	AppendResult(url,doc);
+
+	//AppliDroit(role);
 	
 	dump("ChargeTreeFromAjax OUT\n");
    
