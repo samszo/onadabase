@@ -309,16 +309,18 @@ class Site{
 	
 	function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") 
 	{
-	  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
-	  // evite le double caractere \'' 
-	  if (get_magic_quotes_gpc()) $theValue = str_replace("'","''",$theValue);
-	  if (!get_magic_quotes_gpc()) $theValue = str_replace("\"","''",$theValue);
-	  //$theValue = htmlentities($theValue);
-	  //echo $theValue."<br/>";
 
+		if($theType=="html"){
+		  $theValue = (!get_magic_quotes_gpc()) ? addslashes($theValue) : $theValue;
+		  $theValue = htmlentities($theValue);
+		  $theType="text";
+		}
+		$theValue = str_replace("'","''",$theValue);
+	  
+	  
 	  switch ($theType) {
 	    case "text":
-	      $theValue = ($theValue != "") ? "\"" . $theValue . "\"" : "''";
+	      $theValue = ($theValue != "") ? "'" . $theValue . "'" : "''";
 	      break;    
 	    case "long":
 	    case "int":

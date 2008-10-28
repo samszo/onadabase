@@ -22,6 +22,7 @@ echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 //echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
 //echo '<'.'?xul-overlay href="overlay/choix_diagnostic.xul" ?'.'>';
 echo '<'.'?xul-overlay href="overlay/PopupMenuSet.xul"?'.'>';
+//echo '<'.'?xul-overlay href="overlay/test_menu_contextuel_Picardie.xul"?'.'>';
 echo '<'.'?xul-overlay href="overlay/mnuSynchro.xul"?'.'>';
 echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 
@@ -35,6 +36,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
     persist="screenX screenY width height"
     orient="horizontal"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    onload="if (event.target == document) AppliDroit(role);"
 >
 
 <script type="application/x-javascript" src="js/interface.js" />
@@ -53,6 +55,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 		var urlSite = "<?php echo $objSite->infos["urlSite"]; ?>";
 		var urlCarto = "<?php echo $objSite->infos["urlCarto"]; ?>";
 		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";
+		var role = "AUCUN";
 
 		//var win = window.open("chrome://myextension/content/about.xul", "aboutMyExtension", "chrome,centerscreen"); 
 		var urlPopUp = "<?php echo "popup.php?"; ?>";
@@ -68,6 +71,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 			<menubar id='choix_diagnostic'>
 				<menu label="Gestion des bases">
 					<menupopup >
+						<menuitem label="AppliDroit" oncommand="AppliDroit(role);"/>
 						<menuitem accesskey="d" label="Déconnexion" oncommand="window.location.replace('exit.php');"/>
 					    <menu label="Synchronisation">
 					      <menupopup id='mnuBarSynchro' >
@@ -202,7 +206,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 <script type="application/x-javascript" >
 	//met à jour le choix du diagnostic
 	SetChoixDiagnostic();
-   ChargeTreeFromAjax('idRub','treeRub','terre');
+   	ChargeTreeFromAjax('idRub','treeRub','terre');
 </script>
 
 </window>
