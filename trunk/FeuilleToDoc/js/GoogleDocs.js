@@ -7,7 +7,7 @@
     function initialize() { 
     
     		
-       		query = new google.visualization.Query("http://spreadsheets.google.com/feeds/worksheets/key/visibility/projection);
+       		query = new google.visualization.Query("http://spreadsheets.google.com/feeds/spreadsheets/private/full/p9ISv2bT_pub5hD88wuZIRw");
        		query.send(teste);  // Send the query with a callback function
 
     	    //recupperation de toutes les feuilles de calcul 
@@ -22,6 +22,7 @@
     }
     
      function teste(response){
+     	alert(response);
      	//verfier si la feuille existe , on compere la signature des feuilles
         for(k=0;k<signature.length;k++){
         	if(signature[k]==response.xa){
