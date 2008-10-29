@@ -6,23 +6,17 @@
     }
     function initialize() { 
     
-    		
-       		query = new google.visualization.Query("http://spreadsheets.google.com/feeds/spreadsheets/private/full/p9ISv2bT_pub5hD88wuZIRw");
-       		query.send(teste);  // Send the query with a callback function
-
     	    //recupperation de toutes les feuilles de calcul 
-    	    /*
-    	    for(i=0;i<350;i++){
+    	    for(i=0;i<nbrworksheet;i++){
     	    	query="query"+i;
         		query = new google.visualization.Query(urlSpreadsheet+"&gid="+i);
-        		query.send(teste);  // Send the query with a callback function
+        		console.log(urlSpreadsheet+"&gid="+i);
+        		query.send(handleQueryResponse);  // Send the query with a callback function
     	    	
     	    }
-    	    */
-    }
+    	 }
     
      function teste(response){
-     	alert(response);
      	//verfier si la feuille existe , on compere la signature des feuilles
         for(k=0;k<signature.length;k++){
         	if(signature[k]==response.xa){
@@ -51,8 +45,8 @@
         var html = [];
         html.push("<html>");
         html.push("<body>");
-        for (var row = 0; row < data.getNumberOfRows()-3; row++) {
-        	if(escapeHtml(data.getFormattedValue(row, 7))=="f"){
+        for (var row = 7; row < data.getNumberOfRows()-3; row++) {
+        	if(escapeHtml(data.getFormattedValue(row, 7))=="F"){
 	        html.push("<h3>Problème  "+row+"</h3>");
 	        html.push("<h3>Diagnostic des critères réglementaires posant problèmes</h3>");
 	        html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
@@ -96,10 +90,11 @@
 	        html.push("<p>Le coût est donnée HT, il est donnée en fonction des conditions de marché avec une approximation de 15 et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...)*euro</p> ");
         	}
 	    }
-	   
+	    console.log(html.join(''));
 	    file=data.getColumnLabel(1).split(".");
+	    
 	    params="f=CreatRepport&html="+ html.join('')+"&file="+file[0]+".doc";
-        AjaxRequestPost(urlAjax+"php/CreatRepport.php",params,'','',false);
+        //AjaxRequestPost(urlAjax+"php/CreatRepport.php",params,'','',false);
         
         
       }
