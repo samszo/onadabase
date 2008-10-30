@@ -10,8 +10,8 @@
     	    for(i=0;i<nbrworksheet;i++){
     	    	query="query"+i;
         		query = new google.visualization.Query(urlSpreadsheet+"&gid="+i);
-        		console.log(urlSpreadsheet+"&gid="+i);
         		query.send(handleQueryResponse);  // Send the query with a callback function
+        		ListeFeuilles(Name[i],i);
     	    	
     	    }
     	 }
@@ -43,11 +43,12 @@
         // construction de document html
         var data = response.getDataTable(); 
         var html = [];
+        var r=1;
         html.push("<html>");
         html.push("<body>");
         for (var row = 7; row < data.getNumberOfRows()-3; row++) {
         	if(escapeHtml(data.getFormattedValue(row, 7))=="F"){
-	        html.push("<h3>Problème  "+row+"</h3>");
+	        html.push("<h3>Problème  "+r+"</h3>");
 	        html.push("<h3>Diagnostic des critères réglementaires posant problèmes</h3>");
 	        html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
 	        	html.push("<th>Critère réglementaire</th>");
@@ -59,8 +60,7 @@
 	        		html.push("<td>");
 	        			html.push(escapeHtml(data.getFormattedValue(row, 8)));
 	        		html.push("</td>");
-	        	   html.push("</tr>");
-	        	
+	        	   html.push("</tr>");     	
 	        html.push("</table>");
 	        html.push("<h3>Diagnostic par type de déficience :</h3>");
 	        html.push("<table border='1'>");
@@ -88,14 +88,12 @@
 	        html.push("<h3>Solutions :</h3>");
 	        html.push("<h3>Couts :</h3>");
 	        html.push("<p>Le coût est donnée HT, il est donnée en fonction des conditions de marché avec une approximation de 15 et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...)*euro</p> ");
+        	r++;
         	}
 	    }
-	    console.log(html.join(''));
-	    file=data.getColumnLabel(1).split(".");
-	    
-	    params="f=CreatRepport&html="+ html.join('')+"&file="+file[0]+".doc";
-        //AjaxRequestPost(urlAjax+"php/CreatRepport.php",params,'','',false);
-        
+	    params="f=CreatRepport&html="+ html.join('')+"&file="+Name[l]+".doc";
+        AjaxRequestPost(urlAjax+"php/CreatRepport.php",params,'','',false);
+        l++;
         
       }
       function escapeHtml(text) {
@@ -118,19 +116,23 @@
      	//id=f.split("_");
      	var url=urlSpreadsheet+'&output=html&gid='+f+'&single=true&widget=true';
      	document.getElementById('ViewSpeardsheet').setAttribute("src",url);
+     	id_feuil=f;
      }
-     function ListeFeuilles(response,m){
-     	        var Feuille=response.getDataTable().getColumnLabel(1).split(".");    
+     function ListeFeuilles(response,m){   
+     	       
      			liste+="<li>";
-     			liste+="<a id='Feuille_"+m+"' href='#' onclick='id_feuil=this.id.split(\"_\");'>"+Feuille[0]+"</a>";
+     			liste+="<a id='Feuille_"+m+"' href='#' onclick='ViewSpeardsheet("+m+");'>"+response+"</a>";
      			liste+="</li>";
-     		    ul+="<li><a href='"+urlRapport+Feuille[0].replace(" ","_")+".doc '>"+Feuille[0]+".doc </a></li>";
+     		    ul+="<li><a href='"+urlRapport+response+".doc '>"+response+".doc </a></li>";
      	        //document.getElementById('ListeRapports').innerHTML = ul;
      			document.getElementById('ListeFeuilles').innerHTML = liste;
      		    
      }
      function ViewRapport(response){
-     	var Feuille=response.getDataTable().getColumnLabel(1).split(".");
-     	window.open(urlRapport+Feuille[0].replace(" ","_")+".doc");
+     	window.open(urlRapport+response.replace(" ","_")+".doc");
+     }
+     
+     function UpdateWorksheet(id){
+     	
      }
      
