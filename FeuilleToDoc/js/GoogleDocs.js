@@ -8,9 +8,10 @@
     
     	    //recupperation de toutes les feuilles de calcul 
     	    for(i=0;i<nbrworksheet;i++){
-    	    	query="query"+i;
-        		query = new google.visualization.Query(urlSpreadsheet+"&gid="+i);
-        		query.send(handleQueryResponse);  // Send the query with a callback function
+    	    //for(i=0;i<1;i++){
+    	    	//query="query"+i;
+        		//query = new google.visualization.Query(urlSpreadsheet+"&gid="+i);
+        		//query.send(handleQueryResponse);  // Send the query with a callback function
         		ListeFeuilles(Name[i],i);
     	    	
     	    }
@@ -91,7 +92,8 @@
         	r++;
         	}
 	    }
-	    params="f=CreatRepport&html="+ html.join('')+"&file="+Name[l]+".doc";
+	    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
+	    params="f=CreatRepport&html="+ html.join('')+"&file="+encodeURI(Name[id_feuil]);
         AjaxRequestPost(urlAjax+"php/CreatRepport.php",params,'','',false);
         l++;
         
@@ -116,6 +118,7 @@
      	//id=f.split("_");
      	var url=urlSpreadsheet+'&output=html&gid='+f+'&single=true&widget=true';
      	document.getElementById('ViewSpeardsheet').setAttribute("src",url);
+     	CreaReport(f);
      	id_feuil=f;
      }
      function ListeFeuilles(response,m){   
@@ -131,7 +134,13 @@
      function ViewRapport(response){
      	window.open(urlRapport+response.replace(" ","_")+".doc");
      }
-     
+
+     function CreaReport(i){
+     	query = new google.visualization.Query(urlSpreadsheet+"&gid="+i);
+     	query.setTimeout(1000);
+     	query.send(handleQueryResponse);  // Send the query with a callback function
+     }
+
      function UpdateWorksheet(id){
      	
      }
