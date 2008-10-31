@@ -188,8 +188,8 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 					INNER JOIN spip_mots m ON m.id_mot = dc5.valeur					
 					INNER JOIN spip_forms_donnees_champs dc7 ON dc7.id_donnee = da.id_donnee AND dc7.champ = 'ligne_7'
 					LEFT JOIN spip_forms_donnees_champs dc8 ON dc8.id_donnee = da.id_donnee AND dc8.champ = 'texte_1'
-					LEFT JOIN spip_documents_rubriques dr ON r.id_rubrique = dr.id_rubrique
-					LEFT JOIN spip_documents d ON dr.id_document = d.id_document AND d.id_type = ".$objSite->infos["CARTE_TYPE_DOC"]."
+					LEFT JOIN spip_documents_articles doca ON doca.id_article = a.id_article
+					LEFT JOIN spip_documents d ON d.id_document = doca.id_document AND d.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].")
 				WHERE r.id_rubrique =".$id."  
 				ORDER BY dc1.valdec DESC
 				LIMIT 0 , ".MaxMarker;
@@ -216,9 +216,9 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 					INNER JOIN spip_forms_donnees_champs dc7 ON dc7.id_donnee = da.id_donnee AND dc7.champ = 'ligne_7'
 					LEFT JOIN spip_forms_donnees_champs dc8 ON dc8.id_donnee = da.id_donnee AND dc8.champ = 'texte_1'
 					LEFT JOIN spip_documents_rubriques dr ON r.id_rubrique = dr.id_rubrique
-					LEFT JOIN spip_documents d ON dr.id_document = d.id_document AND d.id_type = ".$objSite->infos["CARTE_TYPE_DOC"]."
+					LEFT JOIN spip_documents d ON dr.id_document = d.id_document AND d.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].")
 					LEFT JOIN spip_documents_articles doca ON doca.id_article = a.id_article
-					LEFT JOIN spip_documents dArt ON dArt.id_document = doca.id_document AND dArt.id_type = ".$objSite->infos["CARTE_TYPE_DOC"]."
+					LEFT JOIN spip_documents dArt ON dArt.id_document = doca.id_document AND dArt.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].")
 				WHERE fd.id_donnee =".$id."  
 				ORDER BY dc1.valdec DESC
 				LIMIT 0 , ".MaxMarker;
@@ -230,7 +230,7 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 	//charge les propiétés du granulat
 	$req = $DB->query($sql);
 	$DB->close();
-	//echo $objSite->infos["SQL_DB"]." ".$sql."<br/>";
+	//echo $query." ".$objSite->infos["SQL_DB"]." ".$sql."<br/>";
 	
 	//$i = 0;
 	while($row = mysql_fetch_assoc($req))

@@ -1031,6 +1031,43 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<where> WHERE r.id_rubrique IN(-ids-)</where>
 			</Query>
 
+			<Query fonction="Grille_GetEtatDiagApplicable">
+				<select>
+					SELECT  
+					 SUM(fdcM.valeur)	moteur			 
+					, SUM(fdcA.valeur) audio			 
+					, SUM(fdcV.valeur) visu			 
+					, SUM(fdcC.valeur) cog			 
+				</select>
+				<from> 
+					FROM spip_rubriques r 
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee 
+					   AND fd.id_form =-idFormRep- 
+					INNER JOIN spip_forms_donnees_champs fdcRef ON fdcRef.id_donnee = fd.id_donnee 
+					   AND fdcRef.champ = 'ligne_1'
+					INNER JOIN spip_forms_donnees_champs fdcRep ON fdcRep.id_donnee = fd.id_donnee 
+					   AND fdcRep.champ = 'mot_1' AND fdcRep.valeur IN (1,2,141) 
+					
+					INNER JOIN spip_forms_donnees fdCont ON fdCont.id_form =-idFormCont-
+					INNER JOIN spip_forms_donnees_champs fdcCont ON fdcCont.id_donnee = fdCont.id_donnee
+					   AND fdcCont.champ = 'ligne_1' AND fdcCont.valeur = fdcRef.valeur 
+
+					LEFT JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = fdCont.id_donnee
+					   AND fdcM.champ = 'ligne_2' 
+					
+					LEFT JOIN spip_forms_donnees_champs fdcA ON fdcA.id_donnee = fdCont.id_donnee
+					   AND fdcA.champ = 'ligne_3' 
+ 
+					LEFT JOIN spip_forms_donnees_champs fdcV ON fdcV.id_donnee = fdCont.id_donnee
+					   AND fdcV.champ = 'ligne_4' 
+ 
+					LEFT JOIN spip_forms_donnees_champs fdcC ON fdcC.id_donnee = fdCont.id_donnee
+					   AND fdcC.champ = 'ligne_5' 
+				</from>
+				<where> WHERE r.id_rubrique IN(-ids-)</where>
+			</Query>
+
 			<Query fonction="Grille_GetListeSignalementProblemeStat">
 				<select>
 					SELECT fcc.titre TypeCrit

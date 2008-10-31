@@ -67,20 +67,65 @@ class Granulat
 
 		//construction du xml
 		$grille = new Grille($this->site);
-		$xml .= $grille->GetEtatDiagOui($ids);
-		$xml .= $grille->GetEtatDiagHandi($ids,1);
-		$xml .= $grille->GetEtatDiagHandi($ids,2);
-		$xml .= $grille->GetEtatDiagHandi($ids,3);
+		$EtatOui = $grille->GetEtatDiagOui($ids);
+		$Etat1 = $grille->GetEtatDiagHandi($ids,1);
+		$Etat2 = $grille->GetEtatDiagHandi($ids,2);
+		$Etat3 = $grille->GetEtatDiagHandi($ids,3);
+		$EtatAppli = $grille->GetEtatDiagApplicable($ids);
 		
-				
-		//finalisation du xml
+		//construction du xml
+		$xml .= $EtatOui["xml"];
+		$xml .= $Etat1["xml"];
+		$xml .= $Etat2["xml"];
+		$xml .= $Etat3["xml"];
+		
+		//calculer le l'indicateur d'accessibilité
+		$moteurObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"moteur");
+		$moteur = $this->GetHandiAccess($moteurObst,$EtatAppli["r"]["moteur"]);
+		
+		$audioObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"audio");
+		$audio = $this->GetHandiAccess($audioObst,$EtatAppli["r"]["audio"]);
+		
+		$visuObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"visu");
+		$visu = $this->GetHandiAccess($visuObst,$EtatAppli["r"]["visu"]);
+		
+		$cogObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"cog");
+		$cog = $this->GetHandiAccess($cogObst,$EtatAppli["r"]["cog"]);
+		
+		$xml .= "<Applicables id='IndicAcc_' moteur='".$moteur."' audio='".$audio."' visu='".$visu."' cog='".$cog."' ></Applicables>";
+		$xml .= "<AppliVal id='AppliVal_' moteur='".$moteurObst."-".$EtatAppli["r"]["moteur"]."' audio='".$audioObst."-".$EtatAppli["r"]["audio"]."' visu='".$visuObst."-".$EtatAppli["r"]["visu"]."' cog='".$cogObst."-".$EtatAppli["r"]["cog"]."' ></AppliVal>";
+		
 		$xml .= "</EtatDiag>";
 		
 		return $xml;
 		
 	}
   
-  
+	function GetHandiObstacle($Etat1,$Etat2,$Etat3,$Handi){
+		$handi = $Etat1["r"][$Handi]
+			+($Etat2["r"][$Handi]*2)
+			+($Etat3["r"][$Handi]*3);  
+			
+		return $handi;	
+	}
+	
+	function GetHandiAccess($HandiObst,$HandiAppli){
+		if($HandiAppli==0)
+			return "A";	
+		
+		$handi = $HandiObst/$HandiAppli;
+		if($handi>=0 && $handi<=0.2)	
+			return "A";	
+		if($handi>0.2 && $handi<=0.4)	
+			return "B";	
+		if($handi>0.4 && $handi<=0.6)	
+			return "C";	
+		if($handi>0.6 && $handi<=0.8)	
+			return "D";	
+		if($handi>0.8)	
+			return "E";	
+	}
+	
 	function GetTreeChildren($type,$id=-1){
 
 	    if($this->trace)

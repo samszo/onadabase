@@ -61,27 +61,53 @@ function ShowEtatDiag(idRub) {
 		xmlRep = GetXmlUrlToDoc(url);
 		//met à jour les valeurs du tableau
 		for (var i = 0; i < xmlRep.firstChild.childNodes.length; i++){
+			//récupération des valeurs
 			var e = xmlRep.firstChild.childNodes[i];
 			var idDoc = e.getAttribute("id");
-			var val = e.getAttribute("moteur");
-			document.getElementById(idDoc+"moteur").setAttribute("value",val);
-			var val = e.getAttribute("audio");
-			document.getElementById(idDoc+"audio").setAttribute("value",val);
-			var val = e.getAttribute("visu");
-			document.getElementById(idDoc+"visu").setAttribute("value",val);
-			var val = e.getAttribute("cog");
-			document.getElementById(idDoc+"cog").setAttribute("value",val);
+			var valM = e.getAttribute("moteur");
+			var valA = e.getAttribute("audio");
+			var valV = e.getAttribute("visu");
+			var valC = e.getAttribute("cog");
+
+			if(idDoc=='IndicAcc_'){
+				valM = GetIconeIndicAcc(valM);
+				valA = GetIconeIndicAcc(valA);
+				valV = GetIconeIndicAcc(valV);
+				valC = GetIconeIndicAcc(valC);
+				var attribut = "src";
+			}else{
+				var attribut = "value";
+			}
+			//mise à jour des valeurs du tableau
+			document.getElementById(idDoc+"moteur").setAttribute(attribut,valM);
+			document.getElementById(idDoc+"audio").setAttribute(attribut,valA);
+			document.getElementById(idDoc+"visu").setAttribute(attribut,valV);
+			document.getElementById(idDoc+"cog").setAttribute(attribut,valC);
 		}
 
-		document.documentElement.style.cursor = "auto";
-
   	} catch(ex2){alert("interface:ShowEtatDiag:"+ex2);}
-}
+	document.documentElement.style.cursor = "auto";
 
+}
 
 function ChangeBase(site){
 		var url = "exit.php?site="+site;
 		location.href = url;
+}
+
+
+function GetIconeIndicAcc(val){
+	try{
+		switch (val)
+		{
+		case 'A': return 'images/A.png';
+		case 'B': return 'images/B.png';
+		case 'C': return 'images/C.png';
+		case 'D': return 'images/D.png';
+		case 'E': return 'images/E.png';
+		default: return '';
+		} 
+  	} catch(ex2){alert("interface:GetIconeIndicAcc:val="+val+' '+ex2);}
 }
 
 function GetValueChecked(doc){
