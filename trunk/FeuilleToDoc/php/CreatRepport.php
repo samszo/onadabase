@@ -14,7 +14,7 @@ switch ($fonction) {
 }
 echo $resultat;
 function CreatRepport($html,$file){
-	    $file=str_replace(" ","_",$file); 
+	    $file=str_replace(" ","_",$file).".doc"; 
 		if(file_exists(PATH.$file)){
 				unlink(PATH.$file);
 		}
