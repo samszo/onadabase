@@ -3,8 +3,8 @@
   //
   // Fichier contenant les definitions de constantes
   //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/sites/n/naoss.fr/mundigo"); 
-  //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
-  define ("PathRoot","C:/wamp/www/"."onadabase"); 
+  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
+  //define ("PathRoot","C:/wamp/www/"."onadabase"); 
   
 	// *** chemin de toutes les bases et les spip en service ***
   define("TT_CLASS_BASE", PathRoot."/library/php/");
@@ -13,11 +13,11 @@
 
   define ("TRACE", false);
 
-  define ("DEFSITE", "localPicardieCentre");
+  //define ("DEFSITE", "localPicardieCentre");
   //define ("DEFSITE", "local1");
-  //define ("DEFSITE", "mundi"); 
-  define ("SYNCSITE", "local1");
-  //define ("SYNCSITE", "mundi");
+  define ("DEFSITE", "mundi"); 
+  //define ("SYNCSITE", "local1");
+  define ("SYNCSITE", "mundi");
  
   
   $DB_OPTIONS = array (
@@ -65,7 +65,7 @@ $localPicardieCentre = array(
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => 75,
+	"CARTE_TYPE_DOC" => "75,76",
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
 	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
@@ -107,7 +107,7 @@ $SiteLocal1 = array(
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => 75,
+	"CARTE_TYPE_DOC" => "75,76",
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
 	"lienAdminSpip" => "http://localhost/onadabase/spipsync/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
@@ -148,7 +148,7 @@ $SiteLocal2 = array(
 	"DEF_LNG" => 3.06994,
 	"DEF_ZOOM" => 14,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => 75,
+	"CARTE_TYPE_DOC" => "75,76",
 	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRR8S4b2oMC5BlotEgOIFwvu2Zfg4BRD2eEaRYw3NNB3VDcldikKtbZtsw",
 	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
@@ -190,7 +190,7 @@ $SiteAmel = array(
 	"DEF_LNG" => 3.06994,
 	"DEF_ZOOM" => 14,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => 75,
+	"CARTE_TYPE_DOC" => "75,76",
 	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRR8S4b2oMC5BlotEgOIFwvu2Zfg4BRD2eEaRYw3NNB3VDcldikKtbZtsw",
 	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
@@ -232,7 +232,7 @@ $SiteLocalGilles = array(
 	"DEF_LNG" => 3.06994,
 	"DEF_ZOOM" => 14,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => 75,
+	"CARTE_TYPE_DOC" => "75,76",
 	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRR8S4b2oMC5BlotEgOIFwvu2Zfg4BRD2eEaRYw3NNB3VDcldikKtbZtsw",
 	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
@@ -274,7 +274,7 @@ $SiteNaos = array(
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => 75,
+	"CARTE_TYPE_DOC" => "75,76",
 	"gmKey" => "à générer",
 	"lienAdminSpip" => "http://www.naoss.fr:81/mundigo/spip/ecrire",
 	"urlExeAjax" => "http://www.naoss.fr:81/mundigo/library/php/ExeAjax.php",
@@ -316,7 +316,7 @@ $SiteNaos = array(
 	"DEF_LNG" => 3.06994,
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => 75,
+	"CARTE_TYPE_DOC" => "75,76",
 	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRRWuADP5IHMsclz4StI_c8lb9zkohTyT7mGzubP9DAdxQrlDe2AW8dGTw",
 	"lienAdminSpip" => "http://www.mundilogiweb.com/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php",

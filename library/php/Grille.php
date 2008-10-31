@@ -143,7 +143,7 @@ class Grille{
 		$r =  $db->fetch_assoc($result);
 		$xml = "<CritsValides id='0_' moteur='".$r['moteur']."' audio='".$r['audio']."' visu='".$r['visu']."' cog='".$r['cog']."' ></CritsValides>";
 		
-		return $xml;
+		return array("xml"=>$xml,"r"=>$r);
 	}
 
 	public function GetEtatDiagHandi($ids,$handi)
@@ -171,8 +171,37 @@ class Grille{
 		if($this->trace)
 			echo "Grille:GetEtatDiagHandi:r=".print_r($r)."<br/>";
 		
-		return $xml;
+		return array("xml"=>$xml,"r"=>$r);
 	}
+	
+	
+	public function GetEtatDiagApplicable($ids)
+	{
+		//récupère le nombre de critéres validés
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagApplicable']";
+		if($this->trace)
+			echo "Grille:GetEtatDiagHandi:Xpath".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $ids, $Q[0]->where);
+		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
+		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
+		$sql = $Q[0]->select.$from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "Grille:GetEtatDiagApplicable".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$db->close();
+			
+		//construction du xml
+		$r =  $db->fetch_assoc($result);
+		$xml = "<Applicables id='IndicAcc_' moteur='".$r['moteur']."' audio='".$r['audio']."' visu='".$r['visu']."' cog='".$r['cog']."' ></Applicables>";
+		if($this->trace)
+			echo "Grille:GetEtatDiagApplicable:r=".print_r($r)."<br/>";
+		
+		return array("xml"=>$xml,"r"=>$r);
+	}
+		
 	
     
 	public function GetProps()
@@ -676,13 +705,23 @@ class Grille{
     	
     	foreach($scena as $qi)
 		{
-			//récupère l'id liée au critère
+			//vérifie que la réponse correspond au critère
 			if($qi["reponse"]==$row["valeur"]){
 		    	foreach($qi as $q)
 				{
+					//récupère les paramètre de la question
 					$critere = $q["id"];
 					$idDon = $this->GetDonneeCritere($idArt,$critere);
-					$xul .= $this->GetXulForm($idDon,$row["grille"]);
+					//vérifie s'il faut créer la réponse à la question
+					if($q["valeur"]){
+						//répond à la question
+						$r = array("grille"=>$row["grille"],"champ"=>$q["champ"],"valeur"=>$q["valeur"]);
+						$this->SetChamp($r, $idDon);
+						$this->GereWorkflow($row, $idDon);		
+					}else{
+						//création du formulaire
+						$xul .= $this->GetXulForm($idDon,$row["grille"]);
+					}
 				}
 			}
 		}
