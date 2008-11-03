@@ -2,7 +2,7 @@
     function load(){
     	
     	google.load("visualization", "1");
-    	google.setOnLoadCallback(initialize); // Set callback to run when API is loaded
+    	//google.setOnLoadCallback(initialize); // Set callback to run when API is loaded
     }
     function initialize() { 
     
@@ -13,6 +13,7 @@
         		//query = new google.visualization.Query(urlSpreadsheet+"&gid="+i);
         		//query.send(handleQueryResponse);  // Send the query with a callback function
         		ListeFeuilles(Name[i],i);
+        		
     	    	
     	    }
     	 }
@@ -93,7 +94,7 @@
         	}
 	    }
 	    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
-	    params="f=CreatRepport&html="+ html.join('')+"&file="+encodeURI(Name[id_feuil]);
+	    params="f=CreatRepport&html="+ html.join('')+"&file="+encodeURI(Name[id_feuil]+".doc");
         AjaxRequestPost(urlAjax+"php/CreatRepport.php",params,'','',false);
         l++;
         
@@ -121,15 +122,15 @@
      	CreaReport(f);
      	id_feuil=f;
      }
-     function ListeFeuilles(response,m){   
-     	       
-     			liste+="<li>";
-     			liste+="<a id='Feuille_"+m+"' href='#' onclick='ViewSpeardsheet("+m+");'>"+response+"</a>";
-     			liste+="</li>";
-     		    ul+="<li><a href='"+urlRapport+response+".doc '>"+response+".doc </a></li>";
-     	        //document.getElementById('ListeRapports').innerHTML = ul;
-     			document.getElementById('ListeFeuilles').innerHTML = liste;
-     		    
+     function ListeFeuilles(response){   
+     	        ul=eval('('+response+')');
+	     	        for(m=0;m<ul.length;m++){
+		     			liste+="<li>";
+		     			liste+="<a id='Feuille_"+m+"' href='#' onclick='ViewSpeardsheet("+m+");'>"+ul[m]+"</a>";
+		     			liste+="</li>";
+	     	        }
+     		    document.getElementById('ListeFeuilles').innerHTML = liste;
+     		    document.getElementById('table').style.visibility = "visible"
      }
      function ViewRapport(response){
      	window.open(urlRapport+response.replace(" ","_")+".doc");
@@ -141,7 +142,28 @@
      	query.send(handleQueryResponse);  // Send the query with a callback function
      }
 
-     function UpdateWorksheet(id){
-     	
-     }
+     
+     function getSpreadSheet(Name){
+     	var menu="";
+     	var S;
+     	menu+=("<form name='key' style='float:left''><select>");
+     	for(i=0;i<nbrspeardsheet;i++){
+     		speard=Name[i].split("*");
+     		key=speard[1].split("/");
+     		console.log(key[5]);
+     		menu+=("<option onclick='getWorkSheet(\""+key[5]+"\")'>");
+     		menu+=(speard[0]);
+     		menu+=("</option>");
+     	}
+     	menu+=("</select></form>");
+     	console.log(menu);
+     	document.getElementById('MenuSpeardSheet').innerHTML = menu;
+    }
+    function getWorkSheet(key){
+    	urlSpreadsheet=urlSpreadsheet+key;
+    	params="key="+key;
+    	AjaxRequest(urlAjax+"index/accueil?key="+key,'ListeFeuilles','');
+    }
+    
+   
      
