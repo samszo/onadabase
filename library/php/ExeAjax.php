@@ -3,8 +3,8 @@
 	//pour le débugage
 	if(!isset($_SESSION['version'])) {
 		$_SESSION['version']="V2";
-		$_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
-		$_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
+		$_SESSION['type_controle'] = array ('multiple_1_1', 'multiple_1_2');
+		$_SESSION['type_contexte'] = array ('multiple_2_1', 'multiple_2_2', 'multiple_2_3', 'multiple_2_4');
 		$_SESSION['IdAuteur']=1;
 	}
 	
@@ -165,6 +165,9 @@
 		case 'SetSessionValues':
 			$resultat = SetSessionValues($_GET['site'], $_GET['type_controle1'], $_GET['type_controle2'],$_GET['type_contexte1'], $_GET['type_contexte2'], $_GET['type_contexte3'], $_GET['type_contexte4'],$_GET['version']) ;
 			break;
+		case 'SetChoixAffichage':	
+			$resultat = SetChoixAffichage($_GET['ShowLegendeControle']) ;
+			break;
 		case 'explorerDir':
 			$resultat=explorerDir($_GET['dir'],$objSite);
 		default:
@@ -172,6 +175,11 @@
 	}
 
 	echo  utf8_encode($resultat);	
+	
+	function SetChoixAffichage($ShowLegendeControle){
+		$_SESSION['ShowLegendeControle'] = $ShowLegendeControle;
+		return "_SESSION['ShowLegendeControle']=".$_SESSION['ShowLegendeControle'];
+	}
 	
 	function SetSessionValues($site, $type_controle1, $type_controle2,$type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4, $version){
 		$_SESSION['type_controle'] = array ($type_controle1, $type_controle2);
@@ -244,6 +252,18 @@
 					,'type'=>75
 					,'desc'=>''
 					,'fichier'=>'IMG/kml/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>0
+					,'hauteur'=>0
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
+			case 'kmz':
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>76
+					,'desc'=>''
+					,'fichier'=>'IMG/kmz/'.$FicDst
 					,'taille'=>$_FILES['filename']['size']
 					,'largeur'=>0
 					,'hauteur'=>0
@@ -810,6 +830,11 @@
 		$id = $g->SetNewEnfant("Sols, murs et plafonds");
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse(68,$id);
+				
+		//ajoute une sous-rubrique espace gen->Equipement et mobilier
+		$id = $g->SetNewEnfant("Equipement et mobilier");
+		//ajoute les QuestionsRéponses
+		$grille->AddQuestionReponse(5014,$id);
 				
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";

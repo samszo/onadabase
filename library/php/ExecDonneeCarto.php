@@ -171,7 +171,7 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 		case "admin":
 			//requète pour un élément
 			$sql = "SELECT r.id_rubrique, r.titre, r.descriptif, r.texte
-					, fichier, da.id_donnee
+					, a.id_article idArt, da.id_donnee idDon
 					, dc1.valdec lat, dc2.valdec lng, dc3.valint zoommin, dc4.valint zoommax
 					, m.titre cartotype , dc7.valeur adresse
 					, dc8.valeur kml
@@ -189,15 +189,16 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 					INNER JOIN spip_forms_donnees_champs dc7 ON dc7.id_donnee = da.id_donnee AND dc7.champ = 'ligne_7'
 					LEFT JOIN spip_forms_donnees_champs dc8 ON dc8.id_donnee = da.id_donnee AND dc8.champ = 'texte_1'
 					LEFT JOIN spip_documents_articles doca ON doca.id_article = a.id_article
-					LEFT JOIN spip_documents d ON d.id_document = doca.id_document AND d.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].")
-				WHERE r.id_rubrique =".$id."  
+					LEFT JOIN spip_documents d ON d.id_document = doca.id_document
+				WHERE r.id_rubrique =".$id." 
+					AND (d.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].") OR d.id_type IS NULL)  
 				ORDER BY dc1.valdec DESC
 				LIMIT 0 , ".MaxMarker;
 		  	break;
 		case "adminDon":
 			//requète pour un élément
 			$sql = "SELECT r.id_rubrique, r.titre, r.descriptif, r.texte
-					, da.id_donnee
+					, a.id_article idArt, da.id_donnee idDon
 					, dc1.valdec lat, dc2.valdec lng, dc3.valint zoommin, dc4.valint zoommax
 					, m.titre cartotype , dc7.valeur adresse
 					, dc8.valeur kml
@@ -232,6 +233,9 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 	$DB->close();
 	//echo $query." ".$objSite->infos["SQL_DB"]." ".$sql."<br/>";
 	
+	//initialisation du xml
+	$xml = "<CartoDonnees site='".$objSite->id."' id='".$id."' query='".$query."' >";
+	
 	//$i = 0;
 	while($row = mysql_fetch_assoc($req))
 	{
@@ -244,13 +248,17 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 	/*******************************modif CAI*****************************************************************/
 
 
-		$markers .= $row['lat'].DELIM;//point
-
-		$markers .= $row['lng'].DELIM;//point
-
-		$markers .= $i.DELIM;
-		$markers .= $row['id_rubrique'].DELIM;
-
+		$xml .= "<CartoDonnee lat='".$row['lat']."'";
+		
+		$xml .= " lng='".$row['lng']."'";
+		
+		$xml .= " i='".$i."'";
+		
+		$xml .= " idRub='".$row['id_rubrique']."'";
+		
+		$xml .= " titre=\"".utf8_encode($objSite->XmlParam->XML_entities($row['titre']))."\"";
+		
+		/*
 		$markers .= "topic_$i ".DELIM;
 		//Topic
 		$markers .=Root."/new/lieux.php?site=".$objSite->id."&VoirEn=Topos&Rub=".$row['id_rubrique']."&query=".$NewQuery.DELIM;//lien
@@ -262,7 +270,6 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 		//$markers .=$g->GetImages(68, 45).DELIM;//image
 		$markers .= "".DELIM;//image
 		
-		$markers .=utf8_encode($row['titre']).DELIM;
 		$markers .=utf8_encode(tronquer($row['texte'],60)).DELIM;
 		//création des onglets pour le granulats
 		//$Val = $g->GetValeurForm($this->site->infos["GRILLE_Granulat"],"Titre", "", "  ", "Titre : ");
@@ -273,19 +280,24 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 		//else
 			$markers .="".DELIM;
 
-		/*if(substr($row['descriptif'], -4)!="0000")
+		 if(substr($row['descriptif'], -4)!="0000")
 			//Thematique sauf pour département
 			$markers .=get_fenetre_info($row,"Thematique").DELIM;
 		else
-		*/
 			$markers .="".DELIM;
+		*/
 		//zoom
-		$markers .=$row['zoommin'].DELIM;
-		$markers .=$row['zoommax'].DELIM;
+
+		$xml .= " zoommin='".$row['zoommin']."'";
+		
+		$xml .= " zoommax='".$row['zoommax']."'";
+		
 		//adresse
-		$markers .=$row['adresse'].DELIM;
+		$xml .= " adresse=\"".$objSite->XmlParam->XML_entities($row['adresse'])."\"";
+		
 		//type carte
-		$markers .=$row['cartotype'].DELIM;
+		$xml .= " cartotype='".$row['cartotype']."'";
+		
 		//lien vers le kml
 		$kml="";
 		if($row['dockml'])
@@ -294,14 +306,21 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 			$kml = $objSite->infos["pathSpip"].$row['docArtkml'];
 		if($kml=="")	
 			$kml = $row['kml'];
-		$markers .=$kml.DELIM;
-			
+		$xml .= " kml='".$kml."'";
+		
+		//cr�ation de l'identidiant xul
+		$idDoc = 'val'.DELIM.$objSite->infos["GRILLE_GEO"].DELIM.$row["idDon"].DELIM."fichier".DELIM.$row["idArt"];
+		$xml .= " idDoc='".$idDoc."'";
+		$xml .= " />";
+		
 
 	/***************************************************************fin*******************************/
 		$i++;
 
 	}
-
+	//finalisation du xml
+	$xml .= "</CartoDonnees>";
+	
 	//gestion des requêtes multisite
 	if($objSite->infos["SITE_ENFANT"]!=-1 && $query!="idFiche"){
 		foreach($objSite->infos["SITE_ENFANT"] as $siteenfant=>$type)
@@ -314,8 +333,9 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 		}
 	}
 			
-	echo $markers;
-
+	//echo $markers;
+	echo $xml;
+	
 }
 
 

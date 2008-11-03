@@ -1546,7 +1546,8 @@ class Grille{
 			if(!$this->VerifQuestionIntermediaire($critere))
 				return false;
 		}
-		//si aucun contexte ou critère n'est saisi on renvoie toute les questions
+		
+		/*si aucun contexte ou critère n'est saisi on renvoie toute les questions
 		if(!$typeContexte || !$typeCritere)
 			return true;
 		if(!$typeContexte[0] 
@@ -1557,6 +1558,7 @@ class Grille{
 			&& !$typeCritere[1]
 			)
 			return true;	
+		*/
 				
 		if($this->trace)
 			echo "Grille:VerifChoixDiagnostic:On récupere la donnée corespondant au critere (grille ".$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]." Controle)<br/>";
@@ -1587,19 +1589,20 @@ class Grille{
 			$req = $db->query($sql);
 			$db->close();
 			
-			if ($r = $db->fetch_assoc($req)) {
+			if ($r1 = $db->fetch_assoc($req)) {
 				if($this->trace)
 					echo "Grille:VerifChoixDiagnostic:typeCritere[0]=".$typeCritere[0]." typeCritere[1]=".$typeCritere[1]." valeur=".$r['valeur']."<br/>";
+				$verif = true;
 				
 				//vérifie les critères réglémentaires souhaitables
-				if(($typeCritere[0]== $r['valeur'] || $typeCritere[1]== $r['valeur']) ) 
-					$ok = $r['valeur'];
+				if(($typeCritere[0]== $r1['valeur'] || $typeCritere[1]== $r1['valeur']) ) 
+					$ok = $r1['valeur'];
 				else 
-					return false;
+					$verif = false;
 				
 				
 				//vérifie le contexte réglémentaire uniquement dans le cas des critères réglémentaires 
-				if ($ok =='multiple_1_1') {
+				if ($ok =='multiple_1_1' && $verif) {
 					// On recupere la valeur du type de droit régelementaire (multiple_2)
 					$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonneeChoix']";
 					$Q = $this->site->XmlParam->GetElements($Xpath);
@@ -1613,18 +1616,20 @@ class Grille{
 					$req = $db->query($sql);
 					$db->close();
 					
-					while ($r = $db->fetch_assoc($req)) {
-						if($typeContexte[0]== $r['valeur'] 
-							|| $typeContexte[1]== $r['valeur'] 
-							|| $typeContexte[2]== $r['valeur'] 
-							|| $typeContexte[3]== $r['valeur']) 
-							return true;
+					$verif = false;
+					while ($r2 = $db->fetch_assoc($req)) {
+						if($typeContexte[0]== $r2['valeur'] 
+							|| $typeContexte[1]== $r2['valeur'] 
+							|| $typeContexte[2]== $r2['valeur'] 
+							|| $typeContexte[3]== $r2['valeur']) 
+							$verif = true;
+						if($this->trace)
+							echo "Grille:VerifChoixDiagnostic:typeContexte=".print_r($typeContexte)." verif=".$verif."<br/>";
 					}
-					return false;
 				}
 				if($this->trace)
-					echo "Grille:VerifChoixDiagnostic:ok=".$ok."<br/>";
-				return true;
+					echo "Grille:VerifChoixDiagnostic:ok=".$ok." verif=".$verif."<br/>";
+				return $verif;
 			} 	
 		}
 		if($this->trace)
@@ -1754,9 +1759,11 @@ class Grille{
 							}else{
 								//vérifie s'il faut ajouter la légende de la donnée dans la liste des réponses
 								if($idGrille== $this->site->infos["GRILLE_REP_CON"]
-									&& $r['champ']=="ligne_3")
-									$controls .= $this->GetXulLegendeControle($r['valeur'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
-								else
+									&& $r['champ']=="ligne_3"){
+										$legende = "";
+										if($_SESSION['ShowLegendeControle'])
+											$legende = $this->GetXulLegendeControle($r['valeur'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
+								}else
 									$controls .= $this->GetXulControl($idDoc, $r);
 							}
 						}
@@ -1784,7 +1791,7 @@ class Grille{
 		if($idGrille==$this->site->infos["GRILLE_REP_CON"]){
 			//ajout un bouton observation
 			$controls.="<button image='images/IconeEcrire.gif' oncommand=\"AddObservation('".$idDoc."',".$this->site->infos["MOT_CLEF_OBS"].");\"/>";
-			$form .= $controls.'</row>';
+			$form .= $controls.$legende.'</row>';
 			//ajout d'une ligne pour les questions intermédiaires
 			$form .= '<row id="row_'.$idGrille.'_'.$idDon.'_qi" />';	
 		}else
@@ -1841,12 +1848,14 @@ class Grille{
 						$labels .= '<label value="Souhaitable"/>';
 					break;
 				case "multiple_2":
-					//construstion réglementaire
 					if($r['valeur']=="multiple_2_1")
 						$labels .= '<label value="Travail"/>';
-					//construstion souhaitable
 					if($r['valeur']=="multiple_2_2")
 						$labels .= '<label value="EPR_IOP"/>';
+					if($r['valeur']=="multiple_2_3")
+						$labels .= '<label value="Logement"/>';
+					if($r['valeur']=="multiple_2_4")
+						$labels .= '<label value="Voirie"/>';
 					break;
 				case "multiple_3":
 					//construstion des icones
@@ -1878,7 +1887,8 @@ class Grille{
 					break;
 				case "mot_1":
 					$m = new MotClef($r['valeur'],$this->site);
-					$labels .= '<label value="'.$r['titre'].' : '.$m->titre.'"/>';
+					//$labels .= '<label value="'.$r['titre'].' : '.$m->titre.'"/>';
+					$labels .= '<label value="'.$m->titre.'"/>';
 					break;
 			}					
 		}
