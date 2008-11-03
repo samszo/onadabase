@@ -14,7 +14,10 @@ $arrGeo = $g->GetGeo(-1,$idDon);
   <head>
 
 <script src="http://maps.google.com/maps?file=api&v=2.x&key=<?php echo $objSite->infos["gmKey"]; ?>" type="text/javascript"></script>
-<script src="../library/js/GoogleCarto3.js" type="text/javascript"></script>
+<script src="../library/js/GoogleCarto6.js" type="text/javascript"></script>
+
+<script src="../xul/chrome/content/js/interface.js" type="text/javascript"></script>
+<script src="../xul/chrome/content/js/ajax.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 	var pathRoot = '<?php echo $objSite->infos["urlLibPhp"]; ?>';
@@ -28,6 +31,7 @@ $arrGeo = $g->GetGeo(-1,$idDon);
 	var site = '<?php echo $objSite->id; ?>';
 	var alpha = 'a';
 	MiniCarte = false;
+	var urlExeAjax = "<?php echo $objSite->infos["urlExeAjax"]; ?>";
 
 </script>
   </head>
