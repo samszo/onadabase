@@ -1,24 +1,46 @@
+<?php
+session_start();
+function ChercheAbo ()
+	{
+		
+		$login=$_POST['login_uti'];
+		$mdp=$_POST['mdp_uti'];
+		
+		if(($login=="")&&($mdp=="")){
+			include("login.php");
+			exit;
+			
+		}
+}
+
+
+ChercheAbo ();
+?>
 <html>
   <head>
 	<title>FeuilleToDoc</title>
-	<link rel="stylesheet" href="css/styles.css" type="text/css">
+	<link rel="stylesheet" href="http://localhost/onadabase/FeuilleToDoc/css/styles.css" type="text/css">
 	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-	<script type="text/javascript" src="js/GoogleDocs.js"></script>
-	<script type="text/javascript" src="js/ajax.js"></script>
+	<script type="text/javascript" src="http://localhost/onadabase/FeuilleToDoc/js/GoogleDocs.js"></script>
+	<script type="text/javascript" src="http://localhost/onadabase/FeuilleToDoc/js/ajax.js"></script>
 	<script type="text/javascript">
-	 <?php echo "var nbrworksheet=".sizeof(json_decode($this->data)); echo "; Name=eval((".$this->data."));"; ?> 
+	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; Name=eval((".$this->data."));"; ?> 
      var result= new Array();var Nbr=2;var urlAjax="";var j=0;urlImg="../images/";var f=0;var liste="";
      var signature= new Array();var in_array=false;var l=0;var id_feuil; var ul="";var m=0;urlRapport="rapports/";
-     var urlSpreadsheet='http://spreadsheets.google.com/pub?key=p9ISv2bT_pua6y0c0Bu-XJA';
+     var urlSpreadsheet='http://spreadsheets.google.com/pub?key=';
      load();
+    
    </script>
   </head>
 	<body>
 	 <h1>onadabase</h1> 
 	 	<div id="main">
-		   <table border="1" align="center">
+	 	<h4>Veuillez choisir le spreadsheet que vous voulais traité :</h4>
+	 	<div id="MenuSpeardSheet"></div>
+	 	<script type="text/javascript">getSpreadSheet(Name);</script>
+	 	  <table id="table" border="1" align="center" style="visibility:hidden">
 			 <tr>
-			   <td><button onclick="Updatesheet(id_feuil);"> Update Worksheet </button></td>
+			   
 			   <td><button onclick="ViewRapport(Name[id_feuil]);">Afficher rapport</button></td>
 			 </tr>
 		     <tr>
@@ -33,5 +55,7 @@
 	  <div id="right">
 		<iframe id="ViewSpeardsheet" width='900' height='500' frameborder='0' src='http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw&output=html&gid=0&single=true&widget=true'></iframe>
 	  </div>
+	  
 	</body>
+
 </html>
