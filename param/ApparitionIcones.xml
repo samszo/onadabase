@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<icones>
+<batiment>
+    <question srcIdGrille='55' srcIdChamp='mot_2' srcCheckVal='64'>
+        <icone id='guichet'/>
+    </question>
+    <question id='2_cr_acc_01' CheckVal='2'>
+        <icone id='guichet'/>
+    </question>
+    <question id='2_cr_acc_17' CheckVal='2'>
+        <icone id='personnel'/>
+    </question>
+    <question srcIdGrille='35' srcIdChamp='mot_2' srcCheckVal='1'>
+        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
+            <icone id='ascenseur'/>
+	    </question>
+    </question>
+    <question srcIdGrille='35' srcIdChamp='mot_3' srcCheckVal='1'>
+        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
+            <icone id='ascenseur'/>
+        </question>
+    </question>
+    <question id='2_cr_san_01' CheckVal='2'>
+        <icone id='wc'/>
+    </question>
+    <question id='2_cr_san_02' CheckVal='2'>
+        <icone id='wc'/>
+    </question>
+</batiment>
+<niveau>
+    <question srcIdGrille='35' srcIdChamp='mot_2' srcCheckVal='1'>
+        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
+            <icone id='ascenseur'/>
+        </question>
+    </question>
+    <question srcIdGrille='35' srcIdChamp='mot_3' srcCheckVal='1'>
+        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
+            <icone id='ascenseur'/>
+        </question>
+    </question>
+</niveau>
+<espace>
+    <question id='2_cr_douche_01' CheckVal='2'>
+        <icone id='douche'/>
+    </question>
+    <question id='2_cr_san_01' CheckVal='2'>
+        <icone id='wc'/>
+    </question>
+    <question id='2_cr_san_02' CheckVal='2'>
+        <icone id='wc'/>
+    </question>
+    <question id='2_qi_air_sta_02' CheckVal='2'>
+        <icone id='gig-gic'/>
+    </question>
+    <question id='2_cr_chem_ext_01' CheckVal='2'>
+        <icone id='chem_ext'/>
+    </question>
+</espace>
+</icones>

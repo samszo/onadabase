@@ -740,7 +740,7 @@
 		<question id='2_cr_voirie_pieton_18'/>
 		<question id='2_cr_voirie_pieton_19'/>
 		<question id='2_cr_voirie_pieton_20'/>
-		<question id='2_cr_voirie_pieton_21'/>
+		<question id='2_cr_voirie_piéton_21'/>
 	</grille>
 	<grille id='2_voirie_gic'>
 		<question id='2_cr_voirie_gic_01'/>

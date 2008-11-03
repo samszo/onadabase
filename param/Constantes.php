@@ -3,8 +3,8 @@
   //
   // Fichier contenant les definitions de constantes
   //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/sites/n/naoss.fr/mundigo"); 
-  define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
-  //define ("PathRoot","C:/wamp/www/"."onadabase"); 
+  //define ("PathRoot",$_SERVER["DOCUMENT_ROOT"]."/onadabase"); 
+  define ("PathRoot","C:/wamp/www/"."onadabase"); 
   
 	// *** chemin de toutes les bases et les spip en service ***
   define("TT_CLASS_BASE", PathRoot."/library/php/");
@@ -14,10 +14,10 @@
   define ("TRACE", false);
 
   //define ("DEFSITE", "localPicardieCentre");
-  //define ("DEFSITE", "local1");
-  define ("DEFSITE", "mundi"); 
-  //define ("SYNCSITE", "local1");
-  define ("SYNCSITE", "mundi");
+  define ("DEFSITE", "local1");
+  //define ("DEFSITE", "mundi"); 
+  define ("SYNCSITE", "local1");
+  //define ("SYNCSITE", "mundi");
  
   
   $DB_OPTIONS = array (

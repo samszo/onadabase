@@ -269,7 +269,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 					FROM spip_rubriques r
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
-					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =59
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 69
 				</from>
 				<where> WHERE id_parent = -parent- </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ElementVoirie');"/>
@@ -710,7 +710,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					FROM spip_rubriques r
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
-					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 59
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 69
 				</from>
 				<where> WHERE r.id_rubrique = -id- </where>
 				<dst>Art</dst>
@@ -994,7 +994,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					INNER JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = fdCont.id_donnee
 					   AND fdcM.champ = '-champ-'  AND fdcM.valeur = '-valeur-'
 					LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = fdCont.id_donnee 
-					   AND fdcAff.champ = 'texte_2'	   
+					   AND fdcAff.champ = 'texte_1'	   
 				</from>
 				<where> WHERE r.id_rubrique IN(-ids-)</where>
 			</Query>
@@ -1362,21 +1362,19 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1091" />
 		
 		<!-- Eléments de voirie -->
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="675" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="676" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="679" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="677" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_7" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="674" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_8" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="678" />
-		<workflow srcObj="grille;champ;valeur" srcId="62;select_1" srcCheckVal="select_1_9" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="680" />
+		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="679" />
+		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="674" />
+		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="677" />
+		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="680" />
+		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="675" />
+		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="678" />
 			
 		<!-- Objets niveau intérieur -->	
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="52" />
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="53" />
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="51" />
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="50" />
-		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1341" />
-		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1342" />
+		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="5015" />
 		
 		<!-- Objets extérieurs parcelle -->	
 		<workflow srcObj="grille;champ;valeur" srcId="64;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="1416" />
