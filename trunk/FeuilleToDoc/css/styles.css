@@ -5,14 +5,16 @@ button{
     width:12em;
     height:3em;
     font-weight:bold;
+    padding-left:10px;
 }
 #left{
+	z-index:100;
 	position:absolute;
-    width:20em;
+    width:30em;
 }
 #right{
 	position:relative;
-    margin-left:21em;
+    margin-left:25em;
     margin-top:0em;
     
 }
@@ -41,6 +43,7 @@ a:hover{
    text-decoration: none
 }
 #main{
+	z-index:100;
 	float:left;
 	margin-top:1.4em;
 }
