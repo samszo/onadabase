@@ -88,27 +88,34 @@ class SimpleCRUD
      *
      * @return void
      */
-    public function promptForSpreadsheet()
-    {
+    public function promptForSpreadsheet(){
         $feed = $this->gdClient->getSpreadsheetFeed();
-        $this->printFeed($feed);
-        
-    	
+      	foreach($feed->entries as $entry) {
+            $data[]=$entry->title->text."*".$entry->id->text;
+         }
+        return json_encode($data);
     }
+
 
     /**
      * promptForWorksheet
      *
      * @return void
      */
-    public function promptForWorksheet(){
+    public function promptForWorksheet($key){
     	$query = new Zend_Gdata_Spreadsheets_DocumentQuery();
-        $query->setSpreadsheetKey("p9ISv2bT_pua6y0c0Bu-XJA");
+        $query->setSpreadsheetKey($key);
         $feed = $this->gdClient->getWorksheetFeed($query);
         foreach($feed->entries as $entry) {
             $data[]=$entry->title->text;
-    	}
-        return $data;
+         }
+    	print(json_encode($data));
+        return json_encode($data);
+    }
+    public function VerifierExist($file){
+    	$path=str_replace(" ","_",$file);
+    	if(file_exists("rapports/".$path.".doc"))
+    		return true;
     }
   
     /**
