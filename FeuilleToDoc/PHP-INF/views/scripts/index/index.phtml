@@ -1,0 +1,61 @@
+<?php
+session_start();
+function ChercheAbo ()
+	{
+		
+		$login=$_POST['login_uti'];
+		$mdp=$_POST['mdp_uti'];
+		
+		if(($login=="")&&($mdp=="")){
+			include("login.php");
+			exit;
+			
+		}
+}
+
+
+ChercheAbo ();
+?>
+<html>
+  <head>
+	<title>FeuilleToDoc</title>
+	<link rel="stylesheet" href="css/styles.css" type="text/css">
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="js/GoogleDocs.js"></script>
+	<script type="text/javascript" src="js/ajax.js"></script>
+	<script type="text/javascript">
+	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; Name=eval((".$this->data."));"; ?> 
+     var result= new Array();var urlAjax="";var j=0;urlImg="../images/";var f=0;var liste="";
+     var l=0;var WorkSheetNbre; var ul="";var m=0;urlRapport="rapports/";var WorkSheetTitle;
+     var urlSpreadsheet='http://spreadsheets.google.com/pub?key=';
+     load();
+    
+   </script>
+  </head>
+	<body>
+	 <h1>onadabase</h1> 
+	 	<div id="main">
+	 	<h4>Veuillez choisir le spreadsheet que vous voulais traité :</h4>
+	 	<div id="MenuSpeardSheet"></div>
+	 	<script type="text/javascript">getSpreadSheet(Name);</script>
+	 	  <table id="table" border="1" align="center" style="visibility:hidden">
+			 <tr>
+			   
+			   <td><button onclick="ViewRapport();">Afficher rapport</button></td>
+			 </tr>
+		     <tr>
+		     	<td colspan="2">
+		     		<ul id="ListeFeuilles">
+		     		</ul>
+		     	</td>
+		     	
+		     </tr> 	
+		  </table>
+	  </div>
+	  <div id="right">
+		<iframe id="ViewSpeardsheet" width='900' height='500' frameborder='0' src='images/FondLog.jpg'></iframe>
+	  </div>
+	  
+	</body>
+
+</html>
