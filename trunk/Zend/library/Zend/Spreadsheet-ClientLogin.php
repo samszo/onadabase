@@ -110,7 +110,7 @@ class SimpleCRUD
             $data[]=$entry->title->text;
          }
     	print(json_encode($data));
-        return json_encode($data);
+        
     }
     public function VerifierExist($file){
     	$path=str_replace(" ","_",$file);
