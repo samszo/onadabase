@@ -30,10 +30,10 @@ function AppliDroit(role) {
   	} catch(ex2){alert("interface:AppliDroit:"+ex2);}
 }
 
-function GetListeEtatDiag(idDoc) {
+function GetEtatDiagListe(idDoc) {
 	try {
 		var idRub = document.getElementById('idRub').value;
-		var url = urlExeAjax+"?f=GetListeEtatDiag&id="+idRub+"&idDoc="+idDoc;
+		var url = urlExeAjax+"?f=GetEtatDiagListe&id="+idRub+"&idDoc="+idDoc;
 		var doc = document.getElementById('ListeEtatDiag');
 		//met à jour les valeurs de session
 		AppendResult(url,doc);
@@ -42,11 +42,23 @@ function GetListeEtatDiag(idDoc) {
 }
 
 
+function InitEtatDiag() {
+	try {
+		var doc = document.getElementById("icoenplus");
+		
+		for (var i = 0; i < doc.childNodes.length; i++)
+			doc.childNodes[i].setAttribute("hidden","true");
+
+  	} catch(ex2){alert("interface:ShowEtatDiag:"+ex2);}
+}
+
 function ShowEtatDiag(idRub) {
 	try {
 		document.documentElement.style.cursor = "wait";
 		var url = urlExeAjax+"?f=GetEtatDiag&id="+idRub;
 		var xmlRep;
+		//cache les icones 
+		InitEtatDiag();
 		
 		//masque la boite de saisi
 		document.getElementById("FormSaisi").setAttribute("hidden","true");
@@ -61,28 +73,36 @@ function ShowEtatDiag(idRub) {
 		xmlRep = GetXmlUrlToDoc(url);
 		//met à jour les valeurs du tableau
 		for (var i = 0; i < xmlRep.firstChild.childNodes.length; i++){
-			//récupération des valeurs
 			var e = xmlRep.firstChild.childNodes[i];
 			var idDoc = e.getAttribute("id");
-			var valM = e.getAttribute("moteur");
-			var valA = e.getAttribute("audio");
-			var valV = e.getAttribute("visu");
-			var valC = e.getAttribute("cog");
-
-			if(idDoc=='IndicAcc_'){
-				valM = GetIconeIndicAcc(valM);
-				valA = GetIconeIndicAcc(valA);
-				valV = GetIconeIndicAcc(valV);
-				valC = GetIconeIndicAcc(valC);
-				var attribut = "src";
+			//vérifie si on traite les icones
+			if(idDoc=='ico_'){
+				for (var j = 0; j < e.childNodes.length; j++){
+					var voir = e.childNodes[j].getAttribute("id");			
+					document.getElementById(idDoc+voir).setAttribute("hidden",false);
+				}
 			}else{
-				var attribut = "value";
+				//récupération des valeurs
+				var valM = e.getAttribute("moteur");
+				var valA = e.getAttribute("audio");
+				var valV = e.getAttribute("visu");
+				var valC = e.getAttribute("cog");
+	
+				if(idDoc=='IndicAcc_'){
+					valM = GetIconeIndicAcc(valM);
+					valA = GetIconeIndicAcc(valA);
+					valV = GetIconeIndicAcc(valV);
+					valC = GetIconeIndicAcc(valC);
+					var attribut = "src";
+				}else{
+					var attribut = "value";
+				}
+				//mise à jour des valeurs du tableau
+				document.getElementById(idDoc+"moteur").setAttribute(attribut,valM);
+				document.getElementById(idDoc+"audio").setAttribute(attribut,valA);
+				document.getElementById(idDoc+"visu").setAttribute(attribut,valV);
+				document.getElementById(idDoc+"cog").setAttribute(attribut,valC);
 			}
-			//mise à jour des valeurs du tableau
-			document.getElementById(idDoc+"moteur").setAttribute(attribut,valM);
-			document.getElementById(idDoc+"audio").setAttribute(attribut,valA);
-			document.getElementById(idDoc+"visu").setAttribute(attribut,valV);
-			document.getElementById(idDoc+"cog").setAttribute(attribut,valC);
 		}
 
   	} catch(ex2){alert("interface:ShowEtatDiag:"+ex2);}
@@ -159,6 +179,19 @@ function SetChoixDiagnostic() {
 		
 
   	} catch(ex2){alert("interface:SetChoixDiagnostic:"+ex2);}
+}
+
+function SetChoixAffichage(id) {
+	try {
+		var url = urlExeAjax+"?f=SetChoixAffichage"
+		
+		//choix de l'affichage des légendes dans les controles
+		var doc = document.getElementById(id);
+		url+="&idXul="+id+"&valeur="+doc.getAttribute("checked");
+		//met à jour les valeurs de session
+		GetResult(url);
+
+  	} catch(ex2){alert("interface:SetChoixLegende:"+ex2);}
 }
 
 function CopyRub(idDst) {
@@ -889,6 +922,7 @@ function RefreshEcran(id,titre,typeSrc,typeDst)
 	AppliDroit(role);
    
    } catch(ex2){alert(":RefreshEcran:"+ex2+"");dump("::"+ex2);}
+	document.documentElement.style.cursor = "auto";
 	
 }
 
@@ -1157,48 +1191,56 @@ function evaluateXPath(aNode, aExpr) {
 
 function GetFichierKml(doc)
 {
-	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+	try {
+		document.documentElement.style.cursor = "wait";
+		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+		
+		var types = new Array("kml", "kmz", "flv", "mpg", "mov");
+		fichierCourant = GetFichier(types);
+		//fichierCourant = document.getElementById("NomFichier").value;
+		
+		if(fichierCourant){
+			//var extension = pathinfo(fichierCourant,PATHINFO_EXTENSION);
+			
+			var tabDecomp = fichierCourant.leafName.split('.');
+			var extension = tabDecomp[tabDecomp.length-1];   
+			
+			var progressMeter = document.getElementById('progressMeter');
+			
+			if(progressMeter){
+				progressMeter.style.visibility="visible";
+				if (progressMeter.getAttribute("mode")=="determined") {
+					progressMeter.setAttribute("mode", "undetermined");
+				}
+			}
+			
+			//alert(extension);
+			if (extension == 'kml') 
+				document.getElementById(doc).value = fichierCourant.path;
+			else {
+				//alert(doc);
+				var fichier2 = doc.replace('fichier_1', 'ligne_4');
+				//alert(fichier2);
+				document.getElementById(fichier2).value = fichierCourant.path;
+			}
+			UploadFile(urlExeAjax+"?f=AddDocToArt&idDoc="+doc, fichierCourant);
+			
+			if(progressMeter){
+				progressMeter.setAttribute("mode", "determined");
+				progressMeter.setAttribute("value", "100");
+			}
 	
-	var types = new Array("kml", "flv", "mpg", "mov");
-	fichierCourant = GetFichier(types);
-	//fichierCourant = document.getElementById("NomFichier").value;
-	
-	if(fichierCourant){
-		//var extension = pathinfo(fichierCourant,PATHINFO_EXTENSION);
-		
-		var tabDecomp = fichierCourant.leafName.split('.');
-		var extension = tabDecomp[tabDecomp.length-1];   
-		
-		var progressMeter = document.getElementById('progressMeter');
-		
-		document.getElementById('progressMeter').style.visibility="visible";
-		
-		if (progressMeter.getAttribute("mode")=="determined") {
-			progressMeter.setAttribute("mode", "undetermined");
-		}
-		
-		//alert(extension);
-		if (extension == 'kml') document.getElementById(doc).value = fichierCourant.path;
-		else {
-			//alert(doc);
-			var fichier2 = doc.replace('fichier_1', 'ligne_4');
-			//alert(fichier2);
-			document.getElementById(fichier2).value = fichierCourant.path;
-		}
-		//document.getElementById('wSaisiDiag').canAdvance=true;
-		//ChargeTreeFromKml(fichierCourant,'TreeRoot');
-		UploadFile(urlExeAjax+"?f=AddDocToArt&idDoc="+doc, fichierCourant);
-		
-		progressMeter.setAttribute("mode", "determined");
-		progressMeter.setAttribute("value", "100");
-		
-		alert("Ajout du fichier terminé");
-		document.getElementById('progressMeter').style.visibility="hidden";
-		progressMeter.setAttribute("value", "0");
-		
-	}else
-		document.getElementById(doc).value = "Aucun fichier n'est sélectionné !";
- 
+			alert("Ajout du fichier terminé");
+			
+			if(progressMeter){
+				document.getElementById('progressMeter').style.visibility="hidden";
+				progressMeter.setAttribute("value", "0");
+			}
+			
+		}else
+			document.getElementById(doc).value = "Aucun fichier n'est sélectionné !";
+  } catch(ex2){ alert("interface:GetFichierKml:"+ex2); } 
+	document.documentElement.style.cursor = "auto";
 }
 
 function lecture(url) {

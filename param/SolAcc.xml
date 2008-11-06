@@ -1,5 +1,67 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <XmlParams>
+
+	<!-- Gestion des icones supplémentaire -->		
+	<icones>
+		<objet titre="batiment" IdGrille='53' >
+		    <question srcIdGrille='55' srcIdChamp='mot_2' srcCheckVal='64'>
+		        <icone id='guichet'/>
+		    </question>
+		    <question id='2_cr_acc_01' CheckVal='2'>
+		        <icone id='guichet'/>
+		    </question>
+		    <question id='2_cr_acc_17' CheckVal='2'>
+		        <icone id='personnel'/>
+		    </question>
+		    <question srcIdGrille='35' srcIdChamp='mot_2' srcCheckVal='1'>
+		        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
+		            <icone id='ascenseur'/>
+			    </question>
+		    </question>
+		    <question srcIdGrille='35' srcIdChamp='mot_3' srcCheckVal='1'>
+		        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
+		            <icone id='ascenseur'/>
+		        </question>
+		    </question>
+		    <question id='2_cr_san_01' CheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+		    <question id='2_cr_san_02' CheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+		</objet>
+		<objet titre="niveau" IdGrille='35' >
+		    <question srcIdGrille='35' srcIdChamp='mot_2' srcCheckVal='1'>
+		        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
+		            <icone id='ascenseur'/>
+		        </question>
+		    </question>
+		    <question srcIdGrille='35' srcIdChamp='mot_3' srcCheckVal='1'>
+		        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
+		            <icone id='ascenseur'/>
+		        </question>
+		    </question>
+		</objet>
+		<objet titre="espace" IdGrille='57' >
+		    <question id='2_cr_douche_01' CheckVal='2'>
+		        <icone id='douche'/>
+		    </question>
+		    <question id='2_cr_san_01' CheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+		    <question id='2_cr_san_02' CheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+		    <question id='2_qi_air_sta_02' CheckVal='2'>
+		        <icone id='gig-gic'/>
+		    </question>
+		    <question id='2_cr_chem_ext_01' CheckVal='2'>
+		        <icone id='chem_ext'/>
+		    </question>
+		</objet>
+	</icones>
+
+
 	<!-- Gestion des menus contextuels -->		
 	<XmlParam nom="MenuUrl">
 		<menu nom="Diagnostic">
@@ -1126,6 +1188,16 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 	AND fdc.champ = "-champ-" AND fdc.valeur = "-valeur-"
 				 </from>
 				<where> </where>
+			</Query>
+			<Query fonction="Grille_RechercheDonneeIdByRub">
+				<select>SELECT fd.id_donnee idDon </select>
+				<from> FROM spip_articles a 
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+INNER JOIN spip_forms_donnees fd ON fda.id_donnee = fd.id_donnee 
+INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee 
+	AND fdc.champ = "-champ-" AND fdc.valeur = "-valeur-"
+				 </from>
+				<where> WHERE a.id_rubrique IN (-ids-)</where>
 			</Query>
 
 			

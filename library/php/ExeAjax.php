@@ -41,8 +41,8 @@
 		case 'ShowPopUp':
 			$resultat = ShowPopUp($_GET['idGrille'],$_GET['idDon'],$_GET['login']);
 			break;
-		case 'GetListeEtatDiag':
-			$resultat = $g->GetListeEtatDiag($_GET['idDoc']);
+		case 'GetEtatDiagListe':
+			$resultat = $g->GetEtatDiagListe($_GET['idDoc']);
 			break;
 		case 'GetEtatDiag':
 			$resultat = $g->GetEtatDiag();
@@ -166,7 +166,7 @@
 			$resultat = SetSessionValues($_GET['site'], $_GET['type_controle1'], $_GET['type_controle2'],$_GET['type_contexte1'], $_GET['type_contexte2'], $_GET['type_contexte3'], $_GET['type_contexte4'],$_GET['version']) ;
 			break;
 		case 'SetChoixAffichage':	
-			$resultat = SetChoixAffichage($_GET['ShowLegendeControle']) ;
+			$resultat = SetChoixAffichage($_GET['idXul'],$_GET['valeur']) ;
 			break;
 		case 'explorerDir':
 			$resultat=explorerDir($_GET['dir'],$objSite);
@@ -176,9 +176,9 @@
 
 	echo  utf8_encode($resultat);	
 	
-	function SetChoixAffichage($ShowLegendeControle){
-		$_SESSION['ShowLegendeControle'] = $ShowLegendeControle;
-		return "_SESSION['ShowLegendeControle']=".$_SESSION['ShowLegendeControle'];
+	function SetChoixAffichage($idXul,$valeur){
+		$_SESSION[$idXul] = $valeur;
+		return "_SESSION[".$idXul."]=".$_SESSION[$idXul];
 	}
 	
 	function SetSessionValues($site, $type_controle1, $type_controle2,$type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4, $version){

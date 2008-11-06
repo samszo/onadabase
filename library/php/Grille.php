@@ -25,7 +25,7 @@ class Grille{
 	if($this->site->scope["FicXml"]!=-1)
 		$this->XmlParam = new XmlParam($this->site->scope["FicXml"]);
 	$this->XmlScena = new XmlParam(XmlScena);
-		
+	
 	if($complet){
 		$this->GetProps();
 	}
@@ -121,6 +121,44 @@ class Grille{
 		return $xul;
 	}
 	
+    public function GetEtatDiagIcones($FormIds, $ids)
+	{
+		$icones ="<icones id='ico_'>";
+		//boucle sur les grilles de la rubrique
+		while($row = mysql_fetch_assoc($FormIds)) {
+			//récupère les critéres des icones supplémentaire
+			$Xpath = "/XmlParams/icones/objet[@IdGrille='".$row["id_form"]."']";
+			if($this->trace)
+				echo "Grille:GetEtatDiagIcones:Xpath".$Xpath."<br/>";
+			$CritIcos = $this->site->XmlParam->GetElements($Xpath);
+			if($CritIcos){
+				foreach($CritIcos[0]->question as $q){
+					$idDon = false;
+					//vérifie s'il faut chercher par rapport aux grilles d'information
+					if($q["srcIdGrille"]){ 
+						$idDon = $this->RechercheDonneeId($q["srcIdGrille"],$row["id_article"],$q["srcIdChamp"],$q["srcCheckVal"],$ids);
+						//vérifie s'il faut traiter un deuxième critère
+						$q = $q->question;
+						if($idDon && $q){
+							$idDon = $this->RechercheDonneeId($q["srcIdGrille"],$row["id_article"],$q["srcIdChamp"],$q["srcCheckVal"],$ids);
+						}
+					}
+					//vérifie s'il faut chercher par rapport aux grilles de réponse
+					if($q["id"]){
+						$idDon = $this->RechercheDonneeId($this->site->infos["GRILLE_REP_CON"],$row["id_article"],$q["srcIdChamp"],$q["srcCheckVal"],$ids);
+					}
+					//ajoute l'icone
+					if($idDon){
+						$icones .= 	"<icone id='".$q->icone["id"]."' />";		
+					}
+				}	
+			}
+		}
+		$icones .="</icones>";
+		return $icones;
+	}
+
+	
     public function GetEtatDiagOui($ids)
 	{
 		//récupère le nombre de critéres validés
@@ -201,8 +239,7 @@ class Grille{
 		
 		return array("xml"=>$xml,"r"=>$r);
 	}
-		
-	
+
     
 	public function GetProps()
 	{
@@ -651,17 +688,21 @@ class Grille{
 		}    	
     }
     
-    function RechercheDonneeId($grille,$idArt,$champ,$valeur) {
+    function RechercheDonneeId($grille,$idArt,$champ,$valeur,$idsRub=-1) {
 		if($this->trace)
 			echo "Grille:RechercheDonneeId://recherche l'id d'une donnée avec son article $idArt sa valeur = $valeur et son champ=$champ <br/>";
-
-		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_RechercheDonneeId']";
-    	
+		
+		//récupère la requête suivant le type de recherche	
+		if($idsRub==-1)
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_RechercheDonneeId']";
+		else
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_RechercheDonneeIdByRub']";		
 		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $idsRub, $Q[0]->where);
 		$from = str_replace("-champ-", $champ, $Q[0]->from);
 		$from = str_replace("-valeur-", $valeur, $from);
 		$from = str_replace("-idArt-", $idArt, $from);
-		$sql = $Q[0]->select.$from.$Q[0]->where;
+		$sql = $Q[0]->select.$from.$where;
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$rows = $db->query($sql);
@@ -1901,6 +1942,10 @@ class Grille{
 	
 	function GetXulCarto($idDon,$idRub=-1)
 	{
+		//vérifie s'il faut afficher la carte
+		if(!$_SESSION['ShowCarte'])
+			return;
+			
 		$xul="";
 		if($idRub!=-1){
 			$xul = "<iframe height='450px' width='500px' src='".$this->site->infos["urlCarto"]."?id=".$idRub."'  id='BrowerGlobal' />";

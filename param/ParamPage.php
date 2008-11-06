@@ -28,7 +28,9 @@ $_SESSION['site']=$site;
 
 if(!isset($_SESSION['ShowLegendeControle']))
 	$_SESSION['ShowLegendeControle']=true;
-
+if(!isset($_SESSION['ShowCarte']))
+	$_SESSION['ShowCarte']=false;
+	
 if(TRACE)
 	echo "ParamPage:session".print_r($_SESSION)."<br/>";
 
