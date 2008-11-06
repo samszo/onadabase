@@ -1,5 +1,8 @@
 SetEnv PHP_VER 5
 
 RewriteEngine on
-RewriteCond %{REQUEST_URI} !/public.*
+#RewriteCond %{REQUEST_URI} !/public.*
+RewriteRule ^php/CreatRepport.php$  php/CreatRepport.php [L]
+RewriteRule ^rapports/test.doc$  rapports/test.doc [L]
+
 RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php

@@ -94,7 +94,8 @@
         	}
 	    }
 	    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
-	    params="f=CreatRepport&html="+ html.join('')+"&file="+encodeURI(Name[id_feuil]+".doc");
+	    //params="f=CreatRepport&html="+ html.join('')+"&file="+encodeURI(Name[id_feuil]+".doc");
+	    params="f=CreatRepport&html="+ html.join('')+"&file=test";
         AjaxRequestPost(urlAjax+"php/CreatRepport.php",params,'','',false);
         l++;
         
@@ -133,8 +134,9 @@
      		    document.getElementById('table').style.visibility = "visible"
      }
      function ViewRapport(response){
-     	var path = response.split('*');
-     	window.open(urlRapport+path[0].replace(" ","_")+".doc");
+     	//var path = response.split('*');
+     	//window.open(urlRapport+path[0].replace(" ","_")+".doc");
+     	window.open(urlRapport+"test.doc");
      }
 
      function CreaReport(i){
