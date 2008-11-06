@@ -1,20 +1,5 @@
 <?php
 session_start();
-function ChercheAbo ()
-	{
-		
-		$login=$_POST['login_uti'];
-		$mdp=$_POST['mdp_uti'];
-		
-		if(($login=="")&&($mdp=="")){
-			include("login.php");
-			exit;
-			
-		}
-}
-
-
-ChercheAbo ();
 ?>
 <html>
   <head>
@@ -53,7 +38,7 @@ ChercheAbo ();
 		  </table>
 	  </div>
 	  <div id="right">
-		<iframe id="ViewSpeardsheet" width='900' height='500' frameborder='0' src='http://spreadsheets.google.com/pub?key=p9ISv2bT_pub5hD88wuZIRw&output=html&gid=0&single=true&widget=true'></iframe>
+		<iframe id="ViewSpeardsheet" width='900' height='500' frameborder='0' src=''></iframe>
 	  </div>
 	  
 	</body>
