@@ -53,9 +53,9 @@
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjElementVoirie" id="673" >
-		<NoVerif>Veillez choisir un élément de voirie</NoVerif>
-		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
+	<Param nom="AddObjElementVoirie" id="4774" >
+		<NoVerif>Veillez choisir un tronçon de voirie</NoVerif>
+		<TitreFormSaisi>Créer un nouvel élément de voirie</TitreFormSaisi>
 	</Param>
 	<Param nom="AddObjEspaceSpe" id="67" >
 		<NoVerif>Veillez choisir un espace général</NoVerif>

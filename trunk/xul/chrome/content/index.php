@@ -125,6 +125,12 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 						<menuitem id="type_contexte4" type="checkbox" checked="<?php if($_SESSION['type_contexte'][2]=="multiple_2_4") echo "true"; ?>" label="Voirie" value='multiple_2_4' oncommand="SetChoixDiagnostic();"/>
 					</menupopup>
 				</menu>
+				<menu label="Affichage" onpopupshowing="javascript:;">
+					<menupopup id="mnuAffichage" >
+						<menuitem id="ShowLegendeControle" value="true" type="checkbox" checked="<?php if($_SESSION['ShowLegendeControle']) echo "true"; ?>"  label="Montrer la légende des contrôles" oncommand="SetChoixAffichage(this.id);"/>
+						<menuitem id="ShowCarte" value="true" type="checkbox" checked="<?php if($_SESSION['ShowCarte']) echo "true"; ?>" label="Afficher la carte"  oncommand="SetChoixAffichage(this.id);" />
+					</menupopup>
+				</menu>
 			</menubar>
 		</hbox>
 		<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;" hidden="true"/>	

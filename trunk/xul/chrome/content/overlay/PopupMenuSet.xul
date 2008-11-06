@@ -36,10 +36,6 @@
 		</popup>
 
 		<popup id="popvoirie" onpopupshowing="javascript:;">
-			<menuitem label="Voir les éléments de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');"/>
-		</popup>
-
-		<popup id="popvoirie" onpopupshowing="javascript:;">
 			<menu id="menu_voirie_voir" label="Voir">
 			  <menupopup id="popup_voirie_voir">
 				<menuitem label="problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
@@ -48,8 +44,9 @@
 			  </menupopup>
 			 </menu>
 			 <menu id="menu_voirie_ajouter" label="Ajouter">
-			  <menupopup id="popup_etab_ajouter">
-			  </menupopup>
+				<menupopup id="popup_voirie_ajouter">
+					<menuitem label="Un élément de voirie" oncommand="AddNewGrille('ElementVoirie');"/>
+				</menupopup>
 			 </menu>
 			 <menu id="menu_voirie_générer" label="Générer">
 			  <menupopup id="popup_voirie_générer">
@@ -58,6 +55,19 @@
 			 </menu>
 		</popup>
 
+
+		<popup id="popelementvoirie" onpopupshowing="javascript:;">
+		  <menu id="menu_popelementvoirie_voir" label="Voir">
+			<menupopup id="popup_popelementvoirie_voir">
+			  <menuitem label="Les paramètres de contrôle" oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');"/>
+			</menupopup>
+		   </menu>
+		    <menu id="menu_popelementvoirie_copier" label="Copier">
+			   <menupopup id="popup_popelementvoirie_copier">
+			    <menuitem label="Les éléments de voirie" oncommand="CopyRub(document.getElementById('idRub').value);"/>
+		     </menupopup>
+		   </menu>
+		</popup>
 		
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menu id="menu_etab_voir" label="Voir">
@@ -93,13 +103,7 @@
 			</menupopup>
 		  </menu>			
 		</popup>
-		<popup id="popvoirie" onpopupshowing="javascript:;">
-		  <menu id="menu_voirie_voir" label="Voir">
-			<menupopup id="popup_voirie_voir">
-				<menuitem label="Les éléments de voirie" oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');"/>
-		   </menupopup>
-	     </menu>
-		</popup>
+
 		<popup id="popespace" onpopupshowing="javascript:;">
 		  <menu id="menu_espace_voir" label="Voir">
 			<menupopup id="popup_espace_voir">
@@ -115,10 +119,11 @@
 		<popup id="popbat" onpopupshowing="javascript:;">
 			<menu id="menu_bat_voir" label="Voir">
 			  <menupopup id="popup_bat_voir">
-			    <menuitem label="Le(s) problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
-			    <menuitem label="La(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
-			    <menuitem label="Le(s) niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
-			    <menuitem label="La(les) cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>
+			    <menuitem label="problème(s)" oncommand="ChargeTreeProb('idRub','FormSaisi');"/>
+			    <menuitem label="observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
+			    <menuitem label="niveau(x)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');"/>
+			    <menuitem label="cabine(s) d'ascenseur" oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');"/>
+				<menuitem label="état des lieux" oncommand="ShowEtatDiag(document.getElementById('idRub').value);"/>
 			  </menupopup>
 			 </menu>
 			 <menu id="menu_bat_ajouter" label="Ajouter">

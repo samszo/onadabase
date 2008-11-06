@@ -37,10 +37,10 @@ class Granulat
   }
   
 
-	function GetListeEtatDiag($idDoc){
+	function GetEtatDiagListe($idDoc){
 		
 		if($this->trace)
-	    	echo "Granulat:GetListeEtatDiag: id=$this->id idDoc=$idDoc<br/>";
+	    	echo "Granulat:GetEtatDiagListe: id=$this->id idDoc=$idDoc<br/>";
 
 		//récupère les enfants
 		$ids = $this->GetEnfantIds($this->id,",").$this->id;
@@ -65,20 +65,14 @@ class Granulat
 		//récupère les enfants
 		$ids = $this->GetEnfantIds($this->id,",").$this->id;
 
-		//construction du xml
+		//calculer l'état du diagnostique
 		$grille = new Grille($this->site);
 		$EtatOui = $grille->GetEtatDiagOui($ids);
 		$Etat1 = $grille->GetEtatDiagHandi($ids,1);
 		$Etat2 = $grille->GetEtatDiagHandi($ids,2);
 		$Etat3 = $grille->GetEtatDiagHandi($ids,3);
 		$EtatAppli = $grille->GetEtatDiagApplicable($ids);
-		
-		//construction du xml
-		$xml .= $EtatOui["xml"];
-		$xml .= $Etat1["xml"];
-		$xml .= $Etat2["xml"];
-		$xml .= $Etat3["xml"];
-		
+				
 		//calculer le l'indicateur d'accessibilité
 		$moteurObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"moteur");
 		$moteur = $this->GetHandiAccess($moteurObst,$EtatAppli["r"]["moteur"]);
@@ -91,10 +85,21 @@ class Granulat
 		
 		$cogObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"cog");
 		$cog = $this->GetHandiAccess($cogObst,$EtatAppli["r"]["cog"]);
+
+		//calculer les icones supplémentaires
+		$FormIds = $this->GetFormIds(-1,$this->id);
+		//ajoute le parent
+		$ids .= ",".$this->IdParent;
+		$Icos = $grille->GetEtatDiagIcones($FormIds, $ids);		
 		
+		//construction du xml
+		$xml .= $EtatOui["xml"];
+		$xml .= $Etat1["xml"];
+		$xml .= $Etat2["xml"];
+		$xml .= $Etat3["xml"];
 		$xml .= "<Applicables id='IndicAcc_' moteur='".$moteur."' audio='".$audio."' visu='".$visu."' cog='".$cog."' ></Applicables>";
 		$xml .= "<AppliVal id='AppliVal_' moteur='".$moteurObst."-".$EtatAppli["r"]["moteur"]."' audio='".$audioObst."-".$EtatAppli["r"]["audio"]."' visu='".$visuObst."-".$EtatAppli["r"]["visu"]."' cog='".$cogObst."-".$EtatAppli["r"]["cog"]."' ></AppliVal>";
-		
+		$xml .= $Icos; 
 		$xml .= "</EtatDiag>";
 		
 		return $xml;
@@ -647,14 +652,22 @@ class Granulat
 	}
   
 	/*
-	 * Retourne les id de grille pour un article
+	 * Retourne les id de grille pour un article ou une rubrique
 	 */
-	function GetFormIds($idArticle) {
+	function GetFormIds($idArticle,$idRub=-1) {
 		
-		$sql = "SELECT DISTINCT fd.id_form
-			FROM spip_forms_donnees_articles fa
-				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fa.id_donnee
-			WHERE fa.id_article = ".$idArticle;
+		if($idRub==-1)
+			$sql = "SELECT DISTINCT fd.id_form
+				FROM spip_forms_donnees_articles fa
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fa.id_donnee
+				WHERE fa.id_article = ".$idArticle;
+		else
+			$sql = "SELECT DISTINCT fd.id_form, a.id_article
+				FROM spip_forms_donnees_articles fa
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fa.id_donnee
+					INNER JOIN spip_articles a ON a.id_article = fa.id_article
+						AND a.id_rubrique = ".$idRub;
+		
 		//echo $sql."<br/>"; spip_forms_articles
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
