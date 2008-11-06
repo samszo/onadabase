@@ -133,7 +133,8 @@
      		    document.getElementById('table').style.visibility = "visible"
      }
      function ViewRapport(response){
-     	window.open(urlRapport+response.replace(" ","_")+".doc");
+     	var path = response.split('*');
+     	window.open(urlRapport+path[0].replace(" ","_")+".doc");
      }
 
      function CreaReport(i){
