@@ -81,9 +81,11 @@ function GetFriseDocs(idDoc,idArt,idDst) {
 		var url = urlExeAjax+"?f=GetFriseDocs&id="+idRub+"&idDoc="+arrIdDoc[1]+"&idArt="+idArt;
 		var doc = document.getElementById(idDst);
 		AppendResult(url,doc);
-		//ouvre le split
-		var split = document.getElementById("docsSplit");		
-		split.setAttribute("state","open");
+		//ouvre le split dans le cas de l'état des lieux
+		if(idArt==-1){
+			var split = document.getElementById("docsSplit");		
+			split.setAttribute("state","open");
+		}
 
   	} catch(ex2){alert("interface:GetArtDoc:"+ex2);}
 }
@@ -591,7 +593,7 @@ function SynchroniserExportImport() {
 }
 
 
-function AddPlacemark(){
+function AddPlacemark(idRub, typeDst){
   try {
 	var verif = true;
 	
@@ -604,9 +606,10 @@ function AddPlacemark(){
 	var TitreFormSaisi =  n.childNodes[3].textContent;
 	
 	
-	var dst = document.getElementById('idRub').value;
+	var dst = idRub; //document.getElementById('idRub').value;
 	var login = document.getElementById('login').value;
-	var typeDst = document.getElementById('typeDst').value;
+	if(typeDst=="")
+		typeDst = document.getElementById('typeDst').value;
 	var idDon = -1;
 	if(document.getElementById('idDon'))
 		idDon = document.getElementById('idDon').value;
@@ -626,7 +629,7 @@ function AddPlacemark(){
 		//dump("SetNewGrille "+url+"\n");
 		GetResult(url);
 		if(idDon==-1)
-			ChargeTabboxFromAjax('idRub','FormSaisi',typeDst);
+			ChargeTabboxFromAjax(dst,'FormSaisi',typeDst);
 	}
 
   } catch(ex2){alert("interface:AddPlacemark::"+ex2+" ");}
