@@ -63,7 +63,7 @@
 	    }
 	    html.push("</body></html>");
 	    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
-	    params="html="+ html.join('')+"&file="+id[0]+".html";
+	    params="html="+ html.join('')+"&file="+escape(id[0])+".html";
         AjaxRequestPost(urlAjax+"index/creatrepport",params,'','',true);
         l++;
         
@@ -105,7 +105,8 @@
      		    document.getElementById('table').style.visibility = "visible"
      }
      function ViewRapport(){
-     	window.open("../"+urlRapport+WorkSheetTitle+".html");
+     	var url = "../"+urlRapport+escape(WorkSheetTitle)+".html";
+     	window.open(url);
      }
 
      function CreaReport(){

@@ -22,17 +22,18 @@ class IndexController extends Zend_Controller_Action {
 	public function creatrepportAction(){
 		$html=utf8_decode($_POST['html']);
 		$html=str_replace("\'","'",$html); 
-		$file=utf8_decode($_POST['file']);
-			$this->_helper->viewRenderer->setNoRender();
-		    $file=str_replace(" ","_",$file); 
-			if(file_exists(PATH.$file)){
-					unlink(PATH.$file);
-			}
-	    	$fichier = fopen(PATH.$file,"w");
-		    fwrite($fichier,$html);
-		    fclose($fichier);
-		    print "{PATH:'".PATH.$file."',File:'".$file."'}";
-		    $this->SendEmailToGoogleDoc($html,$file);
+		//$file=utf8_decode($_POST['file']);
+		$file=$_POST['file'];
+		$this->_helper->viewRenderer->setNoRender();
+		$file=str_replace(" ","_",$file); 
+		if(file_exists(PATH.$file)){
+				unlink(PATH.$file);
+		}
+    	$fichier = fopen(PATH.$file,"w");
+	    fwrite($fichier,$html);
+	    fclose($fichier);
+	    print "{PATH:'".PATH.$file."',File:'".$file."'}";
+	    $this->SendEmailToGoogleDoc($html,$file);
 	}
 	
 	public function SendEmailToGoogleDoc($html,$file){

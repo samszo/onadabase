@@ -19,10 +19,10 @@ ChercheAbo ();
 <html>
   <head>
 	<title>FeuilleToDoc</title>
-	<link rel="stylesheet" href="http://localhost/onadabase/FeuilleToDoc/css/styles.css" type="text/css">
+	<link rel="stylesheet" href="<?php echo WEBAPP_DIR; ?>/css/styles.css" type="text/css">
 	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-	<script type="text/javascript" src="http://localhost/onadabase/FeuilleToDoc/js/GoogleDocs.js"></script>
-	<script type="text/javascript" src="http://localhost/onadabase/FeuilleToDoc/js/ajax.js"></script>
+	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>/js/GoogleDocs.js"></script>
+	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>/js/ajax.js"></script>
 	<script type="text/javascript">
 	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; Name=eval((".$this->data."));"; ?> 
      var result= new Array();var urlAjax="";var j=0;urlImg="<?php echo IMG_URL; ?>";var f=0;var liste="";
