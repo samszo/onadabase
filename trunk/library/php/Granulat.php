@@ -30,7 +30,7 @@ class Granulat
 	
     $this->id = $id;
     $this->site = $site;
-	if($complet){
+	if($complet && $id!=-1){
 		$this->GetProps();
 		$this->GetDocs();
 	}
@@ -60,7 +60,7 @@ class Granulat
 	    	echo "Granulat:GetEtatDiag: id= $this->id<br/>";
 
 		//initialisation du xml
-		$xml = "<EtatDiag idRub='".$this->id."'>";
+		$xml = "<EtatDiag idRub='".$this->id."' titre=\"".$this->site->XmlParam->XML_entities($this->titre)."\" >";
 	    	
 		//récupère les enfants
 		$ids = $this->GetEnfantIds($this->id,",").$this->id;
@@ -90,8 +90,18 @@ class Granulat
 		$FormIds = $this->GetFormIds(-1,$this->id);
 		//ajoute le parent
 		$ids .= ",".$this->IdParent;
-		$Icos = $grille->GetEtatDiagIcones($FormIds, $ids);		
-		
+		$Icos = $grille->GetEtatDiagIcones($FormIds, $ids);	
+
+		//calcul les documents des articles
+		$xulDoc = "";
+		$Arts = $this->GetArticleInfo();
+		$xul = new Xul($this->site);
+		$IcosDoc ="<icones id='ico_'>";
+		while($r = mysql_fetch_assoc($Arts)) {
+			$IcosDoc .= $xul->GetFriseDocsIco($r["id_article"],-1,false,true);
+		}
+		$IcosDoc .="</icones>";
+				
 		//construction du xml
 		$xml .= $EtatOui["xml"];
 		$xml .= $Etat1["xml"];
@@ -100,6 +110,7 @@ class Granulat
 		$xml .= "<Applicables id='IndicAcc_' moteur='".$moteur."' audio='".$audio."' visu='".$visu."' cog='".$cog."' ></Applicables>";
 		$xml .= "<AppliVal id='AppliVal_' moteur='".$moteurObst."-".$EtatAppli["r"]["moteur"]."' audio='".$audioObst."-".$EtatAppli["r"]["audio"]."' visu='".$visuObst."-".$EtatAppli["r"]["visu"]."' cog='".$cogObst."-".$EtatAppli["r"]["cog"]."' ></AppliVal>";
 		$xml .= $Icos; 
+		$xml .= $IcosDoc;
 		$xml .= "</EtatDiag>";
 		
 		return $xml;
@@ -635,12 +646,21 @@ class Granulat
 	/*
 	 * Retourne un tableau contenant l'id de l'article, le titre, les dates de création et de mise à jour pour une rubrique
 	 */
-	function GetArticleInfo($extraSql=""){
+	function GetArticleInfo($extraSql="",$idRub=true){
+		
+		if($idRub)
+			$whereRub = " WHERE a.id_rubrique = ".$this->id;
+		else
+			$whereRub = " WHERE 1 ";
+		
+		if($_SESSION['ContEditPublie'])
+			$wherePubli = " AND a.statut='publie' ";	
+		
 		//récupère pour la rubrique l'article ayant les condition de extra
 		$sql = "SELECT a.id_article ,a.titre, a.date, a.maj, a.statut, aa.id_auteur
 			FROM spip_articles a 
 				LEFT JOIN spip_auteurs_articles aa ON aa.id_article = a.id_article 	
-			WHERE a.id_rubrique = ".$this->id." ".$extraSql."
+			 ".$whereRub." ".$wherePubli." ".$extraSql."
 				";
 		//echo $sql."<br/>";
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
@@ -1006,9 +1026,22 @@ class Granulat
 		$i = 0;
 		while($data = $DB->fetch_assoc($req)) {
 			$this->arrDoc[$i] = new Document($this->site, $data);
+			//vérifie s'il y a des fichiers multimédia
 			$i ++;
 		}
 		return $this->arrDoc;
+	}
+	
+	public function VerifMultiMedia($arrDoc){
+		if(count($arrDoc)<=0)
+			$verif = false;
+		else{
+			foreach($arrDoc as $doc){
+				if($doc->type==1 || $doc->type==10 || $doc->type==14)
+					$verif = true;
+			}
+		}
+		return $verif;
 	}
 	
 	public function GetArtDocs($idArt)

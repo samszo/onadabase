@@ -1036,7 +1036,10 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 
 			<Query fonction="Grille_GetEtatDiagOuiListe">
 				<select>
-					SELECT r.id_rubrique, fdcAff.valeur affirm, fd.id_donnee idDonRep, fdCont.id_donnee idDonCont, a.id_article idArt			 
+					SELECT r.id_rubrique
+						, fdcRef.valeur valRef
+						, fdcAff.valeur affirm
+						, fd.id_donnee idDonRep, fdCont.id_donnee idDonCont, a.id_article idArt			 
 				</select>
 				<from> 
 					FROM spip_rubriques r 
@@ -1058,13 +1061,15 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = fdCont.id_donnee 
 					   AND fdcAff.champ = 'texte_1'	   
 				</from>
-				<where> WHERE r.id_rubrique IN(-ids-)</where>
+				<where> WHERE r.id_rubrique IN(-ids-)  ORDER BY r.id_rubrique, a.id_article </where>
 			</Query>
 
 
 			<Query fonction="Grille_GetEtatDiagHandiListe">
 				<select>
-					SELECT  r.id_rubrique, fdcAff.valeur affirm
+					SELECT  r.id_rubrique
+						, fdcRef.valeur valRef
+						, fdcAff.valeur affirm
 						, fd.id_donnee idDonRep, fdCont.id_donnee idDonCont
 						, a.id_article idArt			 
 				</select>
@@ -1090,7 +1095,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					   AND fdcAff.champ = 'texte_1'	   
 
 				</from>
-				<where> WHERE r.id_rubrique IN(-ids-)</where>
+				<where> WHERE r.id_rubrique IN(-ids-) ORDER BY r.id_rubrique, a.id_article</where>
 			</Query>
 
 			<Query fonction="Grille_GetEtatDiagApplicable">
@@ -1174,6 +1179,36 @@ INNER JOIN spip_articles a ON a.id_article = fda.id_article
 INNER JOIN spip_articles ar ON ar.id_rubrique = a.id_rubrique
 INNER JOIN spip_forms_donnees_articles fdaV ON fdaV.id_article = ar.id_article
 INNER JOIN spip_forms_donnees fdV ON fdV.id_donnee = fdaV.id_donnee AND fdV.id_form = -idGrille-
+				 </from>
+				<where> WHERE fd.id_donnee = -idDon- </where>
+			</Query>
+
+			<Query fonction="Grille_GetLienDonneeGRILLE_OBS">
+				<select>SELECT fdV.id_donnee idDonV, fdaV.id_article  </select>
+				<from> FROM spip_forms_donnees fd
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
+INNER JOIN spip_articles a ON a.id_article = fda.id_article
+INNER JOIN spip_articles ar ON ar.id_rubrique = a.id_rubrique
+INNER JOIN spip_forms_donnees_articles fdaV ON fdaV.id_article = ar.id_article
+INNER JOIN spip_forms_donnees fdV ON fdV.id_donnee = fdaV.id_donnee 
+	AND fdV.id_form = 67 
+INNER JOIN spip_forms_donnees_champs fdcV ON fdcV.id_donnee = fdV.id_donnee 
+	AND fdcV.champ = 'ligne_5' AND fdcV.valeur = '-valRef-'
+				 </from>
+				<where> WHERE fd.id_donnee = -idDon- </where>
+			</Query>
+
+			<Query fonction="Grille_GetLienDonneeGRILLE_SIG_PROB">
+				<select>SELECT fdV.id_donnee, fdaV.id_article </select>
+				<from> FROM spip_forms_donnees fd
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = fd.id_donnee
+INNER JOIN spip_articles a ON a.id_article = fda.id_article
+INNER JOIN spip_articles ar ON ar.id_rubrique = a.id_rubrique
+INNER JOIN spip_forms_donnees_articles fdaV ON fdaV.id_article = ar.id_article
+INNER JOIN spip_forms_donnees fdV ON fdV.id_donnee = fdaV.id_donnee 
+	AND fdV.id_form = 60 
+INNER JOIN spip_forms_donnees_champs fdcV ON fdcV.id_donnee = fdV.id_donnee 
+	AND fdcV.champ = 'ligne_3' AND fdcV.valeur = '-valRef-'
 				 </from>
 				<where> WHERE fd.id_donnee = -idDon- </where>
 				<dst>Form</dst>

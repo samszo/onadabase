@@ -42,6 +42,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 <script type="application/x-javascript" src="js/interface.js" />
 <script type="application/x-javascript" src="js/ajax.js"/>
 <script type="application/x-javascript" src="js/tree.js"/>
+<script type="application/x-javascript" src="js/svg.js"/>
 <script type="application/x-javascript"  src="xbl/editableTree/functions.js" />
      <script>
 		//initialise le paramètrage du site
@@ -125,12 +126,20 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 						<menuitem id="type_contexte4" type="checkbox" checked="<?php if($_SESSION['type_contexte'][2]=="multiple_2_4") echo "true"; ?>" label="Voirie" value='multiple_2_4' oncommand="SetChoixDiagnostic();"/>
 					</menupopup>
 				</menu>
+				<menu label="Contexte éditorial" onpopupshowing="javascript:;">
+					<menupopup id="mnuContEdit" >
+						<menuitem id="ContEditAll" type="radio" checked="<?php if($_SESSION['ContEditAll']) echo "true"; ?>" label="Tout" value='true' oncommand="SetChoixAffichage(this.id);"/>
+						<menuitem id="ContEditPublie" type="radio" checked="<?php if($_SESSION['ContEditPublie']) echo "true"; ?>" label="Publié" value='true' oncommand="SetChoixAffichage(this.id);"/>
+					</menupopup>
+				</menu>
 				<menu label="Affichage" onpopupshowing="javascript:;">
 					<menupopup id="mnuAffichage" >
 						<menuitem id="ShowLegendeControle" value="true" type="checkbox" checked="<?php if($_SESSION['ShowLegendeControle']) echo "true"; ?>"  label="Montrer la légende des contrôles" oncommand="SetChoixAffichage(this.id);"/>
 						<menuitem id="ShowCarte" value="true" type="checkbox" checked="<?php if($_SESSION['ShowCarte']) echo "true"; ?>" label="Afficher la carte"  oncommand="SetChoixAffichage(this.id);" />
+						<menuitem id="ShowDocs" value="true" type="checkbox" checked="<?php if($_SESSION['ShowDocs']) echo "true"; ?>" label="Afficher le(s) document(s)"  oncommand="SetChoixAffichage(this.id);" />
 					</menupopup>
 				</menu>
+				
 			</menubar>
 		</hbox>
 		<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;" hidden="true"/>	
@@ -168,6 +177,10 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 				 <label value="Sélectionnez un établissement dans" id="TitreFormSaisi" class="titre" />
 				 <label id="libRub" value="Le département du Nord" class="titre" />
 				</hbox>
+				<hbox id="FriseDocs" height='166px'  />		
+				<splitter id="docsSplit" state="collapsed" collapse="before" resizeafter="farthest">
+					<grippy/>
+				</splitter>
 				<hbox id="EtatDiag" hidden="true" flex="1" />
 				<hbox class="FormBox" id="FormSaisi" flex="1" />		
 			</vbox>

@@ -23,6 +23,105 @@ class Xul{
 		
     }
 
+    function GetFriseDocs($idRub, $idDoc, $idArt){
+    	$gra = new Granulat($idRub,$this->site);
+    	if($idArt==-1)
+			$Arts = $gra->GetArticleInfo();
+		else
+			$Arts = $gra->GetArticleInfo(" AND a.id_article=".$idArt,false);
+
+		$images = "";$sons="";$videos="";
+		while($r = mysql_fetch_assoc($Arts)) {
+    		$docs = $gra->GetArtDocs($r["id_article"]);
+	    	foreach($docs as $doc)
+			{
+				switch ($doc->type) {
+					case 10: //'flv'
+						$videos .= "<iframe flex='1' height='200px' width='150px' src='".$this->site->infos["urlVideo"]."?idDoc=".$doc->id."'  id='ifVideo_".$doc->id."' />";
+						break;
+					case 14: //'mp3'
+						$sons .= "<iframe flex='1' height='200px' width='150px' src='".$this->site->infos["urlVideo"]."?idDoc=".$doc->id."'  id='ifMp3_".$doc->id."' />";
+						break;
+					case 1: //'jpeg'
+						$images .= $doc->GetSvgGallerie(170, 170);
+						break;
+				}
+			}
+    		
+		}    	
+	
+		$frise = "";
+		if($images!="" && $idDoc=="images"){
+			$frise .= "<hbox id='doc_images' >".$images."</hbox>";			
+		}
+		if($videos!="" && $idDoc=="videos"){
+			$frise .= "<hbox id='doc_videos' flex='1' >".$videos."</hbox>";
+		}
+		if($idDoc=="sons" && $sons!=""){
+			$frise .= "<hbox id='doc_sons' flex='1' >".$sons."</hbox>";
+		}
+		$frise .= "";			
+		return $frise;
+
+    }
+    
+
+    function GetFriseDocsIco($idArt,$idDoc,$ajout=true,$xml=false){
+    	$gra = new Granulat(-1,$this->site);
+    	$docs = $gra->GetArtDocs($idArt);
+
+    	$images = "";$sons="";$videos="";
+		$icones ="";
+		$js = "GetFriseDocs(this.id,".$idArt.",'FriseDocs".$idArt."');";
+    	foreach($docs as $doc)
+		{
+			switch ($doc->type) {
+				case 10: //'flv'
+					$videos ="<image id='ico_videos' onclick=\"".$js."\" src='images/mpg.png' />";
+					break;
+				case 14: //'mp3'
+					$sons ="<image id='ico_sons' onclick=\"".$js."\" src='images/mp3.png' />";
+					break;
+				case 1: //'jpeg'
+					$images ="<image id='ico_images' onclick=\"".$js."\" src='images/jpg.png' />";
+					break;
+			}
+		}
+	
+		$frise = "";
+		if($ajout){
+			$frise .="<hbox>";
+			$frise .="<button label='Ajouter un document'  oncommand=\"GetFichierKml('".$idDoc."');\"/>";
+			//$frise .="<button label='Voir le(s) document(s)'  oncommand=\"GetFichierKml('".$idDoc."');\"/>";
+			$frise .="<label id='".$idDoc."' value='' />";
+			$frise .="</hbox>";
+		}
+		$frise .="<hbox id='FriseDocs".$idArt."' flex='1' />";
+		$frise .="<hbox>";
+		if($_SESSION['ShowDocs']){		
+			if($images!=""){
+				$frise .= $images;			
+				$icones .= 	"<icone id='images' />";		
+			}
+			if($videos!=""){
+				$frise .= $videos;			
+				$icones .= 	"<icone id='videos' />";		
+			}
+			if($sons!=""){
+				$frise .= $sons;			
+				$icones .= 	"<icone id='sons' />";		
+			}
+		}			
+		$frise .="</hbox>";
+		if(!$xml)
+			return $frise;
+		else
+			return $icones;
+
+    }
+    
+    
+    
     function GetMenuPopUp($idRub,$typeSrc,$niv=0){
     	$gra = new Granulat($idRub,$this->site);
     	$menu ='';

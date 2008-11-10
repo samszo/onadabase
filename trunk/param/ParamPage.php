@@ -30,6 +30,14 @@ if(!isset($_SESSION['ShowLegendeControle']))
 	$_SESSION['ShowLegendeControle']=true;
 if(!isset($_SESSION['ShowCarte']))
 	$_SESSION['ShowCarte']=false;
+if(!isset($_SESSION['ShowDocs']))
+	$_SESSION['ShowDocs']=false;
+if(!isset($_SESSION['ContEditAll']))
+	$_SESSION['ContEditAll']=true;
+if(!isset($_SESSION['ContEditPublie']))
+	$_SESSION['ContEditPublie']=false;
+	
+	
 	
 if(TRACE)
 	echo "ParamPage:session".print_r($_SESSION)."<br/>";

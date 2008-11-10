@@ -38,6 +38,10 @@
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
 			break;*/		
+		case 'GetFriseDocs':
+			$xul = new Xul($objSite);
+			$resultat = $xul->GetFriseDocs($_GET['id'],$_GET['idDoc'],$_GET['idArt']);
+			break;
 		case 'ShowPopUp':
 			$resultat = ShowPopUp($_GET['idGrille'],$_GET['idDon'],$_GET['login']);
 			break;
@@ -246,6 +250,18 @@
 		if (!is_dir($objSite->infos["pathUpload"].$extention)) mkdir($objSite->infos["pathUpload"].$extention);
 		
 		switch ($extention) {
+			case 'mp3':
+				$row = array(
+					'titre'=>$_FILES['filename']['name']
+					,'type'=>14
+					,'desc'=>''
+					,'fichier'=>'IMG/mp3/'.$FicDst
+					,'taille'=>$_FILES['filename']['size']
+					,'largeur'=>0
+					,'hauteur'=>0
+					,'idArt'=>$arrIdDoc[4]
+					); 
+			break;
 			case 'kml':
 				$row = array(
 					'titre'=>$_FILES['filename']['name']
