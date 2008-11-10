@@ -7,12 +7,13 @@ class Document{
   public $hauteur;
   public $trace;
   private $site;
+  public $svgns = ' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ';
   
   function __tostring() {
     return "Cette classe permet de définir et manipuler un document.<br/>";
     }
 
-  function __construct($site, $data=-1) {
+  function __construct($site, $data=-1, $id=-1) {
   	
 		$this->site = $site;
 		$this->trace = TRACE;
@@ -28,11 +29,48 @@ class Document{
 		    if($data['dtitre'])
 				$this->titre = $data['dtitre'];
 	  	}	
-
+		if($id!=-1){
+			$sql ="SELECT * FROM spip_documents where id_document = ".$id;
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+			$db->connect();
+			$req = $db->query($sql);
+			$data = $db->fetch_assoc($req);
+			$db->close();
+			
+			$this->type = $data['id_type'];
+		    $this->id = $data['id_document'];
+		    $this->fichier = $site->infos["pathSpip"].$data['fichier'];
+		    $this->largeur = $data['largeur'];
+		    $this->hauteur = $data['hauteur'];
+			$this->titre = $data['titre'];
+	  	}	
+	  	
 
     }
 
-	 function DimensionImage($LargeurMax, $HauteurMax, $fic="") {
+    function GetSvgGallerie($large, $haut){
+
+		$svg = '<svg id="svg_'.$this->id.'" width="'.$large.'" height="'.$haut.'" '.$this->svgns.' >';
+		//$svg = '<rect x="0" y="0" width="'.$large.'" height="'.$haut.'" fill="black"  />';	
+		$svg .= "<svg preserveAspectRatio='xMidYMid meet' viewBox='0 0 ".$this->largeur." ".$this->hauteur."'  >
+					<image onclick=\"EnlargeSvg('svg_".$this->id."',800,600)\" width='".$this->largeur."' height='".$this->hauteur."' xlink:href='".$this->fichier."' />
+				</svg>
+			</svg>";
+		return $svg;    	
+    	
+    }
+
+    function GetSvgImage($large, $haut){
+
+		$svg = '<svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 '.$large.' '.$haut.' '.$this->svgns.' " >
+					<image width="'.$this->largeur.'" height="'.$this->hauteur.'" xlink:href="'.$this->fichier.'" />
+				</svg>';
+		return $svg;    	
+    	
+    }
+    
+    
+	 function DimensionImage($LargeurMax, $HauteurMax, $fic="", $balise="img") {
 		
 		if($fic=="")
 			$fic=$this->fichier;
@@ -44,11 +82,40 @@ class Document{
 		}else {
 			$Dimension = "height='".$HauteurMax."' ";
 		}
+		//gestion du XUL
+		if($balise=='image'){
+			$Dimension = "maxWidth='".$LargeurMax."' ";
+			$Dimension .= " maxHeight='".$HauteurMax."' ";	
+		}
 		//echo "src='".$Image."' ".$Dimension." \n";
-		return "<img src=\"".$fic."\" ".$Dimension." alt=\"".$this->titre."\" border=\"0\" align=\"absbottom\" />";
-	
+		return "<".$balise." src=\"".$fic."\" ".$Dimension." alt=\"".$this->titre."\" border=\"0\" align=\"absbottom\" />";
 	}
-
+	
+	function GetFlv($width=400,$height=300){
+		$flv = '<object type="application/x-shockwave-flash" data="'.$this->site->infos['urlLibSwf'].'player_flv.swf" width="'.$width.'" height="'.$height.'">
+			<param name="movie" value="'.$this->site->infos['urlLibSwf'].'player_flv.swf" />
+			<param name="FlashVars" value="flv='.$this->fichier.'&amp;width='.$width.'&amp;height='.$height.'&amp;bgcolor1=ffffff&amp;bgcolor2=cccccc&amp;buttoncolor=999999&amp;buttonovercolor=0&amp;slidercolor1=cccccc&amp;slidercolor2=999999&amp;sliderovercolor=666666&amp;textcolor=0&amp;showstop=1&amp;title=&amp;startimage=/images/icone_voir.jpg" />
+			<param name="wmode" value="opaque" />
+			<span><a href="'.$this->fichier.'" rel="enclosure">'.$this->fichier.'</a></span>
+			</object>';
+		
+		return $flv;
+		
+	}
+	
+	function GetMp3($width=400,$height=300){
+		$mp3 = '<object id="audioplayer'.$this->id.'" width="'.$width.'" height="'.$height.'" data="'.$this->site->infos['urlLibSwf'].'neoplayer_multi.swf" type="application/x-shockwave-flash">
+		<param value="opaque" name="wmode"/>
+		<param value="'.$this->site->infos['urlLibSwf'].'neoplayer_multi.swf" name="movie"/>
+		<param value="mp3='.$this->fichier.'&bgcolor1=ffffff&bgcolor2=cccccc&buttoncolor=999999&buttonovercolor=0&slidercolor1=cccccc&slidercolor2=999999&sliderovercolor=666666&textcolor=0&showstop=1&showinfo=1" name="FlashVars"/>
+		<span>
+		<a rel="enclosure" href="'.$this->fichier.'</a>
+		</span>';	
+		
+		return $mp3;
+		
+	}
+		
 	function GetVignette($LargeurMax, $HauteurMax)
 	{
 		$vignette = $this->fichier;

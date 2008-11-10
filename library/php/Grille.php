@@ -73,11 +73,14 @@ class Grille{
 			
 		//construction du xul
 		$xul = "<vbox flex='1'>";
+		$idRubOld=-1;
 		while ($r =  $db->fetch_assoc($result)) {
 			
-				//ajoute le fil d'ariane
-				$xul .= '<hbox class="menubar">'.$objXul->GetFilAriane("",$r["id_rubrique"]).'</hbox>';
-				
+				if($r["id_rubrique"]!=$idRubOld){		
+					$idRubOld=$r["id_rubrique"];
+					//ajoute le fil d'ariane
+					$xul .= '<hbox class="menubar">'.$objXul->GetFilAriane("",$r["id_rubrique"]).'</hbox>';
+				}
 				//ajoute les infos du granulat
 				//$g = new Granulat($r["id_rubrique"],$this->site);
 				//$xul .= '<hbox class="menubar" >'.$g->TitreParent.' | '.$g->titre.'</hbox>';
@@ -87,7 +90,7 @@ class Grille{
 				$xul .= $this->GetXulLegendeControle($r['idDonCont'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
 				
 				//ajoute les liens 
-				$xul.= $this->GetXulLiensDonnee($r['idDonRep']);
+				$xul.= $this->GetXulLiensDonnee($r['idDonRep'],$r['valRef']);
 
 				$xul.="</hbox>";
 				
@@ -99,29 +102,58 @@ class Grille{
 		return $xul;
 	}
     
-    public function GetXulLiensDonnee($idDon)
+    public function GetXulLiensDonnee($idDon,$valRef)
 	{
 		$xul = "";
 		//vérifie s'il y a une grille geo
 		$idDonV = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_GEO"]);
-		if($idDonV)
-			$xul.="<image onclick=\"ExecCarto(".$this->GetRubDon($idDonV).",".$idDonV.");\" src='images/terre.gif' />";
-		//vérifie s'il y a une grille observation
-		$idDonV = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_OBS"]);
-		if($idDonV)
-			$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_OBS"].", ".$idDonV.");\" src='images/icone_voir.jpg' />";
-		//vérifie s'il y a une grille signalement probleme
-		$idDonV = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_SIG_PROB"]);
 		if($idDonV){
-				$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_OBS"].", ".$idDonV.");\" src='images/check_no.png' />";
-				$idArt = $this->GetArtDon($idDonV);
-				$xul.="<label id='adminArt_".$idArt."' class='text-linkAdmin' onclick=\"OuvreArticle(".$idArt.");\" value=\"Admin\"/>";
+			$xul .="<vbox>";
+			$xul.="<image onclick=\"ExecCarto(".$this->GetRubDon($idDonV).",".$idDonV.");\" src='images/kml.png' />";
+			$idArt = $this->GetArtDon($idDonV);
+			$xul.= $this->GetXulLiensArticle($idArt);
+			$xul .="</vbox>";
 		}
-			
+		//vérifie s'il y a une grille observation
+		$Dons = $this->GetLienDonnee($idDon,$valRef,"GRILLE_OBS");
+		while ($r =  mysql_fetch_assoc($Dons)) {
+			$xul .="<vbox flex='1'>";
+			$xul .="<hbox>";
+			$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_OBS"].", ".$r['id_donnee'].");\" src='images/obs.png' />";
+			$xul .="</hbox>";
+			$xul.= $this->GetXulLiensArticle($r['id_article']);
+			$xul .="</vbox>";
+		}
+		//vérifie s'il y a une grille signalement probleme
+		$Dons = $this->GetLienDonnee($idDon,$valRef,"GRILLE_SIG_PROB");
+		while ($r =  mysql_fetch_assoc($Dons)) {
+				$xul .="<vbox flex='1'>";
+				$xul .="<hbox>";
+				$xul.="<image onclick=\"ShowPopUp(".$this->site->infos["GRILLE_SIG_PROB"].", ".$r['id_donnee'].");\" src='images/sigprob.png' />";
+				$xul .="</hbox>";
+				$xul.= $this->GetXulLiensArticle($r['id_article']);
+				$xul .="</vbox>";
+		}
+		
 		return $xul;
 	}
 	
-    public function GetEtatDiagIcones($FormIds, $ids)
+    public function GetXulLiensArticle($idArt)
+	{
+		$gra = new Granulat(-1,$this->site);
+		//vérifie s'il y a des documents
+		$docs = $gra->GetArtDocs($idArt);
+		$oXul = new Xul($this->site);
+		$xul = $oXul->GetFriseDocsIco($idArt,-1,false);
+		//if($gra->VerifMultiMedia($docs))
+		//	$xul.="<image onclick=\"alert(".count($docs).");\" src='images/file.gif' />";
+		//Ajoute le lien admin
+		$xul .="<label id='adminArt_".$idArt."' class='text-linkAdmin' onclick=\"OuvreArticle(".$idArt.");\" value=\"Admin\"/>";
+		
+		return $xul;
+	}
+	
+	public function GetEtatDiagIcones($FormIds, $ids)
 	{
 		$icones ="<icones id='ico_'>";
 		//boucle sur les grilles de la rubrique
@@ -1453,6 +1485,8 @@ class Grille{
 		//on n'affiche pas les grille géolo
 		if($id == $this->site->infos["GRILLE_GEO"])
 			return;
+
+		$oXul = new Xul($this->site);	
 			
 		//récupère les articles de la rubrique
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetXulTabPanels".$dst."']";
@@ -1518,12 +1552,27 @@ class Grille{
 						break;
 					default:
 						//vérifie s'il faut afficher une carte
+						$carto = "";
+						$AddGeo ="<button label='Ajouter une géolocalisation' oncommand=\"AddPlacemark();\"/>";
 						$idDon = $this->VerifDonneeLienGrille($r["id"],$this->site->infos["GRILLE_GEO"]);
 						if($idDon){
-							$tabpanel .= $this->GetXulForm($r["id"], $id);
-							$tabpanel .= $this->GetXulForm($idDon, $this->site->infos["GRILLE_GEO"]);
-						}else
-							$tabpanel .= $this->GetXulForm($r["id"], $id);
+							$carto = $this->GetXulForm($idDon, $this->site->infos["GRILLE_GEO"]);
+							$AddGeo = "";
+						}
+						$tabpanel .="<vbox flex='1'>";
+						//ajout le bloc document
+						$idDoc = "doc*".$dst."*".$r["id"]."*".$id."*".$src;
+						$tabpanel .="<hbox flex='1'>";
+						$tabpanel .="<vbox flex='1'>";
+						$tabpanel .= $oXul->GetFriseDocsIco($src,$idDoc);
+						$tabpanel .="</vbox>";
+						$tabpanel .="</hbox>";
+						$tabpanel .="<hbox>";
+						$tabpanel .= $this->GetXulForm($r["id"], $id);
+						$tabpanel .= $AddGeo;
+						$tabpanel .= $carto;
+						$tabpanel .="</hbox>";
+						$tabpanel .="</vbox>";
 				}				
 				
 			
@@ -1547,7 +1596,7 @@ class Grille{
 
 	function VerifDonneeLienGrille($idDon,$idGrille){
 		
-		//vérifie si une grille est dans l'article de la donnee
+		//vérifie si une grille est dans la rubrique de la donnee
 		//dans le cas où la donnee est d'une autre grille que celle recherchhée
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_VerifDonneeLienGrille']";
 		$Q = $this->site->XmlParam->GetElements($Xpath);
@@ -1566,6 +1615,25 @@ class Grille{
 		else
 			return false;
 	}
+
+	function GetLienDonnee($idDon,$valRef,$cstGrille){
+		
+		//récupère les données par rapport à une référence dans une autre grille
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetLienDonnee".$cstGrille."']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-idDon-", $idDon, $Q[0]->where);
+		$from = str_replace("-valRef-", $valRef, $Q[0]->from);
+		$sql = $Q[0]->select.$from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		if($this->trace)
+			echo "GetLienDonnee ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$req = $db->query($sql);
+		$db->close();
+		
+		return $req;
+
+	}
+	
 	
 	function VerifQuestionIntermediaire($critere){
 		
@@ -1846,6 +1914,7 @@ class Grille{
 			$form = $this->GetXulCarto($idDon);
 			//$form .= '</groupbox>';
 		}
+		/*
 		//vérifie s'il faut ajouter le bouton de création de placemark
 		$geo = $this->VerifDonneeLienGrille($idDon,$this->site->infos["GRILLE_GEO"]); 
 		if(!$geo && $idGrille!=$this->site->infos["GRILLE_REP_CON"]){
@@ -1853,7 +1922,7 @@ class Grille{
 		}
 		if($geo && $idGrille==$this->site->infos["GRILLE_OBS"])
 			$form .= $this->GetXulForm($geo, $this->site->infos["GRILLE_GEO"]);
-		
+		*/	
 		return $form;
 	
 	}

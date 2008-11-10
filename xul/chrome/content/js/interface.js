@@ -44,12 +44,48 @@ function GetEtatDiagListe(idDoc) {
 
 function InitEtatDiag() {
 	try {
-		var doc = document.getElementById("icoenplus");
-		
+		//initialise les icones
+		var doc = document.getElementById("icoenplus");		
 		for (var i = 0; i < doc.childNodes.length; i++)
 			doc.childNodes[i].setAttribute("hidden","true");
 
+		//initialise les documents
+		doc = document.getElementById("ArtDoc");		
+		for (var i = 0; i < doc.childNodes.length; i++)
+			doc.childNodes[i].setAttribute("hidden","true");
+
+		//vide les documents
+		InitFriseDoc();
+
   	} catch(ex2){alert("interface:ShowEtatDiag:"+ex2);}
+}
+
+function InitFriseDoc() {
+	try {
+		//vide les documents
+		var doc = document.getElementById("FriseDocs");		
+		while(doc.hasChildNodes())
+				doc.removeChild(doc.firstChild);
+
+		//ferme le split
+		doc = document.getElementById("docsSplit");		
+		doc.setAttribute("state","collapsed");
+
+  	} catch(ex2){alert("interface:InitFriseDoc:"+ex2);}
+}
+
+function GetFriseDocs(idDoc,idArt,idDst) {
+	try {
+		var arrIdDoc = idDoc.split("_");
+		var idRub = document.getElementById('idRub').value;
+		var url = urlExeAjax+"?f=GetFriseDocs&id="+idRub+"&idDoc="+arrIdDoc[1]+"&idArt="+idArt;
+		var doc = document.getElementById(idDst);
+		AppendResult(url,doc);
+		//ouvre le split
+		var split = document.getElementById("docsSplit");		
+		split.setAttribute("state","open");
+
+  	} catch(ex2){alert("interface:GetArtDoc:"+ex2);}
 }
 
 function ShowEtatDiag(idRub) {
@@ -71,17 +107,34 @@ function ShowEtatDiag(idRub) {
 		
 		//récupère l'état du diagnostic
 		xmlRep = GetXmlUrlToDoc(url);
+		
+		//met à jour le titre
+		var titre = "Etat des lieux de "+xmlRep.firstChild.getAttribute("titre");
+		document.getElementById("etatdiag_titre").setAttribute("value",titre);
+		
 		//met à jour les valeurs du tableau
 		for (var i = 0; i < xmlRep.firstChild.childNodes.length; i++){
 			var e = xmlRep.firstChild.childNodes[i];
 			var idDoc = e.getAttribute("id");
-			//vérifie si on traite les icones
-			if(idDoc=='ico_'){
+			switch (idDoc)
+			{
+			case 'ico_': 
 				for (var j = 0; j < e.childNodes.length; j++){
 					var voir = e.childNodes[j].getAttribute("id");			
 					document.getElementById(idDoc+voir).setAttribute("hidden",false);
 				}
-			}else{
+				break; 
+			case 'ArtDoc': 
+				/*
+				for (var j = 0; j < e.childNodes.length; j++){
+					var xul = e.childNodes[j];
+					document.getElementById(idDoc).appendChild(xul);
+				}
+				while(e.hasChildNodes())
+					document.getElementById(idDoc).appendChild(e.firstChild);
+				break; 
+				*/
+			default: 
 				//récupération des valeurs
 				var valM = e.getAttribute("moteur");
 				var valA = e.getAttribute("audio");
@@ -102,7 +155,7 @@ function ShowEtatDiag(idRub) {
 				document.getElementById(idDoc+"audio").setAttribute(attribut,valA);
 				document.getElementById(idDoc+"visu").setAttribute(attribut,valV);
 				document.getElementById(idDoc+"cog").setAttribute(attribut,valC);
-			}
+			} 
 		}
 
   	} catch(ex2){alert("interface:ShowEtatDiag:"+ex2);}
@@ -1044,11 +1097,17 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 	//ajoute le lien vers spip admin
 	//SetLienAdmin(document.getElementById("idRub").value);	
 
+	//vide les documents
+	InitFriseDoc();
+
 	var doc = document.getElementById(idDst);
 	if(document.getElementById(idSrc))
 		var id = document.getElementById(idSrc).value;
-	else
+	else{
 		var id = idSrc;
+		//met à jour le label qui concerve l'idRub
+		document.getElementById("idRub").value=id;
+	}
 
 	//gestion de menu contextuel du formulaire
 	//if(document.getElementById('dataBox').childNodes.length>0){
@@ -1195,7 +1254,7 @@ function GetFichierKml(doc)
 		document.documentElement.style.cursor = "wait";
 		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
 		
-		var types = new Array("kml", "kmz", "flv", "mpg", "mov");
+		var types = new Array("kml", "kmz", "flv", "mpg", "mov", "mp3");
 		fichierCourant = GetFichier(types);
 		//fichierCourant = document.getElementById("NomFichier").value;
 		
@@ -1215,6 +1274,7 @@ function GetFichierKml(doc)
 			}
 			
 			//alert(extension);
+			/*
 			if (extension == 'kml') 
 				document.getElementById(doc).value = fichierCourant.path;
 			else {
@@ -1223,6 +1283,9 @@ function GetFichierKml(doc)
 				//alert(fichier2);
 				document.getElementById(fichier2).value = fichierCourant.path;
 			}
+			*/
+			document.getElementById(doc).value = fichierCourant.path;
+			
 			UploadFile(urlExeAjax+"?f=AddDocToArt&idDoc="+doc, fichierCourant);
 			
 			if(progressMeter){
@@ -1230,7 +1293,8 @@ function GetFichierKml(doc)
 				progressMeter.setAttribute("value", "100");
 			}
 	
-			alert("Ajout du fichier terminé");
+			alert("Ajout du fichier "+fichierCourant.leafName+" terminé");
+			document.getElementById(doc).value = "";
 			
 			if(progressMeter){
 				document.getElementById('progressMeter').style.visibility="hidden";
@@ -1276,13 +1340,13 @@ function GetFichier(types)
 	var fp = Components.classes["@mozilla.org/filepicker;1"]
 	        .createInstance(nsIFilePicker);
 	var i = 0;
+	fp.appendFilters(nsIFilePicker.filterImages);
 	while (i < types.length) {
 		//if (types[i]=='mpeg') fp.appendFilter("Fichiers "+types[i],"*."+types[i]+"; *.mpg; *.mpe");
 		//else 
 		fp.appendFilter("Fichiers "+types[i],"*."+types[i]);
 		i++;
 	}
-	fp.appendFilters(nsIFilePicker.filterImages);
 	//fp.appendFilters(nsIFilePicker.filterAll);
 	fp.init(window, "Sélectionnez un fichier", nsIFilePicker.modeOpen);
 	
