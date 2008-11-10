@@ -698,7 +698,7 @@
 	function GetTabForm($type, $idRub){
 		global $objSite;
 
-		$g = new Grille($objSite);
+		$g = new Grille($objSite,-1,false,$type);
 		
 		$xul = $g->GetXulTab($type, $idRub, $type);
 
@@ -777,7 +777,7 @@
 		//ajoute une sous-rubrique
 		//alert("AddNewGrille  IN Src "+$idRubSrc+" Dst "+$idRubDst+" trs "+$trs+" n");	
 		
-		$grille = new Grille($objSite);
+		$grille = new Grille($objSite,-1,false,$trs);
 		
 		/*if($trs=="CabineAscenseur") {
 			//AddNewObjetIntBat(597, $id, "ObjetIntBat");
@@ -986,19 +986,20 @@
 				$g->SetChamp($row, $idDon);			
 			}
 		}else{
-			$row = array("champ"=>'ligne_1',"valeur"=>$objSite->infos["DEF_LAT"]);
+			$gra = new Granulat($idRubDst,$objSite);
+			$arrGeo = $gra->GetGeo();
+			$row = array("champ"=>'ligne_1',"valeur"=>$arrGeo["lat"]);
 			$g->SetChamp($row, $idDon);			
-			$row = array("champ"=>'ligne_2',"valeur"=>$objSite->infos["DEF_LNG"]);
+			$row = array("champ"=>'ligne_2',"valeur"=>$arrGeo["lng"]);
 			$g->SetChamp($row, $idDon);			
-			$row = array("champ"=>'ligne_3',"valeur"=>$objSite->infos["DEF_ZOOM"]);
+			$row = array("champ"=>'ligne_3',"valeur"=>$arrGeo["zoom"]);
 			$g->SetChamp($row, $idDon);			
-			$row = array("champ"=>'ligne_4',"valeur"=>$objSite->infos["DEF_ZOOM"]+4);
+			$row = array("champ"=>'ligne_4',"valeur"=>$arrGeo["zoom"]+4);
 			$g->SetChamp($row, $idDon);			
 			$row = array("champ"=>'ligne_7',"valeur"=>"inconnue");
 			$g->SetChamp($row, $idDon);			
-			$row = array("champ"=>'mot_1',"valeur"=>$objSite->infos["MOT_CLEF_DEF_TYPE_CARTE"]);
+			$row = array("champ"=>'mot_1',"valeur"=>$arrGeo["idType"]);
 			$g->SetChamp($row, $idDon);			
-			
 		}
 		
 		//header('Content-type: application/vnd.mozilla.xul+xml');

@@ -569,7 +569,7 @@ class Granulat
 		}
 		
 		$sql = "SELECT r.id_rubrique, r.titre, r.descriptif, r.id_parent, da.id_donnee
-				,dc1.valeur lat, dc2.valeur lng, dc3.valeur zoom, dc4.valeur type
+				,dc1.valeur lat, dc2.valeur lng, dc3.valeur zoom, dc4.valeur type, dc5.valeur zoommax
 			FROM spip_rubriques r
 				INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
@@ -577,7 +577,8 @@ class Granulat
 				LEFT JOIN spip_forms_donnees_champs dc1 ON dc1.id_donnee = da.id_donnee AND dc1.champ = 'ligne_1'
 				LEFT JOIN spip_forms_donnees_champs dc2 ON dc2.id_donnee = da.id_donnee AND dc2.champ = 'ligne_2'
 				LEFT JOIN spip_forms_donnees_champs dc3 ON dc3.id_donnee = da.id_donnee AND dc3.champ = 'ligne_3'
-				LEFT JOIN spip_forms_donnees_champs dc4 ON dc4.id_donnee = da.id_donnee AND dc4.champ = 'ligne_5'
+				LEFT JOIN spip_forms_donnees_champs dc5 ON dc5.id_donnee = da.id_donnee AND dc5.champ = 'ligne_4'
+				LEFT JOIN spip_forms_donnees_champs dc4 ON dc4.id_donnee = da.id_donnee AND dc4.champ = 'mot_1'
 			".$where."
 			GROUP BY r.id_rubrique
 			LIMIT 0 , ".MaxMarker;
@@ -590,7 +591,8 @@ class Granulat
 		$result['lat'] = $this->site->infos["DEF_LAT"];
 		$result['lng'] = $this->site->infos["DEF_LNG"];
 		$result['zoom'] = $this->site->infos["DEF_ZOOM"];
-		$result['type'] = $this->site->infos["DEF_CARTE_TYPE"];
+		$result['zoommax'] = $this->site->infos["DEF_ZOOM"]+4;
+		$result['type'] = $this->site->infos["MOT_CLEF_DEF_TYPE_CARTE"];
 		$r =  $db->fetch_assoc($requete);
 		//gestion de la localisation parente si localisation  null
 		if(!$r['lat']){
@@ -601,14 +603,17 @@ class Granulat
 			$result['lng'] = $r['lng'];
 			if($r['zoom'])
 				$result['zoom'] = $r['zoom'];
+			if($r['zoommax'])
+				$result['zoommax'] = $r['zoommax'];
 			$GmapType = "G_SATELLITE_MAP";
-			if($r['type']=="Plan")
+			if($r['type']==3)
 				$GmapType = "G_NORMAL_MAP";
-			if($r['type']=="Mixte")
+			if($r['type']==5)
 				$GmapType = "G_HYBRID_MAP";
-			if($r['type']=="Satellite")
+			if($r['type']==4)
 				$GmapType = "G_SATELLITE_MAP";				
 			$result['type'] = $GmapType;
+			$result['idType'] = $r['type'];
 		}
 		
 		return $result;

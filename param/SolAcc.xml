@@ -1059,7 +1059,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					INNER JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = fdCont.id_donnee
 					   AND fdcM.champ = '-champ-'  AND fdcM.valeur = '-valeur-'
 					LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = fdCont.id_donnee 
-					   AND fdcAff.champ = 'texte_1'	   
+					   AND fdcAff.champ = 'texte_2'	   
 				</from>
 				<where> WHERE r.id_rubrique IN(-ids-)  ORDER BY r.id_rubrique, a.id_article </where>
 			</Query>
@@ -1237,16 +1237,17 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 
 			
 			<Query fonction="Grille_GetXulTabPanelsArt">
-				<select>SELECT id_article id, titre </select>
+				<select>SELECT id_article id, titre, id_rubrique idRub </select>
 				<from> FROM spip_articles </from>
 				<where> WHERE id_article = -id-</where>
 				<dst>Grille</dst>
 			</Query>
 			
 			<Query fonction="Grille_GetXulTabPanelsForm">
-				<select>SELECT da.id_donnee id </select>
+				<select>SELECT da.id_donnee id, a.id_rubrique idRub </select>
 				<from> FROM spip_forms_donnees_articles da
 				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+				INNER JOIN spip_articles a ON a.id_article = da.id_article
 				 </from>
 				<where> WHERE da.id_article =-src-  AND fd.id_form =-id-</where>
 				<dst>Form</dst>
@@ -1346,8 +1347,8 @@ INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form 
 				<where> WHERE id_donnee = -idDon- AND champ = '-champ-' AND valeur = '-choix-' </where>
 			</Query>
 			<Query fonction="Grille_InsChamp">
-				<insert>INSERT INTO `spip_forms_donnees_champs` (`id_donnee`, `champ`, `valeur`, `maj`)</insert>
-				<values> VALUES (-idDon-, '-champ-', '-val-', now()) </values>
+				<insert>INSERT INTO `spip_forms_donnees_champs` (`id_donnee`, `champ`, `valeur`, `maj`, valint, valdec)</insert>
+				<values> VALUES (-idDon-, '-champ-', '-val-', now(),'-valint-','-valdec-') </values>
 			</Query>
 			<Query fonction="Grille_GetGrillesPublie">
 				<select>SELECT f.id_form, f.titre, a.id_article </select>

@@ -10,18 +10,20 @@ class Grille{
   public $XmlScena;
   public $trace;
   public $titre;
+  public $type;
   private $site;
 
   function __tostring() {
     return "Cette classe permet de définir et manipuler des grilles.<br/>";
     }
 
-  function __construct($site, $id=-1, $complet=true) {
+  function __construct($site, $id=-1, $complet=true, $type="") {
 	//echo "new Site $sites, $id, $scope<br/>";
 	$this->trace = TRACE;
 
     $this->site = $site;
     $this->id = $id;
+    $this->type = $type;
 	if($this->site->scope["FicXml"]!=-1)
 		$this->XmlParam = new XmlParam($this->site->scope["FicXml"]);
 	$this->XmlScena = new XmlParam(XmlScena);
@@ -110,8 +112,8 @@ class Grille{
 		if($idDonV){
 			$xul .="<vbox>";
 			$xul.="<image onclick=\"ExecCarto(".$this->GetRubDon($idDonV).",".$idDonV.");\" src='images/kml.png' />";
-			$idArt = $this->GetArtDon($idDonV);
-			$xul.= $this->GetXulLiensArticle($idArt);
+			//$idArt = $this->GetArtDon($idDonV);
+			//$xul.= $this->GetXulLiensArticle($idArt);
 			$xul .="</vbox>";
 		}
 		//vérifie s'il y a une grille observation
@@ -1387,6 +1389,15 @@ class Grille{
 		$values = str_replace("-idDon-", $donId, $Q[0]->values);
 		$values = str_replace("-champ-", $row["champ"], $values);
 		$values = str_replace("'-val-'", $this->site->GetSQLValueString($row["valeur"],"text"), $values);
+		//prise en compte des entier et des décimaux
+		if(is_numeric($row["valeur"])){
+			$values = str_replace("'-valint-'",$row["valeur"], $values);
+			$values = str_replace("'-valdec-'",$row["valeur"], $values);
+		}else{
+			$values = str_replace("'-valint-'","0", $values);
+			$values = str_replace("'-valdec-'","0", $values);
+		}	
+		
 		$sql = $Q[0]->insert.$values;
 		if($this->trace)
 			echo $this->site->infos["SQL_DB"]." ".$sql."<br/>";
@@ -1397,7 +1408,7 @@ class Grille{
 		//echo "--- ".$donId." nouvelle valeur ".$i;
 		
 	}	
-		
+	
 	function DelChamp($row, $donId) {
 
 		//supression de la valeur
@@ -1553,7 +1564,7 @@ class Grille{
 					default:
 						//vérifie s'il faut afficher une carte
 						$carto = "";
-						$AddGeo ="<button label='Ajouter une géolocalisation' oncommand=\"AddPlacemark();\"/>";
+						$AddGeo ="<button label='Ajouter une géolocalisation' oncommand=\"AddPlacemark(".$r["idRub"].",'".$this->type."');\"/>";
 						$idDon = $this->VerifDonneeLienGrille($r["id"],$this->site->infos["GRILLE_GEO"]);
 						if($idDon){
 							$carto = $this->GetXulForm($idDon, $this->site->infos["GRILLE_GEO"]);
