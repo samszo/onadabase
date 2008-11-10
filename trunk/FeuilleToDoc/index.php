@@ -1,8 +1,8 @@
 <?php
 // declartion des constantes
-define("WEBAPP_DIR","http://www.mundilogiweb.com/onadabase/FeuilleToDoc");
-define("MODEL_DIR",WEBAPP_DIR."/PHP-INF");
-define("ROOT_URL","http://www.mundilogiweb.com/onadabase/FeuilleToDoc");
+define("WEBAPP_DIR","http://localhost/onadabase/FeuilleToDoc");
+define("MODEL_DIR",WEBAPP_DIR."PHP-INF");
+define("ROOT_URL","http://localhost/onadabase/FeuilleToDoc");
 define("BASE_URL","/onadabase/FeuilleToDoc/");
 define("ZEND_FRAMEWORK_DIR",$_SERVER["DOCUMENT_ROOT"]."/onadabase/Zend/library");
 define("PATH","../rapports/");

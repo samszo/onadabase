@@ -21,7 +21,8 @@ class IndexController extends Zend_Controller_Action {
     }
 	public function creatrepportAction(){
 		$html=utf8_decode($_POST['html']);
-		$file=utf8_encode($_POST['file']);
+		$html=str_replace("\'","'",$html); 
+		$file=utf8_decode($_POST['file']);
 			$this->_helper->viewRenderer->setNoRender();
 		    $file=str_replace(" ","_",$file); 
 			if(file_exists(PATH.$file)){
