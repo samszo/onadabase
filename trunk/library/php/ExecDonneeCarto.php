@@ -189,9 +189,8 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 					INNER JOIN spip_forms_donnees_champs dc7 ON dc7.id_donnee = da.id_donnee AND dc7.champ = 'ligne_7'
 					LEFT JOIN spip_forms_donnees_champs dc8 ON dc8.id_donnee = da.id_donnee AND dc8.champ = 'texte_1'
 					LEFT JOIN spip_documents_articles doca ON doca.id_article = a.id_article
-					LEFT JOIN spip_documents d ON d.id_document = doca.id_document
+					LEFT JOIN spip_documents d ON d.id_document = doca.id_document AND d.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].")
 				WHERE r.id_rubrique =".$id." 
-					AND (d.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].") OR d.id_type IS NULL)  
 				ORDER BY dc1.valdec DESC
 				LIMIT 0 , ".MaxMarker;
 		  	break;

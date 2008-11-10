@@ -45,6 +45,9 @@ class Xul{
 					case 1: //'jpeg'
 						$images .= $doc->GetSvgGallerie(170, 170);
 						break;
+					case 2: //'png'
+						$images .= $doc->GetSvgGallerie(170, 170);
+						break;
 				}
 			}
     		
@@ -83,6 +86,9 @@ class Xul{
 					$sons ="<image id='ico_sons' onclick=\"".$js."\" src='images/mp3.png' />";
 					break;
 				case 1: //'jpeg'
+					$images ="<image id='ico_images' onclick=\"".$js."\" src='images/jpg.png' />";
+					break;
+				case 2: //'png'
 					$images ="<image id='ico_images' onclick=\"".$js."\" src='images/jpg.png' />";
 					break;
 			}
