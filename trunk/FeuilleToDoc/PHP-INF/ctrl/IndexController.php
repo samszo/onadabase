@@ -32,6 +32,23 @@ class IndexController extends Zend_Controller_Action {
 		    fwrite($fichier,$html);
 		    fclose($fichier);
 		    print "{PATH:'".PATH.$file."',File:'".$file."'}";
+		    $this->SendEmailToGoogleDoc($html,$file);
+	}
+	
+	public function SendEmailToGoogleDoc($html,$file){
+		
+		$to = "feuilletodoc+onada-00986750759861606136-B92cp5s2@prod.writely.com";
+		$subject = $file;
+	    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    	 /* et hop, à la poste */
+		 if (mail($to, $subject, $html, $headers)){
+				 echo 'Votre message a été envoyé avec succès!';
+		}else { 
+			echo 'problème lors de l\'envoi !';
+		};
+		exit;
+		 
 	}
 	
 }
