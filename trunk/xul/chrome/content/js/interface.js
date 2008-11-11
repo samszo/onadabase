@@ -78,6 +78,12 @@ function GetFriseDocs(idDoc,idArt,idDst) {
 	try {
 		var arrIdDoc = idDoc.split("_");
 		var idRub = document.getElementById('idRub').value;
+		//affihce la carte de l'état des lieux
+		if(arrIdDoc[1]=='kml'){
+			ExecCarto(idRub,-1);
+			return;
+		}
+			
 		var url = urlExeAjax+"?f=GetFriseDocs&id="+idRub+"&idDoc="+arrIdDoc[1]+"&idArt="+idArt;
 		var doc = document.getElementById(idDst);
 		AppendResult(url,doc);
@@ -107,6 +113,9 @@ function ShowEtatDiag(idRub) {
 		while(doc.hasChildNodes())
 				doc.removeChild(doc.firstChild);
 		
+		//affiche la carte
+		ExecCarto(idRub,-1);
+
 		//récupère l'état du diagnostic
 		xmlRep = GetXmlUrlToDoc(url);
 		
@@ -820,9 +829,10 @@ function ExecCarto(idRub,idDon){
   try {
 	var iframe = document.getElementById('frameGM');
 	var url = urlCarto+"?id="+idRub+"&idDon="+idDon;
-	if(iframe)
+	if(iframe){
+	 	iframe.setAttribute("src",""); 
 	 	iframe.setAttribute("src",url); 
-	
+	}
 	//GetMarkers(idDon, query);
   } catch(ex2){alert("ExecCarto::"+ex2+" url="+url);}
 

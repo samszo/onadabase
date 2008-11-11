@@ -37,7 +37,35 @@ class Granulat
   }
   
 
-	function GetEtatDiagListe($idDoc){
+	function GetKml($gra=-1,$niv=0){
+		
+		if($gra==-1)
+			$gra = $this;
+			
+		if($this->trace)
+	    	echo "Granulat:GetKml: id=$gra->id <br/>";
+
+		//récupère les kml
+		$kmls = $this->GetDocs($gra->id, $this->site->infos["CARTE_TYPE_DOC"]);
+
+		$ficsKml ="";
+		if(count($kmls)>0){
+			foreach($kmls as $kml){
+				$ficsKml .= $kml->fichier."*";
+			}
+		}else{
+			//on ne remonte que jusqu'au grand parent
+			if($niv<2){
+				$grap = new Granulat($gra->IdParent,$gra->site);
+				$ficsKml = $this->GetKml($grap,$niv+1);	
+			}
+		}
+		
+		return $ficsKml;
+		
+	}
+  
+  	function GetEtatDiagListe($idDoc){
 		
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiagListe: id=$this->id idDoc=$idDoc<br/>";
@@ -100,6 +128,11 @@ class Granulat
 		while($r = mysql_fetch_assoc($Arts)) {
 			$IcosDoc .= $xul->GetFriseDocsIco($r["id_article"],-1,false,true);
 		}
+		//vérifie s'il y a une géolocalisation
+		$geo = $this->GetValeurForm($this->site->infos["GRILLE_GEO"],"lat");
+		if($geo)
+			$IcosDoc .= 	"<icone id='kml' />";		
+		
 		$IcosDoc .="</icones>";
 				
 		//construction du xml
@@ -1014,21 +1047,38 @@ class Granulat
 		return $req;
 	}
 	
-	public function GetDocs()
+	public function GetDocs($id=-1,$type=-1)
 	{
+		if($id==-1)
+			$id=$this->id;
+			
+		if($type==-1)
+			$whereType = "";
+		else
+			$whereType = " AND d.id_type IN (".$type.") ";
+		
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
-		//charge les documents du granulat
+		//charge les documents du granulat au niveau de la rubrique
 		$sql = "SELECT r.titre rtitre, r.id_rubrique, r.descriptif
 				, d.fichier, d.hauteur, d.largeur, d.id_document, d.id_type, d.titre dtitre
 			FROM spip_rubriques r
 				INNER JOIN spip_documents_rubriques dr ON dr.id_rubrique = r.id_rubrique
 				INNER JOIN spip_documents d ON d.id_document = dr.id_document
-			WHERE r.id_rubrique = ".$this->id
+			WHERE r.id_rubrique = ".$id.$whereType
 			." ORDER by d.id_type";
-		$req = $DB->query($sql);
+		//au niveau des articles
+		$sql = "SELECT a.titre rtitre, a.id_rubrique, a.descriptif
+				, d.fichier, d.hauteur, d.largeur, d.id_document, d.id_type, d.titre dtitre
+			FROM spip_articles a
+				INNER JOIN spip_documents_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_documents d ON d.id_document = da.id_document
+			WHERE a.id_rubrique = ".$id.$whereType
+			." ORDER by d.id_type";
+			$req = $DB->query($sql);
 		$DB->close();
 		$i = 0;
+		$this->arrDoc = array(); 
 		while($data = $DB->fetch_assoc($req)) {
 			$this->arrDoc[$i] = new Document($this->site, $data);
 			//vérifie s'il y a des fichiers multimédia
