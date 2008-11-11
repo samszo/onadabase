@@ -158,6 +158,7 @@
 			  <menuitem label="La(les) observation(s)" oncommand="ChargeTreeObs('idRub','FormSaisi');"/>
 			  <menuitem label="Le(s) espace(s) intérieur(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces intérieurs','espaceint','EspaceInt');"/>
 			  <menuitem label="Les objets intérieurs" oncommand="RefreshEcran(document.getElementById('idRub').value,'Tous les objets','objetint','ObjetInt');"/>
+			  <menuitem label="état des lieux" oncommand="ShowEtatDiag(document.getElementById('idRub').value);"/>
 			</menupopup>
 		   </menu>
 		   <menu id="menu_niveau_voir" label="Ajouter">

@@ -191,8 +191,8 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 					LEFT JOIN spip_documents_articles doca ON doca.id_article = a.id_article
 					LEFT JOIN spip_documents d ON d.id_document = doca.id_document AND d.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].")
 				WHERE r.id_rubrique =".$id." 
-				ORDER BY dc1.valdec DESC
-				LIMIT 0 , ".MaxMarker;
+				ORDER BY dc1.valdec, d.fichier DESC
+				LIMIT 0 , 1";
 		  	break;
 		case "adminDon":
 			//requète pour un élément
@@ -201,7 +201,6 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 					, dc1.valdec lat, dc2.valdec lng, dc3.valint zoommin, dc4.valint zoommax
 					, m.titre cartotype , dc7.valeur adresse
 					, dc8.valeur kml
-					, d.fichier dockml
 					, dArt.fichier docArtkml
 					FROM spip_rubriques r
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
@@ -215,13 +214,11 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 					INNER JOIN spip_mots m ON m.id_mot = dc5.valeur					
 					INNER JOIN spip_forms_donnees_champs dc7 ON dc7.id_donnee = da.id_donnee AND dc7.champ = 'ligne_7'
 					LEFT JOIN spip_forms_donnees_champs dc8 ON dc8.id_donnee = da.id_donnee AND dc8.champ = 'texte_1'
-					LEFT JOIN spip_documents_rubriques dr ON r.id_rubrique = dr.id_rubrique
-					LEFT JOIN spip_documents d ON dr.id_document = d.id_document AND d.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].")
 					LEFT JOIN spip_documents_articles doca ON doca.id_article = a.id_article
 					LEFT JOIN spip_documents dArt ON dArt.id_document = doca.id_document AND dArt.id_type IN (".$objSite->infos["CARTE_TYPE_DOC"].")
 				WHERE fd.id_donnee =".$id."  
-				ORDER BY dc1.valdec DESC
-				LIMIT 0 , ".MaxMarker;
+				ORDER BY dc1.valdec, dArt.fichier DESC
+				LIMIT 0 , 1";
 		  	break;
 	}
 
@@ -299,12 +296,12 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 		
 		//lien vers le kml
 		$kml="";
-		if($row['dockml'])
-			$kml =$objSite->infos["pathSpip"].$row['dockml'];
 		if($row['docArtkml'])
 			$kml = $objSite->infos["pathSpip"].$row['docArtkml'];
 		if($kml=="")	
 			$kml = $row['kml'];
+		if($kml=="")
+			$kml = $g->GetKml();
 		$xml .= " kml='".$kml."'";
 		
 		//cr�ation de l'identidiant xul
