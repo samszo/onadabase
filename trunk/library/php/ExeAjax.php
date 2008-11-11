@@ -608,7 +608,7 @@
 		$xul = $g->GereWorkflow($row, $idDon);		
 		
 		//gestion de la scénarisation
-		if($idGrille==59 && $_SESSION['version']=="V2" && $ppp==-1)
+		if($idGrille==59 && $_SESSION['version']=="V2")
 			$xul = $g->GereScenarisation($row, $idDon);		
 		
 		if(TRACE)

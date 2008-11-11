@@ -784,20 +784,26 @@ class Grille{
 		{
 			//vérifie que la réponse correspond au critère
 			if($qi["reponse"]==$row["valeur"]){
+				$OldCrit = "";
 		    	foreach($qi as $q)
 				{
 					//récupère les paramètre de la question
-					$critere = $q["id"];
-					$idDon = $this->GetDonneeCritere($idArt,$critere);
-					//vérifie s'il faut créer la réponse à la question
-					if($q["valeur"]){
-						//répond à la question
-						$r = array("grille"=>$row["grille"],"champ"=>$q["champ"],"valeur"=>$q["valeur"]);
-						$this->SetChamp($r, $idDon);
-						$this->GereWorkflow($row, $idDon);		
-					}else{
-						//création du formulaire
-						$xul .= $this->GetXulForm($idDon,$row["grille"]);
+					$critere = $q["id"]."";
+					//pour éviter la création de doublon pour une sous question intermédiare 
+					//cf. douche
+					if($critere != $OldCrit){
+						$OldCrit=$critere;
+						$idDon = $this->GetDonneeCritere($idArt,$critere);
+						//vérifie s'il faut créer la réponse à la question
+						if($q["valeur"]){
+							//répond à la question
+							$r = array("grille"=>$row["grille"],"champ"=>$q["champ"],"valeur"=>$q["valeur"]);
+							$this->SetChamp($r, $idDon);
+							$this->GereWorkflow($row, $idDon);		
+						}else{
+							//création du formulaire
+							$xul .= $this->GetXulForm($idDon,$row["grille"]);
+						}
 					}
 				}
 			}
@@ -1993,19 +1999,19 @@ class Grille{
 					break;
 				//construstion des couleurs par rapport aux handicateurs 
 				case "ligne_2":
-					if($r['valeur']!="0")
+					if($ico1!="")
 						$ico1 .= $r['valeur'].'.jpg"/>';
 					break;
 				case "ligne_3":
-					if($r['valeur']!="0")
+					if($ico2!="")
 						$ico2 .= $r['valeur'].'.jpg"/>';
 					break;
 				case "ligne_4":
-					if($r['valeur']!="0")
+					if($ico3!="")
 						$ico3 .= $r['valeur'].'.jpg"/>';
 					break;
 				case "ligne_5":
-					if($r['valeur']!="0")
+					if($ico4!="")
 						$ico4 .= $r['valeur'].'.jpg"/>';
 					break;
 				case "mot_1":
