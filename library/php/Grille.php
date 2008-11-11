@@ -172,15 +172,17 @@ class Grille{
 					if($q["srcIdGrille"]){ 
 						$idDon = $this->RechercheDonneeId($q["srcIdGrille"],$row["id_article"],$q["srcIdChamp"],$q["srcCheckVal"],$ids);
 						//vérifie s'il faut traiter un deuxième critère
-						$q = $q->question;
-						if($idDon && $q){
-							$idDon = $this->RechercheDonneeId($q["srcIdGrille"],$row["id_article"],$q["srcIdChamp"],$q["srcCheckVal"],$ids);
+						$qB = $q->question;
+						if($idDon && $qB){
+							$idDon = $this->RechercheDonneeId($qB["srcIdGrille"],$row["id_article"],$qB["srcIdChamp"],$qB["srcCheckVal"],$ids);
+							$q = $qB;
 						}
 					}
-					//vérifie s'il faut chercher par rapport aux grilles de réponse
+					/*vérifie s'il faut chercher par rapport aux grilles de réponse
 					if($q["id"]){
 						$idDon = $this->RechercheDonneeId($this->site->infos["GRILLE_REP_CON"],$row["id_article"],$q["srcIdChamp"],$q["srcCheckVal"],$ids);
 					}
+					*/
 					//ajoute l'icone
 					if($idDon){
 						$icones .= 	"<icone id='".$q->icone["id"]."' />";		
@@ -1981,30 +1983,30 @@ class Grille{
 				case "multiple_3":
 					//construstion des icones
 					if($r['valeur']=="multiple_3_1")
-						$ico1 = '<image src="images/moteur.jpg"/>';
+						$ico1 = '<image src="images/moteur';
 					if($r['valeur']=="multiple_3_2")
-						$ico2 = '<image src="images/audio.jpg"/>';
+						$ico2 = '<image src="images/audio';
 					if($r['valeur']=="multiple_3_3")
-						$ico3 = '<image src="images/visu.jpg"/>';
+						$ico3 = '<image src="images/visu';
 					if($r['valeur']=="multiple_3_4")
-						$ico4 = '<image src="images/cog.jpg"/>';
+						$ico4 = '<image src="images/cog';
 					break;
-				//construstion des handicateurs
+				//construstion des couleurs par rapport aux handicateurs 
 				case "ligne_2":
 					if($r['valeur']!="0")
-						$ico1 .= '<label value="'.$r['valeur'].'"/>';
+						$ico1 .= $r['valeur'].'.jpg"/>';
 					break;
 				case "ligne_3":
 					if($r['valeur']!="0")
-						$ico2 .= '<label value="'.$r['valeur'].'"/>';
+						$ico2 .= $r['valeur'].'.jpg"/>';
 					break;
 				case "ligne_4":
 					if($r['valeur']!="0")
-						$ico3 .= '<label value="'.$r['valeur'].'"/>';
+						$ico3 .= $r['valeur'].'.jpg"/>';
 					break;
 				case "ligne_5":
 					if($r['valeur']!="0")
-						$ico4 .= '<label value="'.$r['valeur'].'"/>';
+						$ico4 .= $r['valeur'].'.jpg"/>';
 					break;
 				case "mot_1":
 					$m = new MotClef($r['valeur'],$this->site);
