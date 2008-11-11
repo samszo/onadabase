@@ -1434,6 +1434,8 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ" srcId="65;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ" srcId="64;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="64;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
+		<workflow srcObj="grille;champ" srcId="69;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
+		<workflow srcObj="grille;champ" srcId="69;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		
 		<!-- Reponse non à un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
@@ -1476,6 +1478,7 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="680" />
 		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="675" />
 		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="678" />
+		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_7" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="676" />
 			
 		<!-- Objets niveau intérieur -->	
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="52" />
