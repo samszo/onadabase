@@ -4,7 +4,7 @@
     }
    
      
-     // Query response handler function.
+      // Query response handler function.
       function handleQueryResponse(response) {
         if (response.isError()) {
           alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
@@ -18,22 +18,22 @@
         html.push("<body>");
         for (var row = 0; row < data.getNumberOfRows()-3; row++) {
         	if(escapeHtml(data.getFormattedValue(row, 7))=="F"){
-	        html.push("<h3>Problème  "+r+"</h3>");
-	        html.push("<h3>Diagnostic des critères réglementaires posant problèmes</h3>");
+	        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Problème  "+r+"</h4>");
+	        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Diagnostic des critères réglementaires posant problèmes</h4>");
 	        html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
-	        	html.push("<th style='background-color:#66CC99;'>Critère réglementaire </th>");
-	       	    html.push("<th style='background-color:#66CC99;'>Mesure et observation </th>");
+	        	html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Critère réglementaire </th>");
+	       	    html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Mesure et observation </th>");
 	        	html.push("<tr>");
-	        		html.push("<td>");
+	        		html.push("<td style='font-family:Arial;font-size:11px'>");
 	        			html.push(escapeHtml(data.getFormattedValue(row, 1))+" ");
 	        		html.push("</td>");
-	        		html.push("<td>");
+	        		html.push("<td style='font-family:Arial;font-size:11px'>");
 	        			html.push(escapeHtml(data.getFormattedValue(row, 8))+" ");
 	        		html.push("</td>");
 	        	   html.push("</tr>");     	
 	        html.push("</table>");
-	        html.push("<h3>Diagnostic par type de déficience :</h3>");
-	        html.push("<table border='1'>");
+	        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Diagnostic par type de déficience :</h4>");
+	        html.push("<table cellspacing='10' border='2' style='border-collapse:collapse' >");
 	        	html.push("<tr>");
 	        		html.push("<td>"); 
 	        			html.push("<img src='"+urlImg+"indice1.png'/>");
@@ -55,20 +55,21 @@
 	        		html.push("<td valign='middle' >"+data.getFormattedValue(row, 6)+"</td>");
 	        	html.push("</tr>");
 	        html.push("</table>");
-	        html.push("<h3>Solutions :</h3>");
-	        html.push("<h3>Couts :</h3>");
-	        html.push("<p>Le coût est donnée HT, il est donnée en fonction des conditions de marché avec une approximation de 15 et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...)*euro</p> ");
+	        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Solutions :</h4>");
+	        html.push("<p style='font-weight:bold;font-family:Arial;font-size:11px'> Pour les solutions se reporter </p>")
+	        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size11px'>Couts :</h4>");
+	        html.push("<p style='font-family:Arial;font-size:11px'>Les coûts sont donnés en prix HT(Hors Taxe) et en Euro. Ils sont donnés en fonction des conditions de marché avec une approximation de 15 % et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...)</p> ");
         	r++;
         	}
 	    }
 	    html.push("</body></html>");
 	    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
-	    params="html="+ html.join('')+"&file="+escape(id[0])+".html";
+	    params="html="+ html.join('')+"&file="+id[0]+".html";
         AjaxRequestPost(urlAjax+"index/creatrepport",params,'','',true);
+        //AjaxRequest(urlAjax+"index/uploadtogoogledoc?path="+"../repports/Escalier_mécanique.doc&file=Escalier_mécanique.doc",'','');
         l++;
         
-      }
-      function escapeHtml(text) {
+      }      function escapeHtml(text) {
         if (text == null)
           return '';
 
@@ -105,7 +106,7 @@
      		    document.getElementById('table').style.visibility = "visible"
      }
      function ViewRapport(){
-     	var url = "../"+urlRapport+escape(WorkSheetTitle)+".html";
+     	var url = "../"+urlRapport+WorkSheetTitle+".html";
      	window.open(url);
      }
 
