@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('Zend/Spreadsheet-ClientLogin.php');
+require('Zend/Docs-ClientLogin.php');
 require_once ('Zend/Controller/Action.php');
 
 class IndexController extends Zend_Controller_Action {
@@ -22,8 +23,7 @@ class IndexController extends Zend_Controller_Action {
 	public function creatrepportAction(){
 		$html=utf8_decode($_POST['html']);
 		$html=str_replace("\'","'",$html); 
-		//$file=utf8_decode($_POST['file']);
-		$file=$_POST['file'];
+		$file=utf8_decode($_POST['file']);
 		$this->_helper->viewRenderer->setNoRender();
 		$file=str_replace(" ","_",$file); 
 		if(file_exists(PATH.$file)){
@@ -51,6 +51,13 @@ class IndexController extends Zend_Controller_Action {
 		exit;
 		 
 	}
+    public function uploadtogoogledocAction(){
+    	
+    	$docToUpload= new GoogleDocs($_SESSION["login"],$_SESSION["mdp"]);
+    	$this->_helper->viewRenderer->setNoRender();
+    	$docToUpload->UploadFile(PATH.utf8_decode($_GET['file']),utf8_decode($_GET['file']));
+    	    	
+    }
 	
 }
 
