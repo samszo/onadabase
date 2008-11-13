@@ -83,7 +83,6 @@
 	    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
 	    params="html="+ html.join('')+"&file="+id[0]+".html";
         AjaxRequestPost(urlAjax+"index/creatrepport",params,'','',true);
-        //AjaxRequest(urlAjax+"index/uploadtogoogledoc?path="+"../repports/Escalier_mécanique.doc&file=Escalier_mécanique.doc",'','');
         l++;
 	      
      }
@@ -127,7 +126,7 @@
      		    document.getElementById('table').style.visibility = "visible"
      }
      function ViewRapport(){
-     	var url = "../"+urlRapport+WorkSheetTitle+".html";
+     	var url = "../"+urlRapport+encodeURIComponent(WorkSheetTitle)+".html";
      	window.open(url);
      }
 
