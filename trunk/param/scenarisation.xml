@@ -1,7 +1,7 @@
 <questionnaire>
 	<grille id='2_acc'>
+		<question id='2_cr_acc_01'/>
 		<question id='2_qi_acc_01' reponse='1' >
-			<question id='2_cr_acc_01'/>
 			<question id='2_cr_acc_02'/>
 			<question id='2_cr_acc_03'/>
 		</question>
@@ -158,7 +158,6 @@
 		<question id='2_cr_chem_ext_29'/>
 		<question id='2_cr_chem_ext_32'/>
 		<question id='2_cr_chem_ext_33'/>
-		<question id='2_cr_chem_ext_33'/>
 		<question id='2_cr_chem_ext_34'/>
 		<question id='2_cr_chem_ext_35'/>
 		<question id='2_cr_chem_ext_36'/>
@@ -266,7 +265,7 @@
 			<question id='2_cr_esc_33'/>
 			<question id='2_cr_esc_34'/>
 			<question id='2_cr_esc_35'/>
-			<question id='2_cr_esc_39'/>
+			<question id='2_cr_esc_36'/>
 			<question id='2_cr_esc_37'/>
 			<question id='2_cr_esc_38'/>
 			<question id='2_cr_esc_39'/>
@@ -337,10 +336,10 @@
 	<grille id='2_gig'>
 		<question id='2_cr_gig_01'/>
 		<question id='2_cr_gig_02' reponse='1'>
-			<question id='2_cr_gig_03'/>
-			<question id='2_cr_gig_10'/>
+			<question id='2_cr_gig_03' reponse='1'>
+				<question id='2_cr_gig_10'/>
+			</question>
 		</question>
-		<question id='2_cr_gig_10'/>
 		<question id='2_qi_gig_01' reponse='1'>
 			<question id='2_cr_gig_06'/>
 			<question id='2_cr_gig_04'/>
@@ -362,20 +361,16 @@
 		<question id='2_qi_po_01' reponse='1' >
 			<question id='2_qi_po_02' reponse='1' >
 				<question id='2_cr_po_02'/>
+				<question id='2_cr_po_03'/>
 			</question>
 			<question id='2_qi_po_02' reponse='2' >
 				<question id='2_cr_po_01'/>
 			</question>
-			<question id='2_cr_po_07'/>
 			<question id='2_cr_po_06'/>
+			<question id='2_cr_po_07'/>
 		</question>
 		<question id='2_qi_po_01' reponse='2' >
-			<question id='2_qi_po_02' reponse='1' >
-				<question id='2_cr_po_03'/>
-			</question>
-			<question id='2_qi_po_02' reponse='2' >
-				<question id='2_cr_po_04'/>
-			</question>
+			<question id='2_cr_po_04'/>
 			<question id='2_cr_po_05'/>	
 		</question>
 		<question id='2_cr_po_09'/>
