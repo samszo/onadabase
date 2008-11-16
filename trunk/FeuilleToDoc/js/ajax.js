@@ -2,6 +2,20 @@
 // AJAX Functions
 //--------------------------------------------
 
+function GetXmlUrlToDoc(url){
+
+  try {
+	//alert(url);
+	var xml = GetResult(url);
+	//alert(xml);
+	var parser = new DOMParser();
+	//var serializer = new XMLSerializer();
+	var doc = parser.parseFromString(xml, "text/xml");
+	
+	return doc;
+   } catch(ex2){alert("ajax:GetXmlUrlToDoc:"+ex2);}
+
+}
 
 function GetResult(url) {
   try {
@@ -22,7 +36,7 @@ function GetResult(url) {
 	}
 	return response;
 	dump("GetResult OUT \n");
-   } catch(ex2){alert(ex2);dump("::"+ex2);}
+   } catch(ex2){alert(ex2);}
 }
 
 

@@ -26,9 +26,10 @@ ChercheAbo ();
 	<script type="text/javascript">
 	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; Name=eval((".$this->data."));"; ?> 
      var result= new Array();var urlAjax="";var j=0;urlImg="<?php echo IMG_URL; ?>";var f=0;var liste="";
-     var l=0;var WorkSheetNbre; var ul="";var m=0;urlRapport="rapports/";var WorkSheetTitle;
+     var l=0;var WorkSheetNbre; var ul="";var m=0;urlRapport="<?php echo RAPPORT_URL; ?>";var WorkSheetTitle;
      var urlSpreadsheet='http://spreadsheets.google.com/pub?key=';
-     var trace = true;
+     var trace = false;
+	 var xmlParam = GetXmlUrlToDoc("<?php echo PARAM_URL."CritSup.xml"; ?>");
      load();
     
    </script>
