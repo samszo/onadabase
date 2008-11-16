@@ -14,7 +14,7 @@
   define ("TRACE", false);
 
   //define ("DEFSITE", "localPicardieCentre");
-  define ("DEFSITE", "local1");
+  define ("DEFSITE", "local2");
   //define ("DEFSITE", "mundi"); 
   define ("SYNCSITE", "local1");
   //define ("SYNCSITE", "mundi");
@@ -129,8 +129,8 @@ $SiteLocal2 = array(
 	"SQL_LOGIN" => "root", 
 	"SQL_PWD" => "", 
 	"SQL_HOST" => "localhost",
-	"SQL_DB" => "onadalocal",
-	"NOM" => "onada local",//je sais pas
+	"SQL_DB" => "onadabasecentre",
+	"NOM" => "onadabasecentre",//je sais pas
 	"SITE_PARENT" => -1,//je sais pas
 	"SITE_ENFANT" => -1,
 	"GRILLE_GEO" => 1,
