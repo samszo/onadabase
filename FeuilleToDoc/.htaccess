@@ -1,5 +1,6 @@
 SetEnv PHP_VER 5
 
 RewriteEngine on
+
 RewriteCond %{REQUEST_URI} !/public.*
-RewriteRule !\.(js|ico|gif|jpg|png|css)$ index.php
+RewriteRule !\.(js|ico|gif|jpg|png|css|xml|html)$ index.php

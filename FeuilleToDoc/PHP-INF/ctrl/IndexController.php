@@ -27,13 +27,13 @@ class IndexController extends Zend_Controller_Action {
 		$file=utf8_decode($_POST['file']);
 		$this->_helper->viewRenderer->setNoRender();
 		$file=str_replace(" ","_",$file); 
-		if(file_exists(PATH.$file)){
-				unlink(PATH.$file);
+		if(file_exists(RAPPORT_PATH.$file)){
+				unlink(RAPPORT_PATH.$file);
 		}
-    	$fichier = fopen(PATH.$file,"w");
+    	$fichier = fopen(RAPPORT_PATH.$file,"w");
 	    fwrite($fichier,$html);
 	    fclose($fichier);
-	    print "{PATH:'".PATH.$file."',File:'".$file."'}";
+	    print "{PATH:'".RAPPORT_PATH.$file."',File:'".$file."'}";
 	    $this->SendEmailToGoogleDoc($html,$file);
 	}
 	
@@ -56,7 +56,7 @@ class IndexController extends Zend_Controller_Action {
     	
     	$docToUpload= new GoogleDocs($_SESSION["login"],$_SESSION["mdp"]);
     	$this->_helper->viewRenderer->setNoRender();
-    	$docToUpload->UploadFile(PATH.utf8_decode($_GET['file']),utf8_decode($_GET['file']));
+    	$docToUpload->UploadFile(RAPPORT_URL.utf8_decode($_GET['file']),utf8_decode($_GET['file']));
     	    	
     }
 	

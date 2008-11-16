@@ -27,27 +27,37 @@
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
 		         html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Critère réglementaire </th>");
 		       	 html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Mesure et observation </th>");
+		       	 html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Solutions </th>");
+		       	 html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Couts </th>");
 		         for (var row = 0; row < data.getNumberOfRows()-3; row++) {
-		         	if(trace)
-			         	console.log((row)+','+(col+1)+" "+data.getFormattedValue((row), col+1));
-		           if(escapeHtml(data.getFormattedValue(row, col))=="F"){
-			         html.push("<tr>");
-			         html.push("<td style='font-family:Arial;font-size:11px'>");
-			         html.push(escapeHtml(data.getFormattedValue(row, 2))+" ");
-			         html.push("</td>");
-			         html.push("<td style='font-family:Arial;font-size:11px'>");
-			         html.push(escapeHtml(data.getFormattedValue(row, col+1))+" ");
-			         html.push("</td>");
-			         html.push("</tr>");
-		             if(indice1 < data.getFormattedValue(row, 3))
-		             	indice1= data.getFormattedValue(row, 3);
-		             if(indice2 < data.getFormattedValue(row, 4))
-		             	indice2= data.getFormattedValue(row, 4);
-		             if(indice3 < data.getFormattedValue(row, 5))
-		             	indice3= data.getFormattedValue(row, 5);
-		             if(indice4 < data.getFormattedValue(row, 6))
-		             	indice4= data.getFormattedValue(row, 6);
-		          }
+		         	//vérifie s'il faut prendre en compte le critère
+		         	var idCrit = data.getFormattedValue(row, 0);
+		         	if(!VerifSupCrit(idCrit)){
+			         	if(trace)
+				         	console.log((row)+','+(col+1)+" "+data.getFormattedValue((row), col+1));
+			           if(escapeHtml(data.getFormattedValue(row, col))=="F"){
+				         html.push("<tr>");
+				         html.push("<td style='font-family:Arial;font-size:11px'>");
+				         html.push(escapeHtml(data.getFormattedValue(row, 2))+" ");
+				         html.push("</td>");
+				         html.push("<td style='font-family:Arial;font-size:11px'>");
+				         html.push(escapeHtml(data.getFormattedValue(row, col+1))+" ");
+				         html.push("</td>");
+				         html.push("<td style='font-family:Arial;font-size:11px'>");
+				         html.push("</td>");
+				         html.push("<td style='font-family:Arial;font-size:11px'>");
+				         html.push("</td>");
+				         html.push("</tr>");
+			             if(indice1 < data.getFormattedValue(row, 3))
+			             	indice1= data.getFormattedValue(row, 3);
+			             if(indice2 < data.getFormattedValue(row, 4))
+			             	indice2= data.getFormattedValue(row, 4);
+			             if(indice3 < data.getFormattedValue(row, 5))
+			             	indice3= data.getFormattedValue(row, 5);
+			             if(indice4 < data.getFormattedValue(row, 6))
+			             	indice4= data.getFormattedValue(row, 6);
+			          }
+			        }
 		        }
 		        html.push("</table>");
 		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Diagnostic par type de déficience :</h4>");
@@ -73,7 +83,7 @@
 		        html.push("<td valign='middle' >"+indice4+"</td>");
 		        html.push("</tr>");
 		        html.push("</table>");
-		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Solutions :</h4>");
+		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Solutions particulières :</h4>");
 		        html.push("<p style='font-weight:bold;font-family:Arial;font-size:11px'> Pour les solutions se reporter </p>")
 		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Couts :</h4>");
 		        html.push("<p style='font-family:Arial;font-size:11px'>Les coûts sont donnés en prix HT(Hors Taxe) et en Euro. Ils sont donnés en fonction des conditions de marché avec une approximation de 15 % et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...)</p> ");
@@ -81,7 +91,7 @@
 	     }
 	     html.push("</body></html>");
 	    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
-	    params="html="+ html.join('')+"&file="+id[0]+".html";
+	    params="html="+ html.join('')+"&file="+cleanAccent(id[0])+".html";
         AjaxRequestPost(urlAjax+"index/creatrepport",params,'','',true);
         l++;
 	      
@@ -89,7 +99,7 @@
         
         
         
-        function escapeHtml(text) {
+     function escapeHtml(text) {
         if (text == null)
           return '';
 
@@ -97,15 +107,22 @@
           .replace(/</g, 'inféieur;')
           .replace(/>/g, 'supérieur;')
           .replace(/"/g, '\"');
-      }
+     }
 
+     function cleanAccent(text) {
+        if (text == null)
+          return '';
+
+        return text.replace(/é/g, 'e')
+          .replace(/è/g, 'e');
+     }
     
      
      function ViewSpeardsheet(feuille){
      	id=feuille.split("-");
      	var url=urlSpreadsheet+'&output=html&gid='+id[1]+'&single=true&widget=true';
      	document.getElementById('ViewSpeardsheet').setAttribute("src",url);
-     	WorkSheetTitle=id[0];
+     	WorkSheetTitle=cleanAccent(id[0]);
      }
      function ListeFeuilles(response){ 
      	       var liste="";
@@ -126,7 +143,7 @@
      		    document.getElementById('table').style.visibility = "visible"
      }
      function ViewRapport(){
-     	var url = "../"+urlRapport+encodeURIComponent(WorkSheetTitle)+".html";
+     	var url = urlRapport+encodeURIComponent(WorkSheetTitle)+".html";
      	window.open(url);
      }
 
@@ -158,5 +175,13 @@
     	document.documentElement.style.cursor = "wait";
     }
     
+    function VerifSupCrit(idCrit){
+	  try {
+		var Xpath ="/criteres/critere[@id='"+idCrit+"']";
+		var iterator = xmlParam.evaluate(Xpath, xmlParam, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+		return iterator.iterateNext();		
+			
+	  } catch(ex2){alert("GoogleDocs:VerifSupCrit:"+ex2);}
+	}
   
      

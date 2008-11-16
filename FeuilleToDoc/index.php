@@ -1,15 +1,17 @@
 <?php
 // declartion des constantes
-//define("WEBAPP_DIR","http://localhost/onadabase/FeuilleToDoc");
+//define("WEBAPP_DIR","http://localhost/onadabase/FeuilleToDoc/");
 define("WEBAPP_DIR","http://www.mundilogiweb.com/onadabase/FeuilleToDoc/");
+//define("WEBAPP_PATH","c:/wamp/www/onadabase/");
+define("WEBAPP_PATH",$_SERVER["DOCUMENT_ROOT"]."/onadabase/");
 define("MODEL_DIR",WEBAPP_DIR."PHP-INF");
 define("ROOT_URL",WEBAPP_DIR);
 define("BASE_URL","/onadabase/FeuilleToDoc/");
-//define("IMG_URL","http://localhost/onadabase/rapports/");
-define("IMG_URL","http://www.mundilogiweb.com/onadabase/rapports/");
-//define("ZEND_FRAMEWORK_DIR","c:/wamp/www/onadabase/Zend/library");
-define("ZEND_FRAMEWORK_DIR",$_SERVER["DOCUMENT_ROOT"]."/onadabase/Zend/library");
-define("PATH","../rapports/");
+define("RAPPORT_PATH",WEBAPP_PATH."FeuilleToDoc/rapports/");
+define("RAPPORT_URL",WEBAPP_DIR."rapports/");
+define("IMG_URL",WEBAPP_DIR."rapports/images/");
+define("ZEND_FRAMEWORK_DIR",WEBAPP_PATH."Zend/library");
+define("PARAM_URL",WEBAPP_DIR."param/");
 
  
 set_include_path(
