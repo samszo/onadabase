@@ -27,6 +27,27 @@ Class Synchro{
 		
 	}
 
+	function DelDocumentsRubriques($idRubrique) {
+
+		$sql = "DELETE 
+				FROM spip_documents_rubriques 
+				WHERE id_rubrique = ".$idRubrique;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+	}
+	
+	function DelMotsArticles($idArticle) {
+		
+		$sql = "DELETE 
+				FROM spip_mots_articles 
+				WHERE id_article = ".$idArticle;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+	}	
 	public function ShowSynchro($site, $auteur)
 	{
 		$this->show=true;
@@ -113,7 +134,7 @@ Class Synchro{
 		//récupère le dom du site destination de référence
 		$url = $this->urlDst.$idRub.".xml";
 		//vérifie s'il faut créer le dom
-		if (!simplexml_load_file($url)){		
+		if (!file_exists($url)){		
 			$this->dom = new DomDocument("1.0");
 			$nouveauDocument = $this->dom->createElement("documents");
 			$this->dom->appendChild($nouveauDocument);	
@@ -125,7 +146,7 @@ Class Synchro{
 		
 		//récupère le dom du site source à vérifier
 		$url = $this->urlSrc.$idRub.".xml";
-		if (!simplexml_load_file($url)){		
+		if (!file_exists($url)){		
 			$this->dom = new DomDocument("1.0");
 			$nouveauDocument = $this->dom->createElement("documents");
 			$this->dom->appendChild($nouveauDocument);	
@@ -1217,6 +1238,7 @@ Class Synchro{
 		$this->DelFormsArticles($idArticle);
 		$this->DelAuteursArticles($idArticle);
 		$this->DelDocumentsArticles($idArticle);
+		$this->DelMotsArticles($idArticle);
 		$this->DelArticle($idArticle);
 		if (TRACE) echo "</article>";
 	}
@@ -1225,22 +1247,7 @@ Class Synchro{
 		
 		if (TRACE) echo '<suppressionArticles>';
 		foreach ($arrListArticles as $article) {
-			if (TRACE) echo "<article>".$article['id'];
-			$arrListeDonnees = $this->GetIdDonnees($article['id']) ;
-				
-			if($arrListeDonnees !=null) {
-				foreach ($arrListeDonnees as $donnee) {
-					if (TRACE) echo "<donnee>".$donnee['id']."</donnee>";
-					$this->DelFormsDonneesChamps($donnee['id']);
-					$this->DelFormsDonnees($donnee['id']);
-				}
-			}
-			$this->DelFormsDonneesArticles($article['id']);
-			$this->DelFormsArticles($article['id']);
-			$this->DelAuteursArticles($article['id']);
-			$this->DelDocumentsArticles($article['id']);
-			$this->DelArticle($article['id']);
-			if (TRACE) echo "</article>";
+			$this->SupprimerArticle($article['id']);
 		}
 		if (TRACE) echo '</suppressionArticles>';
 	}
@@ -1255,21 +1262,7 @@ Class Synchro{
 			$idArticleFantome = $this->GetArticleFantome($i);
 			if ($idArticleFantome != -1) {
 				echo "idArticleFantome = ".$idArticleFantome."</BR>";
-				$arrListeDonnees = $this->GetIdDonnees($idArticleFantome) ;
-				
-				if($arrListeDonnees !=null) {
-					foreach ($arrListeDonnees as $donnee) {
-						echo "/// idDonnee = ".$donnee['id']."</BR>";
-						$this->DelFormsDonneesChamps($donnee['id']);
-						echo "/// +++ Suppression champ idDonnee = ".$donnee['id']."</BR>";
-						$this->DelFormsDonnees($donnee['id']);
-						echo "/// +++ Suppression idDonnee = ".$donnee['id']."</BR>";
-					}
-				}
-				$this->DelFormsDonneesArticles($idArticleFantome);
-				$this->DelFormsArticles($idArticleFantome);
-				$this->DelAuteursArticles($idArticleFantome);
-				$this->DelDocumentsArticles($idArticleFantome);
+				$this->SupprimerArticle($idArticleFantome);
 				echo "Suppression idArticle = ".$idArticleFantome."</BR>";
 			} 
 		}
@@ -1281,17 +1274,178 @@ Class Synchro{
 	 * 
 	 */
 	function CleanRubrique($deb, $fin) {
-		echo 'CLEAN Rubrique</BR>';
+		if($this->trace)
+			echo 'Synchro:CleanRubrique:$deb, $fin</BR>';
 		for ($i=$deb; $i<=$fin; $i++) {
-			$idRubriqueFantome = $this->GetRubriqueFantome($i);
-			if ($idRubriqueFantome != -1) {
-				echo "idRubriqueFantome = ".$idRubriqueFantome."</BR>";
-				$this->DelMotsRubriques($idRubriqueFantome) ;
-				echo "Suppression idRubrique = ".$idRubriqueFantome."</BR>";
+			//vérifie si on purge les fantome ou pas
+			if($deb!=$fin)
+				$idRub = $this->GetRubriqueFantome($i);
+			else
+				$idRub = $deb;
+			if ($idRub != -1) {
+				$this->DelRubrique($idRub);
 			} 
 		}
-		echo 'FIN CLEAN Rubrique</BR>';
 	}
+
+/*
+	 * Permet de nettoyer une rubrique de tous ce qui la compose
+	 * 
+	 */
+	function DelRubrique($idRub) {
+		
+		$gra = new Granulat($idRub,$this->siteSrc,false);
+		$time_start = microtime(true);		
+		$this->trace = true;
+		if($this->trace)
+			echo "<Synchro f='DelRubrique' idRub='".$idRub."' titre=\"".$gra->titre."\" />\n";
+		
+		$rsArt = $gra->GetArticleInfo();
+		while($rArt = mysql_fetch_assoc($rsArt)) {
+			$this->SupprimerArticle($rArt["id_article"]);
+		}
+			
+		$this->DelMotsRubriques($idRub) ;
+		$this->DelDocumentsRubriques($idRub);
+		
+		$RubEnfants = $gra->GetEnfants(false);
+		if($RubEnfants){
+			if($this->trace)
+				echo "<Synchro f='DelRubrique' recursif='true' >\n";
+			foreach($RubEnfants as $rub){
+				$this->DelRubrique($rub->id);
+			}
+			if($this->trace)
+				echo "<Synchro f='DelRubrique' recursif='true' >\n";
+		}
+		
+		$sql = "DELETE 
+				FROM spip_rubriques 
+				WHERE id_rubrique = ".$idRub;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		$time_end = microtime(true);
+		$time = $time_end - $time_start;
+		if($this->trace)
+			echo "<Synchro f='DelRubrique' fin='$time' idRub='".$idRub."' titre=\"".$gra->titre."\" />\n";
+			
+	}
+
+	function DelForm($idGrille) {
+		
+		$time_start = microtime(true);		
+		$this->trace = true;
+		$g = new Grille($this->siteSrc,$idForm);
+		if($this->trace)
+			echo "<Synchro f='DelForm' idForm='".$g->id."' titre=\"".$g->titre."\" />\n";
+		
+		if($this->trace)
+			echo "<Synchro f='DelForm' job='supprime les données de la form' >\n";
+		$sql = "SELECT id_donnee
+			FROM spip_forms_donnees
+			WHERE id_form = ".$idGrille;
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+		$rs = $DB->query($sql);
+		$DB->close();
+		while($r = $DB->fetch_assoc($rs)) {
+			$this->CleanDonnee($r["id_donnee"]);
+		}
+		if($this->trace)
+			echo "</Synchro>\n";
+		
+		$time_end = microtime(true);
+		$time = $time_end - $time_start;
+		if($this->trace)
+			echo "<Synchro fin='$time' f='DelForm' idForm='".$g->id."' titre=\"".$g->titre."\" />\n";
+			
+	}
+	
+	function CleanForm() {
+		
+		$time_start = microtime(true);		
+		$this->trace = true;
+		if($this->trace)
+			echo "<Synchro f='CleanForm' />\n";
+		
+		if($this->trace)
+			echo "<Synchro f='CleanForm' job='supprime les données sans articles' >\n";
+		$sql = "SELECT fda.id_donnee, a.id_article, fda.id_article
+			FROM `spip_forms_donnees_articles` fda
+			LEFT JOIN spip_articles a ON a.id_article = fda.id_article
+			WHERE a.id_article IS NULL";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+		$rs = $DB->query($sql);
+		$DB->close();
+		while($r = $DB->fetch_assoc($rs)) {
+			$this->CleanDonnee($r["id_donnee"]);
+		}
+		if($this->trace)
+			echo "</Synchro>\n";
+		
+		if($this->trace)
+			echo "<Synchro f='CleanForm' job='supprime les valeurs de champ sans donnéee' >\n";
+		$sql = "SELECT fdc.id_donnee idDon, fd.id_donnee
+			FROM `spip_forms_donnees_champs` fdc
+			LEFT JOIN spip_forms_donnees fd ON fd.id_donnee = fdc.id_donnee
+			WHERE fd.id_donnee IS NULL";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+		$rs = $DB->query($sql);
+		$DB->close();
+		//supprime les lignes
+		while($r = $DB->fetch_assoc($rs)) {
+			$this->CleanDonnee($r["idDon"]);
+		}
+		if($this->trace)
+			echo "</Synchro>\n";
+		
+		if($this->trace)
+			echo "<Synchro f='CleanForm' job='supprime forms_articles avec des articles perdus' >\n";
+		$sql = "SELECT a.id_article, fa.id_article idArt
+			FROM `spip_forms_articles` fa
+			LEFT JOIN spip_articles a ON a.id_article = fa.id_article
+			WHERE a.id_article IS NULL";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+		$rs = $DB->query($sql);
+		$DB->close();
+		//supprime les lignes
+		while($r = $DB->fetch_assoc($rs)) {
+			$this->DelFormsArticles($r["idArt"]);
+		}
+		if($this->trace)
+			echo "</Synchro>\n";
+		
+		$time_end = microtime(true);
+		$time = $time_end - $time_start;
+		if($this->trace)
+			echo "<Synchro f='CleanForm' fin='$time' />\n";
+			
+	}
+
+	
+	
+	
+	function CleanDonnee($idDon) {
+		
+		if(!$idDon){
+			return;
+		}
+		
+		$time_start = microtime(true);
+		if($this->trace)
+			echo "<Synchro f='CleanDonnee' idDon='".$idDon."' />\n";
+		$this->DelFormsDonnees($idDon);
+		$this->DelFormsDonneesArticles(-1,$idDon);
+		$this->DelFormsDonneesChamps($idDon);
+		
+		$time_end = microtime(true);
+		$time = $time_end - $time_start;
+		if($this->trace)
+			echo "<Synchro f='CleanDonnee' fin='$time' idDon='".$idDon."' />\n";
+	}
+	
 	
 	/*
 	 * Récupére l'article nécessitant la vérification de la présence de données inutilisées
@@ -1397,11 +1551,15 @@ Class Synchro{
 	 * Efface les données d'un article précis dans la table spip_forms_donnees_articles
 	 * 
 	 */
-	function DelFormsDonneesArticles($idArticle) {
+	function DelFormsDonneesArticles($idArticle,$idDon=-1) {
 
+		if($idDon != -1)
+			$where = " WHERE id_donnee = ".$idDon;
+		else
+			$where = " WHERE id_article = ".$idArticle;
 		$sql = "DELETE 
 				FROM spip_forms_donnees_articles 
-				WHERE id_article = ".$idArticle;
+				".$where;
 		//echo $sql."<br/>";
 		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 		$req = $DB->query($sql);

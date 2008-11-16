@@ -174,6 +174,12 @@
 			break;
 		case 'explorerDir':
 			$resultat=explorerDir($_GET['dir'],$objSite);
+		case 'CleanForm':
+			$resultat = CleanForm() ;
+			break;
+		case 'DelForm':
+			$resultat = DelForm() ;
+			break;
 		default:
 			//$resultat = AddDocToArt();
 	}
@@ -190,6 +196,7 @@
 		$_SESSION['type_contexte'] = array ($type_contexte1, $type_contexte2, $type_contexte3, $type_contexte4);
 		$_SESSION['version']= $version;
 		$_SESSION['site']= $site;
+		//print_r($_SESSION);
 	}
 	
 	function ShowPopUp($idGrille,$idDon,$login){
@@ -608,8 +615,9 @@
 		$xul = $g->GereWorkflow($row, $idDon);		
 		
 		//gestion de la scénarisation
+		$xulScena = "";
 		if($idGrille==59 && $_SESSION['version']=="V2")
-			$xul = $g->GereScenarisation($row, $idDon);		
+			$xulScena = $g->GereScenarisation($row, $idDon);		
 		
 		if(TRACE)
 			echo "ExeAjax:SetVal:ppp=".$ppp."<br/>";
@@ -622,9 +630,10 @@
 			return $pppxul->GetPopUp($xul,"Observations ".$g->GetValeur($idDon,"ligne_1"), $login);
 		} 
 		
-		
-		return $xul;
-
+		if($xulScena!="")			
+			return $xulScena;
+		else
+			return $xul;
 	}
 
 	
@@ -1181,6 +1190,21 @@
 		$xul = $g->GetTreeObs($idParentRub);
 
 		return $xul;
+	}
+	
+	
+	function CleanForm() {
+		global $objSite;
+		
+		$synchro = new Synchro($objSite, -1);
+		$synchro->CleanForm();
+	}
+
+	function DelForm($idGrille) {
+		global $objSite;
+		
+		$synchro = new Synchro($objSite, -1);
+		$synchro->SupForm($idGrille);
 	}
 	
 	/*

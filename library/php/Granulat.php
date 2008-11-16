@@ -691,6 +691,7 @@ class Granulat
 		else
 			$whereRub = " WHERE 1 ";
 		
+		$wherePubli = " ";	
 		if($_SESSION['ContEditPublie'])
 			$wherePubli = " AND a.statut='publie' ";	
 		
@@ -1120,7 +1121,7 @@ class Granulat
 		return $arrDoc;
 	}
 	
-	public function GetEnfants()
+	public function GetEnfants($complet=true)
 	{
 		$sql = "SELECT id_rubrique, titre
 			FROM spip_rubriques
@@ -1131,8 +1132,9 @@ class Granulat
 		$req = $DB->query($sql);
 		$DB->close();
 		$i = 0;
+		$arrliste=false;
 		while($data = $DB->fetch_assoc($req)) {
-			$arrliste[$i] = new Granulat($data['id_rubrique'], $this->site);
+			$arrliste[$i] = new Granulat($data['id_rubrique'], $this->site,$complet);
 			$i ++;
 		}
 		return $arrliste;

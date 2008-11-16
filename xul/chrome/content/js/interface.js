@@ -223,6 +223,7 @@ function SetChoixDiagnostic() {
 		arrRep = GetValueChecked(doc,url);
 		libChoix += arrRep[0]; 
 		url+=arrRep[1];
+		
 		//choix des types de critères
 		doc = document.getElementById("mnuTypeCrit");
 		arrRep = GetValueChecked(doc,url);
@@ -323,7 +324,7 @@ function DelRubrique(idRub, idSrc) {
 		var answer = confirm("Voulez vous réellement supprimer toutes les fiches signalement de problème de cette rubrique?")
 		if (answer){
 			var doc = document.getElementById("FormSaisi");
-			var url = urlExeAjax+"?f=ClearRubrique&&idRub="+idRub+"&idRubParent="+idSrc;
+			var url = urlExeAjax+"?f=ClearRubrique&idRub="+idRub+"&idRubParent="+idSrc;
 			AppendResult(url,doc);
 		}
 				
@@ -332,12 +333,27 @@ function DelRubrique(idRub, idSrc) {
 	}
 }
 
+function PurgeRubrique(idRub, idSrc) {
+	try {
+		var answer = confirm("Voulez vous réellement purger la base de cette rubrique et de tout ce qui la compose ?")
+		if (answer){
+			var doc = document.getElementById("FormSaisi");
+			var url = urlExeAjax+"?f=CleanRubrique&deb="+idRub+"&fin="+idRub;
+			AppendResult(url,doc);
+		}
+				
+	} catch(ex2){
+		alert("DelRubrique::"+ex2+" " +"url="+url);
+	}
+}
+
+
 function DelRubriqueObs(idRub, idSrc) {
 	try {
 		var answer = confirm("Voulez vous réellement supprimer toutes les fiches observations de cette rubrique?")
 		if (answer){
 			var doc = document.getElementById("FormSaisi");
-			var url = urlExeAjax+"?f=ClearRubriqueObs&&idRub="+idRub+"&idRubParent="+idSrc;
+			var url = urlExeAjax+"?f=ClearRubriqueObs&idRub="+idRub+"&idRubParent="+idSrc;
 			AppendResult(url,doc);
 		}
 				
@@ -351,7 +367,7 @@ function DelRubriqueParent(idRub) {
 		var answer = confirm("Voulez vous réellement supprimer toutes les fiches signalement de problème de cette rubrique?")
 		if (answer){
 			var doc = document.getElementById("FormSaisi");
-			var url = urlExeAjax+"?f=ClearRubriqueParent&&idRubParent="+idRub;
+			var url = urlExeAjax+"?f=ClearRubriqueParent&idRubParent="+idRub;
 			AppendResult(url,doc);
 		}
 				
@@ -365,7 +381,7 @@ function DelRubriqueParentObs(idRub) {
 		var answer = confirm("Voulez vous réellement supprimer toutes les fiches observations de cette rubrique?")
 		if (answer){
 			var doc = document.getElementById("FormSaisi");
-			var url = urlExeAjax+"?f=ClearRubriqueParentObs&&idRubParent="+idRub;
+			var url = urlExeAjax+"?f=ClearRubriqueParentObs&idRubParent="+idRub;
 			AppendResult(url,doc);
 		}
 				
@@ -806,8 +822,11 @@ function SetVal(idDoc){
 				window.open(url+"&ppp=1",'_blank','width=650,height=400,resizable=no,left=200,top=200');
 			}
 			//récupère la ligne des question intermédiaires
-			var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
-			AppendResult(url,docQi,false,"vbox");
+			//pour la V2 uniquement
+			if(version=="V2"){			
+				var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
+				AppendResult(url,docQi,false,"vbox");
+			}
 		} else {
 			//récupère la ligne des question intermédiaires
 			var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");

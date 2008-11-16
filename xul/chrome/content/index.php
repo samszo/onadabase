@@ -60,6 +60,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 
 		//var win = window.open("chrome://myextension/content/about.xul", "aboutMyExtension", "chrome,centerscreen"); 
 		var urlPopUp = "<?php echo "popup.php?"; ?>";
+		var version = "<?php echo $_SESSION['version']; ?>";
 
      </script>
 
@@ -108,8 +109,8 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 				</menu>
 				<menu label="Version" >
 					<menupopup id="mnuVersion" onpopupshowing="javascript:;">
-						<menuitem id="version" checked="<?php if($_SESSION['version']=="V1") echo "true"; ?>" type="radio" label="V1" value='V1' oncommand="SetChoixDiagnostic();"/>
-						<menuitem id="version" checked="<?php if($_SESSION['version']=="V2") echo "true"; ?>" type="radio" label="V2" value='V2' oncommand="SetChoixDiagnostic();"/>
+						<menuitem id="version" checked="<?php if($_SESSION['version']=="V1") echo "true"; ?>" type="radio" label="V1" value='V1' oncommand="SetChoixDiagnostic();version = this.value;"/>
+						<menuitem id="version" checked="<?php if($_SESSION['version']=="V2") echo "true"; ?>" type="radio" label="V2" value='V2' oncommand="SetChoixDiagnostic();version = this.value;"/>
 					</menupopup>
 				</menu>
 				<menu label="Type de critère" >
