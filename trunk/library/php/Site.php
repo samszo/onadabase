@@ -48,7 +48,8 @@ class Site{
 		
     }
     
-    public function Synchronise($siteSrc, $siteDst=-1){
+    
+	public function Synchronise($siteSrc, $siteDst=-1){
 		if($siteDst==-1)
 			$siteDst=$this->id;
     	
