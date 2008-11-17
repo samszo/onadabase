@@ -1,5 +1,26 @@
 #Procédure pour ajouter une nouvelle grille
 
-Cette page décrit la procédure a effectuer pour ajouter une nouvelle grille
+Cette page décrit la procédure a effectuer pour ajouter une nouvelle grille dans ONADABASE.
+Les éléments -texte- doivent être remplacés par les valeurs adéquates
 
- # SPIP : créer une nouvelle grille dans SPIP
+ # SPIP : créer une nouvelle grille
+ # onadabase/xul/chrome/content/param/onadabase.xml : ajouter un bloc de description de la grille 
+{{{
+	<Param nom="AddObj-Type de la grille-" id="-identifiant spip de la grille" >
+		<NoVerif>-message d'alerte si aucune rubrique n'est sélectionnée-</NoVerif>
+		<TitreFormSaisi>-titre du formulaire affiché</TitreFormSaisi>
+	</Param>
+}}}
+ # onadabase/param/SolAcc.xml : ajouter un bloc de description de la requête pour construire le formulaire de saisie
+{{{
+	<Query fonction="Grille_GetXulTabForm-type de la grille-">
+		<select>SELECT a.id_article id, a.titre</select>
+		<from> 
+			FROM spip_rubriques r
+			INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+			INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+			INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = -identifiant de la grille-
+		</from>
+		<where> WHERE r.id_rubrique = -id- </where>
+		<dst>Art</dst>
+	</Query>
