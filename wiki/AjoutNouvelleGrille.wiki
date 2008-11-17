@@ -1,0 +1,5 @@
+#Procédure pour ajouter une nouvelle grille
+
+Cette page décrit la procédure a effectuer pour ajouter une nouvelle grille
+
+ # SPIP : créer une nouvelle grille dans SPIP
