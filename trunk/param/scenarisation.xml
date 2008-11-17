@@ -448,6 +448,7 @@
 			<question id='2_cr_quai_ext_03'/>
 			<question id='2_cr_quai_ext_04'/>
 			<question id='2_cr_quai_ext_05'/>
+		</question>
 		<question id='2_qi_quai_ext_01' reponse='2'>
 			<question id='2_cr_quai_ext_01' champ='mot_1' valeur='2' />
 		</question>
