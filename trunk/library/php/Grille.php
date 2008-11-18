@@ -11,19 +11,28 @@ class Grille{
   public $trace;
   public $titre;
   public $type;
+  public $idScope;
+  public $idsInScope;
+  public $idDst;
   private $site;
 
   function __tostring() {
     return "Cette classe permet de définir et manipuler des grilles.<br/>";
     }
 
-  function __construct($site, $id=-1, $complet=true, $type="") {
+  function __construct($site, $id=-1, $complet=true, $type="", $idScope=-1) {
 	//echo "new Site $sites, $id, $scope<br/>";
 	$this->trace = TRACE;
 
     $this->site = $site;
     $this->id = $id;
     $this->type = $type;
+    //gestion du scope des rubriques
+    if($idScope!=-1){
+    	$this->idScope = $idScope;
+    	$g = new Granulat($idScope,$this->site);
+    	$this->idsInScope = $g->GetEnfantIds($g->IdParent,",")."-1";
+    }
 	if($this->site->scope["FicXml"]!=-1)
 		$this->XmlParam = new XmlParam($this->site->scope["FicXml"]);
 	$this->XmlScena = new XmlParam(XmlScena);
@@ -783,7 +792,8 @@ class Grille{
     	foreach($scena as $qi)
 		{
 			//vérifie que la réponse correspond au critère
-			if($qi["reponse"]==$row["valeur"]){
+			//ou n'est pas définie
+			if($qi["reponse"]==$row["valeur"] || !$qi["reponse"]){
 				$OldCrit = "";
 		    	foreach($qi as $q)
 				{
@@ -794,15 +804,20 @@ class Grille{
 					if($critere != $OldCrit){
 						$OldCrit=$critere;
 						$idDon = $this->GetDonneeCritere($idArt,$critere);
-						//vérifie s'il faut créer la réponse à la question
-						if($q["valeur"]){
-							//répond à la question
-							$r = array("grille"=>$row["grille"],"champ"=>$q["champ"],"valeur"=>$q["valeur"]);
-							$this->SetChamp($r, $idDon);
-							$this->GereWorkflow($row, $idDon);		
-						}else{
-							//création du formulaire
-							$xul .= $this->GetXulForm($idDon,$row["grille"]);
+						
+						//vérifie si la donnée correspond au choix de diagnostic
+						$verif = $this->VerifChoixDiagnostic(-1, $_SESSION['type_controle'], $_SESSION['type_contexte'],$critere); 
+						if($verif){
+							//vérifie s'il faut créer la réponse à la question
+							if($q["valeur"]){
+								//répond à la question
+								$r = array("grille"=>$row["grille"],"champ"=>$q["champ"],"valeur"=>$q["valeur"]);
+								$this->SetChamp($r, $idDon);
+								$this->GereWorkflow($row, $idDon);		
+							}else{
+								//création du formulaire
+								$xul .= $this->GetXulForm($idDon,$row["grille"]);
+							}
 						}
 					}
 				}
@@ -1443,6 +1458,7 @@ class Grille{
 	
 	function GetXulTab($src, $id, $dst="Rub", $recur = false){
 
+		
 		//chaque ligne est un onglet
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetXulTabForm".$dst."']";
 		if($this->trace)
@@ -1571,13 +1587,15 @@ class Grille{
 						break;
 					default:
 						//vérifie s'il faut afficher une carte
-						$carto = "";
-						$AddGeo ="<button label='Ajouter une géolocalisation' oncommand=\"AddPlacemark(".$r["idRub"].",'".$this->type."');\"/>";
 						$idDon = $this->VerifDonneeLienGrille($r["id"],$this->site->infos["GRILLE_GEO"]);
 						if($idDon){
 							$carto = $this->GetXulForm($idDon, $this->site->infos["GRILLE_GEO"]);
 							$AddGeo = "";
+						}else{
+							$carto = "";
+							$AddGeo ="<button label='Ajouter une géolocalisation' oncommand=\"AddPlacemark(".$r["idRub"].",'".$this->type."');\"/>";
 						}
+						//construction des éléments du panel 
 						$tabpanel .="<vbox flex='1'>";
 						//ajout le bloc document
 						$idDoc = "doc*".$dst."*".$r["id"]."*".$id."*".$src;
@@ -1586,11 +1604,13 @@ class Grille{
 						$tabpanel .= $oXul->GetFriseDocsIco($src,$idDoc);
 						$tabpanel .="</vbox>";
 						$tabpanel .="</hbox>";
+						//ajoute le bloc du formaulaire
 						$tabpanel .="<hbox>";
 						$tabpanel .= $this->GetXulForm($r["id"], $id);
 						$tabpanel .= $AddGeo;
 						$tabpanel .= $carto;
 						$tabpanel .="</hbox>";
+						//fin des élément du panel
 						$tabpanel .="</vbox>";
 				}				
 				
@@ -1612,7 +1632,90 @@ class Grille{
 		return $tabpanel;
 	}
 
+	function GetXulNoeudTransport($idRub, $idDon){
+		
+		//initalisation du xul
+		$xul = "<groupbox ><hbox>";
+		$xulGare = "<vbox id='NoeudsGare' ><label value='Le(s) gare(s)'/>";
+		$xulPang = "<vbox id='NoeudsPang' ><label value='Le(s) PANG(s)'/>";		
+		$xulVoirie = "<vbox id='NoeudsBus' ><label value=\"Le(s) arrêt(s) de Bus\"/>";		
+		
+		//récupère la liste des gares et des pang
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtabTransport']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $this->idsInScope, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		if($this->trace)
+			echo "GetXulNoeudTransport ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$req = $db->query($sql);
+		$db->close();
+		while($r = $db->fetch_assoc($req)){
+			//vérifie si l'élément est sélectionné
+			if($this->VerifLiensInRub($idRub,$r["id_rubrique"]))
+				$check = "true";
+			else
+				$check = "false";
+			//construction du xul
+			$idDoc = "val*".$this->site->infos["GRILLE_LIGNE_TRANS"]."*".$idDon."*".$idRub."*".$r["id_rubrique"];
+			$xulCB = "<checkbox id='".$idDoc."' oncommand=\"SetElementLigne(".$r["id_rubrique"].",".$idRub.");\" checked='".$check."' label=\"".$r["titre"]."\"/>";				
+			if($r["valeur"]==$this->site->infos["MOT_CLEF_PANG"])
+				$xulPang .= $xulCB;
+			if($r["valeur"]==$this->site->infos["MOT_CLEF_GARE"])
+				$xulGare .= $xulCB;
+		}
+		
+		//récupère la liste des éléments de voirie transport
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetVoirieTransport']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $this->idsInScope, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		if($this->trace)
+			echo "GetXulNoeudTransport ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$req = $db->query($sql);
+		$db->close();
+		while($r = $db->fetch_assoc($req)){
+			//vérifie si l'élément est sélectionné
+			if($this->VerifLiensInRub($idRub,$r["id_rubrique"]))
+				$check = "true";
+			else
+				$check = "false";
+			//construction du xul
+			$idDoc = "val*".$this->site->infos["GRILLE_LIGNE_TRANS"]."*".$idDon."*".$idRub."*".$r["id_rubrique"];
+			$xulVoirie .= "<checkbox id='".$idDoc."' oncommand=\"SetElementLigne(".$r["id_rubrique"].",".$idRub.");\" checked='".$check."' label=\"".$r["titre"]."\"/>";				
+		}
+		
+		
+		$xulGare .= "</vbox>";
+		$xulPang .= "</vbox>";		
+		$xulVoirie .= "</vbox>";
+		$xul .= $xulGare.$xulPang.$xulVoirie."</hbox></groupbox>";
 
+		return $xul;
+	
+	}
+	
+	function VerifLiensInRub($idRub,$idRubVerif){
+		
+		//vérifie si un lien est présent dans un rubrique
+		//est possède la référence à une rubrique 
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_VerifLiensInRub']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-idRub-", $idRub, $Q[0]->where);
+		$where = str_replace("-idRubVerif-", $idRubVerif, $where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		if($this->trace)
+			echo "VerifLiensInRub ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$req = $db->query($sql);
+		$db->close();
+		
+		return $db->fetch_assoc($req);
+
+	}
+
+	
 	function VerifDonneeLienGrille($idDon,$idGrille){
 		
 		//vérifie si une grille est dans la rubrique de la donnee
@@ -1664,15 +1767,17 @@ class Grille{
 			return false;
 	}
 		
-	function VerifChoixDiagnostic ($id, $typeCritere, $typeContexte){
+	function VerifChoixDiagnostic ($idDon, $typeCritere, $typeContexte,$crit=""){
 		
-		// On récupere le critere corespondant à la donnée (grille 59 Diagnostic)
-		$critere = $this->GetValeur($id,'ligne_1'); 
-
-		//vérifie s'il faut traiter les questions intermédiaires pour V2
-		if($_SESSION['version']=="V2"){
-			if(!$this->VerifQuestionIntermediaire($critere))
-				return false;
+		//si crit est défini on verifie on gère une scénarisation
+		if($crit==""){
+			// On récupere le critere corespondant à la donnée (grille 59 Diagnostic)
+			$critere = $this->GetValeur($idDon,'ligne_1'); 
+			//vérifie s'il faut traiter les questions intermédiaires pour V2
+			if($_SESSION['version']=="V2"){
+				if(!$this->VerifQuestionIntermediaire($critere))
+					return false;
+			}
 		}
 		
 		/*si aucun contexte ou critère n'est saisi on renvoie toute les questions
@@ -1910,6 +2015,13 @@ class Grille{
 			$controls .= '</hbox>';
 			$controls .= '</groupbox>';
 		}
+		
+		//vérifie s'il faut afficher la liste des noeuds de transport
+		if($idGrille == $this->site->infos["GRILLE_LIGNE_TRANS"]){
+			$controls .= $this->GetXulNoeudTransport($lastRow["id_rubrique"],$idDon);
+			$labels .= "<label class='labelForm' control='first' value='Sélectionner les éléments constituant la ligne'/>";
+		}
+		
 		if($idGrille!=$this->site->infos["GRILLE_REP_CON"]){
 			$controls .= '</column>';	
 			$labels .= '</column>';
@@ -2021,7 +2133,12 @@ class Grille{
 					break;
 			}					
 		}
-			
+		//vérifie s'il n'y a d'erreur sur les icones
+		if(substr($ico1,-1)!=">" && $ico1!="")$ico1.='.jpg"/>';
+		if(substr($ico2,-1)!=">" && $ico2!="")$ico2.='.jpg"/>';
+		if(substr($ico3,-1)!=">" && $ico3!="")$ico3.='.jpg"/>';
+		if(substr($ico4,-1)!=">" && $ico4!="")$ico4.='.jpg"/>';
+				
 		$xul = "<vbox><hbox>".$labels."</hbox><hbox>".$ico1.$ico2.$ico3.$ico4."</hbox></vbox>";
 		
 		return $xul;

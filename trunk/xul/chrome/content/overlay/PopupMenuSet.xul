@@ -10,6 +10,7 @@
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');" />
 					<menuitem label="tronçon(s) de voirie"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');" />
+	                <menuitem role="administrateur;diagnostiqueur;lecteur" label="La(les) ligne(s)" oncommand="RefreshEcran(document.getElementById('idRub').value,'Lignes','ligne','Ligne');"/>
 					<menuitem label="état des lieux"
 						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
@@ -22,6 +23,7 @@
 						oncommand="AddNewGrille('Voirie');" />
 					<menuitem label="Un territoire"
 						oncommand="AddNewRubrique(document.getElementById('idRub').value);" />
+					<menuitem role="administrateur;diagnostiqueur" label="Une ligne de transport" oncommand="AddNewGrille('Ligne');"/>
 				</menupopup>
 			</menu>
 			<menu id="menu_terre_supprimer" label="Supprimer">
@@ -51,6 +53,16 @@
 				</menupopup>
 			</menu>
 		</popup>
+
+		<popup id="popligne" onpopupshowing="javascript:;">
+			<menu id="menu_ligne_voir" label="Voir">
+				<menupopup id="popup_ligne_voir">
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
+				</menupopup>
+			</menu>
+		</popup>
+
 
 		<popup id="popvoirie" onpopupshowing="javascript:;">
 			<menu id="menu_voirie_voir" label="Voir">
@@ -143,6 +155,8 @@
 				<menupopup id="popup_espace_voir">
 					<menuitem label="L'(es) espace(s)"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces','espace','Espace');" />
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 			<menu id="menu_espace_ajout" label="Ajouter">
@@ -250,6 +264,8 @@
 				<menupopup id="popup_objetintbat_voir">
 					<menuitem label="Les paramètres de contrôle"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');" />
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 			<menu id="menu_objetintbat_copier" label="Copier">
@@ -265,6 +281,8 @@
 				<menupopup id="popup_objetint_voir">
 					<menuitem label="Les paramètres de contrôle"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');" />
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 			<menu id="menu_objetint_copier" label="Copier">
@@ -279,6 +297,8 @@
 				<menupopup id="popup_espaceint_voir">
 					<menuitem label="Les paramètres de contrôle"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espacegen','EspaceGen');" />
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 			<menu id="menu_espaceint_copier" label="Copier">
@@ -296,6 +316,8 @@
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces extérieurs','espaceext','EspaceExt');" />
 					<menuitem label="Les objets extérieurs"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Objets extérieurs','objetext','ObjetExt');" />
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 			<menu id="menu_parcelle_ajouter" label="Ajouter">
@@ -320,6 +342,8 @@
 						oncommand="AddNewGrille('EspaceExt');" />
 					<menuitem label="Ajouter un objet extérieur"
 						oncommand="AddNewGrille('ObjetExt');" />
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 		</popup>
@@ -332,6 +356,8 @@
 						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
 					<menuitem label="Les paramètres de contrôle"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espaceextparamgen','EspaceExtParamGen');" />
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 			<menu id="menu_espaceext_copier" label="Copier">
@@ -356,6 +382,8 @@
 						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
 					<menuitem label="Les paramètres de contrôle"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgenext','ObjetGenExt');" />
+					<menuitem label="état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 			<menu id="menu_objetext_copier" label="Copier">

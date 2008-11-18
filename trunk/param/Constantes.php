@@ -13,10 +13,9 @@
 
   define ("TRACE", false);
 
-  //define ("DEFSITE", "localPicardieCentre");
-  define ("DEFSITE", "local2");
+  define ("DEFSITE", "local1");
   //define ("DEFSITE", "mundi"); 
-  define ("SYNCSITE", "local1");
+  define ("SYNCSITE", "local2");
   //define ("SYNCSITE", "mundi");
  
   
@@ -51,10 +50,14 @@ $localPicardieCentre = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"GRILLE_LIGNE_TRANS" => 72,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
+	"MOT_CLEF_PANG" => 64,
+	"MOT_CLEF_GARE" => 62,
+	"MOT_CLEF_LIGNE_TRANS" => 167,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
@@ -96,10 +99,14 @@ $SiteLocal1 = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"GRILLE_LIGNE_TRANS" => 72,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
+	"MOT_CLEF_PANG" => 64,
+	"MOT_CLEF_GARE" => 62,
+	"MOT_CLEF_LIGNE_TRANS" => 167,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
@@ -140,10 +147,14 @@ $SiteLocal2 = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"GRILLE_LIGNE_TRANS" => 72,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
+	"MOT_CLEF_PANG" => 64,
+	"MOT_CLEF_GARE" => 62,
+	"MOT_CLEF_LIGNE_TRANS" => 167,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
@@ -185,10 +196,14 @@ $SiteNaos = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
+	"GRILLE_LIGNE_TRANS" => 72,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
+	"MOT_CLEF_PANG" => 64,
+	"MOT_CLEF_GARE" => 62,
+	"MOT_CLEF_LIGNE_TRANS" => 167,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,
@@ -230,10 +245,14 @@ $SiteNaos = array(
 	"GRILLE_OBS" => 67,
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
+	"GRILLE_LIGNE_TRANS" => 72,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
 	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
+	"MOT_CLEF_PANG" => 64,
+	"MOT_CLEF_GARE" => 62,
+	"MOT_CLEF_LIGNE_TRANS" => 167,
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => 50,
 	"RUB_PORTE2" => 74,

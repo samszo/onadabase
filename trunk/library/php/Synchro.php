@@ -37,6 +37,20 @@ Class Synchro{
 		$req = $DB->query($sql);
 		$DB->close();
 	}
+
+	function DelSyndicsRubriques($idRubrique,$ExtraSql="") {
+
+		$sql = "DELETE 
+				FROM spip_syndic 
+				WHERE id_rubrique = ".$idRubrique.$ExtraSql;
+		//echo $sql."<br/>";
+		$DB = new mysql($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		//atention aux mot_syndics qui n'ont plus de rubrique
+				
+	}
 	
 	function DelMotsArticles($idArticle) {
 		

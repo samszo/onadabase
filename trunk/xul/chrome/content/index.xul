@@ -1,126 +1,173 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<?xml-stylesheet rel="stylesheet" href="xbl/editableTree/demo.css" type="text/css" title="css"?>
-<?xml-stylesheet rel="stylesheet" href="onada.css" type="text/css" title="css"?>
+<?xml version="1.0" encoding="iso-8859-15" ?><?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="onada.css" type="text/css"?>
+<?xul-overlay href="overlay/PopupMenuSet.xul"?><?xul-overlay href="overlay/mnuSynchro.xul"?><?xul-overlay href="overlay/EtatDiag.xul"?>
+
 <window
     id="wSaisiDiag"
+    flex="1"
     title="Saisi des diagnosics d'accessibilité"
     persist="screenX screenY width height"
     orient="horizontal"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-    onload="ChargeTreeFromAjax('rub','treeRub')"
+    onload="if (event.target == document) AppliDroit(role);"
 >
 
-<script type="application/x-javascript" src="js/interface.js"/>
+<script type="application/x-javascript" src="js/interface.js" />
 <script type="application/x-javascript" src="js/ajax.js"/>
 <script type="application/x-javascript" src="js/tree.js"/>
+<script type="application/x-javascript" src="js/svg.js"/>
 <script type="application/x-javascript"  src="xbl/editableTree/functions.js" />
+     <script>
+		//initialise le paramètrage du site
+		var lienAdminSpip = "http://localhost/onadabase/spipsync/ecrire";
+		var urlExeAjax = "http://localhost/onadabase/library/php/ExeAjax.php";
+		var urlExeAjax2 = "http://localhost/onadabase/library/php/ExeAjax.php";
+		var xmlParam = GetXmlUrlToDoc("http://localhost/onadabase/xul/chrome/content/param/onadabase.xml");
+		var synclienAdminSpip = "http://localhost/onadabase/spip/ecrire";
+		var syncurlExeAjax = "http://localhost/onadabase/library/php/ExeAjax.php";
+		var syncxmlParam = GetXmlUrlToDoc("http://localhost/onadabase/xul/chrome/content/param/onadabase.xml");
+		var urlSite = "";
+		var urlCarto = "http://localhost/onadabase/design/BlocCarte.php";
+		var path = "C:/wamp/www/onadabase/param/synchroExport.xml";
+		var role = "AUCUN";
 
-	<vbox  flex="1">
+		//var win = window.open("chrome://myextension/content/about.xul", "aboutMyExtension", "chrome,centerscreen"); 
+		var urlPopUp = "popup.php?";
+		var version = "";
+
+     </script>
+
+
+
+	<vbox  flex="1" style="overflow:auto">
 	
 		<hbox class="menubar">
-		
 			<image src="images/logo.png" />
-		
-		</hbox>	
-		
-		<hbox class="ariane">
-		
-			<toolbox class="toolbox">
-				<toolbar id="nav-toolbar" class="toolbar">
-					<toolbarbutton label="Accueil" class="toolbarbutton"/>
-					<toolbarbutton label="Territoire" class="toolbarbutton"/>
-					<toolbarbutton label="Batiments" class="toolbarbutton"/>
-					<toolbarbutton label="Niveau 1" class="toolbarbutton"/>
-				</toolbar>
-			</toolbox>
-		
-		</hbox>	
-		
-		<hbox class="global" flex="1">
-		
-			<vbox class="BoiteV" id='treeRub' >
-				<label value="Selectionner le territoire" class="titre" />
+			<menubar id='choix_diagnostic'>
+				<menu label="Gestion des bases">
+					<menupopup >
+						<menuitem label="AppliDroit" oncommand="AppliDroit(role);"/>
+						<menuitem accesskey="d" label="Déconnexion" oncommand="window.location.replace('exit.php');"/>
+					    <menu label="Synchronisation">
+					      <menupopup id='mnuBarSynchro' >
+						    <menu label="serveur->local">
+						      <menupopup >
+								<menuitem hidden="true" accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
+								<menuitem accesskey="v" label="Vérifier les contrôles" oncommand="CompareRubSrcDst('CompareServeurLocal',80);"/>
+								<menuitem label="Vérifier l'élément en cours" oncommand="CompareRubSrcDst('CompareServeurLocal',document.getElementById('idRub').value);"/>
+						      </menupopup>
+						    </menu>
+						    <menu label="local->serveur">
+						      <menupopup >
+								<menuitem hidden="true" accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
+								<menuitem label="Vérifier l'élément en cours" oncommand="CompareRubSrcDst('CompareLocalServeur',document.getElementById('idRub').value);"/>
+						      </menupopup>
+						    </menu>
+					      </menupopup>
+					    </menu>
+					    <menu label="Bases disponibles">
+					      <menupopup id='mnuSite' >
+							<menuitem id='site' checked='true' type='radio' label="onadabase DEV" value='local1' oncommand="ChangeBase('local1');"/><menuitem id='site' checked='false' type='radio' label="onadabasecentre" value='local2' oncommand="ChangeBase('local2');"/><menuitem id='site' checked='false' type='radio' label="mundilogiweb onadabase" value='mundi' oncommand="ChangeBase('mundi');"/><menuitem id='site' checked='false' type='radio' label="onadabase Centre - Val de Marne " value='localPicardieCentre' oncommand="ChangeBase('localPicardieCentre');"/>					      </menupopup>
+					    </menu>
+					</menupopup>
+				</menu>
+				<menu label="Version" >
+					<menupopup id="mnuVersion" onpopupshowing="javascript:;">
+						<menuitem id="version" checked="" type="radio" label="V1" value='V1' oncommand="SetChoixDiagnostic();version = this.value;"/>
+						<menuitem id="version" checked="" type="radio" label="V2" value='V2' oncommand="SetChoixDiagnostic();version = this.value;"/>
+					</menupopup>
+				</menu>
+				<menu label="Type de critère" >
+					<menupopup id="mnuTypeCrit" onpopupshowing="javascript:;">
+						<menuitem id="type_controle1" type="checkbox" checked="" label="Réglementaire" value='multiple_1_1' oncommand="SetChoixDiagnostic();" />
+						<menuitem id="type_controle2" type="checkbox" checked="" label="Souhaitable" value='multiple_1_2' oncommand="SetChoixDiagnostic();" />
+					</menupopup>
+				</menu>
+				<menu label="Contexte réglementaire" onpopupshowing="javascript:;">
+					<menupopup id="mnuContReg" >
+						<menuitem id="type_contexte1" type="checkbox" checked="" label="Travail" value='multiple_2_1' oncommand="SetChoixDiagnostic();"/>
+						<menuitem id="type_contexte2" type="checkbox" checked="" label="ERP/IOP" value='multiple_2_2' oncommand="SetChoixDiagnostic();"/>
+						<menuitem id="type_contexte3" type="checkbox" checked="" label="Logement" value='multiple_2_3' oncommand="SetChoixDiagnostic();"/>
+						<menuitem id="type_contexte4" type="checkbox" checked="" label="Voirie" value='multiple_2_4' oncommand="SetChoixDiagnostic();"/>
+					</menupopup>
+				</menu>
+				<menu label="Contexte éditorial" onpopupshowing="javascript:;">
+					<menupopup id="mnuContEdit" >
+						<menuitem id="ContEditAll" type="radio" checked="true" label="Tout" value='true' oncommand="SetChoixAffichage(this.id);"/>
+						<menuitem id="ContEditPublie" type="radio" checked="" label="Publié" value='true' oncommand="SetChoixAffichage(this.id);"/>
+					</menupopup>
+				</menu>
+				<menu label="Affichage" onpopupshowing="javascript:;">
+					<menupopup id="mnuAffichage" >
+						<menuitem id="ShowLegendeControle" value="true" type="checkbox" checked="true"  label="Montrer la légende des contrôles" oncommand="SetChoixAffichage(this.id);"/>
+						<menuitem id="ShowCarte" value="true" type="checkbox" checked="" label="Afficher la carte"  oncommand="SetChoixAffichage(this.id);" />
+						<menuitem id="ShowDocs" value="true" type="checkbox" checked="" label="Afficher le(s) document(s)"  oncommand="SetChoixAffichage(this.id);" />
+					</menupopup>
+				</menu>
 				
-				
-				<tree class="treeRub"  flex="1" >
-					<treecols class="treeRubCols">
-						<treecol id="id" primary="true"  cycler="true"  flex="1"   />
-						<splitter class="tree-splitter"/>
-						<treecol id="treecol_rub" label="nom" flex="3" />
-					</treecols>
-					<treechildren >
-						<treeitem id="treeFormsRoot" >
-							<treerow>
-								<treecell label="0"/>
-								<treecell label="racine"/>
-							</treerow>
-						</treeitem>
-					</treechildren>
-				</tree>					
+			</menubar>
+		</hbox>
+		<progressmeter id="progressMeter" value="0" mode="determined" style="margin: 4px;" hidden="true"/>	
+		<hbox >
+			<label hidden="true" id="idAuteur" value="1" />
+			<label hidden="false" id="login" value="samszo" />
+			<label hidden="true" id="typeSrc" value="terre" />
+			<label hidden="true" id="typeDst" value="Terre" />
+			<label hidden="true" value="sur" />
+			<label hidden="true" value="onadabase DEV" />
+			<label id="ChoixDiagnostic" value="" />
+		</hbox>
 
+		<hbox id="nav-toolbar" >
+			<label id="tbbAccueil" value="Accueil" class="text-link" />
+			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(1942,'Territoires','terre','Terre');"/>
+		</hbox>
+		<hbox id="tbFilAriane" />
+		
+		<hbox class="global" id="global" flex="1">
+		
+			<vbox class="BoiteV" flex="0" width="300px">
+				<hbox id="RefId" >
+				 	<label id="titreRub" value="Selectionner un territoire" class="titre" />
+					<label id="idRub" value="1942" class="titreLiens" hidden="true"/>
+				</hbox>
+				<hbox id='treeRub' class="BoiteV" context="popterre" ></hbox>
 			</vbox>
 				<splitter collapse="before" resizeafter="farthest">
-							<grippy/>
+					<grippy/>
 				</splitter>
 	
-			<vbox class="BoiteV" >
-				<label value="Créer un nouvel établissement" class="titre" />
-
-				<hbox class="FormBox" flex="1">
-					<tabbox  flex="1">
-					   <tabs >
-						 <tab label="Coordonnées"/>
-						 <tab label="Plan"/>
-					   </tabs>
-					   
-					   <tabpanels flex="1">
-						 <tabpanel id="mailtab">
-							<grid flex="1">
-							   <columns flex="1">
-								 <column flex="1" align="end">
-								   <label control="first" multiligne="true" value="Premier nom:"/>
-								   <label control="middle" value="Nom central:"/>
-								   <label control="last" value="Dernier nom:"/>
-								   <label control="last" value="oui ou non:"/>
-								   <label control="last" value="choisir dans une liste"/>
-							
-								 </column>
-								 <column flex="1">
-								   <textbox id="first"/>
-								   <textbox id="middle"/>
-								   <textbox id="last"/>
-								   <hbox>
-									   <checkbox id="case-sensitive" checked="true" label="Sensible à la casse"/>
-										<radio id="orange" label="Orange"/>
-										<radio id="violet" selected="true" label="Violet"/>
-										<radio id="yellow" label="Jaune"/>
-									</hbox>
-									<hbox>
-										<menulist label="Bus">
-											<menupopup>
-												<menuitem label="Voiture"/>
-												<menuitem label="Taxi"/>
-												<menuitem label="Bus" selected="true"/>
-												<menuitem label="Train"/>
-											</menupopup>
-										</menulist>
-									</hbox>
-									<button label="Valider" orient="vertical" dir="reverse"/>
-								 </column>
-							   </columns>
-							</grid>
-						 </tabpanel>
-						 
-						 <tabpanel id="newstab">
-						   <button label="Effacer le cache des forums"/>
-						 </tabpanel>
-					   </tabpanels>
-					   
-					</tabbox>
+			<vbox class="BoiteV" flex="1" >
+				<hbox flex="1" hidden="true" >
+				 <label value="Sélectionnez un établissement dans" id="TitreFormSaisi" class="titre" />
+				 <label id="libRub" value="Le département du Nord" class="titre" />
 				</hbox>
+				<hbox id="FriseDocs" height='166px'  />		
+				<splitter id="docsSplit" state="collapsed" collapse="before" resizeafter="farthest">
+					<grippy/>
+				</splitter>
+				<hbox id="EtatDiag" hidden="true" flex="1" />
+				<hbox class="FormBox" id="FormSaisi" flex="1" />		
+			</vbox>
 
-
+			<vbox class="BoiteV" id="syncV1" flex="1" hidden="true">
+				<hbox id="syncRefId" >
+				 <label value="Selectionner un territoire" class="titre" />
+				</hbox>
+				<label id="syncidRub" value="-1"/>
+				<hbox id='synctreeRub' class="BoiteV" context="popterre" ></hbox>
+			</vbox>
+				<splitter id="syncSplit" hidden="true" collapse="before" resizeafter="farthest">
+					<grippy/>
+				</splitter>
+	
+			<vbox class="BoiteV" id="syncV2" flex="1" hidden="true">
+				<hbox flex="1" hidden="true" >
+				 <label value="Sélectionnez un établissement dans" id="syncTitreFormSaisi" class="titre" />
+				 <label id="synclibRub" value="Le département du Nord" class="titre" />
+				</hbox>
+				<hbox class="FormBox" id="syncFormSaisi" flex="1">
+				</hbox>
 				
 			</vbox>
 		
@@ -131,6 +178,19 @@
 		</hbox>	
 		
 	</vbox>
+	<splitter collapse="before" resizeafter="farthest">
+		<grippy/>
+	</splitter>
+	<!-- 
+	<vbox flex="1" style="overflow:auto">
+		<iframe flex="1"  src='http://localhost/onadabase/design/BlocCarte.php'  id='BrowerGlobal' />
+	</vbox>
+ 	-->
+ 
+<script type="application/x-javascript" >
+	//met à jour le choix du diagnostic
+	SetChoixDiagnostic();
+   	ChargeTreeFromAjax('idRub','treeRub','terre');
+</script>
 
 </window>
-

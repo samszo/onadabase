@@ -820,17 +820,18 @@ function SetVal(idDoc){
 			if(valRef==-1){
 				//ajout de l'argument du popup et ouvre la fenêtre
 				window.open(url+"&ppp=1",'_blank','width=650,height=400,resizable=no,left=200,top=200');
-			}
-			//récupère la ligne des question intermédiaires
-			//pour la V2 uniquement
-			if(version=="V2"){			
-				var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
-				AppendResult(url,docQi,false,"vbox");
+			}else{
+				//récupère la ligne des question intermédiaires
+				//pour la V2 uniquement
+				if(version=="V2"){			
+					var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
+					AppendResult(url+"&qi=1",docQi,false,"vbox");
+				}
 			}
 		} else {
 			//récupère la ligne des question intermédiaires
 			var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
-			AppendResult(url,docQi,false,"vbox");
+			AppendResult(url+"&qi=1",docQi,false,"vbox");
 			//InsertBeforeResult(url,doc.parentNode);
 		}
 		
@@ -842,6 +843,15 @@ function SetVal(idDoc){
 			document.getElementById("tab"+arrDoc[4]).label=val;
 		
   } catch(ex2){alert("SetVal::"+ex2);dump("::"+ex2);}
+}
+
+function SetElementLigne(idRubSrc,idRubDst){
+  try {
+	var url = urlExeAjax+"?f=SetElementLigne&idRubSrc="+idRubSrc+"&idRubDst="+idRubDst;
+	GetResult(url);
+	
+  } catch(ex2){alert("interface:SetElementLigne:"+ex2+" url="+url);}
+
 }
 
 function ExecCarto(idRub,idDon){
