@@ -150,9 +150,12 @@
 			<question id='2_cr_chem_ext_31'/>
 		</question>
 		<question id='2_cr_chem_ext_22'/>
-		<question id='2_cr_chem_ext_24'/>
-		<question id='2_cr_chem_ext_25'/>
-		<question id='2_cr_chem_ext_26'/>
+		<question id='2_cr_chem_ext_24' reponse='1' >
+			<question id='2_cr_chem_ext_26'/>
+		</question>
+		<question id='2_cr_chem_ext_24' reponse='2' >
+			<question id='2_cr_chem_ext_25'/>
+		</question>
 		<question id='2_cr_chem_ext_27'/>
 		<question id='2_cr_chem_ext_28'/>
 		<question id='2_cr_chem_ext_29'/>
