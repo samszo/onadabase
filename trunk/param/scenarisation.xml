@@ -392,8 +392,8 @@
 				<question id='2_cr_po_14'/>
 			</question>
 			<question id='2_cr_po_10' reponse='2'>
-				<question id='2_cr_po_13'champ='mot_1' valeur='2' />
-				<question id='2_cr_po_14'champ='mot_1' valeur='2' />
+				<question id='2_cr_po_13' champ='mot_1' valeur='2' />
+				<question id='2_cr_po_14' champ='mot_1' valeur='2' />
 			</question>
 		</question>
 		<question id='2_qi_po_03' reponse='2' >
@@ -402,8 +402,8 @@
 				<question id='2_cr_po_12'/>
 			</question>
 			<question id='2_cr_po_10' reponse='2'>
-				<question id='2_cr_po_11'champ='mot_1' valeur='2' />
-				<question id='2_cr_po_12'champ='mot_1' valeur='2' />
+				<question id='2_cr_po_11' champ='mot_1' valeur='2' />
+				<question id='2_cr_po_12' champ='mot_1' valeur='2' />
 			</question>
 		</question>
 		<question id='2_qi_po_04' reponse='1' >
