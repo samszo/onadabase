@@ -135,6 +135,7 @@
 	<XmlParam nom="GetOntoTree">
 		<Querys>
 				
+<!-- Requêtes pour la création des arbres  -->
 			<Query fonction="GetTreeChildren_SigProb">
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
@@ -536,11 +537,26 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<where def="9"> WHERE id_parent = -parent-</where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['id-param0-','lib-param0-'],[0,1])"/>
 			</Query>
+
+			<Query fonction="GetTreeChildren_ligne">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>				
+				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> FROM spip_rubriques r
+INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 72
+				</from>
+				<where> WHERE id_parent = -parent- </where>				
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Ligne');"/>
+			</Query>
+
 		</Querys>
 		
 	</XmlParam>
 	
 	
+<!-- Requêtes pour la création des formulaires de saisie  -->
 	<XmlParam nom="GetTabForm">
 		<Querys>
 			<Query fonction="Grille_GetRubDon">
@@ -558,6 +574,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<where> WHERE id_donnee = -id-</where>
 			</Query>
 			
+<!-- Requêtes pour la création des panels  -->
 			<Query fonction="Grille_GetXulTabFormRub">
 				<select>SELECT id_article id, titre </select>
 				<from> FROM spip_articles </from>
@@ -841,6 +858,20 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<dst>Art</dst>
 			</Query>
 
+			<Query fonction="Grille_GetXulTabFormLigne">
+				<select>SELECT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 72
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+
+
+<!-- Requêtes pour l'affichage des tableaux de bord -->
 			<Query fonction="Grille_GetListeSignalementProbleme">
 				<select>
 				SELECT a.id_article idArt, a.titre titreArt, a.date aDate
@@ -895,11 +926,6 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 					AND fdc22.champ = 'ligne_1' AND fdc22.valeur = fdc.valeur 
 					LEFT JOIN spip_forms_donnees_champs fdc21 ON fdc21.id_donnee = fdp2.id_donnee
 					AND fdc21.champ = 'multiple_1' AND fdc21.valeur = 'multiple_1_1' 
-					
-					
-
-					
-					
 				</from>
 				<where> WHERE r.id_rubrique IN(-ids-) GROUP BY idRubPar, idRub, IdArt ORDER BY idRubPar, idRub, IdArt, idCont</where>
 				<dst>Art</dst>
@@ -1237,7 +1263,36 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 				 </from>
 				<where> WHERE a.id_rubrique IN (-ids-)</where>
 			</Query>
+			<!-- Récupère les noeuds de transports : gare, pang, arret de bus -->
+			<Query fonction="Grille_GetEtabTransport">
+				<select>SELECT a.id_rubrique, a.id_article id, a.titre
+					, fd.id_form
+					, fdc.id_donnee, fdc.valeur </select>
+				<from> FROM spip_articles a 
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee
+	AND fd.id_form = 55
+INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
+	AND fdc.champ = "mot_2" AND fdc.valeur IN ( 62, 64 )
+				 </from>
+				<where> WHERE a.id_rubrique IN (-ids-) ORDER BY a.titre</where>
+			</Query>
+			<Query fonction="Grille_GetVoirieTransport">
+				<select>SELECT r.id_rubrique, r.titre
+					, m.titre mtitre
+				 </select>
+				<from> FROM spip_rubriques r 
+INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique
+	AND mr.id_mot IN (129)
+INNER JOIN spip_mots m ON m.id_mot = mr.id_mot
+				 </from>
+				<where> WHERE r.id_rubrique IN (-ids-) ORDER BY r.titre</where>
+			</Query>
 
+
+
+
+<!-- Requêtes pour la création des formulaires -->
 			
 			<Query fonction="Grille_GetXulTabPanelsArt">
 				<select>SELECT id_article id, titre, id_rubrique idRub </select>
@@ -1266,10 +1321,13 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 			</Query>
 			
 			<Query fonction="Grille_GetDonnee">
-				<select>SELECT fda.id_article, dc.valeur, dc.champ, dc.id_donnee, fc.id_form grille, fc.titre, fc.type, fc.extra_info </select>
+				<select>SELECT fda.id_article, dc.valeur, dc.champ, dc.id_donnee
+					, fc.id_form grille, fc.titre, fc.type, fc.extra_info
+					, a.id_rubrique </select>
 				<from> FROM spip_forms_donnees_champs dc
 				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ
 				INNER JOIN spip_forms_donnees_articles fda ON fda.id_donnee = dc.id_donnee
+				INNER JOIN spip_articles a ON a.id_article = fda.id_article
 				 </from>
 				<where> WHERE dc.id_donnee =-id- AND fc.id_form =-idGrille-
 				ORDER BY dc.id_donnee, fc.rang, dc.champ</where>
@@ -1367,6 +1425,11 @@ INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form 
 				<from> FROM spip_syndic </from>
 				<where> WHERE id_rubrique = -idRub- AND statut = 'publie'</where>
 			</Query>
+			<Query fonction="Grille_VerifLiensInRub">
+				<select>SELECT nom_site, url_site, url_syndic, descriptif idRub </select>
+				<from> FROM spip_syndic </from>
+				<where> WHERE id_rubrique = -idRub- AND descriptif = -idRubVerif- </where>
+			</Query>
 			<Query fonction="Grille_GetChamps">
 				<select>SELECT champ, rang, titre, '' valeur, '' id_donnee </select>
 				<from> FROM spip_forms_champs </from>
@@ -1439,6 +1502,8 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ" srcId="64;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ" srcId="69;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="69;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
+		<workflow srcObj="grille;champ" srcId="72;ligne_2" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
+		<workflow srcObj="grille;champ" srcId="72;ligne_2" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		
 		<!-- Reponse non à un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />

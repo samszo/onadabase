@@ -77,4 +77,8 @@
 		<NoVerif>Veillez choisir un territoire ou un établissement</NoVerif>
 		<TitreFormSaisi>Créer une nouvelle géolocalisation</TitreFormSaisi>
 	</Param>
+	<Param nom="AddObjLigne" id="5419" >
+		<NoVerif>Veillez choisir un territoire ou un établissement</NoVerif>
+		<TitreFormSaisi>Créer une nouvelle ligne</TitreFormSaisi>
+	</Param>
 </Params>

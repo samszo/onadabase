@@ -3,12 +3,11 @@
 //--------------------------------------------
 
 
-function AppendResult(url,doc,ajoute) {
-	AppendResult(url,doc,ajoute,"box");
-}
-
 function AppendResult(url,doc,ajoute,cont) {
   try {
+  
+  	if(!cont)
+  		cont = "box";
 	//dump("AppendResult IN "+url+"\n");
 	document.documentElement.style.cursor = "wait";
 

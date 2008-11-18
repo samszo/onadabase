@@ -79,7 +79,7 @@
 			$resultat = AddPlacemark($_GET['dst'], $_GET['kml'],$_GET['BBOX']);
 			break;
 		case 'SetVal':
-			$resultat = SetVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val'], $_GET['login']);
+			$resultat = SetVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val'], $_GET['login'], $_GET['qi']);
 			break;
 		case 'DelVal':
 			$resultat = DelVal($_GET['idGrille'],$_GET['idDon'],$_GET['champ'],$_GET['val']);
@@ -180,11 +180,33 @@
 		case 'DelForm':
 			$resultat = DelForm() ;
 			break;
+		case 'SetElementLigne':
+			$resultat = SetElementLigne($objSite,$_GET['idRubSrc'],$_GET['idRubDst']);
+			break;
 		default:
 			//$resultat = AddDocToArt();
 	}
 
 	echo  utf8_encode($resultat);	
+	
+	function SetElementLigne($objSite,$idRubSrc,$idRubDst){
+
+		$grille = new Grille($objSite);
+		$s = new Synchro($objSite,false);
+		$gra = new Granulat($idRubDst,$objSite,false);
+		if($grille->VerifLiensInRub($idRubDst,$idRubSrc))
+			$s->DelSyndicsRubriques($idRubDst," AND descriptif='".$idRubSrc."'");
+		else{
+			$idSyndic = $gra->SetNewSyndic(
+				" Element de ligne ".date('j/m/y - H:i:s')
+				,$idRubSrc
+				,$objSite->infos["lienAdminSpip"]."/?exec=naviguer&id_rubrique=".$idRubSrc
+				,$idRubDst
+				);
+			$gra->SetMotClef($objSite->infos["MOT_CLEF_LIGNE_TRANS"],$idSyndic,"syndic");
+		}
+		
+	}
 	
 	function SetChoixAffichage($idXul,$valeur){
 		$_SESSION[$idXul] = $valeur;
@@ -598,7 +620,7 @@
 		return $page;
 	}
 	
-	function SetVal($idGrille,$idDon,$champ,$val, $login){
+	function SetVal($idGrille,$idDon,$champ,$val, $login, $qi){
 	
 		global $objSite, $ppp;
 		$g = new Grille($objSite,$idGrille);
@@ -610,14 +632,14 @@
 		
 		if($champ!="Modif" && $champ!="Sup" && $val!=$objSite->infos["MOT_CLEF_OBS"]) //151 mot clef observations
 			$g->SetChamp($row, $idDon);
-
-		//gestion du workflow
-		$xul = $g->GereWorkflow($row, $idDon);		
 		
-		//gestion de la scénarisation
 		$xulScena = "";
-		if($idGrille==59 && $_SESSION['version']=="V2")
-			$xulScena = $g->GereScenarisation($row, $idDon);		
+		if($idGrille==59 && $_SESSION['version']=="V2" && $qi)
+			//gestion de la scénarisation
+			$xul = $g->GereScenarisation($row, $idDon);		
+		else
+			//gestion du workflow
+			$xul = $g->GereWorkflow($row, $idDon);		
 		
 		if(TRACE)
 			echo "ExeAjax:SetVal:ppp=".$ppp."<br/>";
@@ -630,10 +652,7 @@
 			return $pppxul->GetPopUp($xul,"Observations ".$g->GetValeur($idDon,"ligne_1"), $login);
 		} 
 		
-		if($xulScena!="")			
-			return $xulScena;
-		else
-			return $xul;
+		return $xul;
 	}
 
 	
@@ -707,9 +726,12 @@
 	function GetTabForm($type, $idRub){
 		global $objSite;
 
-		$g = new Grille($objSite,-1,false,$type);
+		if($type=="Ligne")	
+			$grille = new Grille($objSite,-1,false,$type, $idRub);
+		else
+			$grille = new Grille($objSite,-1,false,$type);
 		
-		$xul = $g->GetXulTab($type, $idRub, $type);
+		$xul = $grille->GetXulTab($type, $idRub, $type);
 
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
@@ -786,15 +808,13 @@
 		//ajoute une sous-rubrique
 		//alert("AddNewGrille  IN Src "+$idRubSrc+" Dst "+$idRubDst+" trs "+$trs+" n");	
 		
-		$grille = new Grille($objSite,-1,false,$trs);
-		
-		/*if($trs=="CabineAscenseur") {
-			//AddNewObjetIntBat(597, $id, "ObjetIntBat");
-			//alert("AddNewGrille  IN "+type+"\n");
-			$idArt = $g->SetNewArticle($g->titre." Controle ".date('j/m/y - H:i:s'));
-			$idDon = $grille->AddDonnee($id, $grille, false, $idArt);
-		}*/
-		
+		//prise encompte du scope pour la grille Ligne de transport uniquement
+		//pour éviter le calcul de idsInScope si on n'en a pas besoin
+		if($trs=="Ligne")	
+			$grille = new Grille($objSite,-1,false,$trs, $idRubDst);
+		else
+			$grille = new Grille($objSite,-1,false,$trs);
+				
 		$grille->AddGrilles($idRubSrc, $id);
 		//ajoute les QuestionsRéponses
 		$grille->AddQuestionReponse($idRubSrc,$id);

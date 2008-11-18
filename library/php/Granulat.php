@@ -70,9 +70,15 @@ class Granulat
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiagListe: id=$this->id idDoc=$idDoc<br/>";
 
+		//vérifie si on traite une ligne de transport
+		$ligne = $this->VerifExistGrille($this->site->infos["GRILLE_LIGNE_TRANS"]);
+				
 		//récupère les enfants
-		$ids = $this->GetEnfantIds($this->id,",").$this->id;
-
+		if($ligne!=-1)
+			$ids = $this->GetEnfantIdsInLiens($this->id,",",$this->site->infos["MOT_CLEF_LIGNE_TRANS"]);
+		else
+			$ids = $this->GetEnfantIds($this->id,",").$this->id;
+		
 		//construction du xml
 		$grille = new Grille($this->site);
 		$xul = $grille->GetEtatDiagListe($ids,$idDoc);
@@ -89,9 +95,15 @@ class Granulat
 
 		//initialisation du xml
 		$xml = "<EtatDiag idRub='".$this->id."' titre=\"".$this->site->XmlParam->XML_entities($this->titre)."\" >";
-	    	
+
+		//vérifie si on traite une ligne de transport
+		$ligne = $this->VerifExistGrille($this->site->infos["GRILLE_LIGNE_TRANS"]);
+				
 		//récupère les enfants
-		$ids = $this->GetEnfantIds($this->id,",").$this->id;
+		if($ligne!=-1)
+			$ids = $this->GetEnfantIdsInLiens($this->id,",",$this->site->infos["MOT_CLEF_LIGNE_TRANS"]);
+		else
+			$ids = $this->GetEnfantIds($this->id,",").$this->id;
 
 		//calculer l'état du diagnostique
 		$grille = new Grille($this->site);
@@ -355,7 +367,29 @@ class Granulat
 			return $data['id_article'];
 		} else return -1;
 	}
-  	
+
+	public function VerifExistGrille($idGrille) {
+		
+		$sql = "SELECT a.id_article
+			FROM spip_articles a
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+				INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
+				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ
+			WHERE a.id_rubrique =".$this->id."
+				AND fd.id_form =".$idGrille;
+			;//LIMIT 0 , 93";
+
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		//$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		
+		if($data = $DB->fetch_assoc($req)) {
+			return $data['id_article'];
+		} else return -1;
+	}
+	
 		
 	/*
 	 * Met à jour les identifiants des rubriques dans les tables spip_rubriques, spip_mots_rubriques et spip_articles 
@@ -545,6 +579,28 @@ class Granulat
   
  	}
 
+  	function SetNewSyndic($titre,$descriptif,$url,$id=-1){
+
+		if($id==-1)
+			$id=$this->id;
+		
+		//ajoute un nouvel enfant
+		$sql = "INSERT INTO spip_syndic
+			SET nom_site = ".$this->site->GetSQLValueString($titre, "text")
+				.", url_site='".$url."' "
+				.", descriptif='".$descriptif."' "
+				.", statut='prepa' , date = now()"
+				.", id_rubrique=".$id;
+		
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$newId = mysql_insert_id();
+		$DB->close();
+		
+		return $newId;
+  
+ 	}
+ 	
   	function SetNewArticleComplet($titre, $date, $maj, $id=-1) {
   		if($id==-1)
 			$id=$this->id;
@@ -567,15 +623,19 @@ class Granulat
 		return $newId;
   	}
   	
-  	function SetMotClef($id_mot,$id=-1){
+  	function SetMotClef($id_mot,$id=-1,$type="rubrique"){
 
 	if($id==-1)
 		$id=$this->id;
 	
 	//ajoute un nouveau mot clef
 	if ($id_mot != ""){
-		$sql = "INSERT INTO spip_mots_rubriques
-				SET id_mot = ".$id_mot.", id_rubrique=".$id;
+		if($type=='rubrique')
+			$sql = "INSERT INTO spip_mots_rubriques
+					SET id_mot = ".$id_mot.", id_rubrique=".$id;
+		if($type=='syndic')
+			$sql = "INSERT INTO spip_mots_syndic
+					SET id_mot = ".$id_mot.", id_syndic=".$id;
 			
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$req = $DB->query($sql);
@@ -851,7 +911,7 @@ class Granulat
 	
 	function GetLiens($rReq=false){
 	
-		//récupère la commune du granulat
+		//récupère les liens du granulat
 		$sql = "SELECT nom_site, url_site
 			FROM `spip_syndic`
 			WHERE statut = 'publie' AND id_rubrique =".$this->id;
@@ -962,6 +1022,42 @@ class Granulat
 
 	}
 
+	public function GetEnfantIdsInLiens($id = "", $sep="", $idMot=-1)
+	{
+		if($id =="")
+			$id = $this->id;
+		if($sep=="")
+			$sep=DELIM;
+
+		if($idMot==-1)
+			$JoinMot = "";
+		else
+			$JoinMot = " INNER JOIN spip_mots_syndic ms ON ms.id_syndic = s.id_syndic AND ms.id_mot =".$idMot;
+		
+		//récupère les sous thème
+		$sql = "SELECT s.id_syndic, s.descriptif
+			FROM spip_syndic s
+			".$JoinMot." 
+			WHERE s.id_rubrique = ".$id;
+		//echo $this->site->infos["SQL_LOGIN"]."<br/>";
+	
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+
+		$vals=array();
+		while($r = $DB->fetch_assoc($req)) {
+			$arrIds = split($sep,$this->GetEnfantIds($r['descriptif'],$sep));
+			foreach($arrIds as $i){
+				if($i!="")
+					array_push ($vals, $i);
+			}
+		}
+		$vals = array_unique($vals);
+		return implode($sep, $vals);
+
+	}
+	
 	public function GetProps()
 	{
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
