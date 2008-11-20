@@ -820,21 +820,22 @@ function SetVal(idDoc){
 			if(valRef==-1){
 				//ajout de l'argument du popup et ouvre la fenêtre
 				window.open(url+"&ppp=1",'_blank','width=650,height=400,resizable=no,left=200,top=200');
-			}else{
-				//récupère la ligne des question intermédiaires
-				//pour la V2 uniquement
-				if(version=="V2"){			
-					var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
-					AppendResult(url+"&qi=1",docQi,false,"vbox");
-				}
 			}
-		} else {
-			//récupère la ligne des question intermédiaires
+		}
+		//pour les questionnaires V2 uniquement
+		//récupère les question intemédiaire
+		if(version=="V2"){
+			//récupère la référence à la question intermédiaire précédente
+			//pour prendre en compte la réponse dans le choix des questions suivantes
+			var idQiParent = doc.parentNode.parentNode.parentNode.id;
+			if(idQiParent=="")
+				idQiParent=1;
+						
 			var docQi = document.getElementById("row_"+arrDoc[1]+"_"+arrDoc[2]+"_qi");
-			AppendResult(url+"&qi=1",docQi,false,"vbox");
-			//InsertBeforeResult(url,doc.parentNode);
+			AppendResult(url+"&qi="+idQiParent,docQi,false,"vbox");
 		}
 		
+			
 	}else
 		AjaxRequest(url,"AfficheResult","trace"+doc.id);
 	
