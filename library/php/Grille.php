@@ -776,11 +776,21 @@ class Grille{
     	
     }
 
-    function GereScenarisation($row, $donId) {
+    function GereScenarisation($row, $donId, $qiParent) {
 
     	$xul="";
 		$critere = $this->GetValeur($donId,'ligne_1'); 
-    	$Xpath = "//question[@id='".$critere."']";
+		//vérifie s'il faut prendre en compte la réponse de la question parente
+		if($qiParent==1)
+	    	$Xpath = "//question[@id='".$critere."']";
+	    else{
+	    	//récupère les infos de la question parente
+	    	$arrQi = split("_",$qiParent);
+	    	$criterePar = $this->GetValeur($arrQi[2],'ligne_1'); 
+	    	$reponsePar = $this->GetValeur($arrQi[2],'mot_1'); 
+	    	$Xpath = "//question[@id='".$criterePar."' and @reponse='".$reponsePar."']/question[@id='".$critere."']";
+	    }
+	    	
     	if($this->trace)
 			echo "Grille:GereScenarisation:récupère les paramètre à exécuter ".$Xpath."<br/>";
     	$scena = $this->XmlScena->GetElements($Xpath);
@@ -804,6 +814,11 @@ class Grille{
 					if($critere != $OldCrit){
 						$OldCrit=$critere;
 						$idDon = $this->GetDonneeCritere($idArt,$critere);
+						
+						//vérifie si la donnée est trouvée
+						if(!$idDon){
+							return "<label value=\"Ce critère ".$critere." n'existe pas !\" />";
+						}
 						
 						//vérifie si la donnée correspond au choix de diagnostic
 						$verif = $this->VerifChoixDiagnostic(-1, $_SESSION['type_controle'], $_SESSION['type_contexte'],$critere); 
@@ -1683,7 +1698,7 @@ class Grille{
 				$check = "false";
 			//construction du xul
 			$idDoc = "val*".$this->site->infos["GRILLE_LIGNE_TRANS"]."*".$idDon."*".$idRub."*".$r["id_rubrique"];
-			$xulVoirie .= "<checkbox id='".$idDoc."' oncommand=\"SetElementLigne(".$r["id_rubrique"].",".$idRub.");\" checked='".$check."' label=\"".$r["titre"]."\"/>";				
+			$xulVoirie .= "<checkbox id='".$idDoc."' oncommand=\"SetElementLigne(".$r["id_rubrique"].",".$idRub.");\" checked='".$check."' label=\"".$r["titreRubParent"]."\"/>";				
 		}
 		
 		
@@ -1767,10 +1782,10 @@ class Grille{
 			return false;
 	}
 		
-	function VerifChoixDiagnostic ($idDon, $typeCritere, $typeContexte,$crit=""){
+	function VerifChoixDiagnostic ($idDon, $typeCritere, $typeContexte,$critere=""){
 		
-		//si crit est défini on verifie on gère une scénarisation
-		if($crit==""){
+		//si crit est défini on gère une scénarisation
+		if($critere==""){
 			// On récupere le critere corespondant à la donnée (grille 59 Diagnostic)
 			$critere = $this->GetValeur($idDon,'ligne_1'); 
 			//vérifie s'il faut traiter les questions intermédiaires pour V2
@@ -1857,7 +1872,7 @@ class Grille{
 							|| $typeContexte[3]== $r2['valeur']) 
 							$verif = true;
 						if($this->trace)
-							echo "Grille:VerifChoixDiagnostic:typeContexte=".print_r($typeContexte)." verif=".$verif."<br/>";
+							echo "Grille:VerifChoixDiagnostic:typeContexte=".print_r($typeContexte)." verif=".$verif." valeur=".$r2['valeur']."<br/>";
 					}
 				}
 				if($this->trace)
@@ -2287,7 +2302,7 @@ class Grille{
 				if($row["grille"]==$this->site->infos["GRILLE_REP_CON"]){
 					//on cache le textbox référence
 					if($row["champ"]=="ligne_1")
-						$control .= '<textbox  '.$js.' hidden="true" multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
+						$control .= '<textbox  '.$js.' hidden="false" multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
 					else
 						$control .= '<textbox  '.$js.' multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
 				}else{

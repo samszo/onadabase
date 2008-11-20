@@ -3,8 +3,8 @@
 	//pour le débugage
 	if(!isset($_SESSION['version'])) {
 		$_SESSION['version']="V2";
-		$_SESSION['type_controle'] = array ('multiple_1_1', 'multiple_1_2');
 		$_SESSION['type_contexte'] = array ('multiple_2_1', 'multiple_2_2', 'multiple_2_3', 'multiple_2_4');
+		$_SESSION['type_contexte'] = array ();
 		$_SESSION['IdAuteur']=1;
 	}
 	
@@ -620,7 +620,7 @@
 		return $page;
 	}
 	
-	function SetVal($idGrille,$idDon,$champ,$val, $login, $qi){
+	function SetVal($idGrille,$idDon,$champ,$val, $login, $qiParent){
 	
 		global $objSite, $ppp;
 		$g = new Grille($objSite,$idGrille);
@@ -634,9 +634,9 @@
 			$g->SetChamp($row, $idDon);
 		
 		$xulScena = "";
-		if($idGrille==59 && $_SESSION['version']=="V2" && $qi)
+		if($idGrille==59 && $_SESSION['version']=="V2" && $qiParent)
 			//gestion de la scénarisation
-			$xul = $g->GereScenarisation($row, $idDon);		
+			$xul = $g->GereScenarisation($row, $idDon, $qiParent);		
 		else
 			//gestion du workflow
 			$xul = $g->GereWorkflow($row, $idDon);		
