@@ -1267,8 +1267,12 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 			<Query fonction="Grille_GetEtabTransport">
 				<select>SELECT a.id_rubrique, a.id_article id, a.titre
 					, fd.id_form
-					, fdc.id_donnee, fdc.valeur </select>
+					, fdc.id_donnee, fdc.valeur
+					, rp.titre titreRubParent 
+					</select>
 				<from> FROM spip_articles a 
+INNER JOIN spip_rubriques r ON r.id_rubrique = a.id_rubrique
+INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
 INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee
 	AND fd.id_form = 55
@@ -1280,8 +1284,10 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 			<Query fonction="Grille_GetVoirieTransport">
 				<select>SELECT r.id_rubrique, r.titre
 					, m.titre mtitre
+					, rp.titre titreRubParent 
 				 </select>
 				<from> FROM spip_rubriques r 
+INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
 INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique
 	AND mr.id_mot IN (129)
 INNER JOIN spip_mots m ON m.id_mot = mr.id_mot
