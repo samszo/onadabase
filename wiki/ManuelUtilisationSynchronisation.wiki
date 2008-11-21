@@ -5,5 +5,9 @@
 
 ===Préparation de la base serveur===
 
- # importer la base de référence (id négatif)
+ # importer la base de référence (id négatif) dans la base synchro (vide)
 http://www.onadabase.eu/doc/manuel/images/localhost_onadabase_bdd_bigdump_php_site=local1.png
+ # vérifier dans spip que l'importation est correct
+ # sauvegarder la base de terrain
+ # nettoyer la base de terrain
+  # la base synchro
