@@ -36,11 +36,16 @@
 // *** Add Paypal button
 
 // Database configuration
-
-$db_server   = 'localhost';
-$db_name     = 'onada2';
-$db_username = 'root';
-$db_password = '';
+require_once ("../param/Constantes.php");
+if(isset($_GET['site'])){
+	$idSite = $_GET['site'];
+}else{
+	$idSite = DEFSITE;
+}
+$db_server   = $SITES[$idSite]["SQL_HOST"];
+$db_name     = $SITES[$idSite]["SQL_DB"];
+$db_username = $SITES[$idSite]["SQL_LOGIN"];
+$db_password = $SITES[$idSite]["SQL_PWD"];
 
 // Other settings (optional)
 
