@@ -15,4 +15,4 @@ http://www.onadabase.eu/doc/manuel/images/localhost_onadabase_spipsync_ecrire__e
  # nettoyer la base de terrain
   # supprimer les territoires inutiles
   # supprimer les rubriques de références 
-http://localhost/onadabase/library/php/ExeAjax.php?f=DelRubriqueFrere&idRub={{{identifiant de la rubrique France }}}
+{{{http://localhost/onadabase/library/php/ExeAjax.php?f=DelRubriqueFrere&idRub=_identifiant de la rubrique France_}}}
