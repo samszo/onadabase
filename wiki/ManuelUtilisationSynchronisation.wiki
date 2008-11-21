@@ -6,3 +6,4 @@
 ===Préparation de la base serveur===
 
  # importer la base de référence (id négatif)
+[fig.1 http://www.onadabase.eu/doc/manuel/images/localhost_onadabase_bdd_bigdump_php_site=local1.png]
