@@ -1,9 +1,8 @@
 = Manuel d'utilisation de la synchronisation =
 
-La synchronisation permet d'ajouter les nouvelles rubriques et articles des tablet pc (en local) au serveur et de récupérer les rubriques et articles propres à l'utilisateur du serveur sur le local.
+==Procédure de synchronisation d'une base de terrain avec une base serveur==
 
-Cette opération s'effectue uniquement depuis les tablet pc en local en cliquant sur le bouton "Synchroniser".
 
-On synchronise les rubriques gérées par l'utilisateur avec leurs enfants. Pour cela, la gestion de ces rubriques est gérée depuis spip en changeant les droits des utilisateurs. En assignant une ou plusieurs rubriques à ces utilisateurs, ils deviennent des administrateurs restreints.
+===Préparation de la base serveur===
 
-Remarque concernant la gestion des utilisateurs en local : pour ajouter une rubrique à administrer, il faut d'abord vérifier que le parent de cette rubrique soit présent sur le serveur. Si cela n'est pas le cas, récupérer les rubriques parent en administrant ces rubriques depuis le serveur, puis en synchronisant avec le local.
+ # importer la base de référence (id négatif)
