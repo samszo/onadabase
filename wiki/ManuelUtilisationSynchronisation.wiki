@@ -14,5 +14,10 @@ http://www.onadabase.eu/doc/manuel/images/localhost_onadabase_spipsync_ecrire__e
  # sauvegarder la base de terrain
  # nettoyer la base de terrain
   # supprimer les territoires inutiles
-  # supprimer les rubriques de références 
-{{{http://localhost/onadabase/library/php/ExeAjax.php?f=DelRubriqueFrere&idRub=_identifiant de la rubrique France_}}}
+   * soit via l'interface de l'outil
+   * soit via le service de suppression : DelRubriqueFrere
+  # supprimer les rubriques de références via le service de suppression : DelRubriqueFrere
+  # nettoyer les erreurs éventuelles via le service de nettoyage : CleanForm
+
+ # intégrer la base de terrain dans la base de synchro
+
