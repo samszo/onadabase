@@ -460,8 +460,9 @@ function SynchroTree(scope, idRub) {
 		var url="";
 		var idTree = "treeCompareSrcDst";
 		var tree = document.getElementById(idTree);
-		var siteSrc = tree.getAttribute("siteSrc")
-		var siteDst = tree.getAttribute("siteDst")
+		//la source de comparaison devient la destination de la synchro
+		var siteSrc = tree.getAttribute("siteDst")
+		var siteDst = tree.getAttribute("siteSrc")
 
 		SynchroInitTree(idTree);
 
@@ -489,12 +490,17 @@ function SynchroTree(scope, idRub) {
 			if(pm)
 				pm.setAttribute("value", "10%");
 			url = urlExeAjax+"?f=SynchroSrcDst&scope="+scope+"&siteSrc="+siteSrc+"&siteDst="+siteDst+"&idRub="+idRub+"&id="+id+"&val="+val+"&type="+type+"&action="+action ;
+			var doc = document.getElementById("FormSaisi");
+			AppendResult(url,doc);
+
+			/*
 			var r = GetResult(url);
 			if(pm){
 				pm.setAttribute("value", "50%");
 				if(r!=1)
 					pm.setAttribute("style", "RedBar");
 			}
+			*/
 //		}		
 
 	} catch(ex2){

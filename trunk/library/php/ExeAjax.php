@@ -4,7 +4,6 @@
 	if(!isset($_SESSION['version'])) {
 		$_SESSION['version']="V2";
 		$_SESSION['type_contexte'] = array ('multiple_2_1', 'multiple_2_2', 'multiple_2_3', 'multiple_2_4');
-		$_SESSION['type_contexte'] = array ();
 		$_SESSION['IdAuteur']=1;
 	}
 	
@@ -37,7 +36,7 @@
 			// le site = $objSiteSync
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
-			break;*/		
+			break;*/
 		case 'GetFriseDocs':
 			$xul = new Xul($objSite);
 			$resultat = $xul->GetFriseDocs($_GET['id'],$_GET['idDoc'],$_GET['idArt']);
@@ -118,9 +117,13 @@
 			else
 				$sync = new Synchro($objSiteSync,$objSite);
 			if($_GET['scope']=="arbre")
-				$resultat = $sync->SynchroArbreSrcDst($_GET['idRub'],$_GET['type'],$_GET['id']);
+				$resultat = $sync->SynchroArbre($_GET['idRub'],$_GET['type'],$_GET['id']);
 			else	
-				$resultat = $_GET['scope'];//$sync->SynchroBrancheSrcDst($_GET['idRub'],$_GET['id'],$_GET['val'],$_GET['type'],$_GET['action']);
+				$resultat = $_GET['scope'];//$sync->SynchroBranche($_GET['idRub'],$_GET['id'],$_GET['val'],$_GET['type'],$_GET['action']);
+			break;
+		case 'UpdateReferenceId':
+			$sync = new Synchro($objSiteSync,$objSite);
+			$resultat = $sync->UpdateReferenceId();
 			break;
 		case 'SynchroImport':
 			$resultat = SynchroImport($objSiteSync, $_GET['idAuteur']);

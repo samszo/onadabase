@@ -799,7 +799,14 @@ class Granulat
 	 */
 	function GetIdDonnees($idGrille, $idArticle) {
 		
-		$sql = "SELECT fd.id_donnee, fd.date, fd.maj
+		//vérifie si on renvoit toute les données quelques soit la form
+		if($idGrille==-1)
+			$sql = "SELECT fd.id_donnee, fd.date, fd.maj
+				FROM spip_forms_donnees_articles da 
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee 
+				WHERE da.id_article = ".$idArticle;
+		else
+			$sql = "SELECT fd.id_donnee, fd.date, fd.maj
 				FROM spip_forms_donnees_articles da 
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form = ".$idGrille."
 				WHERE da.id_article = ".$idArticle;
@@ -995,7 +1002,7 @@ class Granulat
 
 	}
 
-	public function GetEnfantIds($id = "", $sep="")
+	public function GetEnfantIds($id = "", $sep="", $maxNiv=-1)
 	{
 		if($id =="")
 			$id = $this->id;
@@ -1014,7 +1021,8 @@ class Granulat
 
 		$valeur="";
 		while($r = $DB->fetch_assoc($req)) {
-			$valeur .= $this->GetEnfantIds($r['id_rubrique'],$sep);
+			if($maxNiv==-1)
+				$valeur .= $this->GetEnfantIds($r['id_rubrique'],$sep);
 			$valeur .= $r['id_rubrique'].$sep;
 		}
 		

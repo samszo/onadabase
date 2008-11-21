@@ -13,9 +13,9 @@
 
   define ("TRACE", false);
 
-  define ("DEFSITE", "local1");
+  define ("DEFSITE", "local2");
   //define ("DEFSITE", "mundi"); 
-  define ("SYNCSITE", "local2");
+  define ("SYNCSITE", "local1");
   //define ("SYNCSITE", "mundi");
  
   
