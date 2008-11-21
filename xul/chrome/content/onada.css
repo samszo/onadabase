@@ -257,6 +257,10 @@ treechildren::-moz-tree-row(YellowRow)
 {
   background-color: yellow;
 }
+treechildren::-moz-tree-row(BlueRow)
+{
+  background-color: blue;
+}
 
 .footer 
 {

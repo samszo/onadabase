@@ -21,12 +21,37 @@ Class Synchro{
 		$this->wFic = true;
 		$this->siteSrc = $siteSrc;
 		$this->siteDst = $siteDst;
-		$this->urlSrc =	PathRoot."/bdd/synchro/VerifSynchro-".$siteDst->id."-".$_SESSION['IdAuteur']."-";		
-		$this->urlDst =	PathRoot."/bdd/synchro/VerifSynchro-".$siteSrc->id."-".$_SESSION['IdAuteur']."-";
-		$this->pathficXul =	PathRoot."/bdd/synchro/CompareSynchro-".$siteSrc->id."-".$siteDst->id."-".$_SESSION['IdAuteur']."-";
+		$this->urlSrc =	PathRoot."/bdd/synchro/VerifSynchro-".$siteSrc->id."-".$_SESSION['IdAuteur']."-";		
+		$this->urlDst =	PathRoot."/bdd/synchro/VerifSynchro-".$siteDst->id."-".$_SESSION['IdAuteur']."-";
 		
 	}
 
+	function UpdateReferenceId() {
+		//réinitialise les identifiants de la base pour éviter des problème de synchronisation
+
+		$Xpath = "/XmlParams/XmlParam[@nom='Synchronise']/synchro[@action='UpdateReferenceId']/Query";
+		if($this->trace)
+			echo "Synchro:UpdateReferenceId:Xpath".$Xpath."<br/>";
+		//récupère les requêtes à exécuter
+		$Qs = $this->siteSrc->XmlParam->GetElements($Xpath);
+		$r=0;
+		if($Qs){
+			foreach($Qs as $Q){		
+				$sql = $Q["sql"];
+				$db = new mysql ($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
+				$db->connect();
+				$result = $db->query($sql);
+				$r = mysql_affected_rows();
+				//if($this->trace)
+					echo "Synchro:UpdateReferenceId:".$this->siteSrc->infos["SQL_DB"].":r=".$r." sql=".$sql."<br/>";
+				$db->close();
+			}
+		}
+
+		return $r;		
+	}
+	
+	
 	function DelDocumentsRubriques($idRubrique) {
 
 		$sql = "DELETE 
@@ -70,8 +95,10 @@ Class Synchro{
 		
 	}
 
-	public function SynchroArbreSrcDst($idRub,$type,$id)
+	public function SynchroArbre($idRub,$type,$id)
 	{
+		//la source de comparaison devient la destination de la synchro
+		$this->pathficXul =	PathRoot."/bdd/synchro/CompareSynchro-".$this->siteDst->id."-".$this->siteSrc->id."-".$_SESSION['IdAuteur']."-";
 		//récupère le xul de comparaison
 		$ficXul = $this->pathficXul.$idRub.".xul";
 		$this->dom = new XmlParam($ficXul);
@@ -79,6 +106,28 @@ Class Synchro{
 		//récupère les éléments à exécuter
 		//$Xpath = "//".$type."[@id='".$id."']";
 		$Xpath = "//treeitem[@id='treeCompareSrcDst*".$type."*".$id."']/treechildren/treeitem/treerow";
+		$this->SynchroTraiteBranche($Xpath,$idRub);
+
+		/*
+		//supprime l'arbre src
+		unlink($this->urlSrc.$idRub.".xml");
+		//supprime l'arbre dst
+		unlink($this->urlDst.$idRub.".xml");
+		*/
+		//supprime le xul de comparaison
+		unlink($ficXul);
+		//enregistre le xul de comparaison
+		$strXml = $this->dom->xml->asXML();
+		$dom = new DomDocument();
+		$dom->loadXML($strXml);
+		$dom->save($ficXul);	
+		
+		return $strXml;
+	}
+	
+	public function SynchroTraiteBranche($Xpath,$idRub)
+	{
+		
 		if($this->trace)
 			echo "Synchro:SynchroArbreSrcDst//recupère les sous elements à exécuter:Xpath".$Xpath."<br/>";
 		$Es = $this->dom->GetElements($Xpath);
@@ -90,25 +139,41 @@ Class Synchro{
 				$eAction= $E->treecell[3]["label"]."";
 				//on exclu certaine type
 				if($eType!="id" && $eType!="id_parent"){
-					$this->SynchroBrancheSrcDst($idRub,$eId,$eVal,$eType,$eAction);
+					//calcul la branche suivant les types
+					switch ($eType) {
+						case 'champ':
+							//récupère l'id de la donnee
+							$arrId = split("-",$eId);
+							$r = $this->SynchroBranche($arrId[0],$arrId[1],$eVal,$eType,$eAction);
+							break;
+						default:
+							//les AJOUT non pas d'enfant
+							$r = $this->SynchroBranche($idRub,$eId,$eVal,$eType,$eAction);
+							break;
+					}
+						
+					//modifie la propriete de la ligne
+					if($r>0){
+						$E["properties"]="";
+						$E->treecell[3]["label"]="OK";
+					}else{
+						$E["properties"]="BlueRow";
+						$E->treecell[3]["label"]="ERREUR";
+					}
+					//modifie la valeur du progress bar
+					$E->treecell[4]["value"]=$r;
 				}		
 			}
 		}
-		//supprime le xul de comparaison
-		unlink($ficXul);
-		//supprime l'arbre src
-		unlink($this->urlSrc.$idRub.".xml");
-		//supprime l'arbre dst
-		unlink($this->urlDst.$idRub.".xml");
 		
 	}
 	
-	public function SynchroBrancheSrcDst($idRub,$id,$val,$type,$action)
+	public function SynchroBranche($idPar,$id,$val,$type,$action)
 	{
 
 		$Xpath = "/XmlParams/XmlParam[@nom='Synchronise']/synchro[@action='".$action."' and @type='".$type."']/Query";
 		if($this->trace)
-			echo "Synchro:SynchroBrancheSrcDst:Xpath".$Xpath."<br/>";
+			echo "Synchro:SynchroBranche:Xpath".$Xpath."<br/>";
 		//récupère les fonction à exécuter
 		$Fs = $this->siteSrc->XmlParam->GetElements($Xpath);
 		$r=0;
@@ -129,18 +194,67 @@ Class Synchro{
 					$db = new mysql ($this->siteSrc->infos["SQL_HOST"], $this->siteSrc->infos["SQL_LOGIN"], $this->siteSrc->infos["SQL_PWD"], $this->siteSrc->infos["SQL_DB"]);
 					$db->connect();
 					$result = $db->query($sql);
-					$r .= mysql_affected_rows().",";			
-					//if($this->trace)
-						echo "Synchro:SynchroBrancheSrcDst:r=".$r." sql=".$sql."<br/>";
+					$r += mysql_affected_rows();
+					if($this->trace)
+						echo "Synchro:SynchroBranche:r=".$r." sql=".$sql."<br/>";
 					$db->close();
-				}
+				}				
 			}
+			//synchronise les éléments enfants
+			$r += $this->SynchroTypeElementEnfant($idPar,$id,$val,$type,$action);			
 		}
 
 		return $r;		
 		
 	}
 
+	function SynchroTypeElementEnfant($idPar,$id,$val,$type,$action){
+		$r = 0;
+		switch ($type) {
+			case 'rubrique':
+				if($action="AJOUT"){					
+					$g = new Granulat($id,$this->siteSrc,false);
+					
+					//ajout des rubriques enfants
+					$gEnfs = $g->GetEnfants(false);
+					if($gEnfs){
+						foreach($gEnfs as $gEnf){
+							$r += $this->SynchroBranche($g->id,$gEnf->id,'',$type,$action);
+						}
+					}
+					
+					if($g->id==2402){
+						$t = "";
+					}
+					
+					//ajout des articles
+					$reqArt = $g->GetArticleInfo();
+					while($rArt = mysql_fetch_assoc($reqArt)) {
+						$r += $this->SynchroBranche($g->id,$rArt["id_article"],'','article',$action);					
+					}
+				}
+				break;
+			case 'article':
+				if($action="AJOUT"){					
+					$g = new Granulat($idPar,$this->siteSrc,false);
+															
+					//ajout des données
+					$reqDon = $g->GetIdDonnees(-1,$id);
+					while($rDon = mysql_fetch_assoc($reqDon)) {
+						$r += $this->SynchroBranche($id,$rDon["id_donnee"],'','donnee',$action);
+					}
+				}
+				break;
+			case 'grille':
+				break;
+			case 'donnee':
+				break;
+		}
+		return $r;
+	}
+	
+	
+	
 	public function CompareSrcDst($idRub)
 	{
 		$this->show=false;
@@ -175,6 +289,7 @@ Class Synchro{
 			//pour ne pas dépasser la limite de mémoire
 			//pour gérer les problème de mémoire
 			//ini_set("memory_limit","128M");
+			$this->pathficXul =	PathRoot."/bdd/synchro/CompareSynchro-".$this->siteSrc->id."-".$this->siteDst->id."-".$_SESSION['IdAuteur']."-";
 			$ficXul =$this->pathficXul.$idRub.".xul";
 			if (file_exists($ficXul)) {
 			   include($ficXul);
@@ -300,7 +415,7 @@ Class Synchro{
 				}		
 				
 				//vérifie si on traite les enfants
-				if($type=="rubrique" && $Action=="AJOUT")
+				if($Action=="AJOUT")
 					$xulPar .= EOL;
 				else{ 
 					if($this->wFic){
@@ -979,6 +1094,54 @@ Class Synchro{
 		}
 		return $nouveauxMots;
 	}
+
+	public function GetSyndics($gSrc, $type, $id=-1){
+
+		$nouveaux=false;
+		//récupère les syndics
+		$arrMotsClefs = $gSrc->GetTypeMotClef($type,$id);
+
+		if(count($arrMotsClefs)>0){
+			
+			if($this->show){
+				$idXul = "treeSynchro_".$type."_".$id."_mots";
+				$this->xul .= '<treeitem id="'.$idXul.'" container="true" empty="false" >'.EOL;
+				$this->xul .= '<treerow>'.EOL;
+				$this->xul .= '<treecell label="'.'"/>'.EOL;
+				$this->xul .= '<treecell label="MotsClefs"/>'.EOL;
+				$this->xul .= '<treecell label="'.'"/>'.EOL;
+				$this->xul .= '</treerow>'.EOL;
+				$this->xul .= '<treechildren >'.EOL;
+			}
+			
+			$nouveauxMots = $this->dom->createElement("mots");
+			foreach($arrMotsClefs as $m) {
+				$nouveauMot = $this->dom->createElement("mot");
+				$nouveauMot->setAttribute("id", $m->id);
+				$nouveauMot->setAttribute("idGroupe", $m->id_groupe);
+				$nouveauMot->appendChild($this->dom->createTextNode(utf8_encode($m->titre)));				
+				if($this->show){
+					$idXul = "treeSynchro_".$type."_".$id."_mot_".$m->id;
+					$this->xul .= '<treeitem id="'.$idXul.'" container="false" empty="false" >'.EOL;
+					$this->xul .= '<treerow>'.EOL;
+					$this->xul .= '<treecell label="'.$m->id.'"/>'.EOL;
+					$this->xul .= '<treecell label="'.utf8_encode($m->titre).'"/>'.EOL;
+					$this->xul .= '<treecell label="'.$m->id_groupe.'"/>'.EOL;
+					$this->xul .= '</treerow>'.EOL;
+					$this->xul .= '</treeitem>'.EOL;
+				}
+				$nouveauxMots->appendChild($nouveauMot);
+			}
+
+			if($this->show){
+				$this->xul .= '</treechildren>'.EOL;
+				$this->xul .= '</treeitem>'.EOL;
+			}
+			
+		}
+		return $nouveauxMots;
+	}
+	
 	
 	public function GetDocs($gSrc, $type, $id=-1){
 
@@ -1310,9 +1473,9 @@ Class Synchro{
 		
 		$gra = new Granulat($idRub,$this->siteSrc,false);
 		$time_start = microtime(true);		
-		$this->trace = true;
-		if($this->trace)
-			echo "<Synchro f='DelRubrique' idRub='".$idRub."' titre=\"".$gra->titre."\" />\n";
+		//$this->trace = true;
+		//if($this->trace)
+			echo "<label f='DelRubrique' idRub='".$idRub."' value=\"Synchro:DelRubrique".$gra->titre."\" />\n";
 		
 		$rsArt = $gra->GetArticleInfo();
 		while($rArt = mysql_fetch_assoc($rsArt)) {
@@ -1382,7 +1545,7 @@ Class Synchro{
 		$time_start = microtime(true);		
 		$this->trace = true;
 		if($this->trace)
-			echo "<Synchro f='CleanForm' />\n";
+			echo "<Synchro f='CleanForm' db='".$this->siteSrc->infos["SQL_DB"]."' />\n";
 		
 		if($this->trace)
 			echo "<Synchro f='CleanForm' job='supprime les données sans articles' >\n";

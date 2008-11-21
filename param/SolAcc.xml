@@ -1667,11 +1667,76 @@ LIMIT 0 , 1
 				</insertfrom>			
 				<where> WHERE id_-type- = -id- </where>			
 			</Query>
+			<Query fonction="InsertDbForm">
+				<insertfrom>
+					INSERT INTO -dbDst-.spip_forms_articles
+					SELECT * 
+					FROM -dbSrc-.spip_forms_articles 
+				</insertfrom>			
+				<where> WHERE id_article = -id- </where>			
+			</Query>
+			<Query fonction="InsertDbDonnee">
+				<insertfrom>
+					INSERT INTO -dbDst-.spip_forms_donnees
+					SELECT * 
+					FROM -dbSrc-.spip_forms_donnees
+				</insertfrom>			
+				<where> WHERE id_donnee = -id- </where>			
+			</Query>
+			<Query fonction="InsertDbDonneeArt">
+				<insertfrom>
+					INSERT INTO -dbDst-.spip_forms_donnees_articles
+					SELECT * 
+					FROM -dbSrc-.spip_forms_donnees_articles 
+				</insertfrom>			
+				<where> WHERE id_donnee = -id- </where>			
+			</Query>
+			<Query fonction="InsertDbDonneeChamp">
+				<insertfrom>
+					INSERT INTO -dbDst-.spip_forms_donnees_champs
+					SELECT * 
+					FROM -dbSrc-.spip_forms_donnees_champs 
+				</insertfrom>			
+				<where> WHERE id_donnee = -id- </where>			
+			</Query>
 		</Querys>
 		<synchro action="AJOUT" type="rubrique" >
 			<Query fonction="InsertDbType" />
 			<Query fonction="InsertDbTypeAuteur"/>
 			<Query fonction="InsertDbTypeMot"/>
+		</synchro>
+		<synchro action="AJOUT" type="article" >
+			<Query fonction="InsertDbType" />
+			<Query fonction="InsertDbTypeAuteur"/>
+			<Query fonction="InsertDbTypeMot"/>
+		</synchro>
+		<synchro action="AJOUT" type="donnee" >
+			<Query fonction="InsertDbDonnee"/>
+			<Query fonction="InsertDbDonneeArt"/>
+			<Query fonction="InsertDbDonneeChamp"/>
+		</synchro>
+		<synchro action="AJOUT" type="champ" >
+			<Query fonction="InsertDbChamp"/>
+		</synchro>
+		<synchro action="UpdateReferenceId" >
+			<Query sql="UPDATE spip_rubriques SET id_rubrique = (id_rubrique*-1), id_parent = (id_parent*-1) WHERE id_rubrique > 0"/>
+			<Query sql="UPDATE spip_mots_rubriques SET id_rubrique = (id_rubrique*-1) WHERE id_rubrique > 0"/>
+			<Query sql="UPDATE spip_documents_rubriques SET id_rubrique = (id_rubrique*-1), id_document = (id_document*-1) WHERE id_rubrique > 0"/>
+			<Query sql="UPDATE spip_auteurs_rubriques SET id_rubrique = (id_rubrique*-1) WHERE id_rubrique > 0"/>
+			<Query sql="UPDATE spip_syndic SET id_rubrique = (id_rubrique*-1), id_syndic = (id_syndic*-1) WHERE id_rubrique > 0"/>
+
+			<Query sql="UPDATE spip_articles SET id_article = (id_article*-1), id_rubrique = (id_rubrique*-1) WHERE id_article > 0"/>
+			<Query sql="UPDATE spip_mots_articles SET id_article = (id_article*-1) WHERE id_article > 0"/>
+			<Query sql="UPDATE spip_documents_articles SET id_article = (id_article*-1), id_document = (id_document*-1) WHERE id_article > 0"/>
+			<Query sql="UPDATE spip_auteurs_articles SET id_article = (id_article*-1) WHERE id_article > 0"/>
+
+			<Query sql="UPDATE spip_forms_articles SET id_article = (id_article*-1) WHERE id_article > 0"/>
+			<Query sql="UPDATE spip_forms_donnees_articles SET id_article = (id_article*-1),id_donnee = (id_donnee*-1) WHERE id_donnee > 0"/>
+			<Query sql="UPDATE spip_forms_donnees SET id_donnee = (id_donnee*-1) WHERE id_donnee > 0"/>
+			<Query sql="UPDATE spip_forms_donnees_champs SET id_donnee = (id_donnee*-1) WHERE id_donnee > 0"/>
+
+			<Query sql="UPDATE spip_documents SET id_document = (id_document*-1) WHERE id_document > 0"/>
+
 		</synchro>
 		
 	</XmlParam>
