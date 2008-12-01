@@ -335,7 +335,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 					FROM spip_rubriques r
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
-					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 69
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form IN (62,69)
 				</from>
 				<where> WHERE id_parent = -parent- </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ElementVoirie');"/>
@@ -550,6 +550,20 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 72
 				<where> WHERE id_parent = -parent- </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Ligne');"/>
 			</Query>
+
+			<Query fonction="GetTreeChildren_chaine">
+				<col tag="id" parse="Integer"/>
+				<col tag="titre"/>				
+				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
+				<from> FROM spip_rubriques r
+INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
+				</from>
+				<where> WHERE id_parent = -parent- </where>				
+				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Chaine');"/>
+			</Query>
+
 
 		</Querys>
 		
@@ -792,7 +806,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 72
 					FROM spip_rubriques r
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
-					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 69
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form IN (62,69)
 				</from>
 				<where> WHERE r.id_rubrique = -id- </where>
 				<dst>Art</dst>
@@ -865,6 +879,18 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 72
 					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 72
+				</from>
+				<where> WHERE r.id_rubrique = -id- </where>
+				<dst>Art</dst>
+			</Query>
+
+			<Query fonction="Grille_GetXulTabFormChaine">
+				<select>SELECT a.id_article id, a.titre</select>
+				<from> 
+					FROM spip_rubriques r
+					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form = 71
 				</from>
 				<where> WHERE r.id_rubrique = -id- </where>
 				<dst>Art</dst>
@@ -1263,6 +1289,23 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 				 </from>
 				<where> WHERE a.id_rubrique IN (-ids-)</where>
 			</Query>
+			<!-- Récupère les noeuds de déplacement : voirie, établissement -->
+			<Query fonction="Grille_GetNoeudDeplacement">
+				<select>SELECT a.id_rubrique, a.id_article id, a.titre
+					, fd.id_form
+					, fdc.id_donnee, fdc.valeur
+					, rp.titre titreRubParent 
+					</select>
+				<from> FROM spip_articles a 
+INNER JOIN spip_rubriques r ON r.id_rubrique = a.id_rubrique
+INNER JOIN spip_rubriques rp ON rp.id_rubrique = r.id_parent
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee
+	AND fd.id_form IN (55,62)
+INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
+				 </from>
+				<where> WHERE a.id_rubrique IN (-ids-) GROUP BY a.id_rubrique ORDER BY a.titre</where>
+			</Query>
 			<!-- Récupère les noeuds de transports : gare, pang, arret de bus -->
 			<Query fonction="Grille_GetEtabTransport">
 				<select>SELECT a.id_rubrique, a.id_article id, a.titre
@@ -1510,6 +1553,8 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ" srcId="69;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ" srcId="72;ligne_2" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="72;ligne_2" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
+		<workflow srcObj="grille;champ" srcId="71;ligne_2" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
+		<workflow srcObj="grille;champ" srcId="71;ligne_2" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		
 		<!-- Reponse non à un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
@@ -1719,23 +1764,23 @@ LIMIT 0 , 1
 			<Query fonction="InsertDbChamp"/>
 		</synchro>
 		<synchro action="UpdateReferenceId" >
-			<Query sql="UPDATE spip_rubriques SET id_rubrique = (id_rubrique*-1), id_parent = (id_parent*-1) WHERE id_rubrique > 0"/>
-			<Query sql="UPDATE spip_mots_rubriques SET id_rubrique = (id_rubrique*-1) WHERE id_rubrique > 0"/>
+			<Query table="spip_rubriques" champ="id_rubrique" sql="UPDATE spip_rubriques SET id_rubrique = (id_rubrique*-1), id_parent = (id_parent*-1) WHERE id_rubrique > 0"/>
+			<Query sql="UPDATE spip_mots_rubriques SET id_rubrique = (id_rubrique*-1), id_secteur = (id_secteur*-1) WHERE id_rubrique > 0"/>
 			<Query sql="UPDATE spip_documents_rubriques SET id_rubrique = (id_rubrique*-1), id_document = (id_document*-1) WHERE id_rubrique > 0"/>
 			<Query sql="UPDATE spip_auteurs_rubriques SET id_rubrique = (id_rubrique*-1) WHERE id_rubrique > 0"/>
 			<Query sql="UPDATE spip_syndic SET id_rubrique = (id_rubrique*-1), id_syndic = (id_syndic*-1) WHERE id_rubrique > 0"/>
 
-			<Query sql="UPDATE spip_articles SET id_article = (id_article*-1), id_rubrique = (id_rubrique*-1) WHERE id_article > 0"/>
+			<Query table="spip_articles" champ="id_article" sql="UPDATE spip_articles SET id_article = (id_article*-1), id_rubrique = (id_rubrique*-1) WHERE id_article > 0"/>
 			<Query sql="UPDATE spip_mots_articles SET id_article = (id_article*-1) WHERE id_article > 0"/>
 			<Query sql="UPDATE spip_documents_articles SET id_article = (id_article*-1), id_document = (id_document*-1) WHERE id_article > 0"/>
 			<Query sql="UPDATE spip_auteurs_articles SET id_article = (id_article*-1) WHERE id_article > 0"/>
 
 			<Query sql="UPDATE spip_forms_articles SET id_article = (id_article*-1) WHERE id_article > 0"/>
 			<Query sql="UPDATE spip_forms_donnees_articles SET id_article = (id_article*-1),id_donnee = (id_donnee*-1) WHERE id_donnee > 0"/>
-			<Query sql="UPDATE spip_forms_donnees SET id_donnee = (id_donnee*-1) WHERE id_donnee > 0"/>
+			<Query table="spip_forms_donnees" champ="id_donnee" sql="UPDATE spip_forms_donnees SET id_donnee = (id_donnee*-1) WHERE id_donnee > 0"/>
 			<Query sql="UPDATE spip_forms_donnees_champs SET id_donnee = (id_donnee*-1) WHERE id_donnee > 0"/>
 
-			<Query sql="UPDATE spip_documents SET id_document = (id_document*-1) WHERE id_document > 0"/>
+			<Query table="spip_documents" champ="id_document" sql="UPDATE spip_documents SET id_document = (id_document*-1) WHERE id_document > 0"/>
 
 		</synchro>
 		

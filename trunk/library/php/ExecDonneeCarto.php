@@ -111,7 +111,7 @@ function sauve_marker($action,$id,$zoommin,$zoommax,$lat,$lng,$adresse,$type) {
 				echo "ExeDonneCarto:SauveMarker:type=".$type."<br/>";
 				$sql = "INSERT INTO `spip_forms_donnees_champs` (`id_donnee`, `champ`, `valeur`, `maj`, valint)
 					VALUES (".$IdDon.", 'mot_1', '".$type."', now(), ".$type.")";
-				echo "ExeDonneCarto:SauveMarker:sql=".$sql."<br/>";;
+				echo "ExeDonneCarto:SauveMarker:".$objSite->infos["SQL_DB"]."sql=".$sql."<br/>";
 				$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
 				$DB->connect();
 				$req = $DB->query($sql);

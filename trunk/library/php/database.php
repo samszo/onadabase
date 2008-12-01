@@ -1,7 +1,4 @@
 <?php class database {
-    /*******************************************************************
-    * Définition des Propriétés
-    *******************************************************************/
     protected $config = array ();
     private $errorLog = array ();
     private $options = array (

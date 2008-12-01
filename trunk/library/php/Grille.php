@@ -1710,6 +1710,48 @@ class Grille{
 		return $xul;
 	
 	}
+
+	
+	function GetXulNoeudDeplacement($idRub, $idDon){
+		
+		//initalisation du xul
+		$xul = "<groupbox ><hbox>";
+		$xulVoirie = "<vbox id='NoeudsVoirie' ><label value='Le(s) Voirie(s)'/>";
+		$xulEtab = "<vbox id='NoeudsEtab' ><label value='Le(s) Etablissement(s)'/>";		
+		
+		//récupère la liste des établissement et des voirie
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetNoeudDeplacement']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-ids-", $this->idsInScope, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		if($this->trace)
+			echo "GetXulNoeudDeplacement ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$req = $db->query($sql);
+		$db->close();
+		while($r = $db->fetch_assoc($req)){
+			//vérifie si l'élément est sélectionné
+			if($this->VerifLiensInRub($idRub,$r["id_rubrique"]))
+				$check = "true";
+			else
+				$check = "false";
+			//construction du xul
+			$idDoc = "val*".$r["id_form"]."*".$idDon."*".$idRub."*".$r["id_rubrique"];
+			$xulCB = "<checkbox id='".$idDoc."' oncommand=\"SetElementChaine(".$r["id_rubrique"].",".$idRub.");\" checked='".$check."' label=\"".$r["titre"]."\"/>";				
+			if($r["id_form"]==$this->site->infos["GRILLE_ETAB"])
+				$xulEtab .= $xulCB;
+			if($r["id_form"]==$this->site->infos["GRILLE_VOIRIE"])
+				$xulVoirie .= $xulCB;
+		}
+		
+		$xulEtab .= "</vbox>";
+		$xulVoirie .= "</vbox>";
+		$xul .= $xulEtab.$xulVoirie."</hbox></groupbox>";
+
+		return $xul;
+	
+	}
+	
 	
 	function VerifLiensInRub($idRub,$idRubVerif){
 		
@@ -2037,6 +2079,13 @@ class Grille{
 			$labels .= "<label class='labelForm' control='first' value='Sélectionner les éléments constituant la ligne'/>";
 		}
 		
+		//vérifie s'il faut afficher le liste des noeud de chaine de déplacement
+		if($idGrille == $this->site->infos["GRILLE_CHAINE_DEPLA"]){
+			$controls .= $this->GetXulNoeudDeplacement($lastRow["id_rubrique"],$idDon);
+			$labels .= "<label class='labelForm' control='first' value='Sélectionner les éléments constituant la chaîne de déplacement'/>";
+		}
+		
+		
 		if($idGrille!=$this->site->infos["GRILLE_REP_CON"]){
 			$controls .= '</column>';	
 			$labels .= '</column>';
@@ -2145,6 +2194,9 @@ class Grille{
 					$m = new MotClef($r['valeur'],$this->site);
 					//$labels .= '<label value="'.$r['titre'].' : '.$m->titre.'"/>';
 					$labels .= '<label value="'.$m->titre.'"/>';
+					break;
+				case "ligne_1": //référence
+					$labels .= '<label value="'.$r['valeur'].'"/>';
 					break;
 			}					
 		}
@@ -2302,7 +2354,7 @@ class Grille{
 				if($row["grille"]==$this->site->infos["GRILLE_REP_CON"]){
 					//on cache le textbox référence
 					if($row["champ"]=="ligne_1")
-						$control .= '<textbox  '.$js.' hidden="false" multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
+						$control .= '<textbox  '.$js.' hidden="true" multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
 					else
 						$control .= '<textbox  '.$js.' multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
 				}else{

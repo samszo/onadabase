@@ -26,6 +26,22 @@ Class Synchro{
 		
 	}
 
+	function DelRubriqueFrere($idRub){
+		$g = new Granulat($idRub,$this->siteSrc);
+		$gParent = new Granulat($g->IdParent,$this->siteSrc);
+		$idPar = $g->GetParent();
+		$RubEnfants = $gParent->GetEnfants(false);
+		if($RubEnfants){
+			foreach($RubEnfants as $rub){
+				if($rub->id!=$idRub){
+					$this->DelRubrique($rub->id);
+				}
+			}
+		}
+		
+	}
+	
+	
 	function UpdateReferenceId() {
 		//réinitialise les identifiants de la base pour éviter des problème de synchronisation
 
@@ -45,6 +61,10 @@ Class Synchro{
 				//if($this->trace)
 					echo "Synchro:UpdateReferenceId:".$this->siteSrc->infos["SQL_DB"].":r=".$r." sql=".$sql."<br/>";
 				$db->close();
+				if($Q["table"]){
+					$this->ReInitId($Q["table"],$Q["champ"]);
+					
+				}
 			}
 		}
 
@@ -128,7 +148,7 @@ Class Synchro{
 	public function SynchroTraiteBranche($Xpath,$idRub)
 	{
 		
-		if($this->trace)
+		//if($this->trace)
 			echo "Synchro:SynchroArbreSrcDst//recupère les sous elements à exécuter:Xpath".$Xpath."<br/>";
 		$Es = $this->dom->GetElements($Xpath);
 		if($Es){
@@ -195,7 +215,7 @@ Class Synchro{
 					$db->connect();
 					$result = $db->query($sql);
 					$r += mysql_affected_rows();
-					if($this->trace)
+					//if($this->trace)
 						echo "Synchro:SynchroBranche:r=".$r." sql=".$sql."<br/>";
 					$db->close();
 				}				
@@ -210,6 +230,8 @@ Class Synchro{
 
 	function SynchroTypeElementEnfant($idPar,$id,$val,$type,$action){
 		$r = 0;
+		//if($this->trace)
+			echo "Synchro:SynchroTypeElementEnfant:$idPar, $id, $val, $type, $action<br/>";
 		switch ($type) {
 			case 'rubrique':
 				if($action="AJOUT"){					
@@ -1506,8 +1528,9 @@ Class Synchro{
 		
 		$time_end = microtime(true);
 		$time = $time_end - $time_start;
-		if($this->trace)
-			echo "<Synchro f='DelRubrique' fin='$time' idRub='".$idRub."' titre=\"".$gra->titre."\" />\n";
+		//if($this->trace)
+			echo "<label f='DelRubrique' idRub='".$idRub."' value=\"Synchro:DelRubrique:".$gra->titre." FIN en $time s\" />\n";
+			//echo "<Synchro f='DelRubrique' fin='$time' idRub='".$idRub."' titre=\"".$gra->titre."\" />\n";
 			
 	}
 

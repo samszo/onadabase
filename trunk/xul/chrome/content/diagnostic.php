@@ -1,6 +1,9 @@
 <?php
 session_start();
+//local
 require_once ("../../../param/ParamPage.php");
+//prod
+//require_once ("param/ParamPage.php");
 
 ?>
 
@@ -63,8 +66,8 @@ require_once ("../../../param/ParamPage.php");
 			</p>
 			<h3 align="center">Veuillez choisir la version de votre diagnostic</h3>		
 			<p align="center">Version : <SELECT name="version">
-				<OPTION VALUE="V1" selected="selected" >V1</OPTION>
-				<OPTION VALUE="V2">V2</OPTION>
+				<OPTION VALUE="V1" selected="selected" >Version test</OPTION>
+				<OPTION VALUE="V2">V1</OPTION>
 			</SELECT>
 			</p>
 			<h3 align="center">Veuillez décocher les caractéristiques inutiles</h3>		

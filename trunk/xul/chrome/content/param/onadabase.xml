@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Params>
-	<Param nom="UrlAjax" url="45" />
-	<Param nom="AddObjTerre" id="45" >
+	<Param nom="UrlAjax" url="-45" />
+	<Param nom="AddObjTerre" id="-45" >
 		<NoVerif>Veillez choisir un territoire</NoVerif>
 		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
 	</Param>	
-	<Param nom="AddObjTerritoire" id="1444" >
+	<Param nom="AddObjTerritoire" id="-1444" >
 		<NoVerif>Veillez choisir un territoire</NoVerif>
 		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjEtab" id="45" >
+	<Param nom="AddObjEtab" id="-45" >
 		<NoVerif>Veillez choisir un territoire</NoVerif>
 		<TitreFormSaisi>Créer un nouvel établissement</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjVoirie" id="673" >
+	<Param nom="AddObjVoirie" id="-673" >
 		<NoVerif>Veillez choisir un territoire</NoVerif>
 		<TitreFormSaisi>Créer un nouveau tronçon de voirie</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjEspace" id="145" >
+	<Param nom="AddObjEspace" id="-145" >
 		<NoVerif>Veillez choisir un espace</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjBat" id="46" >
+	<Param nom="AddObjBat" id="-46" >
 		<NoVerif>Veillez choisir un établissement</NoVerif>
 		<TitreFormSaisi>Créer un nouveau bâtiment</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjParcelle" id="61" >
+	<Param nom="AddObjParcelle" id="-61" >
 		<NoVerif>Veillez choisir une parcelle</NoVerif>
 		<TitreFormSaisi>Créer une nouvelle parcelle</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjEspaceExt" id="146" >
+	<Param nom="AddObjEspaceExt" id="-146" >
 		<NoVerif>Veillez choisir une parcelle</NoVerif>
 		<TitreFormSaisi>Créer une nouvelle parcelle</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjNiveau" id="47" >
+	<Param nom="AddObjNiveau" id="-47" >
 		<NoVerif>Veillez choisir un niveau</NoVerif>
 		<TitreFormSaisi>Créer un nouveau niveau</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjObjetInt" id="48" >
+	<Param nom="AddObjObjetInt" id="-48" >
 		<NoVerif>Veuillez choisir un objet intérieur</NoVerif>
 		<TitreFormSaisi>Créer un objet intérieur</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjObjetExt" id="73" >
+	<Param nom="AddObjObjetExt" id="-73" >
 		<NoVerif>Veuillez choisir un objet extérieur</NoVerif>
 		<TitreFormSaisi>Créer un objet extérieur</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjEspaceInt" id="49" >
+	<Param nom="AddObjEspaceInt" id="-49" >
 		<NoVerif>Veillez choisir un espace intérieur</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace intérieur</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjEspaceGen" id="66" >
+	<Param nom="AddObjEspaceGen" id="-66" >
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjElementVoirie" id="4774" >
+	<Param nom="AddObjElementVoirie" id="-4774" >
 		<NoVerif>Veillez choisir un tronçon de voirie</NoVerif>
 		<TitreFormSaisi>Créer un nouvel élément de voirie</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjEspaceSpe" id="67" >
+	<Param nom="AddObjEspaceSpe" id="-67" >
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjEspaceExtParamGen" id="63" >
+	<Param nom="AddObjEspaceExtParamGen" id="-63" >
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjEspaceExtParamSpe" id="62" >
+	<Param nom="AddObjEspaceExtParamSpe" id="-62" >
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjObjetIntBat" id="597" >
+	<Param nom="AddObjObjetIntBat" id="-597" >
 		<NoVerif>Veillez choisir un espace général</NoVerif>
 		<TitreFormSaisi>Créer un nouvel espace général</TitreFormSaisi>
 	</Param>
@@ -77,8 +77,12 @@
 		<NoVerif>Veillez choisir un territoire ou un établissement</NoVerif>
 		<TitreFormSaisi>Créer une nouvelle géolocalisation</TitreFormSaisi>
 	</Param>
-	<Param nom="AddObjLigne" id="5419" >
+	<Param nom="AddObjLigne" id="-5419" >
 		<NoVerif>Veillez choisir un territoire ou un établissement</NoVerif>
 		<TitreFormSaisi>Créer une nouvelle ligne</TitreFormSaisi>
+	</Param>
+	<Param nom="AddObjChaine" id="-5470" >
+		<NoVerif>Veillez choisir un territoire ou un établissement</NoVerif>
+		<TitreFormSaisi>Créer une nouvelle chaîne de déplacement</TitreFormSaisi>
 	</Param>
 </Params>

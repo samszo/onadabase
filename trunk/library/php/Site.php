@@ -505,7 +505,7 @@ class Site{
 	    if($this->trace)
 			echo "site::GetTreeChildren:".$this->infos["SQL_DB"]." ".$sql."<br/>";
 
-		$db = new mysql ($this->infos["SQL_HOST"], $this->infos["SQL_LOGIN"], $this->infos["SQL_PWD"], $this->infos["SQL_DB"], $dbOptions);
+		$db = new mysql ($this->infos["SQL_HOST"], $this->infos["SQL_LOGIN"], $this->infos["SQL_PWD"], $this->infos["SQL_DB"]);
 		$db->connect();
 		$req = $db->query($sql);
 		$db->close();
@@ -515,7 +515,7 @@ class Site{
 		$tree = '<treechildren >'.EOL;
 		while($r = mysql_fetch_row($req))
 		{
-			$tree .= '<treeitem id="'.$type.'_'.$r[0].'" container="true" empty="false" >'.EOL;
+			$tree .= '<treeitem id="'.$type.'_'.$r[0].'" container="true" empty="false" open="true" >'.EOL;
 			$tree .= '<treerow>'.EOL;
 			$i= 0;
 			//colonne de l'identifiant

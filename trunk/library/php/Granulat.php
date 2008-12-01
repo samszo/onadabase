@@ -115,16 +115,16 @@ class Granulat
 				
 		//calculer le l'indicateur d'accessibilité
 		$moteurObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"moteur");
-		$moteur = $this->GetHandiAccess($moteurObst,$EtatAppli["r"]["moteur"]);
+		$moteur = $this->GetHandiAccess($moteurObst,$EtatAppli["r"]["moteur"],$Etat3["r"]["moteur"]);
 		
 		$audioObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"audio");
-		$audio = $this->GetHandiAccess($audioObst,$EtatAppli["r"]["audio"]);
+		$audio = $this->GetHandiAccess($audioObst,$EtatAppli["r"]["audio"],$Etat3["r"]["audio"]);
 		
 		$visuObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"visu");
-		$visu = $this->GetHandiAccess($visuObst,$EtatAppli["r"]["visu"]);
+		$visu = $this->GetHandiAccess($visuObst,$EtatAppli["r"]["visu"],$Etat3["r"]["visu"]);
 		
 		$cogObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"cog");
-		$cog = $this->GetHandiAccess($cogObst,$EtatAppli["r"]["cog"]);
+		$cog = $this->GetHandiAccess($cogObst,$EtatAppli["r"]["cog"],$Etat3["r"]["cog"]);
 
 		//calculer les icones supplémentaires
 		$FormIds = $this->GetFormIds(-1,$this->id);
@@ -170,16 +170,20 @@ class Granulat
 		return $handi;	
 	}
 	
-	function GetHandiAccess($HandiObst,$HandiAppli){
+	function GetHandiAccess($HandiObst,$HandiAppli, $Handi3){
 		if($HandiAppli==0)
 			return "A";	
-		
+		//calcul le coefficient d'handicateur
 		$handi = $HandiObst/$HandiAppli;
-		if($handi>=0 && $handi<=0.2)	
+		//retourn la lettre correspond au coefficient
+		//suivant l'interval et suivant la contrainte de niveau trois
+		if($handi>=0 && $handi<=0.2 && $Handi3==0)	
 			return "A";	
-		if($handi>0.2 && $handi<=0.4)	
-			return "B";	
-		if($handi>0.4 && $handi<=0.6)	
+		if($handi>0.2 && $handi<=0.4 && $Handi3==0)	
+			return "B";
+		//attention on réinitialise l'interval pour afficher les cas précédent ayant un Handi 3
+		// 0.4 devient 0	
+		if($handi>=0 && $handi<=0.6)	
 			return "C";	
 		if($handi>0.6 && $handi<=0.8)	
 			return "D";	
@@ -685,7 +689,7 @@ class Granulat
 		$result['lng'] = $this->site->infos["DEF_LNG"];
 		$result['zoom'] = $this->site->infos["DEF_ZOOM"];
 		$result['zoommax'] = $this->site->infos["DEF_ZOOM"]+4;
-		$result['type'] = $this->site->infos["MOT_CLEF_DEF_TYPE_CARTE"];
+		$result['idType'] = $this->site->infos["MOT_CLEF_DEF_TYPE_CARTE"];
 		$r =  $db->fetch_assoc($requete);
 		//gestion de la localisation parente si localisation  null
 		if(!$r['lat']){
@@ -801,7 +805,7 @@ class Granulat
 		
 		//vérifie si on renvoit toute les données quelques soit la form
 		if($idGrille==-1)
-			$sql = "SELECT fd.id_donnee, fd.date, fd.maj
+			$sql = "SELECT fd.id_donnee, fd.date, fd.maj, fd.id_form idGrille
 				FROM spip_forms_donnees_articles da 
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee 
 				WHERE da.id_article = ".$idArticle;
@@ -1391,46 +1395,41 @@ class Granulat
 		$gra->texte = $this->texte;
 		if ($motclef!="") $gra->SetMotClef($motclef);
 		
-		if ($arrListeInfoArticle != null) {
-			if($this->trace) echo "Granulat/copy/- arrListeInfoArticle ".print_r($arrListeInfoArticle)."<br/>";
-			
-			foreach($arrListeInfoArticle as $article) {
-				$idArt = $gra->SetNewArticleComplet($article['titre'], $article['date'], $article['maj']);
-				$idGrille = $gra->GetFormId($article['id']);
-				if($this->trace) echo "Granulat/copy/- idGrille ".$idGrille."<br/>";
-				$arrListeDonnees = $gra->GetIdDonneesTable($idGrille, $article['id']);
-				foreach($arrListeDonnees as $donnee) {
-		  			$idDon = $gra->AddIdDonnee($idGrille, $idArt, $donnee['date'], $donnee['maj']);
-					if($this->trace)
-						echo "Granulat/copy/- création de la donnee ".$idDon."<br/>";	
-		  			
-					$arrListeDonneeInfos = $gra->GetInfosDonnee($donnee['id']);
-					foreach($arrListeDonneeInfos as $Donnee) {
-						if($Donnee['valeur']!='non'){
-							$valeur=$Donnee['valeur'];
-							$champ = $Donnee['champ'];
-							if($this->trace)
-								echo "Granulat/copy/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
-							if(substr($champ,0,8)=="multiple"){
-								$valeur=$champ;
-							//attention il ne doit pas y avoir plus de 10 choix
-								$champ=substr($champ,0,-2);
-							}
-							if($this->trace) {
-								echo "Granulat/copy/-- récupération du type de champ ".$champ."<br/>";
-								echo "Granulat/copy/-- récupération de la valeur du champ ".$valeur."<br/>";
-							}
-							$row = array('champ'=>$champ, 'valeur'=>$valeur);
-							
-							$grille = new Grille($gra->site);
-							if($this->trace)
-								echo "Granulat/copy/--- création du champ <br/>";
-							$grille->SetChamp($row, $idDon, false);
+		$grille = new Grille($gra->site);
+		
+		while($article = mysql_fetch_assoc($arrListeInfoArticle)) {
+			$idArt = $gra->SetNewArticleComplet($article['titre'], $article['date'], $article['maj']);
+			$arrListeDonnees = $gra->GetIdDonnees(-1, $article['id_article']);
+			while($donnee = mysql_fetch_assoc($arrListeDonnees)){
+	  			$idDon = $gra->AddIdDonnee($donnee['idGrille'], $idArt, $donnee['date'], $donnee['maj']);
+				if($this->trace)
+					echo "Granulat/copy/- création de la donnee ".$idDon."<br/>";	
+	  			
+				$arrListeDonneeInfos = $gra->GetInfosDonnee($donnee['id_donnee']);
+				while($Donnee = mysql_fetch_assoc($arrListeDonneeInfos)){
+					if($Donnee['valeur']!='non'){
+						$valeur=$Donnee['valeur'];
+						$champ = $Donnee['champ'];
+						if($this->trace)
+							echo "Granulat/copy/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+						if(substr($champ,0,8)=="multiple"){
+							$valeur=$champ;
+						//attention il ne doit pas y avoir plus de 10 choix
+							$champ=substr($champ,0,-2);
 						}
+						if($this->trace) {
+							echo "Granulat/copy/-- récupération du type de champ ".$champ."<br/>";
+							echo "Granulat/copy/-- récupération de la valeur du champ ".$valeur."<br/>";
+						}
+						$row = array('champ'=>$champ, 'valeur'=>$valeur);
+						
+						if($this->trace)
+							echo "Granulat/copy/--- création du champ <br/>";
+						$grille->SetChamp($row, $idDon, false);
 					}
-				}	
+				}
 			}
-		}
+		}	
 		
 		if ($arrListeEnfants != null) {
 			foreach($arrListeEnfants as $granulat) {

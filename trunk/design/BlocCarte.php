@@ -16,8 +16,8 @@ $arrGeo = $g->GetGeo(-1,$idDon);
 <script src="http://maps.google.com/maps?file=api&v=2.x&key=<?php echo $objSite->infos["gmKey"]; ?>" type="text/javascript"></script>
 <script src="../library/js/GoogleCarto6.js" type="text/javascript"></script>
 
-<script src="../xul/chrome/content/js/interface.js" type="text/javascript"></script>
-<script src="../xul/chrome/content/js/ajax.js" type="text/javascript"></script>
+<script src="<?php echo $objSite->infos["pathXulJs"]; ?>interface.js" type="text/javascript"></script>
+<script src="<?php echo $objSite->infos["pathXulJs"]; ?>ajax.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 	var pathRoot = '<?php echo $objSite->infos["urlLibPhp"]; ?>';
