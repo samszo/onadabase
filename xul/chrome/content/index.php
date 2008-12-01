@@ -1,6 +1,9 @@
 <?php
 session_start();
+//local
 require_once ("../../../param/ParamPage.php");
+//prod
+//require_once ("param/ParamPage.php");
 
 $_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
 $_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
@@ -19,10 +22,7 @@ echo '<' . '?xml-stylesheet href="chrome://global/skin/" type="text/css"?' . '>'
 echo ('<' . '?xml-stylesheet href="onada.css" type="text/css"?' . '>' . "\n");
 
 //chargement du menu overlay
-//echo '<'.'?xul-overlay href="overlay/context.xul"?'.'>';
-//echo '<'.'?xul-overlay href="overlay/choix_diagnostic.xul" ?'.'>';
-echo '<'.'?xul-overlay href="overlay/PopupMenuSet.xul"?'.'>';
-//echo '<'.'?xul-overlay href="overlay/test_menu_contextuel_Picardie.xul"?'.'>';
+echo '<'.'?xul-overlay href="overlay/'.$objSite->infos["MenuContexte"].'"?'.'>';
 echo '<'.'?xul-overlay href="overlay/mnuSynchro.xul"?'.'>';
 echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 
@@ -39,12 +39,11 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
     onload="if (event.target == document) AppliDroit(role);"
 >
 
-<script type="application/x-javascript" src="js/interface.js" />
-<script type="application/x-javascript" src="js/ajax.js"/>
-<script type="application/x-javascript" src="js/tree.js"/>
-<script type="application/x-javascript" src="js/svg.js"/>
-<script type="application/x-javascript"  src="xbl/editableTree/functions.js" />
-     <script>
+	<script type="application/x-javascript" src="<?php echo $objSite->infos["pathXulJs"]; ?>interface.js" />
+	<script type="application/x-javascript" src="<?php echo $objSite->infos["pathXulJs"]; ?>ajax.js"/>
+	<script type="application/x-javascript" src="<?php echo $objSite->infos["pathXulJs"]; ?>tree.js"/>
+	<script type="application/x-javascript" src="<?php echo $objSite->infos["pathXulJs"]; ?>svg.js"/>
+    <script>
 		//initialise le paramètrage du site
 		var lienAdminSpip = "<?php echo $objSite->infos["lienAdminSpip"]; ?>";
 		var urlExeAjax = "<?php echo $objSite->infos["urlExeAjax"]; ?>";
@@ -57,8 +56,8 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 		var urlCarto = "<?php echo $objSite->infos["urlCarto"]; ?>";
 		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";
 		var role = "AUCUN";
+		var defId = <?php echo $objSiteSync->infos["DEF_ID"]; ?>;
 
-		//var win = window.open("chrome://myextension/content/about.xul", "aboutMyExtension", "chrome,centerscreen"); 
 		var urlPopUp = "<?php echo "popup.php?"; ?>";
 		var version = "<?php echo $_SESSION['version']; ?>";
 
@@ -73,7 +72,6 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 			<menubar id='choix_diagnostic'>
 				<menu label="Gestion des bases">
 					<menupopup >
-						<menuitem label="AppliDroit" oncommand="AppliDroit(role);"/>
 						<menuitem accesskey="d" label="Déconnexion" oncommand="window.location.replace('exit.php');"/>
 					    <menu label="Synchronisation">
 					      <menupopup id='mnuBarSynchro' >
@@ -109,8 +107,8 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 				</menu>
 				<menu label="Version" >
 					<menupopup id="mnuVersion" onpopupshowing="javascript:;">
-						<menuitem id="version" checked="<?php if($_SESSION['version']=="V1") echo "true"; ?>" type="radio" label="V1" value='V1' oncommand="SetChoixDiagnostic();version = this.value;"/>
-						<menuitem id="version" checked="<?php if($_SESSION['version']=="V2") echo "true"; ?>" type="radio" label="V2" value='V2' oncommand="SetChoixDiagnostic();version = this.value;"/>
+						<menuitem id="version" checked="<?php if($_SESSION['version']=="V1") echo "true"; ?>" type="radio" label="Version test" value='V1' oncommand="SetChoixDiagnostic();version = this.value;"/>
+						<menuitem id="version" checked="<?php if($_SESSION['version']=="V2") echo "true"; ?>" type="radio" label="V1" value='V2' oncommand="SetChoixDiagnostic();version = this.value;"/>
 					</menupopup>
 				</menu>
 				<menu label="Type de critère" >
@@ -156,7 +154,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 
 		<hbox id="nav-toolbar" >
 			<label id="tbbAccueil" value="Accueil" class="text-link" />
-			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(1942,'Territoires','terre','Terre');"/>
+			<label id="tbbterre" value="Territoires" class="text-link" onclick="RefreshEcran(defId,'Territoires','terre','Terre');"/>
 		</hbox>
 		<hbox id="tbFilAriane" />
 		

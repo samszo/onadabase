@@ -13,7 +13,7 @@
 
   define ("TRACE", false);
 
-  define ("DEFSITE", "local2");
+  define ("DEFSITE", "local1");
   //define ("DEFSITE", "mundi"); 
   define ("SYNCSITE", "local1");
   //define ("SYNCSITE", "mundi");
@@ -33,56 +33,6 @@
   
   define('EOL', "\r\n");
 
-  
-$localPicardieCentre = array(
-	"AUTEUR_SYNCHRO" => 8, 
-	"SQL_LOGIN" => "root", 
-	"SQL_PWD" => "", 
-	"SQL_HOST" => "localhost",
-	"SQL_DB" => "onada1",
-	"NOM" => "onadabase Centre - Val de Marne ",//je sais pas
-	"SITE_PARENT" => -1,//je sais pas
-	"SITE_ENFANT" => -1,
-	"GRILLE_GEO" => 1,
-	"GRILLE_REG_LEG" => 52,
-	"GRILLE_REP_CON" => 59,
-	"GRILLE_SIG_PROB" => 60,
-	"GRILLE_CONTROL_V1" => 54,
-	"GRILLE_CONTROL_V2" => 70,
-	"GRILLE_OBS" => 67,
-	"GRILLE_LIGNE_TRANS" => 72,
-	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
-	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
-	"MOT_CLEF_OBS" => 151,
-	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
-	"MOT_CLEF_PANG" => 64,
-	"MOT_CLEF_GARE" => 62,
-	"MOT_CLEF_LIGNE_TRANS" => 167,
-	"RUB_TERRE" => 1942,
-	"RUB_PORTE1" => 50,
-	"RUB_PORTE2" => 74,
-	"RUB_PORTE_FACE1" => 1342,
-	"RUB_PORTE_FACE2" => 1341,
-	"DEF_ID" => 2152,
-	"DEF_LAT" => 45,
-	"DEF_LNG" => 1,
-	"DEF_ZOOM" => 4,
-	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => "75,76",
-	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
-	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
-	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
-	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",	
-	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
-	"urlVideo" => "http://localhost/onadabase/design/BlocVideo.php",
-	"urlLibJs" => "http://localhost/onadabase/library/js/",
-	"urlLibPhp" => "http://localhost/onadabase/library/php/",
-	"urlLibSwf" => "http://localhost/onadabase/library/swf/",
-	"pathUpload" => PathRoot."/spip/IMG/",
-	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
-	"pathSpip" => "http://localhost/onadabase/spip/"
-	); 
-
 $SiteLocal1 = array(
 	"AUTEUR_SYNCHRO" => 8, 
 	"SQL_LOGIN" => "root", 
@@ -100,6 +50,9 @@ $SiteLocal1 = array(
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_OBS" => 67,
 	"GRILLE_LIGNE_TRANS" => 72,
+	"GRILLE_CHAINE_DEPLA" => 71,
+	"GRILLE_ETAB" => 55,
+	"GRILLE_VOIRIE" => 62,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
@@ -107,12 +60,13 @@ $SiteLocal1 = array(
 	"MOT_CLEF_PANG" => 64,
 	"MOT_CLEF_GARE" => 62,
 	"MOT_CLEF_LIGNE_TRANS" => 167,
-	"RUB_TERRE" => 1942,
-	"RUB_PORTE1" => 50,
-	"RUB_PORTE2" => 74,
-	"RUB_PORTE_FACE1" => 1342,
-	"RUB_PORTE_FACE2" => 1341,
-	"DEF_ID" => 2152,
+	"MOT_CLEF_CHAINE_DEPLA" => 168,
+	"RUB_TERRE" => 5479,
+	"RUB_PORTE1" => -50,
+	"RUB_PORTE2" => -74,
+	"RUB_PORTE_FACE1" => -1342,
+	"RUB_PORTE_FACE2" => -1341,
+	"DEF_ID" => 5479,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,
@@ -122,6 +76,7 @@ $SiteLocal1 = array(
 	"lienAdminSpip" => "http://localhost/onadabase/spipsync/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",	
+	"MenuContexte" => "PopupMenuSet.xul",
 	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
 	"urlVideo" => "http://localhost/onadabase/design/BlocVideo.php",
 	"urlLibPhp" => "http://localhost/onadabase/library/php/",
@@ -136,7 +91,7 @@ $SiteLocal2 = array(
 	"SQL_LOGIN" => "root", 
 	"SQL_PWD" => "", 
 	"SQL_HOST" => "localhost",
-	"SQL_DB" => "onadabasecentre",
+	"SQL_DB" => "onadabase",
 	"NOM" => "onadabasecentre",//je sais pas
 	"SITE_PARENT" => -1,//je sais pas
 	"SITE_ENFANT" => -1,
@@ -170,6 +125,7 @@ $SiteLocal2 = array(
 	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://localhost/onadabase/xul/chrome/content/param/onadabase.xml",
+	"MenuContexte" => "PopupMenuSet.xul",
 	"urlSite" => "http://localhost/onadabase/library/php/Site.php",	
 	"urlCarto" => "http://localhost/onadabase/design/BlocCarte.php",
 	"urlVideo" => "http://localhost/onadabase/design/BlocVideo.php",
@@ -180,54 +136,6 @@ $SiteLocal2 = array(
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
 	"pathSpip" => "http://localhost/onadabase/spip/"
 	); 
-$SiteNaos = array(
-	"AUTEUR_SYNCHRO" => 8, 
-	"SQL_LOGIN" => "naossfr3", 
-	"SQL_PWD" => "Eg5PyukqDj", 
-	"SQL_HOST" => "sql3",
-	"SQL_DB" => "naossfr3",
-	"NOM" => "naos onadabase",//je sais pas
-	"SITE_PARENT" => -1,//je sais pas
-	"SITE_ENFANT" => -1,
-	"GRILLE_GEO" => 1,
-	"GRILLE_REG_LEG" => 52,
-	"GRILLE_REP_CON" => 59,
-	"GRILLE_SIG_PROB" => 60,
-	"GRILLE_CONTROL_V1" => 54,
-	"GRILLE_CONTROL_V2" => 70,
-	"GRILLE_OBS" => 67,
-	"GRILLE_LIGNE_TRANS" => 72,
-	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
-	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
-	"MOT_CLEF_OBS" => 151,
-	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
-	"MOT_CLEF_PANG" => 64,
-	"MOT_CLEF_GARE" => 62,
-	"MOT_CLEF_LIGNE_TRANS" => 167,
-	"RUB_TERRE" => 1942,
-	"RUB_PORTE1" => 50,
-	"RUB_PORTE2" => 74,
-	"RUB_PORTE_FACE1" => 1342,
-	"RUB_PORTE_FACE2" => 1341,
-	"DEF_ID" => 2152,
-	"DEF_LAT" => 45,
-	"DEF_LNG" => 1,
-	"DEF_ZOOM" => 4,
-	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
-	"CARTE_TYPE_DOC" => "75,76",
-	"gmKey" => "à générer",
-	"lienAdminSpip" => "http://www.naoss.fr:81/mundigo/spip/ecrire",
-	"urlExeAjax" => "http://www.naoss.fr:81/mundigo/library/php/ExeAjax.php",
-	"jsXulParam" => "http://www.naoss.fr:81/mundigo/xul/chrome/content/param/onadabase.xml",	
-	"urlCarto" => "http://www.naoss.fr:81/mundigo/design/BlocCarte.php",
-	"urlVideo" => "http://www.mundilogiweb.com/onadabase/design/BlocVideo.php",
-	"urlLibPhp" => "http://www.naoss.fr:81/mundigo/library/php/",
-	"urlLibJs" => "http://localhost/onadabase/library/js/",
-	"urlLibSwf" => "http://www.naoss.fr:81/mundigo/library/swf/",
-	"pathUpload" => PathRoot."/spip/IMG/",
-	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
-	"pathSpip" => "http://localhost/onadabase/spip/"
-); 
 
 	$SiteMundi = array(
 	"AUTEUR_SYNCHRO" => 8, 
@@ -268,6 +176,7 @@ $SiteNaos = array(
 	"lienAdminSpip" => "http://www.mundilogiweb.com/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://www.mundilogiweb.com/onadabase/library/php/ExeAjax.php",
 	"jsXulParam" => "http://www.mundilogiweb.com/onadabase/xul/chrome/content/param/onadabase.xml",	
+	"MenuContexte" => "menu_contextuel_Picardie.xul",
 	"urlSite" => "http://www.mundilogiweb.com/onadabase/xul/chrome/library/php/Site.php",	
 	"urlCarto" => "http://www.mundilogiweb.com/onadabase/design/BlocCarte.php",
 	"urlVideo" => "http://www.mundilogiweb.com/onadabase/design/BlocVideo.php",
@@ -282,9 +191,7 @@ $SiteNaos = array(
 $SITES = array(
 	"local1" => $SiteLocal1
 	,"local2" => $SiteLocal2
-//	,"naos" => $SiteNaos
 	,"mundi" => $SiteMundi
-	,"localPicardieCentre" =>$localPicardieCentre
 	);
 
 ?>

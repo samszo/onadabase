@@ -184,29 +184,40 @@
 			$resultat = DelForm() ;
 			break;
 		case 'SetElementLigne':
-			$resultat = SetElementLigne($objSite,$_GET['idRubSrc'],$_GET['idRubDst']);
+			$resultat = SetElementChaine($objSite,$_GET['idRubSrc'],$_GET['idRubDst'],$objSite->infos["MOT_CLEF_LIGNE_TRANS"]);
 			break;
+		case 'SetElementChaine':
+			$resultat = SetElementChaine($objSite,$_GET['idRubSrc'],$_GET['idRubDst'],$objSite->infos["MOT_CLEF_CHAINE_DEPLA"]);
+			break;
+		case 'DelRubriqueFrere':
+			$synchro = new Synchro($objSite, -1);
+			$synchro->DelRubriqueFrere($_GET['idRub']);
+			break;
+		
 		default:
 			//$resultat = AddDocToArt();
 	}
 
 	echo  utf8_encode($resultat);	
 	
-	function SetElementLigne($objSite,$idRubSrc,$idRubDst){
+	function SetElementChaine($objSite,$idRubSrc,$idRubDst,$idMot){
 
 		$grille = new Grille($objSite);
 		$s = new Synchro($objSite,false);
 		$gra = new Granulat($idRubDst,$objSite,false);
-		if($grille->VerifLiensInRub($idRubDst,$idRubSrc))
+		if($grille->VerifLiensInRub($idRubDst,$idRubSrc)){
+			//si l'élément existe on le supprime
 			$s->DelSyndicsRubriques($idRubDst," AND descriptif='".$idRubSrc."'");
-		else{
+		}else{
+			//sinon on le crée
+			$m = new MotClef($idMot,$objSite);
 			$idSyndic = $gra->SetNewSyndic(
-				" Element de ligne ".date('j/m/y - H:i:s')
+				" Element de ".$m->titre." ".date('j/m/y - H:i:s')
 				,$idRubSrc
 				,$objSite->infos["lienAdminSpip"]."/?exec=naviguer&id_rubrique=".$idRubSrc
 				,$idRubDst
 				);
-			$gra->SetMotClef($objSite->infos["MOT_CLEF_LIGNE_TRANS"],$idSyndic,"syndic");
+			$gra->SetMotClef($idMot,$idSyndic,"syndic");
 		}
 		
 	}
@@ -262,6 +273,7 @@
 			echo "ExeAjax:AddDocToArt:tabDecomp <br/>";
 			print_r($tabDecomp);
 			echo "ExeAjax:AddDocToArt:extension <br/>".$extention;
+			echo "ExeAjax:AddDocToArt:pathUpload <br/>".$objSite->infos["pathUpload"];
 		}
 		
 		//substr($_FILES['filename']['name'],-4,4)
@@ -729,7 +741,7 @@
 	function GetTabForm($type, $idRub){
 		global $objSite;
 
-		if($type=="Ligne")	
+		if($type=="Ligne" || $type=="Chaine")	
 			$grille = new Grille($objSite,-1,false,$type, $idRub);
 		else
 			$grille = new Grille($objSite,-1,false,$type);
@@ -813,7 +825,7 @@
 		
 		//prise encompte du scope pour la grille Ligne de transport uniquement
 		//pour éviter le calcul de idsInScope si on n'en a pas besoin
-		if($trs=="Ligne")	
+		if($trs=="Ligne" || $trs=="Chaine")	
 			$grille = new Grille($objSite,-1,false,$trs, $idRubDst);
 		else
 			$grille = new Grille($objSite,-1,false,$trs);

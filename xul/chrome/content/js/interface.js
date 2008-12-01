@@ -209,7 +209,7 @@ function GetValueChecked(doc){
 function SetChoixDiagnostic() {
 	try {
 		var url = urlExeAjax+"?f=SetSessionValues"
-		var libChoix = "Diagnostique : ";
+		var libChoix = "Diagnostic : ";
 		var arrRep;
 		
 		//choix du site
@@ -860,6 +860,16 @@ function SetElementLigne(idRubSrc,idRubDst){
   } catch(ex2){alert("interface:SetElementLigne:"+ex2+" url="+url);}
 
 }
+
+function SetElementChaine(idRubSrc,idRubDst){
+  try {
+	var url = urlExeAjax+"?f=SetElementChaine&idRubSrc="+idRubSrc+"&idRubDst="+idRubDst;
+	GetResult(url);
+	
+  } catch(ex2){alert("interface:SetElementChaine:"+ex2+" url="+url);}
+
+}
+
 
 function ExecCarto(idRub,idDon){
   try {
