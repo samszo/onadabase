@@ -42,7 +42,7 @@ if(isset($_GET['site'])){
 }else{
 	$idSite = DEFSITE;
 }
-$idSite = 'dev';
+$idSite = 'local2';
 $db_server   = $SITES[$idSite]["SQL_HOST"];
 $db_name     = $SITES[$idSite]["SQL_DB"];
 $db_username = $SITES[$idSite]["SQL_LOGIN"];
