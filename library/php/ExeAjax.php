@@ -47,6 +47,12 @@
 		case 'GetEtatDiagListe':
 			$resultat = $g->GetEtatDiagListe($_GET['idDoc']);
 			break;
+		case 'GetStatEtatDiag':
+			if(isset($_GET['idRub']))
+				include(PathRoot."/bdd/EtatDiag/".$_GET['idSite']."_".$_GET['idRub'].".xml");
+			else
+				include(PathRoot."/bdd/EtatDiag/local2_2608.xml");
+			break;
 		case 'GetEtatDiag':
 			$resultat = $g->GetEtatDiag();
 			break;
@@ -837,9 +843,9 @@
 		$xul = $grille->GetXulTab($trs, $id);
 		
 		if($trs=="EspaceInt")
-			AddNewEspaceGen(66, $id, "ParamGenEspace");
+			AddNewEspaceGen(-66, $id, "ParamGenEspace");
 		if($trs=="EspaceExt")
-			AddNewEspaceGenExt(63, $id, "ParamGenEspace");
+			AddNewEspaceGenExt(-63, $id, "ParamGenEspace");
 		if($trs=="ObjetIntBat") {
 			/*$idArt = $g->SetNewArticle($g->titre." ".date('j/m/y - H:i:s'));
 				echo ":GereWorkflow://ajoute une nouveau article ".$idArt."<br/>";
@@ -869,32 +875,32 @@
 		//ajoute une sous-rubrique espace gen->éclairage
 		$id = $g->SetNewEnfant("Eclairage");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(71,$id);
+		$grille->AddQuestionReponse(-71,$id);
 
 		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
 		$id = $g->SetNewEnfant("Commandes");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(70,$id);
+		$grille->AddQuestionReponse(-70,$id);
 		
 		//ajoute une sous-rubrique espace gen->Pentes et ressauts
 		$id = $g->SetNewEnfant("Pentes et ressauts");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(69,$id);
+		$grille->AddQuestionReponse(-69,$id);
 				
 		//ajoute une sous-rubrique espace gen->Signalétique
 		$id = $g->SetNewEnfant("Signalétique");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(72,$id);
+		$grille->AddQuestionReponse(-72,$id);
 				
 		//ajoute une sous-rubrique espace gen->Sols, murs et plafonds
 		$id = $g->SetNewEnfant("Sols, murs et plafonds");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(68,$id);
+		$grille->AddQuestionReponse(-68,$id);
 				
 		//ajoute une sous-rubrique espace gen->Equipement et mobilier
 		$id = $g->SetNewEnfant("Equipement et mobilier");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(5014,$id);
+		$grille->AddQuestionReponse(-5014,$id);
 				
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
@@ -915,12 +921,12 @@
 		//ajoute une sous-rubrique espace gen->Cheminement extérieur
 		$id = $g->SetNewEnfant("Cheminement");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(64,$id);
+		$grille->AddQuestionReponse(-64,$id);
 						
 		//ajoute une sous-rubrique espace gen->Sol extérieur
 		$id = $g->SetNewEnfant("Sol extérieur");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(65,$id);
+		$grille->AddQuestionReponse(-65,$id);
 		
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
@@ -941,17 +947,17 @@
 		//ajoute une sous-rubrique espace gen->Cheminement extérieur
 		$id = $g->SetNewEnfant("Cheminement extérieur");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(64,$id);
+		$grille->AddQuestionReponse(-64,$id);
 		
 		//ajoute une sous-rubrique espace gen->Equipements et dispositifs de commande
 		$id = $g->SetNewEnfant("Equipements et dispositifs de commande");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(628,$id);
+		$grille->AddQuestionReponse(-628,$id);
 				
 		//ajoute une sous-rubrique espace gen->Sol extérieur
 		$id = $g->SetNewEnfant("Sol extérieur");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(65,$id);
+		$grille->AddQuestionReponse(-65,$id);
 						
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";
@@ -972,7 +978,7 @@
 		//ajoute une sous-rubrique espace gen->Cheminement extérieur
 		$id = $g->SetNewEnfant("Cabine d'ascenseur");
 		//ajoute les QuestionsRéponses
-		$grille->AddQuestionReponse(613,$id);
+		$grille->AddQuestionReponse(-613,$id);
 						
 		//header('Content-type: application/vnd.mozilla.xul+xml');
 		//$xul = "<box>".$xul."</box>";

@@ -16,10 +16,14 @@ if(isset($_POST['login_uti'])) {
 }
 
 // vérification du site en cours
-if(isset($_GET['site']))
+if(isset($_GET['site'])){
 	$site = $_GET['site'];
-if(isset($_POST['site']))
+	$_SESSION['site']=$site;
+}
+if(isset($_POST['site'])){
 	$site = $_POST['site'];
+	$_SESSION['site']=$site;
+}
 if(!$site)
 	$site = DEFSITE;
 if(isset($_SESSION['site']))

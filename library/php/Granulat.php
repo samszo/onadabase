@@ -37,7 +37,8 @@ class Granulat
   }
   
 
-	function GetKml($gra=-1,$niv=0){
+
+  	function GetKml($gra=-1,$niv=0){
 		
 		if($gra==-1)
 			$gra = $this;
@@ -55,7 +56,7 @@ class Granulat
 			}
 		}else{
 			//on ne remonte que jusqu'au grand parent
-			if($niv<2){
+			if($gra->IdParent && $niv<6){
 				$grap = new Granulat($gra->IdParent,$gra->site);
 				$ficsKml = $this->GetKml($grap,$niv+1);	
 			}
@@ -88,13 +89,10 @@ class Granulat
 	}
 
 
-	function GetEtatDiag(){
+	function GetEtatDiag($PourGraph=false,$SaveFile=false){
 		
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiag: id= $this->id<br/>";
-
-		//initialisation du xml
-		$xml = "<EtatDiag idRub='".$this->id."' titre=\"".$this->site->XmlParam->XML_entities($this->titre)."\" >";
 
 		//vérifie si on traite une ligne de transport
 		$ligne = $this->VerifExistGrille($this->site->infos["GRILLE_LIGNE_TRANS"]);
@@ -147,18 +145,59 @@ class Granulat
 		
 		$IcosDoc .="</icones>";
 				
+		//initialisation du xml
+		$xml = "<EtatDiag idSite='".$this->site->id."' idRub='".$this->id."' >";
 		//construction du xml
-		$xml .= $EtatOui["xml"];
-		$xml .= $Etat1["xml"];
-		$xml .= $Etat2["xml"];
-		$xml .= $Etat3["xml"];
-		$xml .= "<Applicables id='IndicAcc_' moteur='".$moteur."' audio='".$audio."' visu='".$visu."' cog='".$cog."' ></Applicables>";
-		$xml .= "<AppliVal id='AppliVal_' moteur='".$moteurObst."-".$EtatAppli["r"]["moteur"]."' audio='".$audioObst."-".$EtatAppli["r"]["audio"]."' visu='".$visuObst."-".$EtatAppli["r"]["visu"]."' cog='".$cogObst."-".$EtatAppli["r"]["cog"]."' ></AppliVal>";
-		$xml .= $Icos; 
-		$xml .= $IcosDoc;
-		$xml .= "</EtatDiag>";
+		if($PourGraph){
+			$xml .= "<Obstacles id='moteur' >
+				<niv0>".$EtatOui["r"]["moteur"]."</niv0>
+				<niv1>".$Etat1["r"]["moteur"]."</niv1>
+				<niv2>".$Etat2["r"]["moteur"]."</niv2>
+				<niv3>".$Etat3["r"]["moteur"]."</niv3>
+				<handi>".$moteur."</handi>
+			</Obstacles>";
+			$xml .= "<Obstacles id='audio' >
+				<niv0>".$EtatOui["r"]["audio"]."</niv0>
+				<niv1>".$Etat1["r"]["audio"]."</niv1>
+				<niv2>".$Etat2["r"]["audio"]."</niv2>
+				<niv3>".$Etat3["r"]["audio"]."</niv3>
+				<handi>".$audio."</handi>
+			</Obstacles>";
+			$xml .= "<Obstacles id='cognitif' >
+				<niv0>".$EtatOui["r"]["cog"]."</niv0>
+				<niv1>".$Etat1["r"]["cog"]."</niv1>
+				<niv2>".$Etat2["r"]["cog"]."</niv2>
+				<niv3>".$Etat3["r"]["cog"]."</niv3>
+				<handi>".$cog."</handi>
+			</Obstacles>";
+			$xml .= "<Obstacles id='visuel' >
+				<niv0>".$EtatOui["r"]["visu"]."</niv0>
+				<niv1>".$Etat1["r"]["visu"]."</niv1>
+				<niv2>".$Etat2["r"]["visu"]."</niv2>
+				<niv3>".$Etat3["r"]["visu"]."</niv3>
+				<handi>".$visu."</handi>
+			</Obstacles>";
+			$xml .= $Icos; 
+			$xml .= $IcosDoc;
+		}else{
+			$xml .= $EtatOui["xml"];
+			$xml .= $Etat1["xml"];
+			$xml .= $Etat2["xml"];
+			$xml .= $Etat3["xml"];
+			$xml .= "<Applicables id='IndicAcc_' moteur='".$moteur."' audio='".$audio."' visu='".$visu."' cog='".$cog."' ></Applicables>";
+			$xml .= "<AppliVal id='AppliVal_' moteur='".$moteurObst."-".$EtatAppli["r"]["moteur"]."' audio='".$audioObst."-".$EtatAppli["r"]["audio"]."' visu='".$visuObst."-".$EtatAppli["r"]["visu"]."' cog='".$cogObst."-".$EtatAppli["r"]["cog"]."' ></AppliVal>";
+			$xml .= $Icos; 
+			$xml .= $IcosDoc;
+		}
+		//finalisation du xml
+		$xml .= "</EtatDiag>";			
 		
-		return $xml;
+		if($SaveFile){
+			$fic = fopen(PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id.".xml", "w");
+			fwrite($fic, $xml);		
+    		fclose($fic);
+		}else
+			return $xml;
 		
 	}
   
@@ -785,9 +824,10 @@ class Granulat
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fa.id_donnee
 				WHERE fa.id_article = ".$idArticle;
 		else
-			$sql = "SELECT DISTINCT fd.id_form, a.id_article
+			$sql = "SELECT DISTINCT fd.id_form, a.id_article, f.titre
 				FROM spip_forms_donnees_articles fa
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fa.id_donnee
+					INNER JOIN spip_forms f ON f.id_form = fd.id_form
 					INNER JOIN spip_articles a ON a.id_article = fa.id_article
 						AND a.id_rubrique = ".$idRub;
 		

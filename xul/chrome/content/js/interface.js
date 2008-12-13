@@ -827,6 +827,8 @@ function SetVal(idDoc){
 				//ajout de l'argument du popup et ouvre la fenêtre
 				window.open(url+"&ppp=1",'_blank','width=650,height=400,resizable=no,left=200,top=200');
 			}
+		}else{
+			AjaxRequest(url,"AfficheResult","trace"+doc.id);	
 		}
 		//pour les questionnaires V2 uniquement
 		//récupère les question intemédiaire
@@ -842,12 +844,14 @@ function SetVal(idDoc){
 		}
 		
 			
-	}else
+	}else{
 		AjaxRequest(url,"AfficheResult","trace"+doc.id);
+	}
 	
 	//modifie le titre du panel dans le cas du titre de l'établissement
-	if(arrDoc[1]=="55" && arrDoc[3]=="ligne_1")
+	if(arrDoc[1]=="55" && arrDoc[3]=="ligne_1"){
 			document.getElementById("tab"+arrDoc[4]).label=val;
+	}
 		
   } catch(ex2){alert("SetVal::"+ex2);dump("::"+ex2);}
 }

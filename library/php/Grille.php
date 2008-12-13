@@ -179,11 +179,11 @@ class Grille{
 					$idDon = false;
 					//vérifie s'il faut chercher par rapport aux grilles d'information
 					if($q["srcIdGrille"]){ 
-						$idDon = $this->RechercheDonneeId($q["srcIdGrille"],$row["id_article"],$q["srcIdChamp"],$q["srcCheckVal"],$ids);
+						$idDon = $this->RechercheDonneeId($q["srcIdGrille"],$row["id_article"],$q["srcIdChamp"],$q["srcCheckVal"],$ids,$q["srcRefCont"]);
 						//vérifie s'il faut traiter un deuxième critère
 						$qB = $q->question;
 						if($idDon && $qB){
-							$idDon = $this->RechercheDonneeId($qB["srcIdGrille"],$row["id_article"],$qB["srcIdChamp"],$qB["srcCheckVal"],$ids);
+							$idDon = $this->RechercheDonneeId($qB["srcIdGrille"],$row["id_article"],$qB["srcIdChamp"],$qB["srcCheckVal"],$ids,$qB["srcRefCont"]);
 							$q = $qB;
 						}
 					}
@@ -708,7 +708,7 @@ class Grille{
 		header('Expires: 0');
 		header('Pragma: no-cache'); 
 		
-		echo 'Rubrique Parent;Rubrique;Id Pb;Questions Problème;Critère réglementaire;Date;Observations';
+		echo 'Rubrique Parent;Rubrique;Id Critère;Id Pb;Questions Problème;Critère réglementaire;Date;Observations';
 		echo "\n";
 		
 		while ($r =  $db->fetch_assoc($result)) {
@@ -717,6 +717,7 @@ class Grille{
 
 			echo $r["titreRubPar"].";";
 			echo $r["titreRub"].';';
+			echo $r["idCrit"].';';
 			echo $r["idPbPlan"].';';
 			$text = html_entity_decode($this->site->XmlParam->XML_entities($r["TextCont"]));
 			echo str_replace(';', ',', $text).';';
@@ -733,20 +734,25 @@ class Grille{
 		}    	
     }
     
-    function RechercheDonneeId($grille,$idArt,$champ,$valeur,$idsRub=-1) {
+    function RechercheDonneeId($grille,$idArt,$champ,$valeur,$idsRub=-1,$ref=-1) {
 		if($this->trace)
 			echo "Grille:RechercheDonneeId://recherche l'id d'une donnée avec son article $idArt sa valeur = $valeur et son champ=$champ <br/>";
 		
 		//récupère la requête suivant le type de recherche	
 		if($idsRub==-1)
 			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_RechercheDonneeId']";
-		else
-			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_RechercheDonneeIdByRub']";		
+		else{
+			if(!$ref)
+				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_RechercheDonneeIdByRub']";
+			else		
+				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_RechercheDonneeIdByRubRef']";
+		}		
 		$Q = $this->site->XmlParam->GetElements($Xpath);
 		$where = str_replace("-ids-", $idsRub, $Q[0]->where);
 		$from = str_replace("-champ-", $champ, $Q[0]->from);
 		$from = str_replace("-valeur-", $valeur, $from);
 		$from = str_replace("-idArt-", $idArt, $from);
+		$from = str_replace("-ref-", $ref, $from);
 		$sql = $Q[0]->select.$from.$where;
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
