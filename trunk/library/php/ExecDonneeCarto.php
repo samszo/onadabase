@@ -187,7 +187,7 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 			//requÃ¨te pour un Ã©lÃ©ment
 			$sql .= " WHERE 1  
 				ORDER BY dc1.valdec, dArt.fichier DESC
-				LIMIT 0 , 20";
+				";
 			$SaveFile = true;
 		  	break;
 	}
@@ -284,7 +284,8 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 				
 		//vérifie s'il faut récupérer le diagnostic
 		if($query=="allEtatDiag"){
-			$xml .= $g->GetEtatDiag(true,true);
+			
+			//$xml .= $g->GetEtatDiag(true,true);
 
 			//récupère les grilles du granulat 
 			$rsG = $g->GetFormIds(-1,$g->id);

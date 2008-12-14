@@ -47,11 +47,11 @@
 		case 'GetEtatDiagListe':
 			$resultat = $g->GetEtatDiagListe($_GET['idDoc']);
 			break;
+		case 'GetFlexEtatDiagListe':
+			$resultat = GetFlexEtatDiagListe($objSite,$g ,$_GET['idDoc']);
+			break;
 		case 'GetStatEtatDiag':
-			if(isset($_GET['idRub']))
-				include(PathRoot."/bdd/EtatDiag/".$_GET['idSite']."_".$_GET['idRub'].".xml");
-			else
-				include(PathRoot."/bdd/EtatDiag/local2_2608.xml");
+			GetStatEtatDiag($objSite, $g);
 			break;
 		case 'GetEtatDiag':
 			$resultat = $g->GetEtatDiag();
@@ -205,6 +205,28 @@
 	}
 
 	echo  utf8_encode($resultat);	
+
+	function GetFlexEtatDiagListe($site, $g, $idDoc){
+
+		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id."_".$idDoc.".xml";
+		//vérifie s'il faut créer la stat
+		if (!file_exists($path))		
+			return $g->GetEtatDiagListe($idDoc,true);
+			
+		include($path);
+		
+	}
+		
+	function GetStatEtatDiag($site, $g){
+
+		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id.".xml";
+		//vérifie s'il faut créer la stat
+		if (!file_exists($path))		
+			$g->GetEtatDiag(true,true);
+
+		include($path);
+		
+	}
 	
 	function SetElementChaine($objSite,$idRubSrc,$idRubDst,$idMot){
 

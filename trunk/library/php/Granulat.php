@@ -66,7 +66,7 @@ class Granulat
 		
 	}
   
-  	function GetEtatDiagListe($idDoc){
+  	function GetEtatDiagListe($idDoc,$SaveFile=false){
 		
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiagListe: id=$this->id idDoc=$idDoc<br/>";
@@ -84,7 +84,13 @@ class Granulat
 		$grille = new Grille($this->site);
 		$xul = $grille->GetEtatDiagListe($ids,$idDoc);
 		
-		return $xul;
+		if($SaveFile){
+			$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_".$idDoc.".xml";
+			$fic = fopen($path, "w");
+			fwrite($fic, $xul);		
+    		fclose($fic);
+		}else
+			return $xul;
 		
 	}
 
