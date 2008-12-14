@@ -11,13 +11,16 @@
       import com.google.maps.controls.ZoomControl;
     import com.google.maps.styles.FillStyle;
     import com.google.maps.styles.StrokeStyle;
-      import mx.controls.Alert;
 
+    import mx.controls.Alert;
     import mx.collections.ArrayCollection;
 	import mx.rpc.events.ResultEvent;
+	import mx.managers.CursorManager;
 
 	[Bindable]
 	private var rsEtatDiag:Object;
+	[Bindable]
+	private var rsEtatDiagListe:Object;
 
       private var map:Map;
       private var markers:XMLList;
@@ -51,8 +54,28 @@
           "grille_58": {
               "color": 0x00CCFF,
 	          "icon": CIcon,
+              "markers": []},
+          "grille_35": {
+              "color": 0x9b2121,
+	          "icon": CIcon,
+              "markers": []},
+          "grille_57": {
+              "color": 0x0ba42f,
+	          "icon": CIcon,
+              "markers": []},
+          "grille_63": {
+              "color": 0xf78907,
+	          "icon": CIcon,
+              "markers": []},
+          "grille_64": {
+              "color": 0x9b0f7c,
+	          "icon": CIcon,
+              "markers": []},
+          "grille_72": {
+              "color": 0x2a09f7,
+	          "icon": CIcon,
               "markers": []}
-        };
+		};
 
       private var handi:Object = 
         { "A": {
@@ -77,8 +100,58 @@
               "markers": []}
         };
 
+        private function chartEtatDiagChange(event:Event):void {
+            var allSeries:Array = event.currentTarget.series;
+            chartTrace.text = "";
+            var idDoc:String = "";
+            var handi:String = "";
+            var niv:String = "";
+            //construction de l'identifiant du doc
+            //cf. library/php/ExeAjax.php?f=GetEtatDiagListe&id=5610&idDoc=0_audio
+            for (var i:int=0; i<allSeries.length; i++) {
+                chartTrace.text += "\n" + allSeries[i].id + 
+                    " Selected Items: " + allSeries[i].selectedIndices;
+				//le type de handicap
+                switch (allSeries[i].selectedIndices[0]) {
+				    case 0:
+				        handi = "_moteur";
+				        break;
+				    case 1:
+				        handi = "_audio";
+				        break;
+				    case 2:
+				        handi = "_cog";
+				        break;
+				    case 3:
+				        handi = "_visu";
+				        break;
+				}				    
+                //le niveau seulemet si on a récupéré  l'indice
+                if(handi!="" && niv==""){
+	                switch (allSeries[i].id) {
+					    case "_onadaflex_ColumnSeries1":
+					        niv = "0";
+					        break;
+					    case "_onadaflex_ColumnSeries2":
+					        niv = "1";
+					        break;
+					    case "_onadaflex_ColumnSeries3":
+					        niv = "2";
+					        break;
+					    case "_onadaflex_ColumnSeries4":
+					        niv = "3";
+					        break;
+					}
+                }
+            }
+            idDoc = niv+handi; 
+            //exécute la requête
+            showListeDiag(idSite.text, idRub.text, idDoc);
+        }
+
 		public function rhEtatDiag(event:ResultEvent):void {
-				rsEtatDiag = event.result;
+			rsEtatDiag = event.result;
+			if(rsEtatDiag.toString()!=""){
 				//mise à jour des icones
 		        for each (var obs:Object in rsEtatDiag.EtatDiag.Obstacles)
 		        {
@@ -90,14 +163,25 @@
 		        		imgAlphaCog.source=handi[obs.handi].icon;
 		        	if(obs.id=="visuel")
 		        		imgAlphaVisu.source=handi[obs.handi].icon;
-		        }	
+		        }
+		 	}
 		}
+
+		public function rhEtatDiagListe(event:ResultEvent):void {
+			rsEtatDiagListe = event.result;
+			if(rsEtatDiagListe.toString()!=""){
+				//mise à jour des icones
+		        var type:String;
+		        type = "grille_";
+		 	}
+		}
+
         
       public function onHolderCreated(event:Event):void {
         map = new Map();
 //local        map.key = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
 //prod        map.key = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
-		map.key = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
+        map.key = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
         map.addEventListener(MapEvent.MAP_READY, onMapReady);
         mapHolder.addChild(map);
       }
@@ -115,9 +199,8 @@
      }
      
      public function getXml():void {
-         //var xmlString:URLRequest = new URLRequest("http://www.onadabase.eu/bdd/CartoAll.xml");
+         //var xmlString:URLRequest = new URLRequest("http://www.onadabase.eu/bdd/carto/allEtatDiag_centre_.xml");
          var xmlString:URLRequest = new URLRequest("http://localhost/onadabase/bdd/carto/allEtatDiag_local2_.xml");
-         //var xmlString:URLRequest = new URLRequest("CartoTest.xml");
           var xmlLoader:URLLoader = new URLLoader(xmlString);
           xmlLoader.addEventListener("complete", readXml);
     }
@@ -159,7 +242,7 @@
 			//inspiration de http://www.tricedesigns.com/portfolio/googletemps/srcview/
 			var markerOptions:MarkerOptions = new MarkerOptions({
                         strokeStyle: new StrokeStyle({color: 0x000000}),
-                        fillStyle: new FillStyle({color:categories[type].color, alpha: 0.8}),
+                        fillStyle: new FillStyle({color:categories[type].color, alpha: 0.3}),
                         radius: 12,
                         hasShadow: true
                       })
@@ -175,16 +258,39 @@
      } 
 
      private function showStat(markerXml:XML):void {
+        //affiche la box des stats
+        chartBox.visible=true;
+        chartBox.width=400;
+        chartTitre.text = markerXml.@titre;
+        idRub.text = markerXml.@idRub;
+        idSite.text = markerXml.@idSite;
         //paramètre la requête pour récupérer le bon fichier xml
 		srvEtatDiag.cancel();
 		var params:Object = new Object();
 		params.f = "GetStatEtatDiag";
-		params.idRub = markerXml.@idRub;
-		params.idSite = markerXml.@idSite;
+		params.id = markerXml.@idRub;
+		params.site = markerXml.@idSite;
+		trace ("showStat:srvEtatDiag.url="+srvEtatDiag.url+"?f="+params.f+"&id="+params.id+"&site="+params.site);
 		srvEtatDiag.send(params);
      }
 
-     private function toggleCategory(type:String):void {
+     private function showListeDiag(idSite:String, idRub:String, idDoc:String):void {
+        //affiche la box des stats
+        chartBox.visible=true;
+        chartBox.width=400;
+        //paramètre la requête pour récupérer le bon fichier xml
+		srvEtatDiagListe.cancel();
+		var params:Object = new Object();
+		params.f = "GetFlexEtatDiagListe";
+		params.id = idRub;
+		params.site = idSite;
+		params.idDoc = idDoc;
+		
+		chartTrace.text += "\n" + srvEtatDiagListe.url+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc;
+		srvEtatDiagListe.send(params);
+     }
+
+    private function toggleCategory(type:String):void {
        for (var i:Number = 0; i < categories[type].markers.length; i++) {
          var marker:Marker = categories[type].markers[i];
          if (!marker.visible) {
@@ -193,5 +299,6 @@
            marker.visible = false;
          }
        } 
-     }
+		CursorManager.removeBusyCursor();
+	}
 
