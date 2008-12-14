@@ -5,15 +5,26 @@
     http://www.apache.org/licenses/LICENSE-2.0
 todo :
 - http://livedocs.adobe.com/flex/3/html/help.html?content=charts_types_06.html#164059
-  //<mx:Model id="EtatDiag" source="EtatDiag.xml"/>
 
 -->
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-  width="100%" height="100%" layout="absolute" viewSourceURL="srcview/index.html" 
-  creationComplete="srvEtatDiag.send()" >
+  width="100%" height="100%" layout="absolute" 
+  >
 
-  <mx:HTTPService id="srvEtatDiag" url="http://localhost/onadabase/library/php/ExeAjax.php?f=GetStatEtatDiag"
-  	result="rhEtatDiag(event);" />
+<!-- 
+	local
+  	<mx:HTTPService id="srvEtatDiag" url="http://localhost/onadabase/library/php/ExeAjax.php?f=GetStatEtatDiag"
+  		result="rhEtatDiag(event);" />
+  	prod
+  	<mx:HTTPService id="srvEtatDiag" url="http://www.onadabase.eu/library/php/ExeAjax.php?f=GetStatEtatDiag"
+  		result="rhEtatDiag(event);" />
+-->
+  <mx:HTTPService id="srvEtatDiag" url="http://localhost/onadabase/library/php/ExeAjax.php"
+  	result="rhEtatDiag(event);" showBusyCursor="true" />
+  <mx:HTTPService id="srvEtatDiagListe" url="http://localhost/onadabase/library/php/ExeAjax.php"
+  	result="rhEtatDiagListe(event);" showBusyCursor="true" />
+  	
+	<mx:Script source="onadaflex.as"/>
 
 
  	<!-- Define custom colors for use as fills. -->
@@ -29,7 +40,8 @@ todo :
     <mx:Stroke id="s3" color="red" weight="2"/>
  
   
- <mx:Panel title="ONADABASE" width="100%" height="100%">
+ <mx:Panel title="ONADABASE diagnostics pour l'accessibilité" width="100%" height="100%">
+ <mx:Panel title="Choisissez les éléments à afficher" >
   <mx:HBox>
       <mx:CheckBox selected="false" change="createMarkerGrille('66')"/>
       <mx:Label text="Territoire" color="{categories['grille_66'].color}"/>
@@ -43,16 +55,36 @@ todo :
       <mx:Label text="Espace extérieur" color="{categories['grille_61'].color}"/>
       <mx:CheckBox selected="false" change="createMarkerGrille('58')"/>
       <mx:Label text="Parcelle" color="{categories['grille_58'].color}"/>
-  </mx:HBox>
+      <mx:CheckBox selected="false" change="createMarkerGrille('35')"/>
+      <mx:Label text="Niveau" color="{categories['grille_35'].color}"/>
+      <mx:CheckBox selected="false" change="createMarkerGrille('57')"/>
+      <mx:Label text="Espace intérieur" color="{categories['grille_57'].color}"/>
+      <mx:CheckBox selected="false" change="createMarkerGrille('63')"/>
+      <mx:Label text="Objet intérieur" color="{categories['grille_63'].color}"/>
+      <mx:CheckBox selected="false" change="createMarkerGrille('64')"/>
+      <mx:Label text="Objet extérieur" color="{categories['grille_64'].color}"/>
+      <mx:CheckBox selected="false" change="createMarkerGrille('72')"/>
+      <mx:Label text="Ligne de transport" color="{categories['grille_72'].color}"/>
+
+
+  </mx:HBox>	
+</mx:Panel>
   <mx:HDividedBox width="100%" height="100%">
-   <mx:VBox width="30%" height="100%" paddingLeft="5" paddingTop="5">
-    <mx:Label id="traceUrl" text=""/>
+   <mx:VBox id="chartBox" visible="false" width="0" height="100%" paddingLeft="5" paddingTop="5" >
+    <mx:Label id="chartTitre" text="" fontSize="24" fontWeight="bold"/>
+    <!-- clefs du graphique -->
+    <mx:Label id="idRub" text="" fontSize="24" fontWeight="bold"/>
+    <mx:Label id="idSite" text="" fontSize="24" fontWeight="bold"/>
+    <!-- traces du graphique -->
+	<mx:TextArea id="chartTrace" height="100" width="100%" />
     <mx:ColumnChart id="chart" 
         dataProvider="{rsEtatDiag.EtatDiag.Obstacles}" 
         type="stacked"
         showDataTips="true" 
         width="100%" 
         height="100%"
+		change="chartEtatDiagChange(event)"
+		selectionMode="multiple"
     >
         <mx:horizontalAxis>
             <mx:CategoryAxis id="h1" categoryField="id" />
@@ -64,6 +96,7 @@ todo :
                 displayName="Critères valides"
 				fill="{sc0}"
                 stroke="{s0}"
+                selectable="true"
            />
            <mx:ColumnSeries 
                 xField="id" 
@@ -88,17 +121,27 @@ todo :
            />
         </mx:series>
     </mx:ColumnChart>
-    <mx:HBox>
+    <mx:HBox paddingLeft="40" width="100%" >
 		<mx:Image id="imgAlphaMoteur" source="{AIcon}" width="80" />
 		<mx:Image id="imgAlphaAudio" source="{BIcon}" width="80" />
 		<mx:Image id="imgAlphaCog" source="{CIcon}" width="80" />
 		<mx:Image id="imgAlphaVisu" source="{DIcon}" width="80" />		
 	</mx:HBox>
      <mx:Legend>
-        <mx:LegendItem label="Critères valides" fontWeight="bold" fill="{sc0}" stroke="{s0}" />
-        <mx:LegendItem label="Obstacles niveau 1" fontWeight="bold" fill="{sc1}" stroke="{s1}" />
-        <mx:LegendItem label="Obstacles niveau 2" fontWeight="bold" fill="{sc2}" stroke="{s2}" />
-        <mx:LegendItem label="Obstacles niveau 3" fontWeight="bold" fill="{sc3}" stroke="{s3}" />
+	    <mx:HBox>
+			<mx:VBox >
+				<mx:Label text="Critères valides" fontWeight="bold" />
+		        <mx:LegendItem label="" fontWeight="bold" fill="{sc0}" stroke="{s0}" />			
+			</mx:VBox>
+			<mx:VBox >
+				<mx:Label text="Obstacles" fontWeight="bold" />
+			    <mx:HBox>
+			        <mx:LegendItem label="Niveau 1" fontWeight="bold" fill="{sc1}" stroke="{s1}" />
+			        <mx:LegendItem label="Niveau 2" fontWeight="bold" fill="{sc2}" stroke="{s2}" />
+			        <mx:LegendItem label="Niveau 3" fontWeight="bold" fill="{sc3}" stroke="{s3}" />
+				</mx:HBox>
+			</mx:VBox>
+		</mx:HBox>
      </mx:Legend>
 
 
@@ -109,9 +152,5 @@ todo :
       width="70%" height="100%"/>
   </mx:HDividedBox>
  </mx:Panel>
-
-
-
-<mx:Script source="onadaflex.as"/>
 
 </mx:Application>
