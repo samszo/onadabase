@@ -4,26 +4,40 @@
 	<!-- Gestion des icones supplémentaire -->		
 	<icones>
 		<objet titre="etablissement" IdGrille='55' >
-			<question srcIdGrille='59'  srcRefCont='air_sta_07' srcIdChamp='mot_1' srcCheckVal='2'>
+			<question srcIdGrille='59'  srcRefCont='2_air_sta_07' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='gig-gic'/>
+		    </question>
+			<question srcIdGrille='59'  srcRefCont='2_air_sta_10' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='gig-gic'/>
+		    </question>
+		    <question srcIdGrille='59'  srcRefCont='air_sta_07' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='gig-gic'/>
 		    </question>
 			<question srcIdGrille='59'  srcRefCont='air_sta_10' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='gig-gic'/>
 		    </question>
-		    <question srcIdGrille='59' srcRefCont='cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
-				<question srcIdGrille='59' srcRefCont='cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
+			<question isrcIdGrille='59' srcRefCont='2_cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
+				<question isrcIdGrille='59' srcRefCont='2_cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
 					<icone id='chem_ext'/>
 				</question>
 		    </question>
-		    <question srcIdGrille='55' srcIdChamp='mot_2' srcCheckVal='64'>
-		        <icone id='guichet'/>
+		    <question isrcIdGrille='59' srcRefCont='cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
+				<question isrcIdGrille='59' srcRefCont='cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
+					<icone id='chem_ext'/>
+				</question>
 		    </question>
 		</objet>
 		<objet titre="batiment" IdGrille='53' >
-		    <question srcIdGrille='59' srcRefCont='cr_acc_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		    <question srcIdGrille='59' srcRefCont='2_cr_acc_01' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='guichet'/>
 		    </question>
-		    <question srcIdGrille='59' srcRefCont='cr_acc_17' srcIdChamp='mot_1' srcCheckVal='2'>
+			 <question srcIdGrille='59' srcRefCont='cr_acc_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='guichet'/>
+		    </question>
+		    <question srcIdGrille='59' srcRefCont='2_cr_acc_17' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='personnel'/>
+		    </question>
+			 <question srcIdGrille='59' srcRefCont='cr_acc_17' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='personnel'/>
 		    </question>
 		    <question srcIdGrille='35' srcIdChamp='mot_2' srcCheckVal='1'>
@@ -36,7 +50,13 @@
 		            <icone id='ascenseur'/>
 		        </question>
 		    </question>
-			  <question srcIdGrille='59'  srcRefCont='cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
+			<question srcIdGrille='59'  srcRefCont='2_cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+		    <question srcIdGrille='59' srcRefCont='2_cr_san_02' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+			<question srcIdGrille='59'  srcRefCont='cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='wc'/>
 		    </question>
 		    <question srcIdGrille='59' srcRefCont='cr_san_02' srcIdChamp='mot_1' srcCheckVal='2'>
@@ -54,31 +74,63 @@
 		            <icone id='ascenseur'/>
 		        </question>
 		    </question>
-			  <question srcIdGrille='59'  srcRefCont='cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
+			<question srcIdGrille='59'  srcRefCont='2_cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+		    <question srcIdGrille='59' srcRefCont='2_cr_san_02' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+			<question srcIdGrille='59'  srcRefCont='cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='wc'/>
 		    </question>
 		    <question srcIdGrille='59' srcRefCont='cr_san_02' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='wc'/>
+		    </question>
+			<question srcIdGrille='59' srcRefCont='2_cr_douche_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='douche'/>
+		    </question>
+			<question srcIdGrille='59' srcRefCont='cr_douche_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='douche'/>
 		    </question>
 		</objet>
 		<objet titre="espace" IdGrille='57' >
-		    <question srcIdGrille='59' srcRefCont='cr_douche_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		    <question srcIdGrille='59' srcRefCont='2_cr_douche_01' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='douche'/>
 		    </question>
-		    <question srcIdGrille='59'  srcRefCont='cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
+			<question srcIdGrille='59' srcRefCont='cr_douche_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='douche'/>
+		    </question>
+		    <question srcIdGrille='59'  srcRefCont='2_cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+		    <question srcIdGrille='59' srcRefCont='2_cr_san_02' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='wc'/>
+		    </question>
+			<question srcIdGrille='59'  srcRefCont='cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='wc'/>
 		    </question>
 		    <question srcIdGrille='59' srcRefCont='cr_san_02' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='wc'/>
 		    </question>
-		    <question srcIdGrille='59'  srcRefCont='air_sta_07' srcIdChamp='mot_1' srcCheckVal='2'>
+		    <question srcIdGrille='59'  srcRefCont='2_air_sta_07' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='gig-gic'/>
+		    </question>
+			<question srcIdGrille='59'  srcRefCont='2_air_sta_10' srcIdChamp='mot_1' srcCheckVal='2'>
+		        <icone id='gig-gic'/>
+		    </question>
+			<question srcIdGrille='59'  srcRefCont='air_sta_07' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='gig-gic'/>
 		    </question>
 			<question srcIdGrille='59'  srcRefCont='air_sta_10' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='gig-gic'/>
 		    </question>
-		    <question srcIdGrille='59' srcRefCont='chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
-				<question srcIdGrille='59' srcRefCont='chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
+		    <question srcIdGrille='59' srcRefCont='2_cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
+				<question srcIdGrille='59' srcRefCont='2_cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
+					<icone id='chem_ext'/>
+				</question>
+		    </question>
+			<question srcIdGrille='59' srcRefCont='cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
+				<question srcIdGrille='59' srcRefCont='cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
 					<icone id='chem_ext'/>
 				</question>
 		    </question>
