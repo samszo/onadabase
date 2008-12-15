@@ -572,6 +572,10 @@
 		<popup id="popespaceext" onpopupshowing="javascript:;">
 			<menu id="menu_espaceext_voir" label="Voir">
 				<menupopup id="popup_espaceext_voir">
+						<menuitem
+						role="administrateur;diagnostiqueur"
+						label="Les paramètres de contrôle"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espacegen','EspaceGen');" />
 					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Le(s) problème(s)"
@@ -580,10 +584,6 @@
 						role="administrateur;diagnostiqueur"
 						label="L'(les) observation(s)"
 						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
-					<menuitem
-						role="administrateur;diagnostiqueur"
-						label="Les paramètres de contrôle"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','espacegen','EspaceGen');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="L'état des lieux"
