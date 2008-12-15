@@ -43,6 +43,14 @@
 						oncommand="AddNewGrille('Ligne');" />
 				</menupopup>
 			</menu>
+			<menu id="menu_terre_générer" label="Générer">
+				<menupopup id="popup_terre_générer">
+					<menuitem
+						role="administrateur"
+						label="csv"
+						oncommand="ChargeTreeCsv('idRub','FormSaisi');" />
+				</menupopup>
+			</menu>
 			<menu id="menu_terre_supprimer" label="Supprimer">
 				<menupopup id="popup_terre_supprimer">
 					<menuitem 
@@ -94,6 +102,14 @@
 			<menu id="menu_etab_voir" label="Voir">
 				<menupopup id="popup_etab_voir">
 					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="Le(s) bâtiment(s)"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');" />
+					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="La(les) parcelle(s)"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');" />
+					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Le(s) problème(s)"
 						oncommand="ChargeTreeProb('idRub','FormSaisi');" />
@@ -101,14 +117,6 @@
 						role="administrateur;diagnostiqueur"
 						label="L'(les) observation(s)"
 						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
-					<menuitem
-						role="administrateur;diagnostiqueur;lecteur"
-						label="La(les) parcelle(s)"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Parcelles','parcelle','Parcelle');" />
-					<menuitem
-						role="administrateur;diagnostiqueur;lecteur"
-						label="Le(s) bâtiment(s)"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Bâtiments','bat','Bat');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="L'état des lieux"
@@ -175,14 +183,6 @@
 			<menu id="menu_bat_voir" label="Voir">
 				<menupopup id="popup_bat_voir">
 					<menuitem
-						role="administrateur;diagnostiqueur"
-						label="Le(s) problème(s)"
-						oncommand="ChargeTreeProb('idRub','FormSaisi');" />
-					<menuitem
-						role="administrateur;diagnostiqueur"
-						label="L'(les) observation(s)"
-						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
-					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="Le(s) niveau(x)"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');" />
@@ -190,6 +190,14 @@
 						role="administrateur;diagnostiqueur;lecteur"
 						label="La(les) cabine(s) d'ascenseur"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');" />
+					<menuitem
+						role="administrateur;diagnostiqueur"
+						label="Le(s) problème(s)"
+						oncommand="ChargeTreeProb('idRub','FormSaisi');" />
+					<menuitem
+						role="administrateur;diagnostiqueur"
+						label="L'(les) observation(s)"
+						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="L'état des lieux"
@@ -290,6 +298,14 @@
 		<popup id="popniveau" onpopupshowing="javascript:;">
 			<menu id="menu_niveau_voir" label="Voir">
 				<menupopup id="popup_niveau_voir">
+					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="Le(s) espace(s) intérieur(s)"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces intérieurs','espaceint','EspaceInt');" />
+					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="Le(s) objet(s) intérieur(s)"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Tous les objets','objetint','ObjetInt');" />
 					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Le(s) problème(s)"
@@ -530,8 +546,6 @@
 				</menupopup>
 			</menu>
 		</popup>
-
-
 		<popup id="popParcelle" onpopupshowing="javascript:;">
 			<menu id="menu_Parcelle_voir" label="Voir">
 				<menupopup id="popup_Parcelle_voir">
@@ -681,7 +695,7 @@
 					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Un élément de voirie"
-						oncommand="AddNewGrille('ElementVoirie');" />
+						oncommand="AddNewGrille('Element_voirie');" />
 				</menupopup>
 			</menu>
 			<menu id="menu_voirie_générer" label="Générer">
@@ -707,7 +721,7 @@
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="L'(es) élément(s) de voirie"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');" />
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','Element_Voirie');" />
 				</menupopup>
 			</menu>
 			<menu id="menu_Voirie_ajouter" label="Ajouter">
@@ -715,7 +729,7 @@
 					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Un élément de voirie"
-						oncommand="AddNewGrille('ElementVoirie');" />
+						oncommand="AddNewGrille('Element_voirie');" />
 				</menupopup>
 			</menu>
 		</popup>
@@ -732,41 +746,31 @@
 						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
-				<menu id="menu_elementvoirie_copier" label="Copier">
-					<menupopup id="popup_elementvoirie_copier">
-						<menuitem
-							role="administrateur;diagnostiqueur"
-							label="L'élément de voirie"
-							oncommand="CopyRub(document.getElementById('idRub').value);" />
-					</menupopup>
-				</menu>
-				<menu id="menu_elementvoirie_générer" label="Générer">
-					<menupopup id="popup_elementvoirie_générer">
-						<menuitem
-							role="administrateur"
-							label="csv"
-							oncommand="ChargeTreeCsv('idRub','FormSaisi');" />
-					</menupopup>
-				</menu>
-				<menu id="menu_elementvoirie_supprimer" label="Supprimer">
-					<menupopup id="popup_elementvoirie__supprimer">
-						<menuitem
-							role="administrateur"
-							label="Cet élément de voirie"
-							oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
-					</menupopup>
-			</menu>
-		</popup>		
-		<popup id="popespacegen" onpopupshowing="javascript:;">
-			<menu id="menu_popespacegen_supprimer" label="Supprimer">
-				<menupopup id="popup_popespacegen__supprimer">
+			<menu id="menu_elementvoirie_copier" label="Copier">
+				<menupopup id="popup_elementvoirie_copier">
 					<menuitem
-				role="administrateur;diagnostiqueur"
-				label="Ce paramètres de contrôle"
-				oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
+						role="administrateur;diagnostiqueur"
+						label="L'élément de voirie"
+						oncommand="CopyRub(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
-		</popup>		
+			<menu id="menu_elementvoirie_générer" label="Générer">
+				<menupopup id="popup_elementvoirie_générer">
+					<menuitem
+						role="administrateur"
+						label="csv"
+						oncommand="ChargeTreeCsv('idRub','FormSaisi');" />
+				</menupopup>
+			</menu>
+			<menu id="menu_elementvoirie_supprimer" label="Supprimer">
+				<menupopup id="popup_elementvoirie__supprimer">
+					<menuitem
+						role="administrateur"
+						label="Cet élément de voirie"
+						oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
+				</menupopup>
+			</menu>
+		</popup>				
 		<popup id="popSyncSrc" onpopupshowing="javascript:;">
 			<menuitem
 				role="administrateur;diagnostiqueur"
@@ -782,8 +786,8 @@
 		<popup id="popespacegen" onpopupshowing="javascript:;">
 			<menuitem 
 				role="administrateur;diagnostiqueur"
-				label="Voir les problèmes signalés"
-				oncommand="RefreshEcran(document.getElementById('idRub').value,'Signalements problèmes','aucun','SignalementProbleme');" />
+				label="Supprimer ce paramètre de contrôle"
+				oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
 		</popup>
 		<popup id="popObjetGen" onpopupshowing="javascript:;">
 			<menuitem
