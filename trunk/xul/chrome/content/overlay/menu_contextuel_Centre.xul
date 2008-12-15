@@ -316,14 +316,6 @@
 						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
-						label="Le(s) espace(s) intérieur(s)"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Espaces intérieurs','espaceint','EspaceInt');" />
-					<menuitem
-						role="administrateur;diagnostiqueur;lecteur"
-						label="Le(s) objet(s) intérieur(s)"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Tous les objets','objetint','ObjetInt');" />
-					<menuitem
-						role="administrateur;diagnostiqueur;lecteur"
 						label="L'état des lieux"
 						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
