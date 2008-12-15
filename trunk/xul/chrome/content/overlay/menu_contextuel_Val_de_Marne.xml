@@ -183,14 +183,6 @@
 			<menu id="menu_bat_voir" label="Voir">
 				<menupopup id="popup_bat_voir">
 					<menuitem
-						role="administrateur;diagnostiqueur"
-						label="Le(s) problème(s)"
-						oncommand="ChargeTreeProb('idRub','FormSaisi');" />
-					<menuitem
-						role="administrateur;diagnostiqueur"
-						label="L'(les) observation(s)"
-						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
-					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="Le(s) niveau(x)"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Niveaux','niveau','Niveau');" />
@@ -198,6 +190,14 @@
 						role="administrateur;diagnostiqueur;lecteur"
 						label="La(les) cabine(s) d'ascenseur"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Cabines Ascenseurs','objetintbat','ObjetIntBat');" />
+					<menuitem
+						role="administrateur;diagnostiqueur"
+						label="Le(s) problème(s)"
+						oncommand="ChargeTreeProb('idRub','FormSaisi');" />
+					<menuitem
+						role="administrateur;diagnostiqueur"
+						label="L'(les) observation(s)"
+						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="L'état des lieux"
