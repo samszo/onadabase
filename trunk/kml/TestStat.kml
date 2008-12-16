@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<kml xmlns="http://earth.google.com/kml/2.1">
+	<Document>
+	  <name>Duras</name>
+	  <open>1</open>
+	  	<Style id="visu">
+			<LineStyle>
+				<color>ff7f0000</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>447f0000</color>
+			</PolyStyle>
+		</Style>
+		<Style id="audio">
+			<LineStyle>
+				<color>ff098191</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>bf00b3ff</color>
+			</PolyStyle>
+		</Style>
+		<Style id="moteur">
+			<LineStyle>
+				<color>cc00ffff</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>cc00ffff</color>
+			</PolyStyle>
+		</Style><Folder>
+  <name>Château de Duras</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Châteaux, palais et demeures</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.17891407012939453,44.677587714934,2000 0.17791407012939,44.677587714934,2000 0.17791407012939,44.678587714934,2000 0.17891407012939453,44.678587714934,2000 0.17891407012939453,44.677587714934,2000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark><Placemark>
+		    <name>Culturel</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.17891407012939453,44.678587714934,1000 0.17791407012939,44.678587714934,1000 0.17791407012939,44.679587714934,1000 0.17891407012939453,44.679587714934,1000 0.17891407012939453,44.678587714934,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Claire de Coëtnempren, duchesse de Duras</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Personnalités</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.17887115478515625,44.677587714934,2000 0.17787115478516,44.677587714934,2000 0.17787115478516,44.678587714934,2000 0.17887115478515625,44.678587714934,2000 0.17887115478515625,44.677587714934,2000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Église Sainte-Madeleine</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Religieux</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.18324851989746094,44.677404615426,1000 0.18224851989746,44.677404615426,1000 0.18224851989746,44.678404615426,1000 0.18324851989746094,44.678404615426,1000 0.18324851989746094,44.677404615426,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Emmanuel-Félicité de Durfort-Duras</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Personnalités</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.17882823944091797,44.677526681829,2000 0.17782823944092,44.677526681829,2000 0.17782823944092,44.678526681829,2000 0.17882823944091797,44.678526681829,2000 0.17882823944091797,44.677526681829,2000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Gare de Duras</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Économique et industriel</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.1778411865234375,44.673437317361,1000 0.17684118652344,44.673437317361,1000 0.17684118652344,44.674437317361,1000 0.1778411865234375,44.674437317361,1000 0.1778411865234375,44.673437317361,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Hostellerie des Ducs (ancienne école)</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Administratif et public</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.18269062042236328,44.67828959102,1000 0.18169062042236,44.67828959102,1000 0.18169062042236,44.67928959102,1000 0.18269062042236328,44.67928959102,1000 0.18269062042236328,44.67828959102,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark><Placemark>
+		    <name>Habitat et logement</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.18269062042236328,44.67928959102,1000 0.18169062042236,44.67928959102,1000 0.18169062042236,44.68028959102,1000 0.18269062042236328,44.68028959102,1000 0.18269062042236328,44.67928959102,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Marguerite Duras</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Personnalités</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.18093109130859375,44.677648747974,2000 0.17993109130859,44.677648747974,2000 0.17993109130859,44.678648747974,2000 0.18093109130859375,44.678648747974,2000 0.18093109130859375,44.677648747974,2000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Moulin à eau de Monsieur</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Rural et agricole</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.16445159912109375,44.671117848072,1000 0.16345159912109,44.671117848072,1000 0.16345159912109,44.672117848072,1000 0.16445159912109375,44.672117848072,1000 0.16445159912109375,44.671117848072,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Moulin à vent de Perroterie</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Rural et agricole</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.21526336669921875,44.69552866008,1000 0.21426336669922,44.69552866008,1000 0.21426336669922,44.69652866008,1000 0.21526336669921875,44.69652866008,1000 0.21526336669921875,44.69552866008,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Musée du parchemin et de l'enluminure</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Culturel</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.18204689025878906,44.677770813863,1000 0.18104689025879,44.677770813863,1000 0.18104689025879,44.678770813863,1000 0.18204689025878906,44.678770813863,1000 0.18204689025878906,44.677770813863,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Petit château de Duras</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Châteaux, palais et demeures</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.17865657806396484,44.677740297415,2000 0.17765657806396,44.677740297415,2000 0.17765657806396,44.678740297415,2000 0.17865657806396484,44.678740297415,2000 0.17865657806396484,44.677740297415,2000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark><Placemark>
+		    <name>Religieux</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.17865657806396484,44.678740297415,1000 0.17765657806396,44.678740297415,1000 0.17765657806396,44.679740297415,1000 0.17865657806396484,44.679740297415,1000 0.17865657806396484,44.678740297415,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Pont neuf sur le Dropt</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Économique et industriel</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.16754150390625,44.669530789285,1000 0.16654150390625,44.669530789285,1000 0.16654150390625,44.670530789285,1000 0.16754150390625,44.670530789285,1000 0.16754150390625,44.669530789285,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Folder>
+  <name>Porte de ville dite "Tour de l'horloge"</name>
+  <open>1</open>
+  <description></description><Placemark>
+		    <name>Militaire</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.18342018127441406,44.676916347244,1000 0.18242018127441,44.676916347244,1000 0.18242018127441,44.677916347244,1000 0.18342018127441406,44.677916347244,1000 0.18342018127441406,44.676916347244,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark><Placemark>
+		    <name>Religieux</name>
+			<styleUrl>#visu</styleUrl>
+		    <Polygon>
+		      <extrude>1</extrude>
+		      <altitudeMode>relativeToGround</altitudeMode>
+		      <outerBoundaryIs>
+		        <LinearRing>
+		          <coordinates>0.18342018127441406,44.677916347244,1000 0.18242018127441,44.677916347244,1000 0.18242018127441,44.678916347244,1000 0.18342018127441406,44.678916347244,1000 0.18342018127441406,44.677916347244,1000</coordinates>
+		        </LinearRing>
+		      </outerBoundaryIs>
+		    </Polygon>
+		  </Placemark></Folder><Placemark id="94">
+		<name>DURAS</name>
+		<Style>
+			<PolyStyle>
+				<color>66ffffff</color>
+				<fill>1</fill>
+			</PolyStyle>
+			<LineStyle>
+				<width>8</width>
+				<color>66ffffff</color>
+			</LineStyle>
+		</Style>
+		<MultiGeometry>
+			<Polygon>
+			<outerBoundaryIs>
+			<LinearRing>
+				<coordinates>
+ 0.224086669369, 44.6490852984, 0 
+ 0.206183774056, 44.6598604748, 0 
+ 0.183038242205, 44.6612004685, 0 
+ 0.180476219092, 44.6642273289, 0 
+ 0.167632777667, 44.6683836244, 0 
+ 0.163141097776, 44.6704183746, 0 
+ 0.164950554275, 44.6767611359, 0 
+ 0.169799939242, 44.6821200601, 0 
+ 0.159866827201, 44.6959689271, 0 
+ 0.162236589165, 44.7018640042, 0 
+ 0.180744216251, 44.6910262029, 0 
+ 0.207873385318, 44.6980319078, 0 
+ 0.229131181297, 44.6832086367, 0 
+ 0.228720248602, 44.6800518017, 0 
+ 0.229449832635, 44.6767458588, 0 
+ 0.241073661389, 44.67140757, 0 
+ 0.242356378725, 44.6654220099, 0 
+ 0.235081465232, 44.6624133328, 0 
+ 0.230593742214, 44.6533486037, 0 
+ 0.224086669369, 44.6490852984, 0 
+          						</coordinates>
+			</LinearRing>
+			</outerBoundaryIs>
+			</Polygon>
+		</MultiGeometry>
+	</Placemark></Document>
+	</kml>

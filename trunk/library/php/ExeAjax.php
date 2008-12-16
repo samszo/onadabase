@@ -211,7 +211,7 @@
 		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id."_".$idDoc.".xml";
 		//vérifie s'il faut créer la stat
 		if (!file_exists($path))		
-			return $g->GetEtatDiagListe($idDoc,true);
+			return $g->GetEtatDiagListe($idDoc,true,true);
 			
 		include($path);
 		
