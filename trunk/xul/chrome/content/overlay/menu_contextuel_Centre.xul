@@ -687,7 +687,7 @@
 					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Un élément de voirie"
-						oncommand="AddNewGrille('Element_voirie');" />
+						oncommand="AddNewGrille('ElementVoirie');" />
 				</menupopup>
 			</menu>
 			<menu id="menu_voirie_générer" label="Générer">
@@ -713,7 +713,7 @@
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="L'(es) élément(s) de voirie"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','Element_Voirie');" />
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','Element_Voirie','ElementVoirie');" />
 				</menupopup>
 			</menu>
 			<menu id="menu_Voirie_ajouter" label="Ajouter">
@@ -721,7 +721,7 @@
 					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Un élément de voirie"
-						oncommand="AddNewGrille('Element_voirie');" />
+						oncommand="AddNewGrille('ElementVoirie');" />
 				</menupopup>
 			</menu>
 		</popup>
