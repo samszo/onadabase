@@ -1,29 +1,37 @@
 // ActionScript file
-      import com.google.maps.Map;
+	//pour googlemap sdk
+      import com.google.maps.InfoWindowOptions;
       import com.google.maps.LatLng;
-      import com.google.maps.LatLngBounds;
+      import com.google.maps.Map;
       import com.google.maps.MapEvent;
       import com.google.maps.MapMouseEvent;
-      import com.google.maps.MapType;
-      import com.google.maps.InfoWindowOptions;
+      import com.google.maps.controls.ZoomControl;
       import com.google.maps.overlays.Marker;
       import com.google.maps.overlays.MarkerOptions;
-      import com.google.maps.controls.ZoomControl;
-    import com.google.maps.styles.FillStyle;
-    import com.google.maps.styles.StrokeStyle;
-
-    import mx.controls.Alert;
-    import mx.collections.ArrayCollection;
-	import mx.rpc.events.ResultEvent;
-	import mx.managers.CursorManager;
-
-	[Bindable]
-	private var rsEtatDiag:Object;
-	[Bindable]
-	private var rsEtatDiagListe:Object;
+      import com.google.maps.styles.FillStyle;
+      import com.google.maps.styles.StrokeStyle;
+      
+      //pour les fenêtres
+      import compo.twEtatDiagListe;
+      import mx.managers.PopUpManager;
+      
+      import mx.managers.CursorManager;
+      import mx.rpc.events.ResultEvent;
 
       private var map:Map;
       private var markers:XMLList;
+    /*prod
+    [Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
+    private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_centre_.xml";
+	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
+	*/
+	//local
+    [Bindable] private var urlExeAjax:String="http://localhost/onadabase/library/php/ExeAjax.php";
+	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
+    private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_.xml";
+	
+	[Bindable]
+	private var rsEtatDiag:Object;
 
       [Embed(source="A.png")] [Bindable] private var AIcon:Class;
       [Embed(source="B.png")] [Bindable] private var BIcon:Class;
@@ -104,7 +112,7 @@
             var allSeries:Array = event.currentTarget.series;
             chartTrace.text = "";
             var idDoc:String = "";
-            var handi:String = "";
+            var strHandi:String = "";
             var niv:String = "";
             //construction de l'identifiant du doc
             //cf. library/php/ExeAjax.php?f=GetEtatDiagListe&id=5610&idDoc=0_audio
@@ -114,20 +122,20 @@
 				//le type de handicap
                 switch (allSeries[i].selectedIndices[0]) {
 				    case 0:
-				        handi = "_moteur";
+				        strHandi = "_moteur";
 				        break;
 				    case 1:
-				        handi = "_audio";
+				        strHandi = "_audio";
 				        break;
 				    case 2:
-				        handi = "_cog";
+				        strHandi = "_cog";
 				        break;
 				    case 3:
-				        handi = "_visu";
+				        strHandi = "_visu";
 				        break;
 				}				    
                 //le niveau seulemet si on a récupéré  l'indice
-                if(handi!="" && niv==""){
+                if(strHandi!="" && niv==""){
 	                switch (allSeries[i].id) {
 					    case "_onadaflex_ColumnSeries1":
 					        niv = "0";
@@ -144,9 +152,9 @@
 					}
                 }
             }
-            idDoc = niv+handi; 
+            idDoc = niv+strHandi; 
             //exécute la requête
-            showListeDiag(idSite.text, idRub.text, idDoc);
+            ShowListeDiag(idSite.text, idRub.text, idDoc);
         }
 
 		public function rhEtatDiag(event:ResultEvent):void {
@@ -166,28 +174,16 @@
 		        }
 		 	}
 		}
-
-		public function rhEtatDiagListe(event:ResultEvent):void {
-			rsEtatDiagListe = event.result;
-			if(rsEtatDiagListe.toString()!=""){
-				//mise à jour des icones
-		        var type:String;
-		        type = "grille_";
-		 	}
-		}
-
         
       public function onHolderCreated(event:Event):void {
-        map = new Map();
-//local        map.key = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
-//prod        map.key = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
-        map.key = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
-        map.addEventListener(MapEvent.MAP_READY, onMapReady);
-        mapHolder.addChild(map);
+        //map = new Map();
+        //map.key = mapKey;
+        //map.addEventListener(MapEvent.MAP_READY, onMapReady);
+        //mapHolder.addChild(map);
       }
 
       public function onHolderResized(event:Event):void {
-        map.setSize(new Point(mapHolder.width, mapHolder.height));
+        //map.setSize(new Point(mapHolder.width, mapHolder.height));
       }
 
       private function onMapReady(event:Event):void {
@@ -199,10 +195,9 @@
      }
      
      public function getXml():void {
-         //var xmlString:URLRequest = new URLRequest("http://www.onadabase.eu/bdd/carto/allEtatDiag_centre_.xml");
-         var xmlString:URLRequest = new URLRequest("http://localhost/onadabase/bdd/carto/allEtatDiag_local2_.xml");
-          var xmlLoader:URLLoader = new URLLoader(xmlString);
-          xmlLoader.addEventListener("complete", readXml);
+         var xmlString:URLRequest = new URLRequest(urlAllEtatDiag);
+         var xmlLoader:URLLoader = new URLLoader(xmlString);
+         xmlLoader.addEventListener("complete", readXml);
     }
       
     public function readXml(event:Event):void{
@@ -274,20 +269,23 @@
 		srvEtatDiag.send(params);
      }
 
-     private function showListeDiag(idSite:String, idRub:String, idDoc:String):void {
-        //affiche la box des stats
-        chartBox.visible=true;
-        chartBox.width=400;
-        //paramètre la requête pour récupérer le bon fichier xml
-		srvEtatDiagListe.cancel();
+     private function ShowListeDiag(idSite:String, idRub:String, idDoc:String):void {
+
+        // Create a non-modal TitleWindow container.
+        var wListe:twEtatDiagListe = twEtatDiagListe(
+            PopUpManager.createPopUp(this, twEtatDiagListe, false));
+            
 		var params:Object = new Object();
 		params.f = "GetFlexEtatDiagListe";
 		params.id = idRub;
 		params.site = idSite;
 		params.idDoc = idDoc;
+
+		wListe.useHttpService(urlExeAjax,params);
+
+        PopUpManager.centerPopUp(wListe);
 		
-		chartTrace.text += "\n" + srvEtatDiagListe.url+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc;
-		srvEtatDiagListe.send(params);
+		chartTrace.text += "\nShowListeDiag" +urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc;
      }
 
     private function toggleCategory(type:String):void {

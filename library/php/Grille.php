@@ -45,7 +45,7 @@ class Grille{
 		
     }
 
-	public function GetEtatDiagListe($ids, $idDoc)
+	public function GetEtatDiagListe($ids, $idDoc,$PourFlex=false)
 	{
 		//récupère les info de l'id xul
 		$arrDoc = split("_",$idDoc);
@@ -87,27 +87,54 @@ class Grille{
 		$idRubOld=-1;
 		while ($r =  $db->fetch_assoc($result)) {
 			
-				if($r["id_rubrique"]!=$idRubOld){		
+				if($r["id_rubrique"]!=$idRubOld){
+					//finalise le précédent lieu
+					if($idRubOld!=-1 && $PourFlex)
+						$xul .= "</lieu>";
+					
 					$idRubOld=$r["id_rubrique"];
 					//ajoute le fil d'ariane
+					if($PourFlex)
+						$xul .= "<lieu><ariane>";
 					$xul .= '<hbox class="menubar">'.$objXul->GetFilAriane("",$r["id_rubrique"]).'</hbox>';
+					if($PourFlex)
+						$xul .= "</ariane>";
 				}
 				//ajoute les infos du granulat
 				//$g = new Granulat($r["id_rubrique"],$this->site);
 				//$xul .= '<hbox class="menubar" >'.$g->TitreParent.' | '.$g->titre.'</hbox>';
 				
-				//ajoute la légende
-				$xul.="<hbox>";
+				//ajoute le critère				
+				if($PourFlex)
+					$xul .= "<crit>";
+					
+				$xul.="<hbox>";				
+				
+				//ajoute la légende				
+				if($PourFlex)
+					$xul .= "<legende>";
 				$xul .= $this->GetXulLegendeControle($r['idDonCont'],$this->site->infos["GRILLE_CONTROL_".$_SESSION['version']]);
+				if($PourFlex)
+					$xul .= "</legende>";
 				
 				//ajoute les liens 
+				if($PourFlex)
+					$xul .= "<liens>";
 				$xul.= $this->GetXulLiensDonnee($r['idDonRep'],$r['valRef']);
+				if($PourFlex)
+					$xul .= "</liens>";
 
 				$xul.="</hbox>";
-				
+					
 		    	//ajoute l'affirmation
 				$xul .= '<textbox  multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($r['affirm']).'"/>';			
+				//finalise le critère				
+				if($PourFlex)
+					$xul .= "</crit>";
 		}
+		//finalise le xml
+		if($PourFlex)
+			$xul .= "</lieu>";
 		$xul .= "</vbox>";
 		
 		return $xul;

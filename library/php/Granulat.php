@@ -66,7 +66,7 @@ class Granulat
 		
 	}
   
-  	function GetEtatDiagListe($idDoc,$SaveFile=false){
+  	function GetEtatDiagListe($idDoc,$PourFlex=false,$SaveFile=false){
 		
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiagListe: id=$this->id idDoc=$idDoc<br/>";
@@ -82,20 +82,20 @@ class Granulat
 		
 		//construction du xml
 		$grille = new Grille($this->site);
-		$xul = $grille->GetEtatDiagListe($ids,$idDoc);
+		$xul = $grille->GetEtatDiagListe($ids,$idDoc,$PourFlex);
 		
 		if($SaveFile){
 			$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_".$idDoc.".xml";
 			$fic = fopen($path, "w");
 			fwrite($fic, $xul);		
     		fclose($fic);
-		}else
-			return $xul;
+		}
+		return $xul;
 		
 	}
 
 
-	function GetEtatDiag($PourGraph=false,$SaveFile=false){
+	function GetEtatDiag($PourFlex=false,$SaveFile=false){
 		
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiag: id= $this->id<br/>";
@@ -154,7 +154,7 @@ class Granulat
 		//initialisation du xml
 		$xml = "<EtatDiag idSite='".$this->site->id."' idRub='".$this->id."' >";
 		//construction du xml
-		if($PourGraph){
+		if($PourFlex){
 			$xml .= "<Obstacles id='moteur' >
 				<niv0>".$EtatOui["r"]["moteur"]."</niv0>
 				<niv1>".$Etat1["r"]["moteur"]."</niv1>
