@@ -41,9 +41,104 @@ switch ($fonction) {
 	case 'get_rub_kml':
 		get_rub_kml($_GET['id'],$_GET['MapQuery']);
 		break;
+	case 'get_stat_kml':
+		get_stat_kml($g,$objSite);
+		break;
 }
 
 echo $resultat;
+
+function get_stat_kml($g,$objSite) {
+	
+	//$objSite = new Site($SITES,$site,"");
+	//$g = new Granulat($id, $objSite);
+	$pck = "";
+	$gEnfs = $g->GetEnfants();
+	foreach($gEnfs as $gE){
+		$arrGeo = $gE->GetGeo();
+		$nbEnf = count(split(',',$gE->GetEnfantIds($gE->id,",")));
+		$coorStat = GetCoorStat($arrGeo,$nbEnf);
+		$pck .='<Placemark>
+				<name>'.$gE->titre.'</name>
+				<styleUrl>#visu</styleUrl>
+				<Polygon>
+					<extrude>1</extrude>
+					<altitudeMode>relativeToGround</altitudeMode>
+					<outerBoundaryIs>
+						<LinearRing>
+							<coordinates>
+							'.GetCoorStat($arrGeo,$nbEnf).'
+							</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</Placemark>';		
+		
+	}
+	$folder ='<Folder>
+			<name>'.$g->titre.'</name>
+			<open>1</open>
+			<description />';
+	$folder .= $pck;
+	$folder .= '</Folder>';
+	header('Content-Type: application/vnd.google-earth.kml+xml');
+	header("Content-Disposition: attachment; filename=\"Stat.kml\"");
+	//on construit un kml à partir de plusieurs placemarks
+	$kml = "<?xml version='1.0' encoding='UTF-8'?>";
+	$kml .= "<kml xmlns='http://earth.google.com/kml/2.0'>";
+	$kml .= '<Document>
+		<name>'.$g->titre.'</name>
+		<open>1</open>
+		<Style id="visu">
+			<LineStyle>
+				<color>ff7f0000</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>447f0000</color>
+			</PolyStyle>
+		</Style>
+		<Style id="audio">
+			<LineStyle>
+				<color>ff098191</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>bf00b3ff</color>
+			</PolyStyle>
+		</Style>
+		<Style id="moteur">
+			<LineStyle>
+				<color>cc00ffff</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>cc00ffff</color>
+			</PolyStyle>
+		</Style>';
+	$kml .= $folder;
+	$kml .=  "</Document>
+		</kml>";
+	echo $kml;
+		
+}
+
+function GetCoorStat($arrGeo,$nbEnf){
+	
+	$coor='';
+	$lat = $arrGeo['lat'];
+	$lng = $arrGeo['lng'];
+	$lrg = 0.01;
+	$coor.=$lng.','.$lat.",".($nbEnf*100)." ";
+	$coor.= $lng.','.($lat+$lrg).",".($nbEnf*100)." ";
+	$coor.=($lng+$lrg).','.($lat+$lrg).",".($nbEnf*100)." ";
+	$coor.=($lng+$lrg).','.$lat.",".($nbEnf*100)." ";
+	$coor.=$lng.','.$lat.",".($nbEnf*100)." ";
+	$coor.='';
+							
+	return $coor;
+}
+
 
 function sauve_marker($action,$id,$zoommin,$zoommax,$lat,$lng,$adresse,$type) {
 
