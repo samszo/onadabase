@@ -32,7 +32,7 @@
 
     // fly to Santa Cruz
     var la = ge.createLookAt('');
-    la.set(37, -122,
+    la.set(48.45140718648201, 1.2349748611450195,
       0, // altitude
       ge.ALTITUDE_RELATIVE_TO_GROUND,
       0, // heading

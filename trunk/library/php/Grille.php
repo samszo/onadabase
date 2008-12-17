@@ -107,8 +107,8 @@ class Grille{
 				//ajoute le critère				
 				if($PourFlex)
 					$xul .= "<crit>";
-					
-				$xul.="<hbox>";				
+				else	
+					$xul.="<hbox>";				
 				
 				//ajoute la légende				
 				if($PourFlex)
@@ -123,8 +123,8 @@ class Grille{
 				$xul.= $this->GetXulLiensDonnee($r['idDonRep'],$r['valRef']);
 				if($PourFlex)
 					$xul .= "</liens>";
-
-				$xul.="</hbox>";
+				else
+					$xul.="</hbox>";
 					
 		    	//ajoute l'affirmation
 				$xul .= '<textbox  multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($r['affirm']).'"/>';			
