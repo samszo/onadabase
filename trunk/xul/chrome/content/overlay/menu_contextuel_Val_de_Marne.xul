@@ -277,7 +277,7 @@
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');" />
 					<menuitem 
 						role="administrateur;diagnostiqueur;lecteur"
-						label="état des lieux"
+						label="L'état des lieux"
 						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
@@ -621,16 +621,16 @@
 				<menupopup id="popup_objetext_voir">
 					<menuitem
 						role="administrateur;diagnostiqueur"
+						label="Les paramètres de contrôle"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgenext','ObjetGenExt');" />
+					<menuitem
+						role="administrateur;diagnostiqueur"
 						label="Le(s) problème(s)"
 						oncommand="ChargeTreeProb('idRub','FormSaisi');" />
 					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="L'(les) observation(s)"
 						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
-					<menuitem
-						role="administrateur;diagnostiqueur"
-						label="Les paramètres de contrôle"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgenext','ObjetGenExt');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="L'état des lieux"
@@ -666,6 +666,10 @@
 			<menu id="menu_voirie_voir" label="Voir">
 				<menupopup id="popup_voirie_voir">
 					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="L'(es) élément(s) de voirie"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');" />
+					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Le(s) problème(s)"
 						oncommand="ChargeTreeProb('idRub','FormSaisi');" />
@@ -674,17 +678,13 @@
 						label="L'(les) observation(s)"
 						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
 					<menuitem
-						role="administrateur;diagnostiqueur;lecteur"
-						label="L'état des lieux"
-						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
-					<menuitem
-						role="administrateur;diagnostiqueur;lecteur"
-						label="L'(es) élément(s) de voirie"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Eléments de voirie','elementvoirie','ElementVoirie');" />
-					<menuitem
 						role="administrateur;diagnostiqueur"
 						label="Les paramètres de contrôle"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');" />
+					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="L'état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
 			<menu id="menu_voirie_ajouter" label="Ajouter">
