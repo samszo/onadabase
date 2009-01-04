@@ -258,7 +258,7 @@
 				<from> FROM spip_rubriques r
 					INNER JOIN spip_mots_rubriques mr ON mr.id_rubrique = r.id_rubrique AND mr.id_mot IN (54,56,57,58,59,60,138,139,146)
 				</from>
-				<where def="1942"> WHERE id_parent = -parent- GROUP BY r.id_rubrique</where>
+				<where def="1942"> WHERE id_parent = -parent- GROUP BY r.id_rubrique ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Terre');"/>
 			</Query>
 			
@@ -272,7 +272,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 55
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent-  ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Etab');"/>
 			</Query>
 			
@@ -286,7 +286,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 62
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent-  ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Voirie');"/>
 			</Query>
 			
@@ -299,7 +299,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 56
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Espace');"/>
 			</Query>
 			
@@ -312,7 +312,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 53
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Bat');"/>
 			</Query>
 			
@@ -325,7 +325,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 35
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Niveau');"/>
 			</Query>
 			
@@ -339,7 +339,7 @@ INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 63
 
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ObjetInt');"/>
 			</Query>
 			
@@ -353,7 +353,7 @@ INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 64
 
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ObjetExt');"/>
 			</Query>
 			
@@ -366,7 +366,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 				</from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceInt');"/>
 			</Query>
 			
@@ -380,7 +380,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =59
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceGen');"/>
 			</Query>
 			
@@ -394,7 +394,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =65
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ObjetIntBat');"/>
 			</Query>
 			
@@ -409,7 +409,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form IN (62,69)
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ElementVoirie');"/>
 			</Query>
 			
@@ -423,7 +423,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =59
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ObjetGen');"/>
 			</Query>
 			
@@ -437,7 +437,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =59
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','ObjetGenExt');"/>
 			</Query>
 			
@@ -452,7 +452,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 57
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form =59
 				</from>
-				<where> WHERE rp.id_parent = -parent- </where>				
+				<where> WHERE rp.id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceSpe');"/>
 			</Query>
 			
@@ -465,7 +465,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 58
 				</from>
-				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<where def="9"> WHERE r.id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Parcelle');"/>
 			</Query>
 			
@@ -479,7 +479,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 58
 				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
-				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<where def="9"> WHERE r.id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Porte');"/>
 			</Query>
 			
@@ -493,7 +493,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 58
 				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
-				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<where def="9"> WHERE r.id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Escalier');"/>
 			</Query>
 			
@@ -507,7 +507,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 58
 				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
-				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<where def="9"> WHERE r.id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','PalierAscenseur');"/>
 			</Query>
 			
@@ -521,7 +521,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 58
 				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 				INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
-				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<where def="9"> WHERE r.id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EscaMeca');"/>
 			</Query>
 			
@@ -534,7 +534,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
-				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<where def="9"> WHERE r.id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Entree');"/>
 			</Query>
 			
@@ -547,7 +547,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 65
 				</from>
-				<where def="9"> WHERE r.id_parent = -parent-</where>
+				<where def="9"> WHERE r.id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','CabineAscenseur');"/>
 			</Query>
 			
@@ -560,7 +560,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 61
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceExt');"/>
 			</Query>
 			
@@ -573,7 +573,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceExtParamGen');"/>
 			</Query>
 			
@@ -586,7 +586,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','EspaceExtParamSpe');"/>
 			</Query>
 			
@@ -606,7 +606,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 59
 				<col tag="parent" hidden="true"/>
 				<select>SELECT id_rubrique id, titre, id_parent parent </select>
 				<from> FROM spip_rubriques </from>
-				<where def="9"> WHERE id_parent = -parent-</where>
+				<where def="9"> WHERE id_parent = -parent- ORDER BY r.titre </where>
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['id-param0-','lib-param0-'],[0,1])"/>
 			</Query>
 
@@ -619,7 +619,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 72
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Ligne');"/>
 			</Query>
 
@@ -632,7 +632,7 @@ INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
 INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
 INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 				</from>
-				<where> WHERE id_parent = -parent- </where>				
+				<where> WHERE id_parent = -parent-  ORDER BY r.titre </where>				
 				<js evt="onselect" function="GetTreeSelect('tree-param0-',['idRub','libRub'],[0,1]);ChargeTabboxFromAjax('idRub','FormSaisi','Chaine');"/>
 			</Query>
 

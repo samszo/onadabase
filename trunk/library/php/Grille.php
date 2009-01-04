@@ -2112,7 +2112,8 @@ class Grille{
 			$labels .= "<label class='labelForm' control='first' value='Sélectionner les éléments constituant la ligne'/>";
 		}
 		
-		//vérifie s'il faut afficher le liste des noeud de chaine de déplacement
+		if($this->trace)
+			echo "vérifie s'il faut afficher le liste des noeud de chaine de déplacement $idGrille == ".$this->site->infos["GRILLE_CHAINE_DEPLA"];
 		if($idGrille == $this->site->infos["GRILLE_CHAINE_DEPLA"]){
 			$controls .= $this->GetXulNoeudDeplacement($lastRow["id_rubrique"],$idDon);
 			$labels .= "<label class='labelForm' control='first' value='Sélectionner les éléments constituant la chaîne de déplacement'/>";

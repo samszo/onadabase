@@ -248,6 +248,11 @@ treechildren::-moz-tree-row
   color:red;
 }
 
+treechildren::-moz-tree-indentation
+{
+  width: 5px;
+}
+
 
 treechildren::-moz-tree-row(RedRow)
 {
