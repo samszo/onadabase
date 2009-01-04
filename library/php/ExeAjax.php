@@ -735,7 +735,7 @@
 			>";
 		$tree .= '<treecols>';
 		$tree .= '<treecol  id="id" primary="true" cycler="true" flex="1" persist="width ordinal hidden"/>';
-		$tree .= '<splitter class="tree-splitter"/>';
+		//$tree .= '<splitter class="tree-splitter"/>';
 
 		$i=0;
 		foreach($Cols as $Col)
@@ -749,8 +749,8 @@
 				if($Col["type"]=="checkbox"){
 					$tree .= '<treecol id="treecol_'.$Col["tag"].'" label="'.$Col["tag"].'" type="checkbox" editable="true" persist="width ordinal hidden" />';
 				}else{
-					$tree .= '<treecol id="treecol_'.$Col["tag"].'" hidden="'.$visible.'" label="'.$Col["tag"].'" flex="1"  persist="width ordinal hidden" />';
-					$tree .= '<splitter class="tree-splitter"/>';
+					$tree .= '<treecol id="treecol_'.$Col["tag"].'" hidden="'.$visible.'" label="'.$Col["tag"].'" flex="6"  persist="width ordinal hidden" />';
+					//$tree .= '<splitter class="tree-splitter"/>';
 				}
 			}
 			$i++;
