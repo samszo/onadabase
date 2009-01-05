@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solutions>				
+				
+<solution idcrit='cr_sol_01'	 idsol='cr_sol_01_sol_01'	 cout='70'	 unit='m²'	 >Réalisation d'un revêtement de sol en grés (pose scellée).</solution>
+<solution idcrit='cr_sol_01'	 idsol='cr_sol_01_sol_02'	 cout='50'	 unit='m²'	 >Réalisation d'un revêtement de sol en grés (pose collée).</solution>
+<solution idcrit='cr_sol_01'	 idsol='cr_sol_01_sol_03'	 cout='130'	 unit='m²'	 >Réalisation d'un revêtement de sol en parquet flottant.</solution>
+<solution idcrit='cr_sol_02'	 idsol='cr_sol_02_sol_01'	 cout='87'	 unit='m²'	 >Remplacement de revêtement de sol par dalles vinyliques.</solution>
+<solution idcrit='cr_sol_02'	 idsol='cr_sol_02_sol_02'	 cout='74'	 unit='m²'	 >Remplacement de revêtement de sol par moquette coupée à poils ras</solution>
+<solution idcrit='cr_sol_02'	 idsol='cr_sol_02_sol_03'	 cout='?'	 unit='m²'	 >Réalisation d'un revêtement de sol en parquet flottant.</solution>
+<solution idcrit='cr_sol_03'	 idsol='cr_sol_03_sol_01'	 cout='87'	 unit='m²'	 >Remplacement de revêtement de sol par dalles vinyliques.</solution>
+<solution idcrit='cr_sol_03'	 idsol='cr_sol_03_sol_02'	 cout='74'	 unit='m²'	 >Remplacement de revêtement de sol par moquette coupée à poils ras.</solution>
+<solution idcrit='cr_sol_03'	 idsol='cr_sol_03_sol_03'	 cout='70'	 unit='m²'	 >Réalisation d'un revêtement de sol en grés (pose scellée).</solution>
+<solution idcrit='cr_sol_03'	 idsol='cr_sol_03_sol_04'	 cout='50'	 unit='m²'	 >Réalisation d'un revêtement de sol en grés (pose collée).</solution>
+<solution idcrit='cr_sol_04'	 idsol='cr_sol_04_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_sol_05'	 idsol='cr_sol_05_sol_01'	 cout='A estimer'	 unit='U'	 >Si les trous ou les fentes sont liés à la présence d'équipement(s) (du type : trappe d'évacuation des eaux usées...).                                     Remplacement du (ou des) équipements par un (ou d'autres) respectant les critères d'accessibilité</solution>
+<solution idcrit='cr_sol_05'	 idsol='cr_sol_05_sol_02'	 cout='A estimer'	 unit=''	 >Si le trou ou les fentes sont liés à des revêtements détériorés. Réfection des revêtements avec des matériaux adaptés</solution>
+<solution idcrit='cr_sol_06'	 idsol='cr_sol_06_sol_01'	 cout='A estimer'	 unit='U'	 >Si les trous ou les fentes sont liés à la présence d'équipement(s) (du type : trappe d'évacuation des eaux usées...).                                     Remplacement du (ou des) équipements par un (ou d'autres) respectant les critères d'accessibilité</solution>
+<solution idcrit='cr_sol_07'	 idsol='cr_sol_07_sol_01'	 cout='70'	 unit='m²'	 >Réalisation d'un revêtement de sol en grés (pose scellée).</solution>
+<solution idcrit='cr_sol_07'	 idsol='cr_sol_07_sol_02'	 cout='50'	 unit='m²'	 >Réalisation d'un revêtement de sol en grés (pose collée).</solution>
+<solution idcrit='cr_sol_07'	 idsol='cr_sol_07_sol_03'	 cout='87'	 unit='m²'	 >Remplacement de revêtement de sol par dalles vinyliques.</solution>
+<solution idcrit='cr_sol_07'	 idsol='cr_sol_07_sol_04'	 cout='74'	 unit='m²'	 >Remplacement de revêtement de sol par moquette coupée à poils ras</solution>
+<solution idcrit='cr_sol_08'	 idsol='cr_sol_08_sol_01'	 cout='70'	 unit='m²'	 >Réalisation d'un revêtement de sol en grés (pose scellée).</solution>
+<solution idcrit='cr_sol_08'	 idsol='cr_sol_08_sol_02'	 cout='50'	 unit='m²'	 >réalisation d'un revêtement de sol en grés (pose collée).</solution>
+<solution idcrit='cr_sol_08'	 idsol='cr_sol_08_sol_03'	 cout='87'	 unit='m²'	 >Remplacement de revêtement de sol par dalles vinyliques.</solution>
+<solution idcrit='cr_sol_08'	 idsol='cr_sol_08_sol_04'	 cout='74'	 unit='m²'	 >Remplacement de revêtement de sol par moquette coupée à poils ras</solution>
+<solution idcrit='cr_sol_09'	 idsol='cr_sol_09_sol_01'	 cout='40'	 unit='m/l'	 >Remplacement du tapis existant par un tapis neuf dur</solution>
+<solution idcrit='cr_sol_09'	 idsol='cr_sol_09_sol_02'	 cout='120'	 unit='m/l'	 >Remplacement du cadre dans lequel est encastré le tapis fixe au profit d'un modèle de moins de 2 cm de hauteur (cadre de 50 cm de large)</solution>
+<solution idcrit='cr_sol_10'	 idsol='cr_sol_10_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_sol_11'	 idsol='cr_sol_11_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_sol_12'	 idsol='cr_sol_12_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_sol_12'	 idsol='cr_sol_12_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer l'obstacle suspendu afin de répondre au critère d'accessibilité</solution>
+<solution idcrit='cr_sol_13'	 idsol='cr_sol_13_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_sol_13'	 idsol='cr_sol_13_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer l'obstacle en saillie afin de répondre au critère d'accessibilité</solution>
+<solution idcrit='cr_sol_13'	 idsol='cr_sol_13_sol_03'	 cout='A estimer'	 unit='xxx'	 >Combler l'espace vide entre le bas de l'obstacle en saillie et le sol afin de créer un prolongement de l'obstacle au sol</solution>
+<solution idcrit='cr_sol_13'	 idsol='cr_sol_13_sol_04'	 cout='A estimer'	 unit='xxx'	 >Réaliser un rappel au sol, visuellement et tactilement contrasté. Le choix des couleurs, le type de panneau doivent être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_sol_14'	 idsol='cr_sol_14_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_sol_14'	 idsol='cr_sol_14_sol_02'	 cout='A estimer'	 unit='xxx'	 >Peindre l'obstacle dans une couleur contrastée par rapport à l'environnement.  Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_sol_15'	 idsol='cr_sol_15_sol_01'	 cout='20'	 unit='m/l'	 >Mise en place d'un double bandeau de sécurité ( 1,10 et 1,60m) de couleur contrastée par rapport aux murs environnants. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_sol_16'	 idsol='cr_sol_16_sol_01'	 cout='40'	 unit='m/l'	 >Mise en place d'une bande de guidage au sol. Le choix des couleurs, le type de panneau doivent être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_sol_16'	 idsol='cr_sol_16_sol_02'	 cout='80'	 unit='U'	 >Mise en place d'une signalisation adaptée dans un couloir de (10,00x1,60m). Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_sol_17'	 idsol='cr_sol_17_sol_01'	 cout='70'	 unit='m/l'	 >Mise en place d'une main courante en acier peint d'une couleur contrastée par rapport à l'environnement et répondant aux critères de préhension et d'accessibilité. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_sol_17'	 idsol='cr_sol_17_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer la main courante et ajuster la hauteur afin que celle-ci réponde aux critères d'accessibilité</solution>
+<solution idcrit='cr_sol_18'	 idsol='cr_sol_18_sol_01'	 cout='90'	 unit='m/l'	 >mise en place d'une main courante en acier peint.</solution>
+<solution idcrit='cr_sol_19'	 idsol='cr_sol_19_sol_01'	 cout='110'	 unit='m/l'	 >Mise en place d'une main courante PVC avec informations en relief sortant et en braille.</solution>
+<solution idcrit='cr_sol_20'	 idsol='cr_sol_20_sol_01'	 cout='40'	 unit='m/l'	 >Mise en place d'une bande de guidage au sol. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_sol_21'	 idsol='cr_sol_21_sol_01'	 cout='140'	 unit='m/l'	 >Mise en place d'une signalisation adaptée dans un couloir de (10,00x1,60m). Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_sol_22'	 idsol='cr_sol_22_sol_01'	 cout='110'	 unit='m²'	 >Fourniture et mise en œuvre de cloison acoustique .</solution>
+<solution idcrit=''	 idsol=''	 cout=''	 unit=''	 ></solution>
+<solution idcrit='cr_lux_01'	 idsol='cr_lux_01_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_lux_01'	 idsol='cr_lux_01_sol_02'	 cout='A estimer'	 unit='xxx'	 >Remplacer les spots par un autre type d'éclairage.</solution>
+<solution idcrit='cr_lux_02'	 idsol='cr_lux_02_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_lux_03'	 idsol='cr_lux_03_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_lux_04'	 idsol='cr_lux_03_sol_02'	 cout='A estimer'	 unit='xxx'	 >Augmenter la qualité de l'éclairage (en faisant attention de bien orienter l'éclairage)</solution>
+<solution idcrit='cr_lux_04'	 idsol='cr_lux_04_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_lux_05'	 idsol='cr_lux_04_sol_02'	 cout='A estimer'	 unit='xxx'	 >Utiliser des signalétiques éclairées (type led)</solution>
+<solution idcrit='cr_lux_05'	 idsol='cr_lux_05_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_lux_06'	 idsol='cr_lux_05_sol_02'	 cout='A estimer'	 unit='xxx'	 >Changement du système de temporisation par un système plus adapté ou pour un système avec détecteur de présence</solution>
+<solution idcrit='cr_lux_07'	 idsol='cr_lux_05_sol_03'	 cout='A estimer'	 unit='xxx'	 >Réglage de la durée de temporisation</solution>
+<solution idcrit='cr_lux_06'	 idsol='cr_lux_06_sol_01'	 cout='59'	 unit='U'	 >Fourniture et pose d'un interrupteur électrique automatique étanche.</solution>
+<solution idcrit='cr_lux_07'	 idsol='cr_lux_07_sol_01'	 cout='59'	 unit='U'	 >Fourniture et pose d'un interrupteur électrique automatique étanche.</solution>
+<solution idcrit='cr_lux_08'	 idsol='cr_lux_08_sol_01'	 cout='59'	 unit='U'	 >Fourniture et pose d'un interrupteur électrique automatique étanche.</solution>
+<solution idcrit='cr_lux_09'	 idsol='cr_lux_09_sol_01'	 cout='70'	 unit='U'	 >Remplacer l'interrupteur par un interrupteur avec un variateur</solution>
+<solution idcrit='cr_lux_10'	 idsol='cr_lux_10_sol_01'	 cout='1600'	 unit='U'	 >Fourniture et équipement en luminaires de 100 lux d'un couloir de (10,00 x 1,60 m)  .  </solution>
+<solution idcrit='cr_lux_11'	 idsol='cr_lux_11_sol_01'	 cout='1200'	 unit='U'	 >Fourniture et équipement d'une pièce d'environ 20 m² en luminaires fournissant 100 lux en tous points.</solution>
+<solution idcrit='cr_lux_11'	 idsol='cr_lux_11_sol_02'	 cout='3590'	 unit='U'	 >Fourniture et équipement en luminaires d'une salle de classe d'environ 60 m² suivant recommandations Education Nationale.  </solution>
+<solution idcrit='cr_lux_11'	 idsol='cr_lux_11_sol_03'	 cout='5500'	 unit='U'	 >fourniture et équipement en luminaires fournissant 125 lux d'une salle de 200 m² avec hauteur de plafond de 4 m et plus (Eglises, salles diverses, ateliers) .</solution>
+<solution idcrit='cr_lux_11'	 idsol='cr_lux_11_sol_04'	 cout='10200'	 unit='U'	 >Fourniture et équipement en luminaires fournissant  425 lux d'une salle de 200 m² avec hauteur de plafond de 4 m et plus (gymnase, atelier, etc..).</solution>
+<solution idcrit='cr_lux_11'	 idsol='cr_lux_11_sol_05'	 cout='1600'	 unit='U'	 >Fourniture et équipement en luminaires de 100 lux d'un couloir de (10,00 m x 1,60 m)  .  </solution>
+<solution idcrit=''	 idsol=''	 cout=''	 unit=''	 ></solution>
+<solution idcrit='cr_dis_com_18'	 idsol='cr_dis_com_18_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_dis_com_19'	 idsol='cr_dis_com_18_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer la commande en respectant les critères d'accessibilité</solution>
+<solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_01'	 cout='xxx'	 unit='xxx'	 >Peindre la commande avec une couleur contrastée par rapport au support. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_02'	 cout='A estimer'	 unit='xxx'	 >Peindre le support avec une couleur contrastée par rapport à la commande. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_03'	 cout='A estimer'	 unit='xxx'	 >Changement de la commande pour une nouvelle ayant une couleur contrastée par rapport au support. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_dis_com_15'	 idsol='cr_dis_com_14_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_dis_com_15'	 idsol='cr_dis_com_14_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer la commande en respectant les critères d'accessibilité</solution>
+<solution idcrit=''	 idsol=''	 cout=''	 unit=''	 ></solution>
+<solution idcrit='cr_dis_com_18'	 idsol='cr_dis_com_18_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_dis_com_18'	 idsol='cr_dis_com_18_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer la commande en respectant les critères d'accessibilité</solution>
+<solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_01'	 cout='A estimer'	 unit='xxx'	 >Peindre la commande avec une couleur contrastée par rapport au support. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_02'	 cout='A estimer'	 unit='xxx'	 >Peindre le support avec une couleur contrastée par rapport à la commande. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_03'	 cout='A estimer'	 unit='xxx'	 >Changement de la commande pour une nouvelle ayant une couleur contrastée par rapport au support. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
+<solution idcrit='cr_dis_com_15'	 idsol='cr_dis_com_14_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_dis_com_15'	 idsol='cr_dis_com_14_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer la commande en respectant les critères d'accessibilité</solution>
+</solutions>				
