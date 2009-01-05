@@ -27,8 +27,7 @@
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
 		         html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Critère réglementaire </th>");
 		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Mesures et observations </th>");
-		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Préconisations </th>");
-		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Couts (en E) </th>");
+		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Solutions </th>");
 		         for (var row = 0; row < data.getNumberOfRows()-3; row++) {
 		         	//vérifie s'il faut prendre en compte le critère
 		         	var idCrit = data.getFormattedValue(row, 0);
@@ -43,10 +42,8 @@
 				         html.push("<td style='font-family:Arial;font-size:10pt'>");
 				         html.push(escapeHtml(data.getFormattedValue(row, col+1))+" ");
 				         html.push("</td>");
-				         html.push("<td style='font-family:Arial;font-size:10pt'>");
-				         html.push("</td>");
-				         html.push("<td style='font-family:Arial;font-size:10pt'>");
-				         html.push("</td>");
+				         //calcul la solution
+				         html.push(getSolutions(idCrit));
 				         html.push("</tr>");
 			             if(indice1 < data.getFormattedValue(row, 3))
 			             	indice1= data.getFormattedValue(row, 3);
@@ -103,6 +100,32 @@
         
         
         
+     function getSolutions(idCrit) {
+	  try {
+		var Xpath ="/solutions/solution[@idcrit='"+idCrit+"']";
+		var iterator = xmlSols.evaluate(Xpath, xmlSols, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+
+		var precos=[];
+		precos.push("<td style='font-family:Arial;font-size:10pt' >");
+		precos.push("<table cellspacing='3' style='width:100%' border='1' style='border-collapse:collapse' >");
+       	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Préconisations </th>");
+       	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Couts (en E) </th>");
+		var n;
+		while(n = iterator.iterateNext()){
+			precos.push("<tr><td>"+n.textContent+"</td>");
+			if(n.attributes[3].nodeValue!="xxx")
+				precos.push("<td style='width:3cm' >"+n.attributes[2].nodeValue+" par "+n.attributes[3].nodeValue+"</td></tr>");
+			else
+				precos.push("<td style='width:3cm' >"+n.attributes[2].nodeValue+"</td></tr>");			
+		}
+		precos.push("</table>"); 
+		precos.push("</td>");
+	
+		return precos.join('');		
+
+	  } catch(ex2){alert("GoogleDocs:getSolutions:"+ex2);}
+     }
+
      function escapeHtml(text) {
         if (text == null)
           return '';

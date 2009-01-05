@@ -1,9 +1,9 @@
 <?php
 // declartion des constantes
-//define("WEBAPP_DIR","http://localhost/onadabase/FeuilleToDoc/");
-define("WEBAPP_DIR","http://www.mundilogiweb.com/onadabase/FeuilleToDoc/");
-//define("WEBAPP_PATH","c:/wamp/www/onadabase/");
-define("WEBAPP_PATH",$_SERVER["DOCUMENT_ROOT"]."/onadabase/");
+define("WEBAPP_DIR","http://localhost/onadabase/FeuilleToDoc/");
+//define("WEBAPP_DIR","http://www.mundilogiweb.com/onadabase/FeuilleToDoc/");
+define("WEBAPP_PATH","c:/wamp/www/onadabase/");
+//define("WEBAPP_PATH",$_SERVER["DOCUMENT_ROOT"]."/onadabase/");
 define("MODEL_DIR",WEBAPP_DIR."PHP-INF");
 define("ROOT_URL",WEBAPP_DIR);
 define("BASE_URL","/onadabase/FeuilleToDoc/");
