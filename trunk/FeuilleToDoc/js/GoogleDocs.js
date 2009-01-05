@@ -22,13 +22,13 @@
         	if(data.getFormattedValue(0, col)!=""){
 	             indice1=0; indice2=1;indice3=0;indice4=0;
 	             var titreProb = data.getColumnLabel(col).replace('V/F', '');
-	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Problème : "+titreProb+"</h4>");
-	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Diagnostic des critères réglementaires posant problèmes</h4>");
+	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème : "+titreProb+"</h4>");
+	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
-		         html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Critère réglementaire </th>");
-		       	 html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Mesure et observation </th>");
-		       	 html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Solutions </th>");
-		       	 html.push("<th style='background-color:#66CC99;font-family:Arial;font-size:11px'>Couts </th>");
+		         html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Critère réglementaire </th>");
+		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Mesures et observations </th>");
+		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Préconisations </th>");
+		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Couts (en E) </th>");
 		         for (var row = 0; row < data.getNumberOfRows()-3; row++) {
 		         	//vérifie s'il faut prendre en compte le critère
 		         	var idCrit = data.getFormattedValue(row, 0);
@@ -37,15 +37,15 @@
 				         	console.log((row)+','+(col+1)+" "+data.getFormattedValue((row), col+1));
 			           if(escapeHtml(data.getFormattedValue(row, col))=="F"){
 				         html.push("<tr>");
-				         html.push("<td style='font-family:Arial;font-size:11px'>");
+				         html.push("<td style='font-family:Arial;font-size:10pt'>");
 				         html.push(escapeHtml(data.getFormattedValue(row, 2))+" ");
 				         html.push("</td>");
-				         html.push("<td style='font-family:Arial;font-size:11px'>");
+				         html.push("<td style='font-family:Arial;font-size:10pt'>");
 				         html.push(escapeHtml(data.getFormattedValue(row, col+1))+" ");
 				         html.push("</td>");
-				         html.push("<td style='font-family:Arial;font-size:11px'>");
+				         html.push("<td style='font-family:Arial;font-size:10pt'>");
 				         html.push("</td>");
-				         html.push("<td style='font-family:Arial;font-size:11px'>");
+				         html.push("<td style='font-family:Arial;font-size:10pt'>");
 				         html.push("</td>");
 				         html.push("</tr>");
 			             if(indice1 < data.getFormattedValue(row, 3))
@@ -60,20 +60,20 @@
 			        }
 		        }
 		        html.push("</table>");
-		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Diagnostic par type de déficience :</h4>");
-		        html.push("<table cellspacing='10' border='2' style='border-collapse:collapse' >");
+		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic par type de déficience :</h4>");
+		        html.push("<table cellspacing='10' border='2' width='6cm' height='2.5cm'  style='border-collapse:collapse' >");
 		        html.push("<tr>");
 		        html.push("<td>"); 
-		        html.push("<img src='"+urlImg+"indice1.png'/>");
+		        html.push("<img src='"+urlImg+"logo_moteur.png'/>");
 		        html.push("</td>");
 		        html.push("<td>"); 
-		        html.push("<img src='"+urlImg+"indice2.png'/>");
+		        html.push("<img src='"+urlImg+"logo_auditif.png'/>");
 		        html.push("</td>");
 		        html.push("<td>"); 
-		        html.push("<img src='"+urlImg+"indice3.png'/>");
+		        html.push("<img src='"+urlImg+"logo_visuel.png'/>");
 		        html.push("</td>");
 		        html.push("<td>"); 
-		        html.push("<img src='"+urlImg+"indice4.png'/>");
+		        html.push("<img src='"+urlImg+"logo_cognitif.png'/>");
 		        html.push("</td>");
 		        html.push("</tr>");
 		        html.push("<tr>");
@@ -83,10 +83,14 @@
 		        html.push("<td valign='middle' >"+indice4+"</td>");
 		        html.push("</tr>");
 		        html.push("</table>");
-		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Solutions particulières :</h4>");
-		        html.push("<p style='font-weight:bold;font-family:Arial;font-size:11px'> Pour les solutions se reporter </p>")
-		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:11px'>Couts :</h4>");
-		        html.push("<p style='font-family:Arial;font-size:11px'>Les coûts sont donnés en prix HT(Hors Taxe) et en Euro. Ils sont donnés en fonction des conditions de marché avec une approximation de 15 % et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...)</p> ");
+		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) d'amélioration répondant à la réglementation :</h4>");
+		        html.push("<p style='font-family:Arial;font-size:10pt'>Pour les préconisations usuelles se reporter au tableau ci-dessus. Pour les précisions se reporter au descriptif ci-dessous. </p>")
+				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) optionnelle(s) d'aménagement :</h4>");
+				html.push("<p style='font-family:Arial;font-size:10pt'>Pas de préconisation(s) optionnelle(s). </p>")
+			    html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts solution(s) principale(s) :</h4>");
+				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) d'amélioration répondant à la réglementation :</h4>");
+				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) optionnelle(s) d'amélioration :</h4>");
+		        html.push("<p style='font-family:Arial;font-size:8pt'>Note : les coûts sont donnés en prix HT (Hors Taxe) et en Euro. Ils sont donnés en fonction des conditions de marché avec une approximation de 15 % et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...).</p> ");
 			}
 	     }
 	     html.push("</body></html>");
