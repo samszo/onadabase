@@ -725,6 +725,7 @@
 				</menupopup>
 			</menu>
 		</popup>
+		
 		<popup id="popelementvoirie" onpopupshowing="javascript:;">
 			<menu id="menu_elementvoirie_voir" label="Voir">
 				<menupopup id="popup_elementvoirie_voir">
