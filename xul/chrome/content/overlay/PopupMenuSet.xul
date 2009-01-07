@@ -19,6 +19,10 @@
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Ligne','ligne');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
+						label="La(les) chaîne(s) de déplacement"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Chaine','chaine');" />
+					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
 						label="L'état des lieux"
 						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
 				</menupopup>
@@ -41,6 +45,10 @@
 						role="administrateur;diagnostiqueur"
 						label="Une ligne de transport" 
 						oncommand="AddNewGrille('Ligne');" />
+					<menuitem 
+						role="administrateur;diagnostiqueur"
+						label="Une chaîne de déplacement"
+						oncommand="AddNewGrille('Chaine');" />
 				</menupopup>
 			</menu>
 			<menu id="menu_terre_générer" label="Générer">
@@ -75,6 +83,10 @@
 						role="administrateur;diagnostiqueur;lecteur"
 						label="La(les) ligne(s) de transport"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Ligne','ligne');" />
+					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="La(les) chaîne(s) de déplacement"
+						oncommand="RefreshEcran(document.getElementById('idRub').value,'Chaine','chaine');" />
 				</menupopup>
 			</menu>
 			<menu id="menu_Terre_ajouter" label="Ajouter">
@@ -95,6 +107,10 @@
 						role="administrateur;diagnostiqueur"
 						label="Une ligne de transport" 
 						oncommand="AddNewGrille('Ligne');" />
+					<menuitem 
+						role="administrateur;diagnostiqueur"
+						label="Une chaîne de déplacement" 
+						oncommand="AddNewGrille('Chaine');" />
 				</menupopup>
 			</menu>
 		</popup>
