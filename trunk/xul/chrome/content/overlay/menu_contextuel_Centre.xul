@@ -97,9 +97,7 @@
 						oncommand="AddNewGrille('Ligne');" />
 				</menupopup>
 			</menu>
-		</popup>
-		
-					
+		</popup>			
 		<popup id="popligne" onpopupshowing="javascript:;">
 			<menu id="menu_ligne_voir" label="Voir">
 				<menupopup id="popup_ligne_voir">
@@ -125,8 +123,7 @@
 						oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
 				</menupopup>
 			</menu>
-		</popup>
-		
+		</popup>		
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menu id="menu_etab_voir" label="Voir">
 				<menupopup id="popup_etab_voir">
