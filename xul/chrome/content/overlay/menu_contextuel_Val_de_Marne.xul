@@ -98,6 +98,34 @@
 				</menupopup>
 			</menu>
 		</popup>
+		
+		<popup id="popchaine" onpopupshowing="javascript:;">
+			<menu id="menu_chaine_voir" label="Voir">
+				<menupopup id="popup_chaine_voir">
+					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="L'état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
+				</menupopup>
+			</menu>
+			<menu id="menu_chaine_générer" label="Générer">
+				<menupopup id="popup_chaine_générer">
+					<menuitem
+						role="administrateur"
+						label="csv"
+						oncommand="ChargeTreeCsv('idRub','FormSaisi');" />
+				</menupopup>
+			</menu>
+			<menu id="menu_chaine_supprimer" label="Supprimer">
+				<menupopup id="popup_chaine__supprimer">
+					<menuitem
+						role="administrateur"
+						label="Cette chaine de déplacement"
+						oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
+				</menupopup>
+			</menu>
+		</popup>			
+		
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menu id="menu_etab_voir" label="Voir">
 				<menupopup id="popup_etab_voir">
