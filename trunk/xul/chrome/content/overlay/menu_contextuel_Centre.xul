@@ -98,6 +98,35 @@
 				</menupopup>
 			</menu>
 		</popup>
+		
+					
+		<popup id="popligne" onpopupshowing="javascript:;">
+			<menu id="menu_ligne_voir" label="Voir">
+				<menupopup id="popup_ligne_voir">
+					<menuitem
+						role="administrateur;diagnostiqueur;lecteur"
+						label="L'état des lieux"
+						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
+				</menupopup>
+			</menu>
+			<menu id="menu_ligne_générer" label="Générer">
+				<menupopup id="popup_ligne_générer">
+					<menuitem
+						role="administrateur"
+						label="csv"
+						oncommand="ChargeTreeCsv('idRub','FormSaisi');" />
+				</menupopup>
+			</menu>
+			<menu id="menu_ligne_supprimer" label="Supprimer">
+				<menupopup id="popup_ligne__supprimer">
+					<menuitem
+						role="administrateur"
+						label="Cette ligne de transport"
+						oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
+				</menupopup>
+			</menu>
+		</popup>
+		
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menu id="menu_etab_voir" label="Voir">
 				<menupopup id="popup_etab_voir">
