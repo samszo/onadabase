@@ -521,7 +521,7 @@
 <solution idcrit='cr_dis_com_15'	 idsol='cr_dis_com_15_sol_02'	 cout='A estimer'	 unit='xxx'	 >Réalisation d'un espace d'usage de  80 cm x 130 cm au droit de l'équipement</solution>
 <solution idcrit='cr_dis_com_16'	 idsol='cr_dis_com_16_sol_01'	 cout='A estimer'	 unit='xxx'	 >Se référer au critère posant problème</solution>
 <solution idcrit='cr_dis_com_17'	 idsol='cr_dis_com_17_sol_01'	 cout='A estimer'	 unit='xxx'	 >Se référer au critère posant problème</solution>
-<solution idcrit='cr_dis_com_18'	 idsol='cr_dis_com_18'	 cout='A estimer'	 unit='xxx'	 >Déplacer les dispositifs de commande et de service à une hauteur comprise entre 90 cm et 130 cm</solution>
+<solution idcrit='cr_dis_com_18'	 idsol='cr_dis_com_18_sol_01'	 cout='A estimer'	 unit='xxx'	 >Déplacer les dispositifs de commande et de service à une hauteur comprise entre 90 cm et 130 cm</solution>
 <solution idcrit='cr_dis_com_19'	 idsol='cr_dis_com_19_sol_01'	 cout='A estimer'	 unit='xxx'	 >Déplacer le dispositif de commande et de service</solution>
 <solution idcrit='cr_dis_com_19'	 idsol='cr_dis_com_19_sol_02'	 cout='A estimer'	 unit='xxx'	 >Supprimer le dispositif de commande et de service</solution>
 <solution idcrit='cr_dis_com_20'	 idsol='cr_dis_com_20_sol_01'	 cout='A estimer'	 unit='xxx'	 >Changer le dispositif de commande pour un répondant au critère d'accessibilité</solution>
