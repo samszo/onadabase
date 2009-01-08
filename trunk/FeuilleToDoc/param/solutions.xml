@@ -527,9 +527,9 @@
 <solution idcrit='cr_dis_com_20'	 idsol='cr_dis_com_20_sol_01'	 cout='A estimer'	 unit='xxx'	 >Changer le dispositif de commande pour un répondant au critère d'accessibilité</solution>
 
 <solution idcrit='cr_asc_cab_01'	 idsol='cr_asc_cab_01_sol_01'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
-<solution idcrit='cr_asc_cab_01_1'	 idsol='cr_asc_cab_01_1_sol_02'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
+<solution idcrit='cr_asc_cab_01_1'	 idsol='cr_asc_cab_01_1_sol_01'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
 <solution idcrit='cr_asc_cab_02'	 idsol='cr_asc_cab_02_sol_01'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
-<solution idcrit='cr_asc_cab_02_1'	 idsol='cr_asc_cab_02_1_sol_02'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
+<solution idcrit='cr_asc_cab_02_1'	 idsol='cr_asc_cab_02_1_sol_01'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
 <solution idcrit='cr_asc_cab_03'	 idsol='cr_asc_cab_03_sol_01'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
 <solution idcrit='cr_asc_cab_04'	 idsol='cr_asc_cab_04_sol_01'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
 <solution idcrit='cr_asc_cab_05'	 idsol='cr_asc_cab_05_sol_01'	 cout='?'	 unit='?'	 >Remplacement du tableau de commande intérieur par une boite à boutons cabine répondant aux critères d'accessibilité.</solution>
