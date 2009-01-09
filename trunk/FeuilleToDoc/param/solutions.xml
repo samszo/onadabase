@@ -50,14 +50,14 @@
 <solution idcrit='cr_lux_01'	 idsol='cr_lux_01_sol_02'	 cout='A estimer'	 unit='xxx'	 >Remplacer les spots par un autre type d'éclairage.</solution>
 <solution idcrit='cr_lux_02'	 idsol='cr_lux_02_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
 <solution idcrit='cr_lux_03'	 idsol='cr_lux_03_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
-<solution idcrit='cr_lux_04'	 idsol='cr_lux_03_sol_02'	 cout='A estimer'	 unit='xxx'	 >Augmenter la qualité de l'éclairage (en faisant attention de bien orienter l'éclairage)</solution>
-<solution idcrit='cr_lux_04'	 idsol='cr_lux_04_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
-<solution idcrit='cr_lux_05'	 idsol='cr_lux_04_sol_02'	 cout='A estimer'	 unit='xxx'	 >Utiliser des signalétiques éclairées (type led)</solution>
-<solution idcrit='cr_lux_05'	 idsol='cr_lux_05_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
-<solution idcrit='cr_lux_06'	 idsol='cr_lux_05_sol_02'	 cout='A estimer'	 unit='xxx'	 >Changement du système de temporisation par un système plus adapté ou pour un système avec détecteur de présence</solution>
-<solution idcrit='cr_lux_07'	 idsol='cr_lux_05_sol_03'	 cout='A estimer'	 unit='xxx'	 >Réglage de la durée de temporisation</solution>
+<solution idcrit='cr_lux_04'	 idsol='cr_lux_04_sol_01'	 cout='A estimer'	 unit='xxx'	 >Augmenter la qualité de l'éclairage (en faisant attention de bien orienter l'éclairage)</solution>
+<solution idcrit='cr_lux_04'	 idsol='cr_lux_04_sol_02'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_lux_05'	 idsol='cr_lux_05_sol_01'	 cout='A estimer'	 unit='xxx'	 >Utiliser des signalétiques éclairées (type led)</solution>
+<solution idcrit='cr_lux_05'	 idsol='cr_lux_05_sol_02'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
+<solution idcrit='cr_lux_06'	 idsol='cr_lux_06_sol_01'	 cout='A estimer'	 unit='xxx'	 >Changement du système de temporisation par un système plus adapté ou pour un système avec détecteur de présence</solution>
+<solution idcrit='cr_lux_07'	 idsol='cr_lux_07_sol_01'	 cout='A estimer'	 unit='xxx'	 >Réglage de la durée de temporisation</solution>
 <solution idcrit='cr_lux_06'	 idsol='cr_lux_06_sol_01'	 cout='59'	 unit='U'	 >Fourniture et pose d'un interrupteur électrique automatique étanche.</solution>
-<solution idcrit='cr_lux_07'	 idsol='cr_lux_07_sol_01'	 cout='59'	 unit='U'	 >Fourniture et pose d'un interrupteur électrique automatique étanche.</solution>
+<solution idcrit='cr_lux_07'	 idsol='cr_lux_07_sol_02'	 cout='59'	 unit='U'	 >Fourniture et pose d'un interrupteur électrique automatique étanche.</solution>
 <solution idcrit='cr_lux_08'	 idsol='cr_lux_08_sol_01'	 cout='59'	 unit='U'	 >Fourniture et pose d'un interrupteur électrique automatique étanche.</solution>
 <solution idcrit='cr_lux_09'	 idsol='cr_lux_09_sol_01'	 cout='70'	 unit='U'	 >Remplacer l'interrupteur par un interrupteur avec un variateur</solution>
 <solution idcrit='cr_lux_10'	 idsol='cr_lux_10_sol_01'	 cout='1600'	 unit='U'	 >Fourniture et équipement en luminaires de 100 lux d'un couloir de (10,00 x 1,60 m)  .  </solution>
