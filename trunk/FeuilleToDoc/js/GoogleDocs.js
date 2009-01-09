@@ -21,7 +21,7 @@
         	//vérifie que les colonne sont remplies
         	if(data.getFormattedValue(0, col)!=""){
 	             indice1=0; indice2=1;indice3=0;indice4=0;
-	             var titreProb = data.getColumnLabel(col).replace('V/F', '');
+	             var titreProb = data.getColumnLabel(col);//.replace('V/F', '');
 	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème : "+titreProb+"</h4>");
 	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
@@ -43,7 +43,9 @@
 				         html.push(escapeHtml(data.getFormattedValue(row, col+1))+" ");
 				         html.push("</td>");
 				         //calcul la solution
+						 html.push("<td style='font-family:Arial;font-size:10pt' >");
 				         html.push(getSolutions(idCrit));
+				         html.push("</td>");
 				         html.push("</tr>");
 			             if(indice1 < data.getFormattedValue(row, 3))
 			             	indice1= data.getFormattedValue(row, 3);
@@ -106,20 +108,18 @@
 		var iterator = xmlSols.evaluate(Xpath, xmlSols, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
 
 		var precos=[];
-		precos.push("<td style='font-family:Arial;font-size:10pt' >");
 		precos.push("<table cellspacing='3' style='width:100%' border='1' style='border-collapse:collapse' >");
        	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Préconisations </th>");
        	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Couts (en E) </th>");
 		var n;
 		while(n = iterator.iterateNext()){
-			precos.push("<tr><td>"+n.textContent+"</td>");
+			precos.push("<tr><td>"+n.attributes[1].nodeValue+"</td>");
 			if(n.attributes[3].nodeValue!="xxx")
 				precos.push("<td style='width:3cm' >"+n.attributes[2].nodeValue+" par "+n.attributes[3].nodeValue+"</td></tr>");
 			else
 				precos.push("<td style='width:3cm' >"+n.attributes[2].nodeValue+"</td></tr>");			
 		}
 		precos.push("</table>"); 
-		precos.push("</td>");
 	
 		return precos.join('');		
 
