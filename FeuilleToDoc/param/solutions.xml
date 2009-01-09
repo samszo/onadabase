@@ -68,7 +68,7 @@
 <solution idcrit='cr_lux_11'	 idsol='cr_lux_11_sol_05'	 cout='1600'	 unit='U'	 >Fourniture et équipement en luminaires de 100 lux d'un couloir de (10,00 m x 1,60 m)  .  </solution>
 <solution idcrit=''	 idsol=''	 cout=''	 unit=''	 ></solution>
 <solution idcrit='cr_dis_com_18'	 idsol='cr_dis_com_18_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
-<solution idcrit='cr_dis_com_19'	 idsol='cr_dis_com_18_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer la commande en respectant les critères d'accessibilité</solution>
+<solution idcrit='cr_dis_com_18'	 idsol='cr_dis_com_18_sol_02'	 cout='A estimer'	 unit='xxx'	 >Déplacer la commande en respectant les critères d'accessibilité</solution>
 <solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_01'	 cout='xxx'	 unit='xxx'	 >Peindre la commande avec une couleur contrastée par rapport au support. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
 <solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_02'	 cout='A estimer'	 unit='xxx'	 >Peindre le support avec une couleur contrastée par rapport à la commande. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
 <solution idcrit='cr_dis_com_14'	 idsol='cr_dis_com_14_sol_03'	 cout='A estimer'	 unit='xxx'	 >Changement de la commande pour une nouvelle ayant une couleur contrastée par rapport au support. Le choix des couleurs doit être en cohérence avec la charte définie.</solution>
