@@ -302,6 +302,7 @@
 <solution idcrit='cr_po_11'	 idsol='cr_po_11_sol_02'	cout='1450'	unit='u'	 >Création d'une porte coulissante de 93 en panneau alvéolaire peinte devant mur+linteau avec serrure et poignée répondant aux critères d'accessibilité.  Le choix des couleurs doit être en cohérence avec la charte définie. </solution>
 <solution idcrit='cr_po_11'	 idsol='cr_po_11_sol_03'	cout='A estimer'	unit='xxx'	 >Suppression ou déplacement de l'obstacle, dans la mesure ou il existe.</solution>
 <solution idcrit='cr_po_11'	 idsol='cr_po_11_sol_04'	cout='A estimer'	unit='xxx'	 >Suppression de la porte dans la mesure ou sa présence n'est pas indispensable</solution>
+<solution idcrit='cr_po_11'	 idsol='cr_po_11_sol_05'	cout='A estimer'	unit='xxx'	 >Changer le sens d'ouverture de la porte (le poussant devient tirant).</solution>
 <solution idcrit='cr_po_12'	 idsol='cr_po_12_sol_01'	cout='xxx'	unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
 <solution idcrit='cr_po_12'	 idsol='cr_po_12_sol_02'	cout='820'	unit='u'	 >Remplacement d'une porte 1 vantail de 93 par une porte coulissante  avec rail devant mur conforme aux critères d'accessibilité</solution>
 <solution idcrit='cr_po_12'	 idsol='cr_po_12_sol_03'	cout='A estimer'	unit='xxx'	 >Suppression ou déplacement de l'obstacle, dans la mesure ou il existe.</solution>
