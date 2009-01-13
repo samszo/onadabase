@@ -27,7 +27,7 @@
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
 		         html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Critère réglementaire </th>");
 		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Mesures et observations </th>");
-		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Solutions </th>");
+		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Préconisations </th>");
 		         for (var row = 0; row < data.getNumberOfRows()-3; row++) {
 		         	//vérifie s'il faut prendre en compte le critère
 		         	var idCrit = data.getFormattedValue(row, 0);
