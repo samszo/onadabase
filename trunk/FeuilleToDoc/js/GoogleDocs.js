@@ -109,7 +109,7 @@
 		var precos=[];
 		precos.push("<table cellspacing='3' style='width:100%' border='1' style='border-collapse:collapse' >");
        	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Préconisations </th>");
-       	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Couts (en E) </th>");
+       	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Estimations </th>");
 		var n;
 		while(n = iterator.iterateNext()){
 			precos.push("<tr><td>"+n.attributes[1].nodeValue+"</td>");
