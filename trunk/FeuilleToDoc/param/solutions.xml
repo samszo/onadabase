@@ -432,7 +432,7 @@
 <solution idcrit='cr_chem_ext_17'	 idsol='cr_chem_ext_17_sol_03'	 cout='A estimer'	 unit='xxx'	 >Mise en place de plans en reliefs accessibles</solution>
 <solution idcrit='cr_chem_ext_18'	 idsol='cr_chem_ext_18_sol_01'	 cout='xxx'	 unit='xxx'	 >Pas de solution type à adapter aux problèmes. Dépends de la nature du (ou des) problème(s) rencontré(s).</solution>
 <solution idcrit='cr_chem_ext_18'	 idsol='cr_chem_ext_18_sol_02'	 cout='600'	 unit='u'	 >Opter pour un panneau répondant aux critères d'accessibilité. Le choix des couleurs, le type de panneau doivent être en cohérence avec la charte définie.</solution>
-<solution idcrit=''	 idsol='cr_chem_ext_18_sol_03'	 cout='40'	 unit='m/l'	 >Mise en place d'un guide au sol répondant aux critères d'accessibilité.</solution>
+<solution idcrit='cr_chem_ext_18'	 idsol='cr_chem_ext_18_sol_03'	 cout='40'	 unit='m/l'	 >Mise en place d'un guide au sol répondant aux critères d'accessibilité.</solution>
 <solution idcrit='cr_chem_ext_19'	 idsol='cr_chem_ext_19_sol_01'	 cout='600'	 unit='u'	 >Mise en place d'un panneau de signalisation (symbole international) sur poteau scellé.</solution>
 <solution idcrit='cr_chem_ext_20'	 idsol='cr_chem_ext_20_sol_01'	 cout='600'	 unit='u'	 >Mise en place d'un panneau de signalisation (symbole international) sur poteau scellé.</solution>
 <solution idcrit='cr_chem_ext_21'	 idsol='cr_chem_ext_21_sol_01'	 cout='600'	 unit='u'	 >Mise en place d'un panneau de signalisation (symbole international) sur poteau scellé.</solution>
