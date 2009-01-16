@@ -33,7 +33,10 @@ todo :
  <mx:Panel title="ONADABASE diagnostics pour l'accessibilité" width="100%" height="100%">
  <mx:Panel title="Choisissez les éléments à afficher" >
   <mx:HBox>
+      <!--
       <mx:CheckBox selected="false" change="ShowListeDiag('local2', '2608', '2_audio')"/>
+      -->
+      <mx:CheckBox selected="false" change="createMarkerGrille('66')"/>
       <mx:Label text="Territoire" color="{categories['grille_66'].color}"/>
       <mx:CheckBox selected="false" change="createMarkerGrille('55')"/>
       <mx:Label text="Etablissement" color="{categories['grille_55'].color}"/>
@@ -60,15 +63,14 @@ todo :
   </mx:HBox>	
 </mx:Panel>
   <mx:HDividedBox width="100%" height="100%">
-   <mx:VBox id="chartBox" visible="false" width="0" height="100%" paddingLeft="5" paddingTop="5" >
+   <mx:VBox id="chartBox" visible="true" width="0" height="100%" paddingLeft="5" paddingTop="5" >
     <mx:Label id="chartTitre" text="" fontSize="24" fontWeight="bold"/>
-    <!-- clefs du graphique -->
-    <mx:HBox>
-	    <mx:Label id="idRub" text="" fontSize="10" fontWeight="bold"/>
-	    <mx:Label id="idSite" text="" fontSize="10" fontWeight="bold"/>    	
-    </mx:HBox>
-    <!-- traces du graphique -->
-	<mx:TextArea id="chartTrace" height="100" width="100%" />
+    <mx:HBox width="100%" >
+       	<mx:LinkButton id="imgPhoto" visible="false" icon="{PhotoIcon}" click="ShowListePhoto();" />
+       	<mx:LinkButton id="imgFilm" visible="false" icon="{FilmIcon}" click="ShowListeFilm();" />
+       	<mx:LinkButton id="imgSon" visible="false" icon="{SonIcon}" click="ShowListeSon();" />
+	</mx:HBox>
+
     <mx:ColumnChart id="chart" 
         dataProvider="{rsEtatDiag.EtatDiag.Obstacles}" 
         type="stacked"
@@ -136,6 +138,13 @@ todo :
 		</mx:HBox>
      </mx:Legend>
 
+    <mx:HBox height="0" width="0">
+	    <!-- clefs du graphique -->
+	    <mx:Label id="idRub" visible="false" text="" fontSize="10" fontWeight="bold"/>
+	    <mx:Label id="idSite" visible="false" text="" fontSize="10" fontWeight="bold"/>    	
+	    <!-- traces du graphique -->
+		<mx:TextArea id="chartTrace" visible="false" />
+	</mx:HBox>
 
    </mx:VBox>
 

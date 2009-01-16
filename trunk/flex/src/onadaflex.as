@@ -11,11 +11,11 @@
       import com.google.maps.styles.FillStyle;
       import com.google.maps.styles.StrokeStyle;
       
-      //pour les fenêtres
       import compo.twEtatDiagListe;
-      import mx.managers.PopUpManager;
+      import compo.twPhotoListe;
       
       import mx.managers.CursorManager;
+      import mx.managers.PopUpManager;
       import mx.rpc.events.ResultEvent;
 
       private var map:Map;
@@ -38,6 +38,9 @@
       [Embed(source="C.png")] [Bindable] private var CIcon:Class;
       [Embed(source="D.png")] [Bindable] private var DIcon:Class;
       [Embed(source="E.png")] [Bindable] private var EIcon:Class;
+      [Embed(source="jpg.png")] [Bindable] private var PhotoIcon:Class;
+      [Embed(source="mpg.png")] [Bindable] private var FilmIcon:Class;
+      [Embed(source="mp3.png")] [Bindable] private var SonIcon:Class;
       [Bindable] private var categories:Object = 
         { "grille_66": {
             "color": 0x990000,
@@ -114,6 +117,7 @@
             var idDoc:String = "";
             var strHandi:String = "";
             var niv:String = "";
+            var titreSelect:String = "";
             //construction de l'identifiant du doc
             //cf. library/php/ExeAjax.php?f=GetEtatDiagListe&id=5610&idDoc=0_audio
             for (var i:int=0; i<allSeries.length; i++) {
@@ -150,17 +154,19 @@
 					        niv = "3";
 					        break;
 					}
+					//création du titre de la sélection
+					titreSelect = allSeries[i].legendData[0].label;	
                 }
             }
             idDoc = niv+strHandi; 
             //exécute la requête
-            ShowListeDiag(idSite.text, idRub.text, idDoc);
+            ShowListeDiag(idSite.text, idRub.text, idDoc, titreSelect);
         }
 
 		public function rhEtatDiag(event:ResultEvent):void {
 			rsEtatDiag = event.result;
 			if(rsEtatDiag.toString()!=""){
-				//mise à jour des icones
+				//mise à jour des icones handicateur
 		        for each (var obs:Object in rsEtatDiag.EtatDiag.Obstacles)
 		        {
 		        	if(obs.id=="moteur")
@@ -172,18 +178,31 @@
 		        	if(obs.id=="visuel")
 		        		imgAlphaVisu.source=handi[obs.handi].icon;
 		        }
+				//mise à jour des icones médias
+        		imgPhoto.visible=false;
+        		imgFilm.visible=false;
+        		imgSon.visible=false;
+		        for each (var ico:Object in rsEtatDiag.EtatDiag.icones[1].icone)
+		        {
+		        	if(ico.id=="images")
+		        		imgPhoto.visible=true;
+		        	if(ico.id=="videos")
+		        		imgFilm.visible=true;
+		        	if(ico.id=="sons")
+		        		imgSon.visible=true;
+		        }
 		 	}
 		}
         
       public function onHolderCreated(event:Event):void {
-        //map = new Map();
-        //map.key = mapKey;
-        //map.addEventListener(MapEvent.MAP_READY, onMapReady);
-        //mapHolder.addChild(map);
+        map = new Map();
+        map.key = mapKey;
+        map.addEventListener(MapEvent.MAP_READY, onMapReady);
+        mapHolder.addChild(map);
       }
 
       public function onHolderResized(event:Event):void {
-        //map.setSize(new Point(mapHolder.width, mapHolder.height));
+        map.setSize(new Point(mapHolder.width, mapHolder.height));
       }
 
       private function onMapReady(event:Event):void {
@@ -269,7 +288,7 @@
 		srvEtatDiag.send(params);
      }
 
-     private function ShowListeDiag(idSite:String, idRub:String, idDoc:String):void {
+     private function ShowListeDiag(idSite:String, idRub:String, idDoc:String, titreSelect:String):void {
 
         // Create a non-modal TitleWindow container.
         var wListe:twEtatDiagListe = twEtatDiagListe(
@@ -281,11 +300,29 @@
 		params.site = idSite;
 		params.idDoc = idDoc;
 
-		wListe.useHttpService(urlExeAjax,params);
+		titreSelect = chartTitre.text+" : "+titreSelect;
+
+		wListe.useHttpService(urlExeAjax,params,titreSelect);
 
         PopUpManager.centerPopUp(wListe);
 		
 		chartTrace.text += "\nShowListeDiag" +urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc;
+     }
+
+     private function ShowListePhoto():void {
+        // Create a non-modal TitleWindow container.
+        var wPhotoListe:twPhotoListe = twPhotoListe(
+            PopUpManager.createPopUp(this, twPhotoListe, false));
+
+        PopUpManager.centerPopUp(wPhotoListe);
+
+     }
+
+     private function ShowListeFilm():void {
+
+     }
+     private function ShowListeSon():void {
+
      }
 
     private function toggleCategory(type:String):void {

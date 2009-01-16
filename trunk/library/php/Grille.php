@@ -45,7 +45,7 @@ class Grille{
 		
     }
 
-	public function GetEtatDiagListe($ids, $idDoc,$PourFlex=false)
+	public function GetEtatDiagListe($ids, $idDoc,$PourFlex=false,$idScope=false)
 	{
 		//récupère les info de l'id xul
 		$arrDoc = split("_",$idDoc);
@@ -96,7 +96,7 @@ class Grille{
 					//ajoute le fil d'ariane
 					if($PourFlex)
 						$xul .= "<lieu><ariane>";
-					$xul .= '<hbox class="menubar">'.$objXul->GetFilAriane("",$r["id_rubrique"]).'</hbox>';
+					$xul .= '<hbox class="menubar">'.$objXul->GetFilAriane("",$r["id_rubrique"],0,$idScope).'</hbox>';
 					if($PourFlex)
 						$xul .= "</ariane>";
 				}

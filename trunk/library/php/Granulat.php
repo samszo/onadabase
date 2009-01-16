@@ -82,7 +82,7 @@ class Granulat
 		
 		//construction du xml
 		$grille = new Grille($this->site);
-		$xul = $grille->GetEtatDiagListe($ids,$idDoc,$PourFlex);
+		$xul = $grille->GetEtatDiagListe($ids,$idDoc,$PourFlex,$this->id);
 		
 		if($SaveFile){
 			$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_".$idDoc.".xml";
