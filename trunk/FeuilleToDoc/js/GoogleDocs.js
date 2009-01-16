@@ -86,8 +86,8 @@
 		        html.push("<p style='font-family:Arial;font-size:10pt'>Pour les préconisations usuelles se reporter au tableau ci-dessus. Pour les précisions se reporter au descriptif ci-dessous. </p>")
 				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) optionnelle(s) d'aménagement :</h4>");
 				html.push("<p style='font-family:Arial;font-size:10pt'>Pas de préconisation(s) optionnelle(s). </p>")
-			    html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) d'amélioration répondant à la réglementation :</h4>");
-				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) optionnelle(s) d'amélioration :</h4>");
+			    html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Estimation des coûts de(s) préconisation(s) d'amélioration(s) répondant à la réglementation :</h4>");
+				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Estimation des coûts de(s) préconisation(s) optionnelle(s) d'amélioration :</h4>");
 		        html.push("<p style='font-family:Arial;font-size:8pt'>Note : les coûts sont donnés en prix HT (Hors Taxe) et en Euro. Ils sont donnés en fonction des conditions de marché avec une approximation de 15 % et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...).</p> ");
 			}
 	     }
