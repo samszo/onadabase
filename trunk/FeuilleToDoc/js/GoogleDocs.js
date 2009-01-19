@@ -83,7 +83,7 @@
 		        html.push("</tr>");
 		        html.push("</table>");
 		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) d'amélioration répondant à la réglementation :</h4>");
-		        html.push("<p style='font-family:Arial;font-size:10pt;font-color:#3300CC'>Pour les préconisations usuelles se reporter au tableau ci-dessus. Pour les précisions se reporter au descriptif ci-dessous. </p>")
+		        html.push("<p style='font-family:Arial;font-size:10pt;font-color:#3333CC'>Pour les préconisations usuelles se reporter au tableau ci-dessus. Pour les précisions se reporter au descriptif ci-dessous. </p>")
 				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) optionnelle(s) d'aménagement :</h4>");
 				html.push("<p style='font-family:Arial;font-size:10pt'>Pas de préconisation(s) optionnelle(s). </p>")
 			    html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Estimation des coûts de(s) préconisation(s) d'amélioration(s) répondant à la réglementation :</h4>");
