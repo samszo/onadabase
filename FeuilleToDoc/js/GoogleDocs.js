@@ -76,7 +76,7 @@
 		        html.push("</td>");
 		        html.push("</tr>");
 		        html.push("<tr>");
-		        html.push("<td>"+indice1+"</td>");
+		        html.push("<td align='center' >"+indice1+"</td>");
 		        html.push("<td valign='middle' >"+indice2+"</td>");
 		        html.push("<td valign='middle' >"+indice3+"</td>");
 		        html.push("<td valign='middle' >"+indice4+"</td>");
