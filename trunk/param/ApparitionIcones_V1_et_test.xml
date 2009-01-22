@@ -17,14 +17,10 @@
 		        <icone id='gig-gic'/>
 		    </question>
 			<question isrcIdGrille='59' srcRefCont='2_cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
-				<question isrcIdGrille='59' srcRefCont='2_cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
-					<icone id='chem_ext'/>
-				</question>
-		    </question>
+				<icone id='chem_ext'/>
+			</question>
 		    <question isrcIdGrille='59' srcRefCont='cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
-				<question isrcIdGrille='59' srcRefCont='cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
-					<icone id='chem_ext'/>
-				</question>
+				<icone id='chem_ext'/>
 		    </question>
 		</objet>
 		<objet titre="batiment" IdGrille='53' >
@@ -125,14 +121,10 @@
 		        <icone id='gig-gic'/>
 		    </question>
 		    <question srcIdGrille='59' srcRefCont='2_cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
-				<question srcIdGrille='59' srcRefCont='2_cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
-					<icone id='chem_ext'/>
-				</question>
-		    </question>
+				<icone id='chem_ext'/>
+			</question>
 			<question srcIdGrille='59' srcRefCont='cr_chem_ext_01' srcIdChamp='mot_1' srcCheckVal='2'>
-				<question srcIdGrille='59' srcRefCont='cr_chem_ext_06' srcIdChamp='mot_1' srcCheckVal='2'>
-					<icone id='chem_ext'/>
-				</question>
-		    </question>
+				<icone id='chem_ext'/>
+			</question>
 		</objet>
 	</icones>
