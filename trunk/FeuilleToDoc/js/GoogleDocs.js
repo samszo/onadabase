@@ -43,7 +43,7 @@
 				         html.push(escapeHtml(data.getFormattedValue(row, col+1))+" ");
 				         html.push("</td>");
 				         //calcul la solution
-						 html.push("<td style='font-family:Arial;font-size:10pt' >");
+						 html.push("<td style='font-family:Calibri;font-size:9pt' >");
 				         html.push(getSolutions(idCrit));
 				         html.push("</td>");
 				         html.push("</tr>");
