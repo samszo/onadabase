@@ -77,9 +77,9 @@
 		        html.push("</tr>");
 		        html.push("<tr>");
 		        html.push("<td align='middle' >"+indice1+"</td>");
-		        html.push("<td valign='middle' >"+indice2+"</td>");
-		        html.push("<td valign='middle' >"+indice3+"</td>");
-		        html.push("<td valign='middle' >"+indice4+"</td>");
+		        html.push("<td align='middle' >"+indice2+"</td>");
+		        html.push("<td align='middle' >"+indice3+"</td>");
+		        html.push("<td align='middle' >"+indice4+"</td>");
 		        html.push("</tr>");
 		        html.push("</table>");
 		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) d'amélioration répondant à la réglementation :</h4>");
