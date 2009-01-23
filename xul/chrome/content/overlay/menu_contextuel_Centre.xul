@@ -7,7 +7,7 @@
 				<menupopup id="popup_terre_voir">
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
-						label="Le(s) établissement(s)"
+						label="Le(s) ERP/IOP"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
@@ -15,7 +15,7 @@
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
-						label="La(les) ligne(s) de transport"
+						label="Le(les) axe(s) de transport"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Ligne','ligne');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
@@ -27,7 +27,7 @@
 				<menupopup id="popup_terre_ajouter">
 					<menuitem
 						role="administrateur;diagnostiqueur"
-						label="Un établissement"
+						label="Un ERP/IOP"
 						oncommand="AddNewGrille('Etab');" />
 					<menuitem
 						role="administrateur;diagnostiqueur"
@@ -39,7 +39,7 @@
 						oncommand="AddNewRubrique(document.getElementById('idRub').value);" />
 					<menuitem 
 						role="administrateur;diagnostiqueur"
-						label="Une ligne de transport" 
+						label="Un axe de transport" 
 						oncommand="AddNewGrille('Ligne');" />
 				</menupopup>
 			</menu>
@@ -65,7 +65,7 @@
 				<menupopup id="popup_Terre_voir">
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
-						label="Le(s) établissement(s)"
+						label="Le(s) ERP/IOP"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Etablissements','etab','Etab');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
@@ -73,7 +73,7 @@
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Voiries','voirie','Voirie');" />
 					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
-						label="La(les) ligne(s) de transport"
+						label="Le(les) axe(s) de transport"
 						oncommand="RefreshEcran(document.getElementById('idRub').value,'Ligne','ligne');" />
 				</menupopup>
 			</menu>
@@ -81,7 +81,7 @@
 				<menupopup id="popup_Terre_ajouter">
 					<menuitem 
 						role="administrateur;diagnostiqueur"
-						label="Un établissement" 
+						label="Un ERP/IOP" 
 						oncommand="AddNewGrille('Etab');" />
 					<menuitem 
 						role="administrateur;diagnostiqueur"
@@ -93,7 +93,7 @@
 						oncommand="AddNewRubrique(document.getElementById('idRub').value);" />
 					<menuitem 
 						role="administrateur;diagnostiqueur"
-						label="Une ligne de transport" 
+						label="Un axe de transport" 
 						oncommand="AddNewGrille('Ligne');" />
 				</menupopup>
 			</menu>
@@ -119,7 +119,7 @@
 				<menupopup id="popup_ligne__supprimer">
 					<menuitem
 						role="administrateur"
-						label="Cette ligne de transport"
+						label="Cet axe de transport"
 						oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
 				</menupopup>
 			</menu>
@@ -173,7 +173,7 @@
 				<menupopup id="popup_etab_supprimer">
 					<menuitem 
 						role="administrateur"
-						label="Cet établissement"
+						label="Cet ERP/IOP"
 						oncommand="PurgeRubrique(document.getElementById('idRub').value,-1);" />
 				</menupopup>
 			</menu>
