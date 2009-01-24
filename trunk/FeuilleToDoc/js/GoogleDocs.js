@@ -25,7 +25,6 @@
 	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+data.getFormattedValue(0,col)+": "+titreProb+"</h4>");
 	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
-<<<<<<< .mine
 		         html.push("<tr>");
 		         html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'>Critère réglementaire </td>");
 		       	 html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'>Mesures et observations </td>");
@@ -38,12 +37,6 @@
 		         var nbrCrit=0;
 		         console.log(data.getFormattedValue((9), 7)+"/"+row+"/"+col);
 		          for (var row = 0; row < data.getNumberOfRows(); row++) {
-=======
-		         html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Critère réglementaire </th>");
-		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Mesures et observations </th>");
-		       	 html.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Préconisations </th>");
-		         for (var row = 0; row < data.getNumberOfRows()-3; row++) {
->>>>>>> .r341
 		         	//vérifie s'il faut prendre en compte le critère
 		         	style="";
 		         	var idCrit = data.getFormattedValue(row, 0);
@@ -52,7 +45,7 @@
 				         	console.log((row)+','+(col)+" "+data.getFormattedValue((row), col));
 				       rowspan=getSolutions(idCrit,nbre=true);
 				       if(rowspan==2)
-				       	rowspan--;
+				       	rowspan--;   
 				      // console.log(data.getColumnLabel(col));
 			           if(escapeHtml(data.getFormattedValue(row, col))=="F"){
 				         //console.log(data.getFormattedValue(row, col)+"/"+row+"/"+col);
@@ -64,13 +57,7 @@
 				         html.push(escapeHtml(data.getFormattedValue(row, col+1))+" ");
 				         html.push("</td>");
 				         //calcul la solution
-<<<<<<< .mine
 				         html.push(getSolutions(idCrit,nbre=false,rowspan));
-=======
-						 html.push("<td style='font-family:Calibri;font-size:9pt' >");
-				         html.push(getSolutions(idCrit));
-				         html.push("</td>");
->>>>>>> .r341
 				         html.push("</tr>");
 			             if(indice1 < data.getFormattedValue(row, 3))
 			             	indice1= data.getFormattedValue(row, 3);
@@ -108,26 +95,19 @@
 		        html.push("</td>");
 		        html.push("</tr>");
 		        html.push("<tr>");
-<<<<<<< .mine
 		        html.push("<td  style='"+style+"' >"+indice1+"</td>");
 		        html.push("<td  style='"+style+"'>"+indice2+"</td>");
 		        html.push("<td  style='"+style+"'>"+indice3+"</td>");
 		        html.push("<td  style='"+style+"'>"+indice4+"</td>");
-=======
-		        html.push("<td align='middle' >"+indice1+"</td>");
-		        html.push("<td align='middle' >"+indice2+"</td>");
-		        html.push("<td align='middle' >"+indice3+"</td>");
-		        html.push("<td align='middle' >"+indice4+"</td>");
->>>>>>> .r341
 		        html.push("</tr>");
 		        html.push("</table>");
 		        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) d'amélioration répondant à la réglementation :</h4>");
-		        html.push("<p style='font-family:Arial;color:#3333CC;font-size:10pt'>Pour les préconisations usuelles se reporter au tableau ci-dessus. Pour les précisions se reporter au descriptif ci-dessous. </p>")
+		        html.push("<p style='font-family:Arial;font-size:10pt'>Pour les préconisations usuelles se reporter au tableau ci-dessus. Pour les précisions se reporter au descriptif ci-dessous. </p>")
 				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) optionnelle(s) d'aménagement :</h4>");
 				html.push("<p style='font-family:Arial;font-size:10pt'>Pas de préconisation(s) optionnelle(s). </p>")
-			    html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Estimation des coûts de(s) préconisation(s) d'amélioration(s) répondant à la réglementation :</h4>");
-				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Estimation des coûts de(s) préconisation(s) optionnelle(s) d'amélioration :</h4>");
-				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>0 Euro </h4>");
+			    html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts solution(s) principale(s) :</h4>");
+				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) d'amélioration répondant à la réglementation :</h4>");
+				html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) optionnelle(s) d'amélioration :</h4>");
 		        html.push("<p style='font-family:Arial;font-size:8pt'>Note : les coûts sont donnés en prix HT (Hors Taxe) et en Euro. Ils sont donnés en fonction des conditions de marché avec une approximation de 15 % et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...).</p> ");
 			}
 	     }
@@ -148,12 +128,6 @@
 		var iterator = xmlSols.evaluate(Xpath, xmlSols, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
 
 		var precos=[];
-<<<<<<< .mine
-=======
-		precos.push("<table cellspacing='3' style='width:100%' border='1' style='border-collapse:collapse' >");
-       	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Préconisations </th>");
-       	precos.push("<th style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt'>Estimations </th>");
->>>>>>> .r341
 		var n;
 		var i=0;
 		while(n = iterator.iterateNext()){
