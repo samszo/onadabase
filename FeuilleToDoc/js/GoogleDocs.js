@@ -12,6 +12,7 @@
         }
         // construction de document html
         var data = response.getDataTable();
+        console.log(data);
         var r=1;
         var indice1=0; indice2=1;indice3=0;indice4=0;
         var html=[];
@@ -20,53 +21,50 @@
         for(var col = 7; col < data.getNumberOfColumns()-1; col+=2){
         	//vérifie que les colonne sont remplies
         	if(data.getFormattedValue(0, col)!=""){
-	            indice1=0; indice2=1;indice3=0;indice4=0;
-	            var titreProb = data.getFormattedValue(1,col);
+	            indice1=0; indice2=0;indice3=0;indice4=0;
+	            var titreProb = data.getValue(1,col);
 	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+data.getFormattedValue(0,col)+": "+titreProb+"</h4>");
 	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
 		         html.push("<tr>");
-		         html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'>Critère réglementaire </td>");
-		       	 html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'>Mesures et observations </td>");
-		       	 html.push("<td colspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'>Solutions </td>");
-		         html.push("</tr>)");
+		         html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Critère réglementaire </td>" );
+		       	 html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Mesures et observations </td>" );
+		       	 html.push("<td colspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Solutions </td>");
+		         html.push("</tr>");
 		         html.push("<tr>");
-		         html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'>Préconisations </td>");
-		         html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'>Estimations </td>");
-		         html.push("</tr>)");
+		         html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Préconisations </td>" );
+		         html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Estimations </td>" );
+		         html.push("</tr>");
 		         var nbrCrit=0;
-		         console.log(data.getFormattedValue((9), 7)+"/"+row+"/"+col);
 		          for (var row = 0; row < data.getNumberOfRows(); row++) {
 		         	//vérifie s'il faut prendre en compte le critère
 		         	style="";
 		         	var idCrit = data.getFormattedValue(row, 0);
 		         	if(!VerifSupCrit(idCrit)){
 			          if(trace)
-				         	console.log((row)+','+(col)+" "+data.getFormattedValue((row), col));
+				         	console.log((row)+','+(col)+" "+data.getValue((row), col));
 				       rowspan=getSolutions(idCrit,nbre=true);
-				       if(rowspan==2)
-				       	rowspan--;   
-				      // console.log(data.getColumnLabel(col));
-			           if(escapeHtml(data.getFormattedValue(row, col))=="F"){
-				         //console.log(data.getFormattedValue(row, col)+"/"+row+"/"+col);
+				       /*if(rowspan==2)
+				       	rowspan--; */ 
+			           if(escapeHtml(data.getValue(row, col))=="F"){
 				         html.push("<tr>");
 				         html.push("<td rowspan='"+rowspan+"' style='font-family:Arial;font-size:10pt;'>");
-				         html.push(escapeHtml(data.getFormattedValue(row, 2))+" ");
+				         html.push(escapeHtml(data.getValue(row, 2))+" ");
 				         html.push("</td>");
 				         html.push("<td rowspan='"+rowspan+"' style='font-family:Arial;font-size:10pt;'>");
-				         html.push(escapeHtml(data.getFormattedValue(row, col+1))+" ");
+				         html.push(escapeHtml(data.getValue(row, col+1))+" ");
 				         html.push("</td>");
 				         //calcul la solution
 				         html.push(getSolutions(idCrit,nbre=false,rowspan));
-				         html.push("</tr>");
-			             if(indice1 < data.getFormattedValue(row, 3))
-			             	indice1= data.getFormattedValue(row, 3);
-			             if(indice2 < data.getFormattedValue(row, 4))
-			             	indice2= data.getFormattedValue(row, 4);
-			             if(indice3 < data.getFormattedValue(row, 5))
-			             	indice3= data.getFormattedValue(row, 5);
-			             if(indice4 < data.getFormattedValue(row, 6))
-			             	indice4= data.getFormattedValue(row, 6);
+				        // html.push("</tr>");
+			             if(indice1 < data.getValue(row, 3))
+			             	indice1= data.getValue(row, 3);
+			             if(indice2 < data.getValue(row, 4))
+			             	indice2= data.getValue(row, 4);
+			             if(indice3 < data.getValue(row, 5))
+			             	indice3= data.getValue(row, 5);
+			             if(indice4 < data.getValue(row, 6))
+			             	indice4= data.getValue(row, 6);
 			             nbrCrit++;
 			          }
 			        }
@@ -131,19 +129,20 @@
 		var n;
 		var i=0;
 		while(n = iterator.iterateNext()){
-			if(k!=1)
-				precos.push("<tr>");	
+			if(i!=0){
+				precos.push("</tr>");
+				precos.push("<tr>");
+			}
 			precos.push("<td>"+n.attributes[1].nodeValue+"</td>");
 			if(n.attributes[3].nodeValue!="xxx")
 				precos.push("<td style='width:3cm' >"+n.attributes[2].nodeValue+" par "+n.attributes[3].nodeValue+"</td></tr>");
 			else
 				precos.push("<td style='width:3cm' >"+n.attributes[2].nodeValue+"</td>");	
-			if(k!=1)
-				precos.push("</tr>");	
+			precos.push("</tr>");	
 			i++;
 		}
 		if(nbre==true){
-			return i+1;
+			return i;
 		}
 			return precos.join('');		
 
