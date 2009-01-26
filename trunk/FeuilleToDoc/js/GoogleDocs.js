@@ -177,8 +177,7 @@
 	     var arr = arrProb;
 	     
 	     //vérifie s'il reste des feuilles à traiter
-	     //if(idFeuille<ul.length){
-	     if(idFeuille<2){
+	     if(idFeuille<ul.length){
 	     	//met à jour le libelle de la feuille
           	//alert("Feuille "+ul[idFeuille]+" traitée");
 	     	idFeuille ++;
@@ -196,6 +195,7 @@
 		    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
 		    var fic = "Total.html";
 		    params="html="+ html.join('')+"&file="+fic;
+          	alert("Le traitement est terminé envoyez la création du rapport");
 	        AjaxRequestPost(urlAjax+"index/creatrepport",params,"",'',true);
 	     }
         l++;
