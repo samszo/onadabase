@@ -24,7 +24,7 @@ ChercheAbo ();
 	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>/js/GoogleDocs.js"></script>
 	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>/js/ajax.js"></script>
 	<script type="text/javascript">
-	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; Name=eval((".$this->data."));"; ?> 
+	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; var Name=eval((".$this->data."));"; ?> 
      var result= new Array();var urlAjax="";var j=0;
      var urlImg="<?php echo IMG_URL; ?>"; //adresse des images
      var f=0;var liste="";
@@ -33,7 +33,8 @@ ChercheAbo ();
      var trace = false;
 	 var xmlParam = GetXmlUrlToDoc("<?php echo PARAM_URL."CritSup.xml"; ?>");
 	 var xmlSols = GetXmlUrlToDoc("<?php echo PARAM_URL."solutions.xml"; ?>");
-	 var idFeuille = 1;//n° de la feuille en cours de traitement
+	 var idFeuille = 0;//n° de la feuille en cours de traitement
+ 	 var arrProb;//tableau des problèmes
      load();
     
    </script>
@@ -48,6 +49,7 @@ ChercheAbo ();
 			   
 			   <td>
 			   	<button onclick="CreaAllReport()">Calculer tout les rapports</button>
+			   	<button onclick="ViewAllRapport()">Afficher le rapport total</button>
 			   	<button onclick="ViewRapport()">Afficher rapport</button>
 			   </td>
 			 </tr>
