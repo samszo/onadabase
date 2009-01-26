@@ -139,39 +139,46 @@
 	            var numProb = data.getFormattedValue(0,col);
 	            //vérifie si la feuille est bien formattée
 	            if(isNaN(numProb)){
-	            	alert("Problème de format avec la feuille "+ul[idFeuille]+" colonne="+col+" titre="+titreProb+" n°="+numProb)
-	            }else{
+	                label= data.getColumnLabel(col);
+	                numProbStr= label.replace('V/F','').replace(/([aA-zZ]|é|,)*/g,'').replace('mixte','');
+	                numProb=parseInt(numProbStr);
+	                titreProbStr= label.replace('V/F','').replace('mixte','').split(/[1-9]/g);;
+	                titreProb=titreProbStr[1];
+	            }
 		            //vérifie si le tableau des problèmes existe
-		            if(!arrProb[numProb]){
+		            if(!arrProb[numProb])//{
 		            	arrProb[numProb]= new Array([],0,0,0,0,titreProb,0);
-		            }
-			          for (var row = 0; row < data.getNumberOfRows(); row++) {
+			          for (var row = 0; row < data.getNumberOfRows()-3; row++) {
 			         	//vérifie s'il faut prendre en compte le critère
 			         	style="";
-			         	var idCrit = data.getFormattedValue(row, 0);
-			         	if(!VerifSupCrit(idCrit)){
-				        	if(trace)
-					        	console.log((row)+','+(col)+" "+data.getValue((row), col));
-					        //récupère la ligne de problème au tableau
-					        var ligneProb = getLigneProb(data,idCrit,row,col);
-					        if(ligneProb!=","){
-						        //ajoute la ligne de problème au tableau
-						        arrProb[numProb][0].push(ligneProb);
-						        //incrémente le ombre de critère
-						        arrProb[numProb][6]++;
-					            //vérifie l'indice le plus élévé
-					             if(arrProb[numProb][1] < data.getValue(row, 3))
-					             	arrProb[numProb][1]= data.getValue(row, 3);
-					             if(arrProb[numProb][2] < data.getValue(row, 4))
-					             	arrProb[numProb][2]= data.getValue(row, 4);
-					             if(arrProb[numProb][3] < data.getValue(row, 5))
-					             	arrProb[numProb][3]= data.getValue(row, 5);
-					             if(arrProb[numProb][4] < data.getValue(row, 6))
-					             	arrProb[numProb][4]= data.getValue(row, 6);
+			         	if(escapeHtml(data.getValue(row, col))=="F"){
+				         	var idCrit = data.getFormattedValue(row, 0);
+				         	if(!VerifSupCrit(idCrit)){
+					        	if(trace)
+						        	console.log((row)+','+(col)+" "+data.getValue((row), col));
+						        //récupère la ligne de problème au tableau
+						        var ligneProb = getLigneProb(data,idCrit,row,col);
+						        if(ligneProb!=","){
+							        //ajoute la ligne de problème au tableau
+							        arrProb[numProb][0].push(ligneProb);
+							        //incrémente le nbre de critère
+							        arrProb[numProb][6]++;
+							        if(numProb==1)
+							        console.log(numProb+'/'+  arrProb[numProb][6]+"/"+idCrit);
+						            //vérifie l'indice le plus élévé
+						             if(arrProb[numProb][1] < data.getValue(row, 3))
+						             	arrProb[numProb][1]= data.getValue(row, 3);
+						             if(arrProb[numProb][2] < data.getValue(row, 4))
+						             	arrProb[numProb][2]= data.getValue(row, 4);
+						             if(arrProb[numProb][3] < data.getValue(row, 5))
+						             	arrProb[numProb][3]= data.getValue(row, 5);
+						             if(arrProb[numProb][4] < data.getValue(row, 6))
+						             	arrProb[numProb][4]= data.getValue(row, 6);
+						        }
 					        }
-				        }
+				      }
 			        }
-				}
+				//}
 			}
 	     }
 	     var arr = arrProb;
@@ -184,6 +191,7 @@
 			CreaAllReport();
 	     }else{
 	     	//boucle sur les problèmes
+	     	console.log(arrProb[1]);
 	     	for(numProb in arrProb){
    	        //for(i=0;i<arrProb.length;i++){
    	        	var Prob = arrProb[numProb];
@@ -207,9 +215,6 @@
 	  try {
         var html=[];
 	       var rowspan=getSolutions(idCrit,true);
-	       /*if(rowspan==2)
-	       	rowspan--; */ 
-			if(escapeHtml(data.getValue(row, col))=="F"){
 	        	html.push("<tr>");
 	        	html.push("<td rowspan='"+rowspan+"' style='font-family:Arial;font-size:10pt;'>");
 	        	html.push(escapeHtml(data.getValue(row, 2))+" ");
@@ -219,7 +224,6 @@
 	        	html.push("</td>");
 	        	//calcul la solution
 	        	html.push(getSolutions(idCrit,nbre=false,rowspan));
-	        }
 			return html.join('');		
 	  } catch(ex2){alert("GoogleDocs:getLigneProb:"+ex2);}
      }
