@@ -361,6 +361,7 @@
      	        
 				//initialisation du tableau des problème
 				arrProb = new Array(ul.length);
+     	        idFeuille = 0;
      	        
      	        for(m=0;m<ul.length;m++){
      	        	doc=ul[m].replace(/&| |-/g,"_");
