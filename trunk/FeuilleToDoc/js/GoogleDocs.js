@@ -163,8 +163,6 @@
 							        arrProb[numProb][0].push(ligneProb);
 							        //incrémente le nbre de critère
 							        arrProb[numProb][6]++;
-							        if(numProb==1)
-							        console.log(numProb+'/'+  arrProb[numProb][6]+"/"+idCrit);
 						            //vérifie l'indice le plus élévé
 						             if(arrProb[numProb][1] < data.getValue(row, 3))
 						             	arrProb[numProb][1]= data.getValue(row, 3);
@@ -350,7 +348,8 @@
      
      function ViewSpeardsheet(feuille){
      	id=feuille.split("-");
-     	var url=urlSpreadsheet+'&output=html&gid='+id[1]+'&single=true&widget=true';
+     	var url=urlSpread+'&output=html&gid='+id[1]+'&single=true&widget=true';
+     	console.log(urlSpread);
      	document.getElementById('ViewSpeardsheet').setAttribute("src",url);
      	WorkSheetTitle=cleanAccent(id[0]);
      }
@@ -358,15 +357,12 @@
      	       var liste="";
      	        sheets=document.getElementById('ListeFeuilles');
      	        while(sheets.hasChildNodes()){
-     	        	sheets.removeChild(sheets.lastChild);
-     	        	
+     	        	sheets.removeChild(sheets.lastChild);	
      	        } 
      	        ul=eval('('+response+')');
-     	        
 				//initialisation du tableau des problème
 				arrProb = new Array(ul.length);
      	        idFeuille = 0;
-     	        
      	        for(m=0;m<ul.length;m++){
      	        	doc=ul[m].replace(/&| |-/g,"_");
 	     			liste+="<li>";
@@ -387,13 +383,13 @@
      }
 
      function CreaReport(){
-     	query = new google.visualization.Query(urlSpreadsheet+"&gid="+id[1]);
+     	query = new google.visualization.Query(urlSpread+"&gid="+id[1]);
      	query.setTimeout(1000);
      	query.send(handleQueryResponse);  // Send the query with a callback function
      }
 
      function CreaAllReport(){
-     	query = new google.visualization.Query(urlSpreadsheet+"&gid="+idFeuille);
+     	query = new google.visualization.Query(urlSpread+"&gid="+idFeuille);
      	query.setTimeout(1000);
      	query.send(handleQueryAllResponse);  // Send the query with a callback function
      }
@@ -411,9 +407,10 @@
      	}
      	menu+=("</select></form>");
      	document.getElementById('MenuSpeardSheet').innerHTML = menu;
+     	
     }
     function getWorkSheet(key){
-    	urlSpreadsheet=urlSpreadsheet+key;
+    	urlSpread=urlSpreadsheet+key;
     	params="key="+key;
     	AjaxRequest(urlAjax+"index/accueil?key="+key,'ListeFeuilles','');
     	document.documentElement.style.cursor = "wait";
