@@ -25,12 +25,15 @@ ChercheAbo ();
 	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>/js/ajax.js"></script>
 	<script type="text/javascript">
 	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; Name=eval((".$this->data."));"; ?> 
-     var result= new Array();var urlAjax="";var j=0;urlImg="<?php echo IMG_URL; ?>";var f=0;var liste="";
+     var result= new Array();var urlAjax="";var j=0;
+     var urlImg="<?php echo IMG_URL; ?>"; //adresse des images
+     var f=0;var liste="";
      var l=0;var WorkSheetNbre; var ul="";var m=0;urlRapport="<?php echo RAPPORT_URL; ?>";var WorkSheetTitle;
      var urlSpreadsheet='http://spreadsheets.google.com/pub?key=';
      var trace = false;
 	 var xmlParam = GetXmlUrlToDoc("<?php echo PARAM_URL."CritSup.xml"; ?>");
 	 var xmlSols = GetXmlUrlToDoc("<?php echo PARAM_URL."solutions.xml"; ?>");
+	 var idFeuille = 1;//n° de la feuille en cours de traitement
      load();
     
    </script>
@@ -43,7 +46,10 @@ ChercheAbo ();
 	 	  <table id="table" border="1" align="center" style="visibility:hidden">
 			 <tr>
 			   
-			   <td><button onclick="ViewRapport()">Afficher rapport</button></td>
+			   <td>
+			   	<button onclick="CreaAllReport()">Calculer tout les rapports</button>
+			   	<button onclick="ViewRapport()">Afficher rapport</button>
+			   </td>
 			 </tr>
 		     <tr>
 		     	<td colspan="2">
