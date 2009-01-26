@@ -136,63 +136,96 @@
         	if(data.getFormattedValue(0, col)!=""){
 	            indice1=0; indice2=0;indice3=0;indice4=0;
 	            var titreProb = data.getValue(1,col);
-		         var nbrCrit=0;
-		          for (var row = 0; row < data.getNumberOfRows(); row++) {
-		         	//vérifie s'il faut prendre en compte le critère
-		         	style="";
-		         	var idCrit = data.getFormattedValue(row, 0);
-		         	if(!VerifSupCrit(idCrit)){
-			          if(trace)
-				         	console.log((row)+','+(col)+" "+data.getValue((row), col));
-				       rowspan=getSolutions(idCrit,nbre=true);
-				       /*if(rowspan==2)
-				       	rowspan--; */ 
-			           if(escapeHtml(data.getValue(row, col))=="F"){
-				         html.push("<tr>");
-				         html.push("<td rowspan='"+rowspan+"' style='font-family:Arial;font-size:10pt;'>");
-				         html.push(escapeHtml(data.getValue(row, 2))+" ");
-				         html.push("</td>");
-				         html.push("<td rowspan='"+rowspan+"' style='font-family:Arial;font-size:10pt;'>");
-				         html.push(escapeHtml(data.getValue(row, col+1))+" ");
-				         html.push("</td>");
-				         //calcul la solution
-				         html.push(getSolutions(idCrit,nbre=false,rowspan));
-				        // html.push("</tr>");
-			             if(indice1 < data.getValue(row, 3))
-			             	indice1= data.getValue(row, 3);
-			             if(indice2 < data.getValue(row, 4))
-			             	indice2= data.getValue(row, 4);
-			             if(indice3 < data.getValue(row, 5))
-			             	indice3= data.getValue(row, 5);
-			             if(indice4 < data.getValue(row, 6))
-			             	indice4= data.getValue(row, 6);
-			             nbrCrit++;
-			          }
+	            var numProb = data.getFormattedValue(0,col);
+	            //vérifie si la feuille est bien formattée
+	            if(isNaN(numProb)){
+	            	alert("Problème de format avec la feuille "+ul[idFeuille]+" colonne="+col+" titre="+titreProb+" n°="+numProb)
+	            }else{
+		            //vérifie si le tableau des problèmes existe
+		            if(!arrProb[numProb]){
+		            	arrProb[numProb]= new Array([],0,0,0,0,titreProb,0);
+		            }
+			          for (var row = 0; row < data.getNumberOfRows(); row++) {
+			         	//vérifie s'il faut prendre en compte le critère
+			         	style="";
+			         	var idCrit = data.getFormattedValue(row, 0);
+			         	if(!VerifSupCrit(idCrit)){
+				        	if(trace)
+					        	console.log((row)+','+(col)+" "+data.getValue((row), col));
+					        //récupère la ligne de problème au tableau
+					        var ligneProb = getLigneProb(data,idCrit,row,col);
+					        if(ligneProb!=","){
+						        //ajoute la ligne de problème au tableau
+						        arrProb[numProb][0].push(ligneProb);
+						        //incrémente le ombre de critère
+						        arrProb[numProb][6]++;
+					            //vérifie l'indice le plus élévé
+					             if(arrProb[numProb][1] < data.getValue(row, 3))
+					             	arrProb[numProb][1]= data.getValue(row, 3);
+					             if(arrProb[numProb][2] < data.getValue(row, 4))
+					             	arrProb[numProb][2]= data.getValue(row, 4);
+					             if(arrProb[numProb][3] < data.getValue(row, 5))
+					             	arrProb[numProb][3]= data.getValue(row, 5);
+					             if(arrProb[numProb][4] < data.getValue(row, 6))
+					             	arrProb[numProb][4]= data.getValue(row, 6);
+					        }
+				        }
 			        }
-		        }
-		        html.push("</table>");
+				}
 			}
 	     }
+	     var arr = arrProb;
+	     
 	     //vérifie s'il reste des feuilles à traiter
-	     if(idFeuille<ul.length){
+	     //if(idFeuille<ul.length){
+	     if(idFeuille<2){
+	     	//met à jour le libelle de la feuille
+          	//alert("Feuille "+ul[idFeuille]+" traitée");
 	     	idFeuille ++;
 			CreaAllReport();
 	     }else{
 	     	//boucle sur les problèmes
-	     	getEnteteProb(numProb,titreProb);
-	     	getResumeProb(nbrCrit,indice1,indice2,indice3,indice4);
+	     	for(numProb in arrProb){
+   	        //for(i=0;i<arrProb.length;i++){
+   	        	var Prob = arrProb[numProb];
+		     	html.push(getEnteteProb(numProb,Prob[5],Prob[0]));
+		     	html.push(getResumeProb(Prob[6],Prob[1],Prob[2],Prob[3],Prob[4]));
+		    }
 		    
 		    html.push("</body></html>");	     
 		    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
-		    //params="html="+ html.join('')+"&file="+cleanAccent(id[0])+".html";
-	        //AjaxRequestPost(urlAjax+"index/creatrepport",params,'','',true);
+		    var fic = "Total.html";
+		    params="html="+ html.join('')+"&file="+fic;
+	        AjaxRequestPost(urlAjax+"index/creatrepport",params,"",'',true);
 	     }
         l++;
 	      
      }
 
 
-     function getEnteteProb(numProb,titreProb) {
+     function getLigneProb(data,idCrit,row,col) {
+	  try {
+        var html=[];
+	       var rowspan=getSolutions(idCrit,true);
+	       /*if(rowspan==2)
+	       	rowspan--; */ 
+			if(escapeHtml(data.getValue(row, col))=="F"){
+	        	html.push("<tr>");
+	        	html.push("<td rowspan='"+rowspan+"' style='font-family:Arial;font-size:10pt;'>");
+	        	html.push(escapeHtml(data.getValue(row, 2))+" ");
+	        	html.push("</td>");
+	        	html.push("<td rowspan='"+rowspan+"' style='font-family:Arial;font-size:10pt;'>");
+	        	html.push(escapeHtml(data.getValue(row, col+1))+" ");
+	        	html.push("</td>");
+	        	//calcul la solution
+	        	html.push(getSolutions(idCrit,nbre=false,rowspan));
+	        }
+			return html.join('');		
+	  } catch(ex2){alert("GoogleDocs:getLigneProb:"+ex2);}
+     }
+
+
+     function getEnteteProb(numProb,titreProb,lignesProb) {
 	  try {
         var html=[];
        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+numProb+": "+titreProb+"</h4>");
@@ -207,6 +240,8 @@
          html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Préconisations </td>" );
          html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Estimations </td>" );
          html.push("</tr>");
+		html.push(lignesProb);
+        html.push("</table>");
 		return html.join('');		
 
 	  } catch(ex2){alert("GoogleDocs:getResumeProb:"+ex2);}
@@ -323,18 +358,26 @@
      	        	
      	        } 
      	        ul=eval('('+response+')');
-	     	        for(m=0;m<ul.length;m++){
-	     	        	doc=ul[m].replace(/&| |-/g,"_");
-		     			liste+="<li>";
-		     			liste+="<a id='Feuille_"+m+"' href='#' onclick='ViewSpeardsheet(\""+doc+"-"+m+"\");CreaReport();'>"+ul[m]+"</a>";
-		     			liste+="</li>";
-	     	        }
+     	        
+				//initialisation du tableau des problème
+				arrProb = new Array(ul.length);
+     	        
+     	        for(m=0;m<ul.length;m++){
+     	        	doc=ul[m].replace(/&| |-/g,"_");
+	     			liste+="<li>";
+	     			liste+="<a id='Feuille_"+m+"' href='#' onclick='ViewSpeardsheet(\""+doc+"-"+m+"\");CreaReport();'>"+ul[m]+"</a>";
+	     			liste+="</li>";
+     	        }
      		    sheets.innerHTML = liste;
      		    document.documentElement.style.cursor = "auto";
      		    document.getElementById('table').style.visibility = "visible"
      }
      function ViewRapport(){
      	var url = urlRapport+encodeURIComponent(WorkSheetTitle)+".html";
+     	window.open(url);
+     }
+     function ViewAllRapport(){
+     	var url = urlRapport+"Total.html";
      	window.open(url);
      }
 
