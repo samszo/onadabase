@@ -52,3 +52,10 @@ ul{
 	padding-top:10px;
 	list-style-type:square ;
 }
+.progressbar { 
+    border:1px solid #000000; 
+    width: 200px; 
+    height: 20px; 
+    line-height: 20px; 
+    text-align: center; 
+}

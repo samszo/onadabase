@@ -21,8 +21,8 @@ ChercheAbo ();
 	<title>FeuilleToDoc</title>
 	<link rel="stylesheet" href="<?php echo WEBAPP_DIR; ?>/css/styles.css" type="text/css">
 	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
-	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>/js/GoogleDocs.js"></script>
-	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>/js/ajax.js"></script>
+	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>js/GoogleDocs.js"></script>
+	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>js/ajax.js"></script>
 	<script type="text/javascript">
 	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; var Name=eval((".$this->data."));"; ?> 
      var result= new Array();var urlAjax="";var j=0;
@@ -30,11 +30,12 @@ ChercheAbo ();
      var f=0;var liste="";
      var l=0;var WorkSheetNbre; var ul="";var m=0;urlRapport="<?php echo RAPPORT_URL; ?>";var WorkSheetTitle;
      var urlSpreadsheet='http://spreadsheets.google.com/pub?key=';
-     var trace = false;
+     var trace = false;var spreadsheet="";
 	 var xmlParam = GetXmlUrlToDoc("<?php echo PARAM_URL."CritSup.xml"; ?>");
 	 var xmlSols = GetXmlUrlToDoc("<?php echo PARAM_URL."solutions.xml"; ?>");
 	 var idFeuille = 0;//n° de la feuille en cours de traitement
  	 var arrProb;//tableau des problèmes
+ 	 var submitted = false;
      load();
     
    </script>
@@ -42,13 +43,17 @@ ChercheAbo ();
 	<body onload="getSpreadSheet(Name);">
 	 <h1>onadabase</h1> 
 	 	<div id="main">
-	 	<h4 style="color:#000000">Veuillez choisir le spreadsheet que vous voulais traité :</h4>
+	 	<p style="visibility:hidden;display:none;font-family:Arial;font-size:14px; font-weight:bold;" id="inprogress">
+   			<img id="inprogress_img" src="<?php echo WEBAPP_DIR; ?>images/progress_indicator.gif">
+    			Le rapport est en cours de creation , veuillez patienter...
+		</p>
+	 	<h4 style="color:#000000">Veuillez choisir le spreadsheet que vous voulais trait&eacute; :</h4>
 	 	<div id="MenuSpeardSheet"></div>
 	 	  <table id="table" border="1" align="center" style="visibility:hidden">
 			 <tr>
 			   
 			   <td>
-			   	<button onclick="CreaAllReport()">Calculer tout les rapports</button>
+			   	<button onclick="submitted=doSubmit();CreaAllReport()">Calculer tout les rapports</button>
 			   	<button onclick="ViewAllRapport()">Afficher le rapport total</button>
 			   </td>
 			 </tr>
@@ -62,7 +67,7 @@ ChercheAbo ();
 			 <tr>
 			   
 			   <td>
-			   	<button onclick="ViewRapport()">Afficher rapport</button>
+			   	<button onclick="CreaReport()">Afficher rapport</button>
 			   </td>
 			 </tr>
 		  </table>
