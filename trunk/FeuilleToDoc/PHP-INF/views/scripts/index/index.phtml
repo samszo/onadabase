@@ -43,18 +43,21 @@ ChercheAbo ();
   </head>
 	<body onload="getSpreadSheet(Name);">
 	 <h1>onadabase</h1> 
+	<div>
+		 	<p style="visibility:hidden;display:none;font-family:Arial;font-size:14px; font-weight:bold;margin-left:30%" id="inprogress">
+	   			<img id="inprogress_img" src="<?php echo WEBAPP_DIR; ?>images/progress_indicator.gif">
+	    		<span id="inprogressMsg"></span>
+			</p>
+	</div>
+	
 	 	<div id="main">
-	 	<p style="visibility:hidden;display:none;font-family:Arial;font-size:14px; font-weight:bold;" id="inprogress">
-   			<img id="inprogress_img" src="<?php echo WEBAPP_DIR; ?>images/progress_indicator.gif">
-    			Le rapport est en cours de creation , veuillez patienter...
-		</p>
 	 	<h4 style="color:#000000;font-family:Arial;;font-size:14px">Veuillez choisir le spreadsheet que vous voulais trait&eacute; :</h4>
 	 	<div id="MenuSpeardSheet"></div>
 	 	  <table id="table" border="1" align="center" style="visibility:hidden">
 			 <tr>
 			   
 			   <td>
-			   	<button onclick="submitted=doSubmit();CreaAllReport()">Calculer tout les rapports</button>
+			   	<button onclick="submitted=doSubmit();messageProgressIndicator('Le rapport est en cours de creation , veuillez patienter...');CreaAllReport()">Calculer tout les rapports</button>
 			   	<button onclick="ViewAllRapport()">Afficher le rapport total</button>
 			   </td>
 			 </tr>
@@ -68,7 +71,7 @@ ChercheAbo ();
 			 <tr>
 			   
 			   <td>
-			   	<button onclick="CreaReport()">Afficher rapport</button>
+			   	<button onclick="ViewRapport()">Afficher rapport</button>
 			   </td>
 			 </tr>
 		  </table>
