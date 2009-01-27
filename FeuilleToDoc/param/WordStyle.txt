@@ -38,9 +38,9 @@ h4
 	mso-style-unhide:no;
 	mso-style-qformat:yes;
 	mso-style-link:"Titre 4 Car";
-	mso-margin-top-alt:auto;
+	mso-margin-top-alt:0pt;
 	margin-right:0cm;
-	mso-margin-bottom-alt:auto;
+	mso-margin-bottom-alt:0pt;
 	margin-left:0cm;
 	mso-pagination:widow-orphan;
 	mso-outline-level:4;
@@ -52,9 +52,9 @@ h4
 p
 	{mso-style-noshow:yes;
 	mso-style-priority:99;
-	mso-margin-top-alt:auto;
+	mso-margin-top-alt:0pt;
 	margin-right:0cm;
-	mso-margin-bottom-alt:auto;
+	mso-margin-bottom-alt:0pt;
 	margin-left:0cm;
 	mso-pagination:widow-orphan;
 	font-size:12.0pt;

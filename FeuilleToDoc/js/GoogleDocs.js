@@ -109,7 +109,7 @@
 	     html.push("</body></html>");
 	    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
 	    params="html="+ html.join('')+"&file="+cleanAccent(id[0])+".html";
-        AjaxRequestPost(urlAjax+"index/creatrepport",params,'','',true);
+        AjaxRequestPost(urlAjax+"index/creatrepport",params,'ProgressIndicatorStop','',true);
         l++;
 	      
      }
@@ -152,6 +152,7 @@
 		             	if(!arrIndex[numProb])
 		             		arrIndex[numProb]=new Array();
 		                arrIndex[numProb].push(cle);
+		            	
 		             }
 		              
 			          for (var row = 0; row < data.getNumberOfRows()-3; row++) {
@@ -207,8 +208,8 @@
 		    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
 		    var fic = spreadsheet+".html";
 		    params="html="+ html.join('')+"&file="+fic;
-	        AjaxRequestPost(urlAjax+"index/creatrepport",params," ",'',true);
-	        submitted=doSubmit(); 
+	        AjaxRequestPost(urlAjax+"index/creatrepport",params,"ProgressIndicatorStop",'',true);
+	        
 	     }
 	    
      }
@@ -234,8 +235,8 @@
      function getEnteteProb(numProb,titreProb,lignesProb) {
 	  try {
         var html=[];
-       	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+numProb+": "+titreProb+"</h4>");
-       	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
+       	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>  Problème "+numProb+": "+titreProb+"</h4><br />");
+       	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4><br />");
          html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
          html.push("<tr>");
          html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Critère réglementaire </td>" );
@@ -247,7 +248,7 @@
          html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Estimations </td>" );
          html.push("</tr>");
 		 html.push(lignesProb);
-         html.push("</table>");
+         html.push("</table><br />");
 		 return html.join('').replace(/,/g,'');		
 
 	  } catch(ex2){alert("GoogleDocs:getResumeProb:"+ex2);}
@@ -264,7 +265,7 @@
 		  style="text-align:center;font-family:Arial;font-size:10pt;background:#FF0000;color:#FFF;";
 		if(nbrCrit>10)
 		   style="text-align:center;font-family:Arial;font-size:10pt;background:#000;color:#FFF;";    
-        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic par type de déficience :</h4>");
+        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic par type de déficience :</h4><br/>");
         html.push("<table cellspacing='10' border='2' width='6cm' height='2.5cm'  style='border-collapse:collapse' >");
         html.push("<tr>");
         html.push("<td>"); 
@@ -286,15 +287,15 @@
         html.push("<td  style='"+style+"'>"+indice3+"</td>");
         html.push("<td  style='"+style+"'>"+indice4+"</td>");
         html.push("</tr>");
-        html.push("</table>");
-        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) d'amélioration répondant à la réglementation :</h4>");
-        html.push("<p style='font-family:Arial;font-size:10pt'>Pour les préconisations usuelles se reporter au tableau ci-dessus. Pour les précisions se reporter au descriptif ci-dessous. </p>")
-		html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) optionnelle(s) d'aménagement :</h4>");
-		html.push("<p style='font-family:Arial;font-size:10pt'>Pas de préconisation(s) optionnelle(s). </p>")
-	    html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts solution(s) principale(s) :</h4>");
-		html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) d'amélioration répondant à la réglementation :</h4>");
-		html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) optionnelle(s) d'amélioration :</h4>");
-        html.push("<p style='font-family:Arial;font-size:8pt'>Note : les coûts sont donnés en prix HT (Hors Taxe) et en Euro. Ils sont donnés en fonction des conditions de marché avec une approximation de 15 % et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...).</p> ");
+        html.push("</table><br />");
+        html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) d'amélioration répondant à la réglementation :</h4><br />");
+        html.push("<p style='font-family:Arial;font-size:10pt'>Pour les préconisations usuelles se reporter au tableau ci-dessus. Pour les précisions se reporter au descriptif ci-dessous. </p><br />")
+		html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Préconisation(s) optionnelle(s) d'aménagement :</h4><br />");
+		html.push("<p style='font-family:Arial;font-size:10pt'>Pas de préconisation(s) optionnelle(s). </p><br />")
+	    html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts solution(s) principale(s) :</h4><br />");
+		html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) d'amélioration répondant à la réglementation :</h4><br />");
+		html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Couts des préconisation(s) optionnelle(s) d'amélioration :</h4><br />");
+        html.push("<p style='font-family:Arial;font-size:8pt'>Note : les coûts sont donnés en prix HT (Hors Taxe) et en Euro. Ils sont donnés en fonction des conditions de marché avec une approximation de 15 % et sans tenir compte des éventuels problèmes liés à la structure de bâtiment, aux coûts de démolitions ou d'éventuelles études complémentaires (étude de portance...).</p><br /> ");
 		
 		return html.join('');		
 
@@ -315,11 +316,11 @@
 				precos.push("</tr>");
 				precos.push("<tr>");
 			}
-			precos.push("<td>"+n.attributes[1].nodeValue+"</td>");
+			precos.push("<td style='font-family:Calibri;font-size:9pt;'>"+n.attributes[1].nodeValue+"</td>");
 			if(n.attributes[3].nodeValue!="xxx")
-				precos.push("<td style='width:3cm' >"+n.attributes[2].nodeValue+" par "+n.attributes[3].nodeValue+"</td></tr>");
+				precos.push("<td style='width:3cm;font-family:Calibri;font-size:9pt;text-align:center;' >"+n.attributes[2].nodeValue+" par "+n.attributes[3].nodeValue+"</td></tr>");
 			else
-				precos.push("<td style='width:3cm' >"+n.attributes[2].nodeValue+"</td>");	
+				precos.push("<td style='width:3cm;font-family:Calibri;font-size:9pt;text-align:center;' >"+n.attributes[2].nodeValue+"</td>");	
 			precos.push("</tr>");	
 			i++;
 		}
@@ -371,6 +372,7 @@
 	     			liste+="<a id='Feuille_"+m+"' href='#' onclick='ViewSpeardsheet(\""+doc+"-"+m+"\");CreaReport();'>"+ul[m]+"</a>";
 	     			liste+="</li>";
      	        }
+     	        submitted=doSubmit(); 
      		    sheets.innerHTML = liste;
      		    document.documentElement.style.cursor = "auto";
      		    document.getElementById('table').style.visibility = "visible"
@@ -386,6 +388,8 @@
      }
 
      function CreaReport(){
+     	submitted=doSubmit();
+     	messageProgressIndicator('Le rapport est en cours de creation , veuillez patienter...');
      	query = new google.visualization.Query(urlSpread+"&gid="+id[1]);
      	query.setTimeout(1000);
      	query.send(handleQueryResponse);  // Send the query with a callback function
@@ -415,6 +419,8 @@
      	
     }
     function getWorkSheet(key,nameSpread){
+    	submitted=doSubmit(); 
+    	messageProgressIndicator("La récuperation des worksheets est en cours , veuillez patienter...");
     	spreadsheet=nameSpread;
     	urlSpread=urlSpreadsheet+key;
     	params="key="+key;
@@ -446,4 +452,14 @@
 		return false;
 		}
 	}
-     
+    function ProgressIndicatorStop(result){
+      submitted=doSubmit(); 
+    }
+    function messageProgressIndicator(msg){
+    	msgSpan=document.getElementById('inprogressMsg');
+     	while(msgSpan.hasChildNodes()){
+     	     msgSpan.removeChild(msgSpan.lastChild);	
+     	} 
+    	document.getElementById('inprogressMsg').innerHTML = msg;
+    }
+    
