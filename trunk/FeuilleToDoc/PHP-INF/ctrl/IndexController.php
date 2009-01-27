@@ -25,8 +25,9 @@ class IndexController extends Zend_Controller_Action {
 		$html=str_replace("\'","'",$html); 
 		$html=str_replace('\"','"',$html); 
 		$html=str_replace('?','&oelig;',$html);
-		$html.="<html>";
-		$html.=$this->ImportWordStyle();
+		$repport="<html>";
+		$repport.=$this->ImportWordStyle();
+		$repport.=$html;
 		$file=utf8_decode($_POST['file']);
 		$this->_helper->viewRenderer->setNoRender();
 		$file=str_replace(" ","_",$file); 
@@ -34,10 +35,10 @@ class IndexController extends Zend_Controller_Action {
 				unlink(RAPPORT_PATH.$file);
 		}
     	$fichier = fopen(RAPPORT_PATH.$file,"w");
-	    fwrite($fichier,$html);
+	    fwrite($fichier,$repport);
 	    fclose($fichier);
 	    print "{PATH:'".RAPPORT_PATH.$file."',File:'".$file."'}";
-	    $this->SendEmailToGoogleDoc($html,$file);
+	    $this->SendEmailToGoogleDoc($repport,$file);
 	}
 	
 	public function SendEmailToGoogleDoc($html,$file){
@@ -63,21 +64,21 @@ class IndexController extends Zend_Controller_Action {
     	    	
     }
 	public function ImportWordStyle(){
-		if (!$fp = fopen("../param/WordStyle.txt","r")) {
+		if (!$fp = fopen(PARAM_URL."WordStyle.txt","r")) {
 			echo "Echec de l'ouverture du fichier";
 			exit;
 		}else{
 			$head="<head>";
 			$head.="<style>";
 			while(!feof($fp)) {
-			// On récupère une ligne
-			$Ligne = fgets($fp,255);
-			// On stocke l'ensemble des lignes dans une variable
-			$head.= $Ligne;
+				// On récupère une ligne
+				$Ligne = fgets($fp,255);
+				// On stocke l'ensemble des lignes dans une variable
+				$head.= $Ligne;
 			}
 			fclose($fp); // On ferme le fichier
 		}
-		$head.="/<style>";
+		$head.="</style>";
 		$head.="</head>";
 		return $head;
 	}
