@@ -24,6 +24,9 @@ class IndexController extends Zend_Controller_Action {
 		$html=utf8_decode($_POST['html']);
 		$html=str_replace("\'","'",$html); 
 		$html=str_replace('\"','"',$html); 
+		$html=str_replace('?','&oelig;',$html);
+		$html.="<html>";
+		$html.=$this->ImportWordStyle();
 		$file=utf8_decode($_POST['file']);
 		$this->_helper->viewRenderer->setNoRender();
 		$file=str_replace(" ","_",$file); 
@@ -59,7 +62,25 @@ class IndexController extends Zend_Controller_Action {
     	$docToUpload->UploadFile(RAPPORT_URL.utf8_decode($_GET['file']),utf8_decode($_GET['file']));
     	    	
     }
-	
+	public function ImportWordStyle(){
+		if (!$fp = fopen("../param/WordStyle.txt","r")) {
+			echo "Echec de l'ouverture du fichier";
+			exit;
+		}else{
+			$head="<head>";
+			$head.="<style>";
+			while(!feof($fp)) {
+			// On récupère une ligne
+			$Ligne = fgets($fp,255);
+			// On stocke l'ensemble des lignes dans une variable
+			$head.= $Ligne;
+			}
+			fclose($fp); // On ferme le fichier
+		}
+		$head.="/<style>";
+		$head.="</head>";
+		return $head;
+	}
 }
 
 ?>

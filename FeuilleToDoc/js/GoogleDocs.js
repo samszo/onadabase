@@ -16,15 +16,15 @@
         var r=1;
         var indice1=0; indice2=1;indice3=0;indice4=0;
         var html=[];
-        html.push("<html>");
+        //html.push("<html>");
         html.push("<body>");
         for(var col = 7; col < data.getNumberOfColumns()-1; col+=2){
         	//vérifie que les colonne sont remplies
         	if(data.getFormattedValue(0, col)!=""){
 	            indice1=0; indice2=0;indice3=0;indice4=0;
 	            var titreProb = data.getValue(1,col);
-	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+data.getFormattedValue(0,col)+": "+titreProb+"</h4>");
-	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
+	        	 html.push("<h4 style='mso-margin-top-alt:0pt;font-weight:normal;font-family:Arial;font-size:10pt'>Problème "+data.getFormattedValue(0,col)+": "+titreProb+"</h4>");
+	        	 html.push("<h4 style='mso-margin-top-alt:0pt;font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
 		         html.push("<tr>");
 		         html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Critère réglementaire </td>" );
@@ -224,8 +224,8 @@
      function getEnteteProb(numProb,titreProb,lignesProb) {
 	  try {
         var html=[];
-       	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+numProb+": "+titreProb+"</h4>");
-       	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
+       	 html.push("<h4 style='margin-top:0pt;margin-bottom:0pt;font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+numProb+": "+titreProb+"</h4>");
+       	 html.push("<h4 style='margin-top:0pt;margin-bottom:0pt;font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
          html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
          html.push("<tr>");
          html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Critère réglementaire </td>" );
@@ -236,9 +236,9 @@
          html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Préconisations </td>" );
          html.push("<td  style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Estimations </td>" );
          html.push("</tr>");
-		html.push(lignesProb);
-        html.push("</table>");
-		return html.join('');		
+		 html.push(lignesProb);
+         html.push("</table>");
+		 return html.join('').replace(/,/g,'');		
 
 	  } catch(ex2){alert("GoogleDocs:getResumeProb:"+ex2);}
      }
