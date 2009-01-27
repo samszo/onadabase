@@ -159,7 +159,7 @@
 						        var ligneProb = getLigneProb(data,idCrit,row,col);
 						        if(ligneProb!=","){
 							        //ajoute la ligne de problème au tableau
-							        arrProb[numProb][0].push(ligneProb);
+							        arrProb[numProb][0][arrProb[numProb][7]]+=ligneProb;
 							        arrProb[numProb][5][arrProb[numProb][7]]=titreProb;
 							        //incrémente le nbre de critère
 							        arrProb[numProb][arrProb[numProb][7]][6]++;
@@ -194,8 +194,8 @@
    	        //for(i=0;i<arrProb.length;i++){
    	        	var Prob = arrProb[numProb];
 		     	for(k=0;k<=Prob[7];k++){
-		     		html.push(getEnteteProb(numProb,Prob[5][k],Prob[0]));
-		     		html.push(getResumeProb(Prob[6][k],Prob[1][k],Prob[2][k],Prob[3][k],Prob[4][k]));
+		     		html.push(getEnteteProb(numProb,Prob[5][k],Prob[0][k]));
+		     		html.push(getResumeProb(Prob[6][k],Prob[1][k],Prob[2][k],Prob[3][k],Prob[4]));
 		     	}
 		    }
 		    
