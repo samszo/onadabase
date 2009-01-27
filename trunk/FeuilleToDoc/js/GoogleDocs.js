@@ -1,10 +1,10 @@
- 
+  
     function load(){
     	google.load("visualization", "1");
     }
    
      
-      // Query response handler function.
+      // Query response handler function. 
       function handleQueryResponse(response) {
         if (response.isError()) {
           alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
@@ -44,9 +44,7 @@
 			          if(trace)
 				         	console.log((row)+','+(col)+" "+data.getValue((row), col));
 				       rowspan=getSolutions(idCrit,nbre=true);
-				       /*if(rowspan==2)
-				       	rowspan--; */ 
-			           if(escapeHtml(data.getValue(row, col))=="F"){
+				       if(escapeHtml(data.getValue(row, col))=="F"){
 				         html.push("<tr>");
 				         html.push("<td rowspan='"+rowspan+"' style='font-family:Arial;font-size:10pt;'>");
 				         html.push(escapeHtml(data.getValue(row, 2))+" ");
@@ -121,6 +119,7 @@
       function handleQueryAllResponse(response) {
         if (response.isError()) {
           alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          
           return;
         }
         // construction de document html
@@ -146,7 +145,7 @@
 	                titreProb=titreProbStr[1];
 	            }
 		            //vérifie si le tableau des problèmes existe
-		            if(!arrProb[numProb])//{
+		            if(!arrProb[numProb])
 		            	arrProb[numProb]= new Array([],0,0,0,0,titreProb,0);
 			          for (var row = 0; row < data.getNumberOfRows()-3; row++) {
 			         	//vérifie s'il faut prendre en compte le critère
@@ -176,11 +175,9 @@
 					        }
 				      }
 			        }
-				//}
 			}
 	     }
 	     var arr = arrProb;
-	     
 	     //vérifie s'il reste des feuilles à traiter
 	     if(idFeuille<ul.length){
 	     	//met à jour le libelle de la feuille
@@ -189,7 +186,6 @@
 			CreaAllReport();
 	     }else{
 	     	//boucle sur les problèmes
-	     	console.log(arrProb[1]);
 	     	for(numProb in arrProb){
    	        //for(i=0;i<arrProb.length;i++){
    	        	var Prob = arrProb[numProb];
@@ -199,16 +195,14 @@
 		    
 		    html.push("</body></html>");	     
 		    //alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
-		    var fic = "Total.html";
+		    var fic = spreadsheet+".html";
 		    params="html="+ html.join('')+"&file="+fic;
-          	alert("Le traitement est terminé envoyez la création du rapport");
-	        AjaxRequestPost(urlAjax+"index/creatrepport",params,"",'',true);
+	        AjaxRequestPost(urlAjax+"index/creatrepport",params," ",'',true);
+	        submitted=doSubmit(); 
 	     }
-        l++;
-	      
+	    
      }
-
-
+    
      function getLigneProb(data,idCrit,row,col) {
 	  try {
         var html=[];
@@ -344,8 +338,6 @@
         return text.replace(/é/g, 'e')
           .replace(/è/g, 'e');
      }
-    
-     
      function ViewSpeardsheet(feuille){
      	id=feuille.split("-");
      	var url=urlSpread+'&output=html&gid='+id[1]+'&single=true&widget=true';
@@ -378,7 +370,8 @@
      	window.open(url);
      }
      function ViewAllRapport(){
-     	var url = urlRapport+"Total.html";
+     	spreadsheet=spreadsheet.replace(/ /g,'_')
+     	var url = urlRapport+encodeURIComponent(spreadsheet)+".html";
      	window.open(url);
      }
 
@@ -393,7 +386,7 @@
      	query.setTimeout(1000);
      	query.send(handleQueryAllResponse);  // Send the query with a callback function
      }
-     
+       
      function getSpreadSheet(Name){
      	var menu="";
      	var S;
@@ -401,7 +394,9 @@
      	for(i=0;i<nbrspeardsheet;i++){
      		speard=Name[i].split("*");
      		key=speard[1].split("/");
-     		menu+=("<option onclick='getWorkSheet(\""+key[5]+"\")'>");
+     		nameSpread=speard[0].replace(/'/g,' ').replace(/é|è/g,'e')
+     		                                              
+     		menu+=("<option onclick='getWorkSheet(\""+key[5]+"\",\""+nameSpread+"\")'>");
      		menu+=(speard[0]);
      		menu+=("</option>");
      	}
@@ -409,7 +404,8 @@
      	document.getElementById('MenuSpeardSheet').innerHTML = menu;
      	
     }
-    function getWorkSheet(key){
+    function getWorkSheet(key,nameSpread){
+    	spreadsheet=nameSpread;
     	urlSpread=urlSpreadsheet+key;
     	params="key="+key;
     	AjaxRequest(urlAjax+"index/accueil?key="+key,'ListeFeuilles','');
@@ -425,4 +421,19 @@
 	  } catch(ex2){alert("GoogleDocs:VerifSupCrit:"+ex2);}
 	}
   
+     function doSubmit() {
+	if (! submitted) {
+		submitted = true;
+		ProgressImg = document.getElementById('inprogress_img');
+		document.getElementById("inprogress").style.visibility = "visible";
+		document.getElementById("inprogress").style.display = "block";
+		setTimeout("ProgressImg.src = ProgressImg.src",100);
+		return true;
+		}
+	else {
+		document.getElementById("inprogress").style.visibility = "hidden";
+		document.getElementById("inprogress").style.display = "none";
+		return false;
+		}
+	}
      
