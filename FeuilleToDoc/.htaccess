@@ -3,4 +3,4 @@
 RewriteEngine on
 
 RewriteCond %{REQUEST_URI} !/public.*
-RewriteRule !\.(js|ico|gif|jpg|png|css|xml|html)$ index.php
+RewriteRule !\.(js|ico|gif|jpg|png|css|xml|html|txt)$ index.php

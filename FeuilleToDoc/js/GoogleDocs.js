@@ -148,7 +148,7 @@
 	           //vérifie si le tableau des problèmes existe
 		            if(!arrProb[cle]){
 		            	arrProb[cle]= new Array([],0,0,0,0,titreProb,0);
-		                // table des indexs du tableau
+		                // table des indexs du tableau des problèmes tri
 		             	if(!arrIndex[numProb])
 		             		arrIndex[numProb]=new Array();
 		                arrIndex[numProb].push(cle);
