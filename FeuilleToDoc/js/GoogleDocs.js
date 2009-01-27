@@ -16,15 +16,15 @@
         var r=1;
         var indice1=0; indice2=1;indice3=0;indice4=0;
         var html=[];
-        //html.push("<html>");
+        html.push("<html>");
         html.push("<body>");
         for(var col = 7; col < data.getNumberOfColumns()-1; col+=2){
         	//vérifie que les colonne sont remplies
         	if(data.getFormattedValue(0, col)!=""){
 	            indice1=0; indice2=0;indice3=0;indice4=0;
 	            var titreProb = data.getValue(1,col);
-	        	 html.push("<h4 style='mso-margin-top-alt:0pt;font-weight:normal;font-family:Arial;font-size:10pt'>Problème "+data.getFormattedValue(0,col)+": "+titreProb+"</h4>");
-	        	 html.push("<h4 style='mso-margin-top-alt:0pt;font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
+	        	 html.push("<h4 style='margin: 0cm 0cm 0.0001pt;font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+data.getFormattedValue(0,col)+": "+titreProb+"</h4>");
+	        	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
 		         html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
 		         html.push("<tr>");
 		         html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Critère réglementaire </td>" );
@@ -54,7 +54,6 @@
 				         html.push("</td>");
 				         //calcul la solution
 				         html.push(getSolutions(idCrit,nbre=false,rowspan));
-				        // html.push("</tr>");
 			             if(indice1 < data.getValue(row, 3))
 			             	indice1= data.getValue(row, 3);
 			             if(indice2 < data.getValue(row, 4))
@@ -145,8 +144,9 @@
 	                titreProb=titreProbStr[1];
 	            }
 		            //vérifie si le tableau des problèmes existe
-		            if(!arrProb[numProb])
-		            	arrProb[numProb]= new Array([],0,0,0,0,titreProb,0);
+		            if(!arrProb[numProb]){
+		            	arrProb[numProb]= new Array([],[],[],[],[],[],[],0);
+		             }
 			          for (var row = 0; row < data.getNumberOfRows()-3; row++) {
 			         	//vérifie s'il faut prendre en compte le critère
 			         	style="";
@@ -160,21 +160,25 @@
 						        if(ligneProb!=","){
 							        //ajoute la ligne de problème au tableau
 							        arrProb[numProb][0].push(ligneProb);
+							        arrProb[numProb][5][arrProb[numProb][7]]=titreProb;
 							        //incrémente le nbre de critère
-							        arrProb[numProb][6]++;
+							        arrProb[numProb][arrProb[numProb][7]][6]++;
+							        
 						            //vérifie l'indice le plus élévé
-						             if(arrProb[numProb][1] < data.getValue(row, 3))
-						             	arrProb[numProb][1]= data.getValue(row, 3);
-						             if(arrProb[numProb][2] < data.getValue(row, 4))
-						             	arrProb[numProb][2]= data.getValue(row, 4);
-						             if(arrProb[numProb][3] < data.getValue(row, 5))
-						             	arrProb[numProb][3]= data.getValue(row, 5);
-						             if(arrProb[numProb][4] < data.getValue(row, 6))
-						             	arrProb[numProb][4]= data.getValue(row, 6);
+						             if(arrProb[numProb][1][arrProb[numProb][7]] < data.getValue(row, 3))
+						             	arrProb[numProb][1][arrProb[numProb][7]]= data.getValue(row, 3);
+						             if(arrProb[numProb][2][arrProb[numProb][7]] < data.getValue(row, 4))
+						             	arrProb[numProb][2][arrProb[numProb][7]]= data.getValue(row, 4);
+						             if(arrProb[numProb][3][arrProb[numProb][7]] < data.getValue(row, 5))
+						             	arrProb[numProb][3][arrProb[numProb][7]]= data.getValue(row, 5);
+						             if(arrProb[numProb][4][arrProb[numProb][7]] < data.getValue(row, 6))
+						             	arrProb[numProb][4][arrProb[numProb][7]]= data.getValue(row, 6);
 						        }
 					        }
 				      }
 			        }
+			        arrProb[numProb][7]++;
+			        console.log(arrProb[numProb][7]);
 			}
 	     }
 	     var arr = arrProb;
@@ -183,14 +187,16 @@
 	     	//met à jour le libelle de la feuille
           	//alert("Feuille "+ul[idFeuille]+" traitée");
 	     	idFeuille ++;
-			CreaAllReport();
+			CreaAllReport(); 
 	     }else{
 	     	//boucle sur les problèmes
 	     	for(numProb in arrProb){
    	        //for(i=0;i<arrProb.length;i++){
    	        	var Prob = arrProb[numProb];
-		     	html.push(getEnteteProb(numProb,Prob[5],Prob[0]));
-		     	html.push(getResumeProb(Prob[6],Prob[1],Prob[2],Prob[3],Prob[4]));
+		     	for(k=0;k<=Prob[7];k++){
+		     		html.push(getEnteteProb(numProb,Prob[5][k],Prob[0]));
+		     		html.push(getResumeProb(Prob[6][k],Prob[1][k],Prob[2][k],Prob[3][k],Prob[4][k]));
+		     	}
 		    }
 		    
 		    html.push("</body></html>");	     
@@ -224,8 +230,8 @@
      function getEnteteProb(numProb,titreProb,lignesProb) {
 	  try {
         var html=[];
-       	 html.push("<h4 style='margin-top:0pt;margin-bottom:0pt;font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+numProb+": "+titreProb+"</h4>");
-       	 html.push("<h4 style='margin-top:0pt;margin-bottom:0pt;font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
+       	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Problème "+numProb+": "+titreProb+"</h4>");
+       	 html.push("<h4 style='font-weight:bold;font-family:Arial;font-size:10pt'>Diagnostic des critères réglementaires posant problèmes :</h4>");
          html.push("<table id='Probl' cellspacing='10' border='1' style='border-collapse:collapse' > ");
          html.push("<tr>");
          html.push("<td rowspan='2' style='background-color:#CCCCCC;font-weight:bold;font-family:Arial;font-size:10pt;text-align:center;'> Critère réglementaire </td>" );
