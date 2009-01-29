@@ -225,9 +225,10 @@ class Xul{
 		//if($niv==0)
 		//	$FilAriane = "<toolbar id='fa-toolbar' class='toolbar'>";	
 		
-		if($g->IdParent!=0 && $id!=$idScope)
+		if($g->IdParent!=0 && $id!=$idScope){
 			$FilAriane.=$this->GetFilAriane($jsParam, $g->IdParent, ($niv+1),$idScope);
-		
+		}
+				
 		$FilAriane.="<label value='|' />";
 		//$url = $this->site->infos['lienAdminSpip']."".urlencode ("/?exec=naviguer&id_rubrique=".$g->id);
 		//$FilAriane.="<label id='fa_".$id."' class='titreLiens' href='' onclick=\"RefreshEcran(document.getElementById('idRub').value,'".$jsParam[0]."','".$jsParam[1]."','".$jsParam[2]."');\" value='".$g->titre."'/>";

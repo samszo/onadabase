@@ -25,7 +25,9 @@ ChercheAbo ();
 	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>js/ajax.js"></script>
 	<script type="text/javascript">
 	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; var Name=eval((".$this->data."));"; ?> 
-     var result= new Array();var urlAjax="";var j=0;
+     var result= new Array();
+     var urlAjax="";
+     var j=0;
      var urlImg="<?php echo IMG_URL; ?>"; //adresse des images
      var f=0;var liste="";
      var l=0;var WorkSheetNbre; var ul="";var m=0;urlRapport="<?php echo RAPPORT_URL; ?>";var WorkSheetTitle;

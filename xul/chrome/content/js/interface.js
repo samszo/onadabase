@@ -1197,6 +1197,7 @@ function ChargeTabboxFromAjax(idSrc,idDst,type)
 function ChargeMenuFromAjax(id,idDst,type)
 {
   try {
+	document.documentElement.style.cursor = "wait";
 	dump("ChargeMenuFromAjax IN "+type+"\n");
 	
 	var doc = document.getElementById("menu_"+type+"_voir");
@@ -1223,6 +1224,7 @@ function ChargeMenuFromAjax(id,idDst,type)
 	dump("ChargeMenuFromAjax OUT\n");
    
    } catch(ex2){dump(":ChargeMenuFromAjax:"+ex2);}
+	document.documentElement.style.cursor = "auto";
 	
 }
 
