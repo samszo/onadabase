@@ -334,9 +334,8 @@ class Grille{
     	
     	$g = new Granulat($idRub,$this->site);
     	//récupère les rubriques enfants
-    	$ids = str_replace(DELIM,",",$g->GetEnfantIds());
-    	$ids .= "-1";
-    	
+    	$ids = $g->GetIdsScope();
+    	    	
 		//récupère les identifiants des rubriques de la racine ayant un problème
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetListeSignalementProbleme']";
 		if($this->trace)
@@ -449,9 +448,8 @@ class Grille{
     	
     	$g = new Granulat($idRub,$this->site);
     	//récupère les rubriques enfants
-    	$ids = str_replace(DELIM,",",$g->GetEnfantIds());
-    	$ids .= "-1";
-    	
+    	$ids = $g->GetIdsScope();
+    	    	
 		//récupère les identifiants des rubriques de la racine ayant un problème
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetListeSignalementProbleme']";
 		if($this->trace)
@@ -588,9 +586,8 @@ class Grille{
     	
     	$g = new Granulat($idRub,$this->site);
     	//récupère les rubriques enfants
-    	$ids = str_replace(DELIM,",",$g->GetEnfantIds());
-    	$ids .= "-1";
-    	
+    	$ids = $g->GetIdsScope();
+    	    	
 		//récupère les identifiants des rubriques de la racine ayant un problème
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetListeObservations']";
 		if($this->trace)
@@ -711,8 +708,7 @@ class Grille{
     	
     	$g = new Granulat($idRub,$this->site);
     	//récupère les rubriques enfants
-    	$ids = str_replace(DELIM,",",$g->GetEnfantIds());
-    	$ids .= "-1";
+    	$ids = $g->GetIdsScope();
     	
 		//récupère les identifiants des rubriques de la racine ayant un problème
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetListeSignalementProbleme']";

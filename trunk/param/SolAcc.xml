@@ -986,13 +986,13 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 					 INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
 					 INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee
 					 AND fd.id_form =60
-					 INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
+					 LEFT JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 					 AND fdc.champ = 'ligne_3'
-					INNER JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee
+					 LEFT JOIN spip_forms_donnees_champs fdc1 ON fdc1.id_donnee = fd.id_donnee
 					 AND fdc1.champ = 'ligne_1'
-					 INNER JOIN spip_forms_donnees_champs fdc3 ON fdc3.id_donnee = fd.id_donnee
+					 LEFT JOIN spip_forms_donnees_champs fdc3 ON fdc3.id_donnee = fd.id_donnee
 					 AND fdc3.champ = 'texte_1'
-					 INNER JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee
+					 LEFT JOIN spip_forms_donnees_champs fdc2 ON fdc2.id_donnee = fd.id_donnee
 					 AND fdc2.champ = 'mot_1'
 					 LEFT JOIN spip_mots m1 ON m1.id_mot = fdc2.valeur
 					 
@@ -1634,8 +1634,8 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ" srcId="69;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ" srcId="72;ligne_2" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="72;ligne_2" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
-		<workflow srcObj="grille;champ" srcId="71;ligne_2" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
-		<workflow srcObj="grille;champ" srcId="71;ligne_2" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
+		<workflow srcObj="grille;champ" srcId="71;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
+		<workflow srcObj="grille;champ" srcId="71;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		
 		<!-- Reponse non à un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />

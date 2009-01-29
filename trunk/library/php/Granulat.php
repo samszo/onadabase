@@ -66,23 +66,41 @@ class Granulat
 		
 	}
   
+	
+	function GetIdsScope(){
+		
+		//vérifie si on traite une ligne de transport
+		$ligne = $this->VerifExistGrille($this->site->infos["GRILLE_LIGNE_TRANS"]);
+		$idMotLiens = $this->site->infos["MOT_CLEF_LIGNE_TRANS"];
+		//vérifie si on traite une chaine de déplacement
+		if($ligne==-1){
+			$ligne = $this->VerifExistGrille($this->site->infos["GRILLE_CHAINE_DEPLA"]);
+			$idMotLiens = $this->site->infos["MOT_CLEF_CHAINE_DEPLA"];
+		}
+		
+		//récupère les enfants
+		if($ligne!=-1)
+			$ids = $this->GetEnfantIdsInLiens($this->id,",",$idMotLiens);
+		else
+			$ids = $this->GetEnfantIds($this->id,",").$this->id;
+
+		//vérifie si $ids est renseigné
+		if(!$ids)
+			$ids=-1;
+		
+		return $ids;
+	}
+	
   	function GetEtatDiagListe($idDoc,$PourFlex=false,$SaveFile=false){
 		
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiagListe: id=$this->id idDoc=$idDoc<br/>";
 
-		//vérifie si on traite une ligne de transport
-		$ligne = $this->VerifExistGrille($this->site->infos["GRILLE_LIGNE_TRANS"]);
-				
-		//récupère les enfants
-		if($ligne!=-1)
-			$ids = $this->GetEnfantIdsInLiens($this->id,",",$this->site->infos["MOT_CLEF_LIGNE_TRANS"]);
-		else
-			$ids = $this->GetEnfantIds($this->id,",").$this->id;
+		$ids = $this->GetIdsScope();
 		
 		//construction du xml
 		$grille = new Grille($this->site);
-		$xul = $grille->GetEtatDiagListe($ids,$idDoc,$PourFlex,$this->id);
+		$xul = $grille->GetEtatDiagListe($ids,$idDoc,$PourFlex,$this->IdParent);
 		
 		if($SaveFile){
 			$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_".$idDoc.".xml";
@@ -100,15 +118,8 @@ class Granulat
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiag: id= $this->id<br/>";
 
-		//vérifie si on traite une ligne de transport
-		$ligne = $this->VerifExistGrille($this->site->infos["GRILLE_LIGNE_TRANS"]);
-				
-		//récupère les enfants
-		if($ligne!=-1)
-			$ids = $this->GetEnfantIdsInLiens($this->id,",",$this->site->infos["MOT_CLEF_LIGNE_TRANS"]);
-		else
-			$ids = $this->GetEnfantIds($this->id,",").$this->id;
-
+		$ids = $this->GetIdsScope();
+	    	
 		//calculer l'état du diagnostique
 		$grille = new Grille($this->site);
 		$EtatOui = $grille->GetEtatDiagOui($ids);
