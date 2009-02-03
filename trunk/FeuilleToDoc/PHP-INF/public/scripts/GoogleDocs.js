@@ -110,13 +110,11 @@ function handleQueryResponse(response) {
 	html.push("</body></html>");
 	//alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
 	params="html="+ html.join('')+"&file="+cleanAccent(id[0])+".html";
-	AjaxRequestPost(urlAjax+"index/creatrepport",params,'ProgressIndicatorStop','',true);
-	/*
+	//AjaxRequestPost(urlAjax+"index/creatrepport",params,'ProgressIndicatorStop','',true);
 	popup = null;
 	popup = window.open("","Rapport");
 	popup.document.write(html.join(''));
 	popup.stop();
-	*/
 	html = null;
 	
 }		
@@ -206,13 +204,11 @@ function handleQueryAllResponse(response) {
 		//alert("GoogleDocs:handleQueryResponse:id_feuil="+id_feuil);
 		var fic = spreadsheet+".html";
 		params="html="+ html.join('')+"&file="+fic;
-		AjaxRequestPost(urlAjax+"index/creatrepport",params,"ProgressIndicatorStop",'',true);
-		/*
+		//AjaxRequestPost(urlAjax+"index/creatrepport",params,"ProgressIndicatorStop",'',true);
 		popup = null;
 		popup = window.open("","Rapport");
 		popup.document.write(html.join(''));
 		popup.stop();
-		*/
 		html = null;
 	}
 }    
