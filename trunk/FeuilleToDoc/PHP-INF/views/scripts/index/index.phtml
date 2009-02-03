@@ -32,13 +32,14 @@ ChercheAbo ();
      var f=0;var liste="";
      var l=0;var WorkSheetNbre; var ul="";var m=0;urlRapport="<?php echo RAPPORT_URL; ?>";var WorkSheetTitle;
      var urlSpreadsheet='http://spreadsheets.google.com/pub?key=';
+	 var urlQueryBase='http://spreadsheets.google.com/tq?key=';
      var trace = false;var spreadsheet="";
-	 var xmlParam = GetXmlUrlToDoc("<?php echo PARAM_URL."CritSup.xml"; ?>");
-	 var xmlSols = GetXmlUrlToDoc("<?php echo PARAM_URL."solutions.xml"; ?>");
+	 var xmlParam = GetXmlUrlToDoc("param/CritSup.xml");
+	 var xmlSols = GetXmlUrlToDoc("param/solutions.xml");
 	 var idFeuille = 0;//n° de la feuille en cours de traitement
  	 var arrProb;//tableau des problèmes
  	 var submitted = false;
- 	 var arrIndex=[];
+ 	 var arrIndex= new Array();
      load();
     
    </script>
