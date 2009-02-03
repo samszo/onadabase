@@ -2,42 +2,40 @@
 // AJAX Functions
 //--------------------------------------------
 
-function GetXmlUrlToDoc(url){
-
-  try {
-	//alert(url);
-	var xml = GetResult(url);
-	//alert(xml);
-	var parser = new DOMParser();
-	//var serializer = new XMLSerializer();
-	var doc = parser.parseFromString(xml, "text/xml");
-	
-	return doc;
+function GetXmlUrlToDoc(url){ //chargement simplifié
+	try {
+		var xmlDoc;
+		// code for IE
+		if (window.ActiveXObject)
+			xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+		// code for Mozilla, Firefox, Opera, etc.
+		else if (document.implementation && document.implementation.createDocument)
+			xmlDoc=document.implementation.createDocument("","",null);
+		else
+			alert('Your browser cannot handle this script');
+		xmlDoc.async=false;
+		xmlDoc.load(url);
+		return(xmlDoc);
    } catch(ex2){alert("ajax:GetXmlUrlToDoc:"+ex2);}
 
 }
 
-function GetResult(url) {
-  try {
-	dump("GetResult IN "+url+"\n");
-    response = "";
-	p = new XMLHttpRequest();
-	p.onload = null;
-	//p.open("GET", urlExeAjax+"?f=GetCurl&url="+url, false);
-	
-	p.open("GET", encodeURI(url), false);
-	p.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	p.send(null);
-
-	if (p.status != "200" ){
-	      alert("Réception erreur " + p.status);
-	}else{
-	    response = p.responseText;
-	}
-	return response;
-	dump("GetResult OUT \n");
+/*
+function GetResult(url) { //rendu inutile par le changement de GetXmlUrlToDoc()
+	try { 
+		response = "";
+		var p;
+		if (window.XMLHttpRequest)
+			p = new XMLHttpRequest();
+		else if (window.ActiveXObject)
+			p = new ActiveXObject("Microsoft.XMLHTTP");
+		else 
+			return; 
+		p.open('GET', url, false);
+		p.send(null);
+		return p.responseText;
    } catch(ex2){alert(ex2);}
-}
+}*/
 
 
 function AppendResult(url,doc,ajoute) {
@@ -91,6 +89,7 @@ function RefreshResult(response, params) {
 	AjaxRequest(arrP[1],"AfficheResult",arrP[2])
 }
 
+/*
 function AjaxRequest(url,fonction_sortie,params,id) {
    
  	this.url = encodeURI(url);
@@ -98,7 +97,7 @@ function AjaxRequest(url,fonction_sortie,params,id) {
  	this.params = params;
 	this.id=id;
 	//alert(params);
-
+	alert(this.url);
 	var ajaxRequest = this;
 
     if (window.XMLHttpRequest) {
@@ -131,7 +130,26 @@ function AjaxRequest(url,fonction_sortie,params,id) {
 
 	}
 
+}*/
+
+function AjaxRequest(url,fonction_sortie,params,id) {
+	var ajaxRequest;
+	if (window.XMLHttpRequest)
+		ajaxRequest = new XMLHttpRequest();
+	else if (window.ActiveXObject)
+		ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	else 
+		return; 
+	ajaxRequest.open('GET', url, true);
+	ajaxRequest.onreadystatechange = function() 
+		{
+			if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) { 
+				eval(fonction_sortie+"(ajaxRequest.responseText);");
+			}
+		}
+	ajaxRequest.send(null);
 }
+
 function AjaxRequestPost(url,urlparams,fonction_sortie,params,id) {
   
  	this.url = encodeURI(url);
