@@ -24,7 +24,7 @@ ChercheAbo ();
 	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>js/GoogleDocs.js"></script>
 	<script type="text/javascript" src="<?php echo WEBAPP_DIR; ?>js/ajax.js"></script>
 	<script type="text/javascript">
-	 <?php echo "var nbrspeardsheet=".sizeof(json_decode($this->data)); echo "; var Name=eval((".$this->data."));"; ?> 
+	 <?php echo "var nbrspreadsheet=".sizeof(json_decode($this->data)); echo "; var Name=eval((".$this->data."));"; ?> 
      var result= new Array();
      var urlAjax="";
      var j=0;
@@ -42,7 +42,7 @@ ChercheAbo ();
  	 var arrIndex= new Array();
      load();
     
-   </script>
+</script>
   </head>
 	<body onload="getSpreadSheet(Name);">
 	 <h1>onadabase</h1> 
@@ -54,8 +54,8 @@ ChercheAbo ();
 	</div>
 	
 	 	<div id="main">
-	 	<h4 style="color:#000000;font-family:Arial;;font-size:14px">Veuillez choisir le spreadsheet que vous voulais trait&eacute; :</h4>
-	 	<div id="MenuSpeardSheet"></div>
+	 	<h4 style="color:#000000;font-family:Arial;;font-size:14px">Veuillez choisir le spreadsheet que vous voulez traiter :</h4>
+	 	<div id="MenuSpreadSheet"></div>
 	 	  <table id="table" border="1" align="center" style="visibility:hidden">
 			 <tr>
 			   
@@ -80,7 +80,7 @@ ChercheAbo ();
 		  </table>
 	  </div>
 	  <div id="right">
-		<iframe id="ViewSpeardsheet" width='900' height='500' frameborder='0' src=''></iframe>
+		<iframe id="ViewSpreadsheet" width='900' height='500' frameborder='0' src=''></iframe>
 	  </div>
 	  
 	</body>

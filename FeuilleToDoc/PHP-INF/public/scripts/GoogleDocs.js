@@ -66,7 +66,7 @@ function handleQueryResponse(response) {
 				}
 			}
 			
-			html.push("</table>");
+			html.push("</table>"+newPB("&nbsp;"));
 			if(nbrCrit<=5)
 				style="text-align:center;font-family:Arial;font-size:10pt;background:#FF8C00";
 			if(nbrCrit>5)
@@ -98,7 +98,7 @@ function handleQueryResponse(response) {
 			html.push("</table>");
 			html.push("</table>"+newPB("&nbsp;"));
 			html.push(newPB("Préconisation(s) d'amélioration répondant à la réglementation :")+newPB("&nbsp;"));
-			html.push(newP("Pour les préconisations usuelles, se reporter au tableau ci-dessus. Pour les précisions, se reporter au descriptif ci-dessous. ")+newPB("&nbsp;"));
+			html.push(newP("<font color=\"#0000ff\">Pour les préconisations usuelles, se reporter au tableau ci-dessus. Pour les précisions, se reporter au descriptif ci-dessous. </font>")+newPB("&nbsp;"));
 			html.push(newPB("Préconisation(s) optionnelle(s) d'aménagement :")+newPB("&nbsp;"));
 			html.push(newP("Pas de préconisation(s) optionnelle(s).")+newPB("&nbsp;"));
 			html.push(newPB("Estimations des couts des préconisation(s) d'amélioration répondant à la réglementation :")+newPB("&nbsp;"));
@@ -286,7 +286,7 @@ function getResumeProb(nbrCrit,indice1,indice2,indice3,indice4) {
         html.push("</tr>");
         html.push("</table>"+newPB("&nbsp;"));
 		html.push(newPB("Préconisation(s) d'amélioration répondant à la réglementation :")+newPB("&nbsp;"));
-		html.push(newP("Pour les préconisations usuelles, se reporter au tableau ci-dessus. Pour les précisions, se reporter au descriptif ci-dessous. ")+newPB("&nbsp;"));
+		html.push(newP("<font color=\"#0000ff\">Pour les préconisations usuelles, se reporter au tableau ci-dessus. Pour les précisions, se reporter au descriptif ci-dessous. </font>")+newPB("&nbsp;"));
 		html.push(newPB("Préconisation(s) optionnelle(s) d'aménagement :")+newPB("&nbsp;"));
 		html.push(newP("Pas de préconisation(s) optionnelle(s).")+newPB("&nbsp;"));
 		html.push(newPB("Estimations des couts des préconisation(s) d'amélioration répondant à la réglementation :")+newPB("&nbsp;"));
