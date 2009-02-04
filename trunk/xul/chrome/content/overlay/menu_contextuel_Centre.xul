@@ -699,10 +699,6 @@
 						label="L'(les) observation(s)"
 						oncommand="ChargeTreeObs('idRub','FormSaisi');" />
 					<menuitem
-						role="administrateur;diagnostiqueur"
-						label="Les paramètres de contrôle"
-						oncommand="RefreshEcran(document.getElementById('idRub').value,'Paramètres de contôle','objetgen','ObjetGen');" />
-					<menuitem
 						role="administrateur;diagnostiqueur;lecteur"
 						label="L'état des lieux"
 						oncommand="ShowEtatDiag(document.getElementById('idRub').value);" />
