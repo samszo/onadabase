@@ -1083,6 +1083,13 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 				<dst>Art</dst>
 			</Query>
 
+			<Query fonction="Grille_GetEtatDiagSum">
+				<select>
+					SELECT SUM(audio) audio, SUM(cog) cog, SUM(moteur) moteur, SUM(visu) visu </select>
+				<from> FROM ona_etatdiag eta
+					INNER JOIN spip_rubriques_enfants re ON re.id_rubrique = eta.id_rubrique </from>
+				<where> WHERE re.id_parent=-idRub- AND handi=-handi- </where>
+			</Query> 
 			<Query fonction="Grille_GetEtatDiagOui">
 				<select>
 					SELECT  COUNT(fdcMoteur.valeur) moteur
@@ -1115,6 +1122,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 				</from>
 				<where> WHERE r.id_rubrique IN(-ids-)</where>
 			</Query>
+
 			<Query fonction="Grille_GetEtatDiagHandi">
 				<select>
 					SELECT  
@@ -1154,16 +1162,17 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 				<where> WHERE r.id_rubrique IN(-ids-)</where>
 			</Query>
 
-			<Query fonction="Grille_GetEtatDiagOuiListe">
+			<Query fonction="Grille_GetEtatDiagOuiListe__">
 				<select>
-					SELECT r.id_rubrique
+					SELECT DISTINCT r.id_rubrique
 						, fdcRef.valeur valRef
 						, fdcAff.valeur affirm
-						, fd.id_donnee idDonRep, fdCont.id_donnee idDonCont, a.id_article idArt			 
+						, fd.id_donnee idDonRep
+						, fdCont.id_donnee idDonCont, a.id_article idArt			 
 				</select>
-				<from> 
-					FROM spip_rubriques r 
-					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+				<from> FROM spip_rubriques_enfants r 
+					INNER JOIN ona_etatdiag oe ON oe.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_articles a ON a.id_rubrique = oe.id_rubrique 
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article 
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee 
 					   AND fd.id_form =-idFormRep- 
@@ -1181,21 +1190,77 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 					LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = fdCont.id_donnee 
 					   AND fdcAff.champ = 'texte_1'	   
 				</from>
-				<where> WHERE r.id_rubrique IN(-ids-)  ORDER BY r.id_rubrique, a.id_article </where>
+				<where> WHERE r.id_parent = -idRub- 
+					ORDER BY r.id_rubrique, a.id_article
+				</where>
 			</Query>
-
+			<Query fonction="Grille_GetEtatDiagOuiListe">
+				<select>
+					SELECT DISTINCT r.id_rubrique
+						, fdcRef.valeur valRef
+						, fdcAff.valeur affirm
+						, oed.idDonRep
+						, oed.idDonCont
+				</select>
+				<from> FROM spip_rubriques_enfants r 
+						INNER JOIN ona_etatdiag oe ON oe.id_rubrique = r.id_rubrique 
+							AND oe.handi = -handi- AND -TypeHandi-
+						INNER JOIN ona_etatdiag_donnees oed ON oed.id_etatdiag = oe.id_etatdiag
+						
+						INNER JOIN spip_forms_donnees_champs fdcRef ON fdcRef.id_donnee = oed.idDonRep 
+						INNER JOIN spip_mots m ON m.id_mot = fdcRef.valeur AND m.titre='Oui'
+						
+						INNER JOIN spip_forms_donnees_champs fdcCont ON fdcCont.id_donnee = oed.idDonCont
+						INNER JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = oed.idDonCont
+						   AND fdcM.champ = '-champ-'  AND fdcM.valeur = '-valeur-'
+						LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = oed.idDonCont 
+						   AND fdcAff.champ = 'texte_1'	   	   
+				</from>
+				<where> WHERE r.id_parent = -idRub- 
+					ORDER BY r.id_rubrique
+				</where>
+			</Query>
 
 			<Query fonction="Grille_GetEtatDiagHandiListe">
 				<select>
-					SELECT  r.id_rubrique
+					SELECT DISTINCT r.id_rubrique
+						, fdcRef.valeur valRef
+						, fdcAff.valeur affirm
+						, oed.idDonRep
+						, oed.idDonCont
+				</select>
+				<from> FROM spip_rubriques_enfants r 
+					INNER JOIN ona_etatdiag oe ON oe.id_rubrique = r.id_rubrique 
+						AND oe.handi = -handi- AND -TypeHandi-
+					INNER JOIN ona_etatdiag_donnees oed ON oed.id_etatdiag = oe.id_etatdiag
+
+					INNER JOIN spip_forms_donnees_champs fdcRef ON fdcRef.id_donnee = oed.idDonRep 
+					INNER JOIN spip_mots m ON m.id_mot = fdcRef.valeur AND m.titre='Non'
+					
+					
+					INNER JOIN spip_forms_donnees_champs fdcCont ON fdcCont.id_donnee = oed.idDonCont
+					INNER JOIN spip_forms_donnees_champs fdcM ON fdcM.id_donnee = oed.idDonCont
+					   AND fdcM.champ = '-champ-' AND fdcM.valeur = -valeur- 
+					LEFT JOIN spip_forms_donnees_champs fdcAff ON fdcAff.id_donnee = oed.idDonCont 
+					   AND fdcAff.champ = 'texte_2'	   
+
+				</from>
+				<where> WHERE r.id_parent = -idRub- 
+					ORDER BY r.id_rubrique
+				</where>
+			</Query>
+
+			<Query fonction="Grille_GetEtatDiagHandiListe__">
+				<select>
+					SELECT DISTINCT r.id_rubrique
 						, fdcRef.valeur valRef
 						, fdcAff.valeur affirm
 						, fd.id_donnee idDonRep, fdCont.id_donnee idDonCont
 						, a.id_article idArt			 
 				</select>
-				<from> 
-					FROM spip_rubriques r 
-					INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique 
+				<from> FROM spip_rubriques_enfants r 
+					INNER JOIN ona_etatdiag oe ON oe.id_rubrique = r.id_rubrique 
+					INNER JOIN spip_articles a ON a.id_rubrique = oe.id_rubrique 
 					INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article 
 					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee 
 					   AND fd.id_form =-idFormRep- 
@@ -1215,7 +1280,9 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 					   AND fdcAff.champ = 'texte_2'	   
 
 				</from>
-				<where> WHERE r.id_rubrique IN(-ids-) ORDER BY r.id_rubrique, a.id_article</where>
+				<where> WHERE r.id_parent = -idRub- 
+					ORDER BY r.id_rubrique, a.id_article
+				</where>
 			</Query>
 
 			<Query fonction="Grille_GetEtatDiagApplicable">

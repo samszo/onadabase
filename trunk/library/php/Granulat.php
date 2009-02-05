@@ -91,44 +91,75 @@ class Granulat
 		return $ids;
 	}
 	
-  	function GetEtatDiagListe($idDoc,$PourFlex=false,$SaveFile=false){
+  	function GetEtatDiagListe($idDoc,$PourFlex=false,$SaveFile=true){
 		
 		if($this->trace)
 	    	echo "Granulat:GetEtatDiagListe: id=$this->id idDoc=$idDoc<br/>";
 
-		$ids = $this->GetIdsScope();
-		
+		//$ids = $this->GetIdsScope();
+   		$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_".$idDoc.".xml";
+	    $contents = $this->site->GetFile($path);
+   		if($contents)
+   			return $contents;
+	    		    	
 		//construction du xml
 		$grille = new Grille($this->site);
-		$xul = $grille->GetEtatDiagListe($ids,$idDoc,$PourFlex,$this->IdParent);
+		$xul = $grille->GetEtatDiagListe($this->id,$idDoc,$PourFlex,$this->IdParent);
 		
-		if($SaveFile){
-			$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_".$idDoc.".xml";
-			$fic = fopen($path, "w");
-			fwrite($fic, $xul);		
-    		fclose($fic);
-		}
+		if($SaveFile)
+			$this->site->SaveFile($path,$xul);
+
 		return $xul;
 		
 	}
 
 
-	function GetEtatDiag($PourFlex=false,$SaveFile=false){
+	function GetEtatDiag($PourFlex=false,$SaveFile=false,$calcul=false){
 		
+		$deb = microtime(true);
 		if($this->trace)
-	    	echo "Granulat:GetEtatDiag: id= $this->id<br/>";
+	    	echo $deb."Granulat:GetEtatDiag: id= $this->id<br/>";
 
-		$ids = $this->GetIdsScope();
+	    //récupère toutes les rubrique enfants
+	    $ids = $this->GetIdsScope();
 	    	
 		//calculer l'état du diagnostique
 		$grille = new Grille($this->site);
-		$EtatOui = $grille->GetEtatDiagOui($ids);
-		$Etat1 = $grille->GetEtatDiagHandi($ids,1);
-		$Etat2 = $grille->GetEtatDiagHandi($ids,2);
-		$Etat3 = $grille->GetEtatDiagHandi($ids,3);
-		$EtatAppli = $grille->GetEtatDiagApplicable($ids);
+		
+		if(!$calcul){
+			//récupère les rubriques ayant un diagnostique
+			$rs = $grille->FiltreRubAvecGrille($this->id,$this->site->infos["GRILLE_REP_CON"]);
+			$numDiag = mysql_num_rows($rs);
+			$fin = microtime(true)-$deb;
+			if($this->trace)
+	    		echo "Granulat:GetEtatDiag:FiltreRubAvecGrille  id = $this->id num = $num  $fin<br/>";
+			if($_SESSION['ForceCalcul']){
+				//calcul les diagnostiques
+				while ($r =  mysql_fetch_assoc($rs)) {
+					//création du granulta
+					$g = new Granulat($r["id_rubrique"],$this->site,false);
+					$g->GetEtatDiag($PourFlex,$SaveFile,true);
+				}
+			}
+		}
+		//calcul ou récupère les diagnostiques
+		$EtatOui = $grille->GetEtatDiagOui($ids,$this->id,$calcul);
+		$Etat1 = $grille->GetEtatDiagHandi($ids,1,$this->id,$calcul);
+		$Etat2 = $grille->GetEtatDiagHandi($ids,2,$this->id,$calcul);
+		$Etat3 = $grille->GetEtatDiagHandi($ids,3,$this->id,$calcul);
+		$EtatAppli = $grille->GetEtatDiagApplicable($ids,$this->id,$calcul);
+
+		//sort dans le cas du calcul
+		$fin = microtime(true)-$deb;
+		if($this->trace)
+    		echo "Granulat:GetEtatDiag:avant retour $fin<br/>";
+		if($calcul)
+			return;							
 				
 		//calculer le l'indicateur d'accessibilité
+		$fin = microtime(true)-$deb;
+		if($this->trace)
+    		echo "Granulat:GetEtatDiag:calculer le l'indicateur d'accessibilité $fin<br/>";
 		$moteurObst = $this->GetHandiObstacle($Etat1,$Etat2,$Etat3,"moteur");
 		$moteur = $this->GetHandiAccess($moteurObst,$EtatAppli["r"]["moteur"],$Etat3["r"]["moteur"]);
 		
@@ -162,8 +193,10 @@ class Granulat
 		
 		$IcosDoc .="</icones>";
 				
+		//récupère le niveau d'achévement de l'état
+		$numDiag = $grille->GetNumEtatDiagFait($this->id)." sur ".$numDiag;	
 		//initialisation du xml
-		$xml = "<EtatDiag idSite='".$this->site->id."' idRub='".$this->id."' >";
+		$xml = "<EtatDiag idSite='".$this->site->id."' idRub='".$this->id."' titre=\"".$this->titre."\" TauxCalc='".$numDiag."' >";
 		//construction du xml
 		if($PourFlex){
 			$xml .= "<Obstacles id='moteur' >
@@ -208,6 +241,10 @@ class Granulat
 		}
 		//finalisation du xml
 		$xml .= "</EtatDiag>";			
+
+		$fin = microtime(true)-$deb;
+		if($this->trace)
+    		echo "Granulat:GetEtatDiag:avant retour final $fin<br/>";
 		
 		if($SaveFile){
 			$fic = fopen(PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id.".xml", "w");
@@ -1069,7 +1106,7 @@ class Granulat
 			$id = $this->id;
 		if($sep=="")
 			$sep=DELIM;
-
+			
 		//récupère les sous thème
 		$sql = "SELECT id_rubrique, titre
 			FROM spip_rubriques r
@@ -1085,12 +1122,37 @@ class Granulat
 			if($maxNiv==-1)
 				$valeur .= $this->GetEnfantIds($r['id_rubrique'],$sep);
 			$valeur .= $r['id_rubrique'].$sep;
+			//ajoute dans la table de cache
+			$this->SetEnfantId($r['id_rubrique']);
 		}
 		
 		return $valeur;
 
 	}
 
+	function SetEnfantId($id)
+	{
+		//vérifie si la ligne existe
+		$sql = "SELECT id_rubrique FROM spip_rubriques_enfants 
+			WHERE id_parent = ".$this->id." AND id_rubrique=".$id;
+		//echo $this->site->infos["SQL_LOGIN"]."<br/>";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$req = $DB->query($sql);
+		$DB->close();
+		$r = $DB->fetch_assoc($req);
+		
+		if(!$r){
+			//creation de la ligne
+			$sql = "INSERT INTO spip_rubriques_enfants 
+				SET id_parent = ".$this->id.", id_rubrique=".$id;
+			//echo $this->site->infos["SQL_LOGIN"]."<br/>";
+			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+			$DB->query($sql);
+			$DB->close();			
+		}
+				
+	}
+	
 	public function GetEnfantIdsInLiens($id = "", $sep="", $idMot=-1)
 	{
 		if($id =="")

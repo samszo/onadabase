@@ -128,12 +128,25 @@ class Xul{
     
     
     
-    function GetMenuPopUp($idRub,$typeSrc,$niv=0){
+    function GetMenuPopUp($idRub,$typeSrc,$niv=0,$SaveFile=true){
     	$gra = new Granulat($idRub,$this->site);
     	$menu ='';
     	$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst";
 		$menusDst = $this->site->XmlParam->GetElements($Xpath);
-    	
+    	$file = PathRoot."/bdd/menu/".$this->site->id."_".$idRub."_".$typeSrc."_menu.xml";
+		if(!$_SESSION['ForceCalcul']){
+			if (file_exists($file)){
+				/*
+				$handle = fopen($file, "rb");
+				$contents = fread ($handle, filesize ($file));
+				fclose ($handle);
+				*/
+				$contents = file_get_contents($file);
+				return $contents;
+			}
+		}
+		
+		
 		if($menusDst){			
 	    	foreach($menusDst as $mDst)
 			{    	
@@ -151,7 +164,7 @@ class Xul{
 		    			$mnuLabel = $this->site->XmlParam->XML_entities($r["titre"]);
 						$menu .= '<menuitem '.$js.' label="'.$mnuLabel.'"/>';
 						//vérifie la création d'un sous menu
-						$sousmenu = $this->GetMenuPopUp($r["id"],$mDst["codeSaisi"],$niv+1);
+						$sousmenu = $this->GetMenuPopUp($r["id"],$mDst["codeSaisi"],$niv+1,false);
 						if($sousmenu!=""){
 							$menu .= $sousmenu;
 							$menu .= '<menuseparator/>';			
@@ -161,7 +174,9 @@ class Xul{
 		    	}
 			}			
 		}
-			
+
+		if($SaveFile)
+			$this->site->SaveFile($file,$menu);
 		return $menu;
 
     }

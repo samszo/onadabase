@@ -122,6 +122,8 @@ function ShowEtatDiag(idRub) {
 		//met à jour le titre
 		var titre = "Etat des lieux de "+xmlRep.firstChild.getAttribute("titre");
 		document.getElementById("etatdiag_titre").setAttribute("value",titre);
+		var TauxCalcul = "Taux de calcul : "+xmlRep.firstChild.getAttribute("TauxCalc");
+		document.getElementById("etatdiag_TauxCalc").setAttribute("value",TauxCalcul);
 		
 		//met à jour les valeurs du tableau
 		for (var i = 0; i < xmlRep.firstChild.childNodes.length; i++){

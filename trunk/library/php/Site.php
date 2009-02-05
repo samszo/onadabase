@@ -48,6 +48,23 @@ class Site{
 		
     }
     
+    public function GetFile($path){
+
+	    if(!$_SESSION['ForceCalcul'] && file_exists($file)){
+			$contents = file_get_contents($file);
+			return $contents;
+		}else{
+			return false;	
+		}
+    }
+    
+    public function SaveFile($path,$texte){
+
+		$fic = fopen($path, "w");
+		fwrite($fic, $texte);		
+    	fclose($fic);
+
+    }
     
 	public function Synchronise($siteSrc, $siteDst=-1){
 		if($siteDst==-1)

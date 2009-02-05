@@ -4,6 +4,7 @@
 		<hbox flex="1">
 			<vbox >
 				<label id="etatdiag_titre" value="Etat des lieux de " />
+				<label id="etatdiag_TauxCalc" value="Taux de calcul : " />
 				<hbox >
 					<vbox >
 						<image src="images/moteur.jpg"/>
@@ -14,7 +15,7 @@
 						<box style="background-color:orange;"><label tooltiptext="Cliquer pour afficher le détail" class="text-link" onclick="GetEtatDiagListe(this.id);" style="text-align:center;" flex="1" id="2_moteur" value="0" /></box>
 						<box style="background-color:red;"><label tooltiptext="Cliquer pour afficher le détail" class="text-link" onclick="GetEtatDiagListe(this.id);" style="text-align:center;" flex="1" id="3_moteur" value="0" /></box>
 						<image id="IndicAcc_moteur" src="images/A.png"/>
-						<label style="text-align:center;" flex="1" id="AppliVal_moteur" value="" />
+						<label style="text-align:center;" hidden="true" flex="1" id="AppliVal_moteur" value="" />
 					</vbox>
 					<vbox >
 						<image src="images/audio.jpg"/>
@@ -23,7 +24,7 @@
 						<box style="background-color:orange;"><label class="text-link" onclick="GetEtatDiagListe(this.id);" style="text-align:center;" flex="1" id="2_audio" value="0" /></box>
 						<box style="background-color:red;"><label class="text-link" onclick="GetEtatDiagListe(this.id);" style="text-align:center;" flex="1" id="3_audio" value="0" /></box>
 						<image id="IndicAcc_audio" src="images/A.png"/>
-						<label style="text-align:center;" flex="1" id="AppliVal_audio" value="" />
+						<label style="text-align:center;" hidden="true" flex="1" id="AppliVal_audio" value="" />
 					</vbox>
 					<vbox >
 						<image src="images/visu.jpg"/>
@@ -32,7 +33,7 @@
 						<box style="background-color:orange;"><label class="text-link" onclick="GetEtatDiagListe(this.id);" style="text-align:center;" flex="1" id="2_visu" value="0" /></box>
 						<box style="background-color:red;"><label class="text-link" onclick="GetEtatDiagListe(this.id);" style="text-align:center;" flex="1" id="3_visu" value="0" /></box>
 						<image id="IndicAcc_visu" src="images/A.png"/>
-						<label style="text-align:center;" flex="1" id="AppliVal_visu" value="" />
+						<label style="text-align:center;" hidden="true" flex="1" id="AppliVal_visu" value="" />
 					</vbox>
 					<vbox >
 						<image src="images/cog.jpg"/>
@@ -41,7 +42,7 @@
 						<box style="background-color:orange;"><label class="text-link" onclick="GetEtatDiagListe(this.id);" style="text-align:center;" flex="1" id="2_cog" value="0" /></box>
 						<box style="background-color:red;"><label class="text-link" onclick="GetEtatDiagListe(this.id);" style="text-align:center;" flex="1" id="3_cog" value="0" /></box>
 						<image id="IndicAcc_cog" src="images/A.png"/>
-						<label style="text-align:center;" flex="1" id="AppliVal_cog" value="" />
+						<label style="text-align:center;" hidden="true" flex="1" id="AppliVal_cog" value="" />
 					</vbox>
 					<vbox id="ArtDoc" >
 						<image id="ico_kml" onclick="GetFriseDocs(this.id,-1,'FriseDocs');" src="images/kml.png"/>

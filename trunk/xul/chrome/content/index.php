@@ -56,7 +56,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 		var urlCarto = "<?php echo $objSite->infos["urlCarto"]; ?>";
 		var path = "<?php echo PathRoot."/param/synchroExport.xml"; ?>";
 		var role = "AUCUN";
-		var defId = <?php echo $objSiteSync->infos["DEF_ID"]; ?>;
+		var defId = <?php echo $objSite->infos["DEF_ID"]; ?>;
 
 		var urlPopUp = "<?php echo "popup.php?"; ?>";
 		var version = "<?php echo $_SESSION['version']; ?>";
@@ -136,6 +136,7 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 						<menuitem id="ShowLegendeControle" value="true" type="checkbox" checked="<?php if($_SESSION['ShowLegendeControle']) echo "true"; ?>"  label="Montrer la légende des contrôles" oncommand="SetChoixAffichage(this.id);"/>
 						<menuitem id="ShowCarte" value="true" type="checkbox" checked="<?php if($_SESSION['ShowCarte']) echo "true"; ?>" label="Afficher la carte"  oncommand="SetChoixAffichage(this.id);" />
 						<menuitem id="ShowDocs" value="true" type="checkbox" checked="<?php if($_SESSION['ShowDocs']) echo "true"; ?>" label="Afficher le(s) document(s)"  oncommand="SetChoixAffichage(this.id);" />
+						<menuitem id="ForceCalcul" value="true" type="checkbox" checked="<?php if($_SESSION['ForceCalcul']) echo "true"; ?>" label="Forcer les calculs"  oncommand="SetChoixAffichage(this.id);" />
 					</menupopup>
 				</menu>
 				
