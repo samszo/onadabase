@@ -768,6 +768,9 @@
 
 	function GetTabForm($type, $idRub){
 		global $objSite;
+		
+		if($type=="undefined")
+			return;
 
 		if($type=="Ligne" || $type=="Chaine")	
 			$grille = new Grille($objSite,-1,false,$type, $idRub);
@@ -1029,7 +1032,7 @@
 		$gra = new Granulat($idGen, $objSite);
 		
 		$idArticle = $gra->GetArticle();
-		$gra->AddAuteur($idArticle, $idAuteur);
+		//$gra->AddAuteur($idArticle, $idAuteur);
 		
 		$xul = $grille->GetXulTab('Terre', $idGen);
 		
