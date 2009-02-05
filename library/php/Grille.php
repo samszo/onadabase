@@ -45,7 +45,7 @@ class Grille{
 		
     }
 
-	public function GetEtatDiagListe($ids, $idDoc,$PourFlex=false,$idScope=false)
+	public function GetEtatDiagListe($idRub, $idDoc,$PourFlex=false,$idScope=false)
 	{
 		//récupère les info de l'id xul
 		$arrDoc = split("_",$idDoc);
@@ -68,11 +68,14 @@ class Grille{
 		if($this->trace)
 			echo "Grille:GetEtatDiagListe:Xpath".$Xpath."<br/>";
 		$Q = $this->site->XmlParam->GetElements($Xpath);
-		$where = str_replace("-ids-", $ids, $Q[0]->where);
+		$where = str_replace("-idRub-", $idRub, $Q[0]->where);		
 		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
 		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
 		$from = str_replace("-valeur-", $valeur, $from);
 		$from = str_replace("-champ-", $champ, $from);
+		$from = str_replace("-TypeHandi-", $arrDoc[1], $from);
+		$from = str_replace("-handi-", $arrDoc[0], $from);
+		
 		
 		$sql = $Q[0]->select.$from.$where;
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
@@ -230,85 +233,213 @@ class Grille{
 		return $icones;
 	}
 
-	
-    public function GetEtatDiagOui($ids)
+    function SetEtatDiag($idRub,$handi,$audio,$cog,$moteur,$visu){
+    	//supprime l'etatDiag
+		$this->DelEtatDiag($idRub,$handi);
+		//vérifie les valeurs
+		if(!$audio)$audio=0;
+		if(!$cog)$cog=0;
+		if(!$moteur)$moteur=0;
+		if(!$visu)$visu=0;
+    	//enregistre le diag
+		$sql = "INSERT INTO ona_etatdiag (id_rubrique, handi, moteur, audio, visu, cog)
+			VALUES (".$idRub.",".$handi.",".$moteur.",".$audio.",".$visu.",".$cog.")";
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$req = $db->query($sql);
+		$id = $db->insert_id();
+		$db->close();
+		return $id;
+    }
+
+    function SetEtatDiagDonnees($idEtat,$from,$where){
+		$sql = "INSERT INTO ona_etatdiag_donnees (id_etatdiag, idDonRep, idDonCont) SELECT ".$idEtat."
+				, fdcRep.id_donnee 
+				, fdCont.id_donnee "
+			.$from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$result = $db->query($sql);
+     }
+    
+    function DelEtatDiag($idRub,$handi){
+		//supprime la relation des étatdiag au donnée
+    	$sql = "DELETE FROM ona_etatdiag_donnees 
+			WHERE id_etatdiag IN (SELECT id_etatdiag FROM ona_etatdiag 
+					WHERE id_rubrique=".$idRub." AND handi=".$handi.")";
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$db->query($sql);
+		$db->close();
+    	
+		//supprime les étatdiag
+		$sql = "DELETE FROM ona_etatdiag 
+			WHERE id_rubrique=".$idRub." AND handi=".$handi;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$db->query($sql);
+		$db->close();
+    }
+    
+    public function FiltreRubAvecGrille($id,$idsGrille)
 	{
-		//récupère le nombre de critéres validés
-		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagOui']";
-		if($this->trace)
-			echo "Grille:GetEtatDiagOui:Xpath".$Xpath."<br/>";
-		$Q = $this->site->XmlParam->GetElements($Xpath);
-		$where = str_replace("-ids-", $ids, $Q[0]->where);
-		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
-		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
-		$sql = $Q[0]->select.$from.$where;
+		$sql = "SELECT DISTINCT r.id_rubrique
+			FROM spip_rubriques r
+			INNER JOIN spip_rubriques_enfants re ON re.id_rubrique = r.id_rubrique AND re.id_parent =".$id."
+			INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+			INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article 
+			INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form IN (".$idsGrille.")
+			";
 		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$db->connect();
 		$result = $db->query($sql);
 		if($this->trace)
-			echo "Grille:GetEtatDiagOui".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+			echo "Grille:FiltreRubAvecGrille".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 		$db->close();
 			
-		//construction du xml
-		$r =  $db->fetch_assoc($result);
-		$xml = "<CritsValides id='0_' moteur='".$r['moteur']."' audio='".$r['audio']."' visu='".$r['visu']."' cog='".$r['cog']."' ></CritsValides>";
+		return $result;
 		
+	}
+    
+    public function GetNumEtatDiagFait($id)
+	{
+		$sql = "SELECT COUNT(DISTINCT re.id_rubrique) nb
+			FROM spip_rubriques_enfants re 
+				INNER JOIN ona_etatdiag oe ON re.id_rubrique = oe.id_rubrique
+			WHERE re.id_parent = ".$id;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "Grille:GetNumEtat".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->close();
+		$r =  $db->fetch_assoc($result);
+		
+		return $r['nb'];
+		
+	}
+    
+	public function GetEtatDiagSum($idRub,$handi)
+	{
+		//récupère la somme des état de diagnostic
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagSum']";
+		if($this->trace)
+			echo "Grille:GetEtatDiagSum:Xpath".$Xpath."<br/>";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		$where = str_replace("-idRub-", $idRub, $Q[0]->where);
+		$where = str_replace("-handi-", $handi, $where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "Grille:GetEtatDiagSum".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->close();
+		$r =  $db->fetch_assoc($result);
+		return $r;
+	}
+	
+	
+    public function GetEtatDiagOui($ids,$idRub,$calcul)
+	{
+		if(!$calcul){
+			$r =  $this-> GetEtatDiagSum($idRub,0);		
+		}else{
+			//récupère le nombre de critéres validés
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagOui']";
+			if($this->trace)
+				echo "Grille:GetEtatDiagOui:Xpath".$Xpath."<br/>";
+			$Q = $this->site->XmlParam->GetElements($Xpath);
+			$where = str_replace("-ids-", $ids, $Q[0]->where);
+			$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
+			$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
+			$sql = $Q[0]->select.$from.$where;
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+			$db->connect();
+			$result = $db->query($sql);
+			if($this->trace)
+				echo "Grille:GetEtatDiagOui".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+			$db->close();				
+			$r =  $db->fetch_assoc($result);
+			//conserve létat du diagnostique
+			$idEtat = $this->SetEtatDiag($idRub,0,$r['audio'],$r['cog'],$r['moteur'],$r['visu']);
+			$this->SetEtatDiagDonnees($idEtat,$from,$where);			
+		}
+				
+		//construction du xml
+		$xml = "<CritsValides id='0_' moteur='".$r['moteur']."' audio='".$r['audio']."' visu='".$r['visu']."' cog='".$r['cog']."' ></CritsValides>";
+			
 		return array("xml"=>$xml,"r"=>$r);
+
 	}
 
-	public function GetEtatDiagHandi($ids,$handi)
+	public function GetEtatDiagHandi($ids,$handi,$idRub,$calcul)
 	{
-		//récupère le nombre de critéres validés
-		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagHandi']";
-		if($this->trace)
-			echo "Grille:GetEtatDiagHandi:Xpath".$Xpath."<br/>";
-		$Q = $this->site->XmlParam->GetElements($Xpath);
-		$where = str_replace("-ids-", $ids, $Q[0]->where);
-		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
-		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
-		$from = str_replace("-handi-", $handi, $from);
-		$sql = $Q[0]->select.$from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
-		$db->connect();
-		$result = $db->query($sql);
-		if($this->trace)
-			echo "Grille:GetEtatDiagHandi".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
-		$db->close();
-			
-		//construction du xml
-		$r =  $db->fetch_assoc($result);
+		if(!$calcul){
+			$r =  $this-> GetEtatDiagSum($idRub,$handi);		
+		}else{
+			//récupère le nombre de critéres validés
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagHandi']";
+			if($this->trace)
+				echo "Grille:GetEtatDiagHandi:Xpath".$Xpath."<br/>";
+			$Q = $this->site->XmlParam->GetElements($Xpath);
+			$where = str_replace("-ids-", $ids, $Q[0]->where);
+			$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
+			$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
+			$from = str_replace("-handi-", $handi, $from);
+			$sql = $Q[0]->select.$from.$where;
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+			$db->connect();
+			$result = $db->query($sql);
+			if($this->trace)
+				echo "Grille:GetEtatDiagHandi".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+			$db->close();
+			$r =  $db->fetch_assoc($result);
+			//conserve létat du diagnostique
+			$idEtat = $this->SetEtatDiag($idRub,$handi,$r['audio'],$r['cog'],$r['moteur'],$r['visu']);
+			$this->SetEtatDiagDonnees($idEtat,$from,$where);			
+		}
+		
 		$xml = "<Obstacles id='".$handi."_' moteur='".$r['moteur']."' audio='".$r['audio']."' visu='".$r['visu']."' cog='".$r['cog']."' ></Obstacles>";
 		if($this->trace)
 			echo "Grille:GetEtatDiagHandi:r=".print_r($r)."<br/>";
-		
+					
 		return array("xml"=>$xml,"r"=>$r);
 	}
 	
 	
-	public function GetEtatDiagApplicable($ids)
+	public function GetEtatDiagApplicable($ids,$idRub,$calcul)
 	{
-		//récupère le nombre de critéres validés
-		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagApplicable']";
-		if($this->trace)
-			echo "Grille:GetEtatDiagHandi:Xpath".$Xpath."<br/>";
-		$Q = $this->site->XmlParam->GetElements($Xpath);
-		$where = str_replace("-ids-", $ids, $Q[0]->where);
-		$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
-		$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
-		$sql = $Q[0]->select.$from.$where;
-		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
-		$db->connect();
-		$result = $db->query($sql);
-		if($this->trace)
-			echo "Grille:GetEtatDiagApplicable".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
-		$db->close();
-			
-		//construction du xml
-		$r =  $db->fetch_assoc($result);
+		if(!$calcul){
+			$r =  $this-> GetEtatDiagSum($idRub,4);		
+		}else{
+			//récupère le nombre de critéres validés
+			$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetEtatDiagApplicable']";
+			if($this->trace)
+				echo "Grille:GetEtatDiagHandi:Xpath".$Xpath."<br/>";
+			$Q = $this->site->XmlParam->GetElements($Xpath);
+			$where = str_replace("-ids-", $ids, $Q[0]->where);
+			$from = str_replace("-idFormRep-", $this->site->infos["GRILLE_REP_CON"], $Q[0]->from);
+			$from = str_replace("-idFormCont-", $this->site->infos["GRILLE_CONTROL_".$_SESSION['version']], $from);
+			$sql = $Q[0]->select.$from.$where;
+
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+			$db->connect();
+			$result = $db->query($sql);
+			if($this->trace)
+				echo "Grille:GetEtatDiagApplicable".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+			$db->close();
+				
+			$r =  $db->fetch_assoc($result);
+			//conserve létat du diagnostique
+			$idEtat = $this->SetEtatDiag($idRub,4,$r['audio'],$r['cog'],$r['moteur'],$r['visu']);
+			$this->SetEtatDiagDonnees($idEtat,$from,$where);			
+		}
+
 		$xml = "<Applicables id='IndicAcc_' moteur='".$r['moteur']."' audio='".$r['audio']."' visu='".$r['visu']."' cog='".$r['cog']."' ></Applicables>";
 		if($this->trace)
 			echo "Grille:GetEtatDiagApplicable:r=".print_r($r)."<br/>";
-		
+			
 		return array("xml"=>$xml,"r"=>$r);
 	}
 
