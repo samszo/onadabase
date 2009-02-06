@@ -33,9 +33,9 @@ todo :
  <mx:Panel title="ONADABASE diagnostics pour l'accessibilité" width="100%" height="100%">
  <mx:Panel title="Choisissez les éléments à afficher" >
   <mx:HBox>
+      <mx:CheckBox selected="false" change="getPlan();"/>
+      <mx:Label text="Test" color="{categories['grille_66'].color}"/>
       <!--
-      <mx:CheckBox selected="false" change="ShowListeDiag('local2', '2608', '2_audio')"/>
-      -->
       <mx:CheckBox selected="false" change="createMarkerGrille('66')"/>
       <mx:Label text="Territoire" color="{categories['grille_66'].color}"/>
       <mx:CheckBox selected="false" change="createMarkerGrille('55')"/>
@@ -58,6 +58,7 @@ todo :
       <mx:Label text="Objet extérieur" color="{categories['grille_64'].color}"/>
       <mx:CheckBox selected="false" change="createMarkerGrille('72')"/>
       <mx:Label text="Ligne de transport" color="{categories['grille_72'].color}"/>
+      -->
 
 
   </mx:HBox>	

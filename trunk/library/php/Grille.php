@@ -194,9 +194,10 @@ class Grille{
 		return $xul;
 	}
 	
+	
 	public function GetEtatDiagIcones($FormIds, $ids)
 	{
-		$icones ="<icones id='ico_'>";
+		$icones ="<icones id='ico_sup'>";
 		//boucle sur les grilles de la rubrique
 		while($row = mysql_fetch_assoc($FormIds)) {
 			//récupère les critéres des icones supplémentaire

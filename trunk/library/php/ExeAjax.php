@@ -51,7 +51,7 @@
 			$resultat = GetFlexEtatDiagListe($objSite,$g ,$_GET['idDoc']);
 			break;
 		case 'GetStatEtatDiag':
-			GetStatEtatDiag($objSite, $g);
+			$resultat = GetStatEtatDiag($objSite, $g);
 			break;
 		case 'GetEtatDiag':
 			$resultat = $g->GetEtatDiag();
@@ -219,13 +219,12 @@
 		
 	function GetStatEtatDiag($site, $g){
 
-		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id.".xml";
-		//vérifie s'il faut créer la stat
-		if (!file_exists($path))		
-			$g->GetEtatDiag(true,true);
+		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id."_flex.xml";
+	    $contents = $site->GetFile($path);
+   		if(!$contents)
+   			$contents = $g->GetEtatDiag(true,true);
 
-		include($path);
-		
+   		return $contents; 
 	}
 	
 	function SetElementChaine($objSite,$idRubSrc,$idRubDst,$idMot){

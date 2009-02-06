@@ -10,7 +10,17 @@
       import com.google.maps.overlays.MarkerOptions;
       import com.google.maps.styles.FillStyle;
       import com.google.maps.styles.StrokeStyle;
+	import com.google.maps.overlays.GroundOverlay;
+    import com.google.maps.overlays.GroundOverlayOptions;
+    import com.google.maps.MapType;
+    import com.google.maps.LatLngBounds;
+    import com.google.maps.controls.ZoomControl;
+    import com.google.maps.controls.MapTypeControl;
       
+    import flash.display.Loader;
+    import flash.display.LoaderInfo;
+    import flash.net.URLRequest;
+
       import compo.twEtatDiagListe;
       import compo.twPhotoListe;
       
@@ -20,6 +30,9 @@
 
       private var map:Map;
       private var markers:XMLList;
+
+
+
     /*prod
     [Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
     private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_centre_.xml";
@@ -32,6 +45,8 @@
 	
 	[Bindable]
 	private var rsEtatDiag:Object;
+
+	[Embed(source="Gare_de_St_Pierre_des_Corps_2.png")] private var santaWorkshop:Class;
 
       [Embed(source="A.png")] [Bindable] private var AIcon:Class;
       [Embed(source="B.png")] [Bindable] private var BIcon:Class;
@@ -184,6 +199,15 @@
         		imgSon.visible=false;
 		        for each (var ico:Object in rsEtatDiag.EtatDiag.icones[1].icone)
 		        {
+		        	//bug dans le cas où il n'y a qu'une icone
+			        /*
+			        if(ico is String){
+				        typeIco = ico.toString();		        	
+			        }else{
+				        typeIco = ico.id;		        	
+			        }
+			        */
+		        	
 		        	if(ico.id=="images")
 		        		imgPhoto.visible=true;
 		        	if(ico.id=="videos")
@@ -209,7 +233,6 @@
         map.enableScrollWheelZoom();
         map.enableContinuousZoom();
         map.setCenter(new LatLng(47.12995076, 1.00001335), 7);
-        map.addControl(new ZoomControl());
         getXml();
      }
      
@@ -218,7 +241,42 @@
          var xmlLoader:URLLoader = new URLLoader(xmlString);
          xmlLoader.addEventListener("complete", readXml);
     }
-      
+/*
+	public function getPlan():void{
+        var testLoader:Loader = new Loader();
+        var urlRequest:URLRequest = new URLRequest("http://www.onadabase.eu/centre/spip/IMG/png/Gare_de_St_Pierre_des_Corps_2.png");
+        testLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
+            var groundOverlay:GroundOverlay = new GroundOverlay(
+                testLoader,
+                new LatLngBounds(new LatLng(47.12995076, 1.00001335), new LatLng(48, 2)));
+            map.addOverlay(groundOverlay);
+        });
+        testLoader.load(urlRequest);  		
+	}      
+*/
+
+    private function getPlan():void {
+        map.setCenter(new LatLng(40.740, -74.18), 12, MapType.NORMAL_MAP_TYPE);
+        map.addControl(new ZoomControl());
+        map.addControl(new MapTypeControl());
+        /*
+        var testLoader:Loader = new Loader();
+        var urlRequest:URLRequest = new URLRequest("http://www.onadabase.eu/centre/spip/IMG/png/Gare_de_St_Pierre_des_Corps_2.png");
+        testLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
+            var groundOverlay:GroundOverlay = new GroundOverlay(
+                testLoader,
+                new LatLngBounds(new LatLng(40.716216,-74.213393), new LatLng(40.765641,-74.139235)));
+            map.addOverlay(groundOverlay);
+        });
+        testLoader.load(urlRequest);
+        */
+        var groundOverlay:GroundOverlay = new GroundOverlay(
+                new santaWorkshop(),
+                new LatLngBounds(new LatLng(40.716216,-74.213393), new LatLng(40.765641,-74.139235)));
+            map.addOverlay(groundOverlay);
+          
+    }
+
     public function readXml(event:Event):void{
         //récupère les geoloc
         var markersXML:XML = new XML(event.target.data);
