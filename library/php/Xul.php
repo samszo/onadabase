@@ -133,19 +133,10 @@ class Xul{
     	$menu ='';
     	$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst";
 		$menusDst = $this->site->XmlParam->GetElements($Xpath);
-    	$file = PathRoot."/bdd/menu/".$this->site->id."_".$idRub."_".$typeSrc."_menu.xml";
-		if(!$_SESSION['ForceCalcul']){
-			if (file_exists($file)){
-				/*
-				$handle = fopen($file, "rb");
-				$contents = fread ($handle, filesize ($file));
-				fclose ($handle);
-				*/
-				$contents = file_get_contents($file);
-				return $contents;
-			}
-		}
-		
+    	$path = PathRoot."/bdd/menu/".$this->site->id."_".$idRub."_".$typeSrc."_menu.xml";
+	    $contents = $this->site->GetFile($path);
+   		if($contents)
+   			return $contents;		
 		
 		if($menusDst){			
 	    	foreach($menusDst as $mDst)

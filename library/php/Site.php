@@ -50,8 +50,8 @@ class Site{
     
     public function GetFile($path){
 
-	    if(!$_SESSION['ForceCalcul'] && file_exists($file)){
-			$contents = file_get_contents($file);
+	    if(!$_SESSION['ForceCalcul'] && file_exists($path)){
+			$contents = file_get_contents($path);
 			return $contents;
 		}else{
 			return false;	

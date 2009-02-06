@@ -153,8 +153,6 @@ class Granulat
 		$fin = microtime(true)-$deb;
 		if($this->trace)
     		echo "Granulat:GetEtatDiag:avant retour $fin<br/>";
-		if($calcul)
-			return;							
 				
 		//calculer le l'indicateur d'accessibilité
 		$fin = microtime(true)-$deb;
@@ -182,15 +180,16 @@ class Granulat
 		$xulDoc = "";
 		$Arts = $this->GetArticleInfo();
 		$xul = new Xul($this->site);
-		$IcosDoc ="<icones id='ico_'>";
+		$IcosDoc ="<icones id='ico_doc'>";
+		//petit bug flex quand il n'y a qu'une icone
+		$IcosDoc ="<icone id='vide' />";
 		while($r = mysql_fetch_assoc($Arts)) {
 			$IcosDoc .= $xul->GetFriseDocsIco($r["id_article"],-1,false,true);
 		}
 		//vérifie s'il y a une géolocalisation
 		$geo = $this->GetValeurForm($this->site->infos["GRILLE_GEO"],"lat");
 		if($geo)
-			$IcosDoc .= 	"<icone id='kml' />";		
-		
+			$IcosDoc .= "<icone id='kml' />";		
 		$IcosDoc .="</icones>";
 				
 		//récupère le niveau d'achévement de l'état
@@ -247,11 +246,11 @@ class Granulat
     		echo "Granulat:GetEtatDiag:avant retour final $fin<br/>";
 		
 		if($SaveFile){
-			$fic = fopen(PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id.".xml", "w");
-			fwrite($fic, $xml);		
-    		fclose($fic);
-		}else
-			return $xml;
+			$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_flex.xml";
+			$this->site->SaveFile($path,$xml);
+		}
+		
+		return $xml;
 		
 	}
   
