@@ -36,16 +36,7 @@
 			 <question srcIdGrille='59' srcRefCont='cr_acc_17' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='personnel'/>
 		    </question>
-		    <question srcIdGrille='35' srcIdChamp='mot_2' srcCheckVal='1'>
-		        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
-		            <icone id='ascenseur'/>
-			    </question>
-		    </question>
-		    <question srcIdGrille='35' srcIdChamp='mot_3' srcCheckVal='1'>
-		        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
-		            <icone id='ascenseur'/>
-		        </question>
-		    </question>
+		 
 			<question srcIdGrille='59'  srcRefCont='2_cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='wc'/>
 		    </question>
@@ -60,16 +51,7 @@
 		    </question>
 		</objet>
 		<objet titre="niveau" IdGrille='35' >
-		    <question srcIdGrille='35' srcIdChamp='mot_2' srcCheckVal='1'>
-		        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
-		            <icone id='ascenseur'/>
-		        </question>
-		    </question>
-		    <question srcIdGrille='35' srcIdChamp='mot_3' srcCheckVal='1'>
-		        <question srcIdGrille='35' srcIdChamp='mot_1' srcCheckVal='2'>
-		            <icone id='ascenseur'/>
-		        </question>
-		    </question>
+		    
 			<question srcIdGrille='59'  srcRefCont='2_cr_san_01' srcIdChamp='mot_1' srcCheckVal='2'>
 		        <icone id='wc'/>
 		    </question>
