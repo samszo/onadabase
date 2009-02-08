@@ -5,24 +5,17 @@
       import com.google.maps.Map;
       import com.google.maps.MapEvent;
       import com.google.maps.MapMouseEvent;
-      import com.google.maps.controls.ZoomControl;
+      import com.google.maps.MapType;
+      import com.google.maps.overlays.GroundOverlay;
       import com.google.maps.overlays.Marker;
       import com.google.maps.overlays.MarkerOptions;
       import com.google.maps.styles.FillStyle;
       import com.google.maps.styles.StrokeStyle;
-	import com.google.maps.overlays.GroundOverlay;
-    import com.google.maps.overlays.GroundOverlayOptions;
-    import com.google.maps.MapType;
-    import com.google.maps.LatLngBounds;
-    import com.google.maps.controls.ZoomControl;
-    import com.google.maps.controls.MapTypeControl;
       
-    import flash.display.Loader;
-    import flash.display.LoaderInfo;
-    import flash.net.URLRequest;
-
       import compo.twEtatDiagListe;
       import compo.twPhotoListe;
+      
+      import flash.net.URLRequest;
       
       import mx.managers.CursorManager;
       import mx.managers.PopUpManager;
@@ -41,21 +34,24 @@
 	//local
     [Bindable] private var urlExeAjax:String="http://localhost/onadabase/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
-    private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_.xml";
+    private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_1943.xml";
+    [Bindable] private var urlExeCarto:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php";
 	
-	[Bindable]
-	private var rsEtatDiag:Object;
+	[Bindable]	private var rsEtatDiag:Object;
+	[Bindable]	private var rsCarto:Object;
 
-	[Embed(source="Gare_de_St_Pierre_des_Corps_2.png")] private var santaWorkshop:Class;
+      [Embed(source="/images/A.png")] [Bindable] private var AIcon:Class;
+      [Embed(source="/images/B.png")] [Bindable] private var BIcon:Class;
+      [Embed(source="/images/C.png")] [Bindable] private var CIcon:Class;
+      [Embed(source="/images/D.png")] [Bindable] private var DIcon:Class;
+      [Embed(source="/images/E.png")] [Bindable] private var EIcon:Class;
+      [Embed(source="/images/jpg.png")] [Bindable] private var PhotoIcon:Class;
+      [Embed(source="/images/mpg.png")] [Bindable] private var FilmIcon:Class;
+      [Embed(source="/images/mp3.png")] [Bindable] private var SonIcon:Class;
 
-      [Embed(source="A.png")] [Bindable] private var AIcon:Class;
-      [Embed(source="B.png")] [Bindable] private var BIcon:Class;
-      [Embed(source="C.png")] [Bindable] private var CIcon:Class;
-      [Embed(source="D.png")] [Bindable] private var DIcon:Class;
-      [Embed(source="E.png")] [Bindable] private var EIcon:Class;
-      [Embed(source="jpg.png")] [Bindable] private var PhotoIcon:Class;
-      [Embed(source="mpg.png")] [Bindable] private var FilmIcon:Class;
-      [Embed(source="mp3.png")] [Bindable] private var SonIcon:Class;
+      [Bindable] private var clsPlans:Plans = new Plans; 
+
+      [Bindable] private var rubMarkers:Array = new Array; 
       [Bindable] private var categories:Object = 
         { "grille_66": {
             "color": 0x990000,
@@ -99,6 +95,14 @@
               "markers": []},
           "grille_72": {
               "color": 0x2a09f7,
+	          "icon": CIcon,
+              "markers": []},
+          "grille_60": {
+              "color": 0x080202,
+	          "icon": CIcon,
+              "markers": []},
+          "grille_59": {
+              "color": 0x080202,
 	          "icon": CIcon,
               "markers": []}
 		};
@@ -197,26 +201,30 @@
         		imgPhoto.visible=false;
         		imgFilm.visible=false;
         		imgSon.visible=false;
-		        for each (var ico:Object in rsEtatDiag.EtatDiag.icones[1].icone)
-		        {
-		        	//bug dans le cas où il n'y a qu'une icone
-			        /*
-			        if(ico is String){
-				        typeIco = ico.toString();		        	
-			        }else{
-				        typeIco = ico.id;		        	
-			        }
-			        */
-		        	
-		        	if(ico.id=="images")
-		        		imgPhoto.visible=true;
-		        	if(ico.id=="videos")
-		        		imgFilm.visible=true;
-		        	if(ico.id=="sons")
-		        		imgSon.visible=true;
+	        	//bug dans le cas où il n'y a qu'une icone
+	        	var nbIco:int = rsEtatDiag.EtatDiag.icones[1].icone.length;
+	        	if(nbIco != 0){
+		        	if(nbIco == 1){
+			        	var ico1:Object = rsEtatDiag.EtatDiag.icones[1].icone;
+			        	showIcone(ico1.toString());	        		        		
+		        	}else{
+				        for each (var ico:Object in rsEtatDiag.EtatDiag.icones[1].icone)
+				        {
+				        	showIcone(ico.id);	        	
+				        }
+		        	}
 		        }
 		 	}
 		}
+      
+      public function showIcone(type:String):void{
+    	if(type=="images")
+    		imgPhoto.visible=true;
+    	if(type=="videos")
+    		imgFilm.visible=true;
+    	if(type=="sons")
+    		imgSon.visible=true;      	
+      }
         
       public function onHolderCreated(event:Event):void {
         map = new Map();
@@ -241,51 +249,77 @@
          var xmlLoader:URLLoader = new URLLoader(xmlString);
          xmlLoader.addEventListener("complete", readXml);
     }
-/*
-	public function getPlan():void{
-        var testLoader:Loader = new Loader();
-        var urlRequest:URLRequest = new URLRequest("http://www.onadabase.eu/centre/spip/IMG/png/Gare_de_St_Pierre_des_Corps_2.png");
-        testLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
-            var groundOverlay:GroundOverlay = new GroundOverlay(
-                testLoader,
-                new LatLngBounds(new LatLng(47.12995076, 1.00001335), new LatLng(48, 2)));
-            map.addOverlay(groundOverlay);
-        });
-        testLoader.load(urlRequest);  		
-	}      
-*/
 
-    private function getPlan():void {
-        map.setCenter(new LatLng(40.740, -74.18), 12, MapType.NORMAL_MAP_TYPE);
-        map.addControl(new ZoomControl());
-        map.addControl(new MapTypeControl());
-        /*
-        var testLoader:Loader = new Loader();
-        var urlRequest:URLRequest = new URLRequest("http://www.onadabase.eu/centre/spip/IMG/png/Gare_de_St_Pierre_des_Corps_2.png");
-        testLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
-            var groundOverlay:GroundOverlay = new GroundOverlay(
-                testLoader,
-                new LatLngBounds(new LatLng(40.716216,-74.213393), new LatLng(40.765641,-74.139235)));
-            map.addOverlay(groundOverlay);
-        });
-        testLoader.load(urlRequest);
-        */
-        var groundOverlay:GroundOverlay = new GroundOverlay(
-                new santaWorkshop(),
-                new LatLngBounds(new LatLng(40.716216,-74.213393), new LatLng(40.765641,-74.139235)));
-            map.addOverlay(groundOverlay);
-          
+     public function getXmlCarto(idRub:String):void {
+	    
+	    //paramètre la requête pour récupérer le bon fichier xml
+		srvExeCarto.cancel();
+		var params:Object = new Object();
+		params.f = "get_markers";
+		params.id = idRub;
+		params.site = idSite.text;
+		params.MapQuery = "admin";
+		trace ("getXmlCarto:srvExeCarto.url="+srvExeCarto.url+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&MapQuery="+params.MapQuery);
+		srvExeCarto.send(params);
+
     }
 
     public function readXml(event:Event):void{
         //récupère les geoloc
         var markersXML:XML = new XML(event.target.data);
         markers = markersXML.CartoDonnee;
+    }
+
+    public function readXmlCarto(event:ResultEvent):void{
+        //récupère les geoloc
+        rsCarto = event.result;
+		if(rsCarto.toString()!=""){
+			//problème quand un seul élément
+			/*
+	        for each (var carto:Object in rsCarto.CartoDonnees.CartoDonnee)
+	        {
+		        map.setCenter(new LatLng(carto.lat, carto.lng), carto.zoommax, MapType.HYBRID_MAP_TYPE);	        	
+	        }
+	        */
+	        var carto:Object = rsCarto.CartoDonnees.CartoDonnee;
+	        map.setCenter(new LatLng(carto.lat, carto.lng), carto.zoommin, MapType.HYBRID_MAP_TYPE);	        	
+		}
+    }
+
+    private function getPlan():void {
+    	
+		/*
+		<south>47.38516253377669</south>
+		<west>0.7226803418767407</west>
+		<north>47.38681890806328</north>
+		<east>0.7271985843819221</east>
+        map.addControl(new ZoomControl());
+        map.addControl(new MapTypeControl());
         
+            /*
+        var testLoader:Loader = new Loader();
+        var urlRequest:URLRequest = new URLRequest("http://www.onadabase.eu/centre/spip/IMG/png/Gare_de_St_Pierre_des_Corps_2.png");
+        testLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
+            var groundOverlay:GroundOverlay = new GroundOverlay(
+                testLoader,
+                new LatLngBounds(new LatLng(47.38516253377669,0.7226803418767407), new LatLng(47.38681890806328,0.7271985843819221)));
+            map.addOverlay(groundOverlay);
+        });
+        testLoader.load(urlRequest);  
+
+        var groundOverlay:GroundOverlay = new GroundOverlay(
+                new clsPlans.santaWorkshop,
+                new LatLngBounds(new LatLng(47.38516253377669,0.7226803418767407), new LatLng(47.38681890806328,0.7271985843819221)));
+         */ 
+ 		var groundOverlay:GroundOverlay = clsPlans.getPlan("plan_2084");               
+       	map.addOverlay(groundOverlay);
+        map.setCenter(new LatLng(47.38516253377669, 0.7226803418767407), 18, MapType.HYBRID_MAP_TYPE);
+
     }
 
       public function createMarkerGrille(idGrille:String): void {
 
+		CursorManager.setBusyCursor();
         var type:String = "grille_"+idGrille;
         //vérifie s'il faut créer les markers ou les rendre visible/invisible
         if(categories[type].markers.length>0){
@@ -307,6 +341,39 @@
             	}  
 	        }
 	    }
+   		CursorManager.removeBusyCursor();
+
+      }
+
+      public function showMarkerId(idRub:String): void {
+
+        //vérifie s'il faut créer les markers ou les rendre visible/invisible
+        //boucle sur les géoloc 
+        for each (var markerXml:XML in markers){
+        	//vérifie si le marker a bien l'identifiant
+        	var resultG:XMLList;
+        	resultG = markerXml.(@idRub == idRub);
+        	if(resultG.length()>0){
+        		//contruction du markers
+	            var titre:String = markerXml.@titre;
+	            var adresse:String = markerXml.@adresse;
+	            var latlng:LatLng = new LatLng(markerXml.@lat, markerXml.@lng);
+	            var type:String = "grille_"+markerXml.grilles.grille[0].@id
+		        if(!rubMarkers[idRub]){
+			        var marker:Marker = createMarker(latlng, titre, adresse, type, markerXml);
+				    rubMarkers[idRub] = marker;
+			        map.addOverlay(marker);
+			 		var groundOverlay:GroundOverlay = clsPlans.getPlan("plan_"+idRub);
+			 		if(groundOverlay)               
+				       	map.addOverlay(groundOverlay);
+			    }
+			    //montre les stats
+			    showStat(markerXml);
+			    //recentre la carte            		
+		        map.setCenter(latlng, markerXml.@zoommin, MapType.HYBRID_MAP_TYPE);
+		        break;	        	
+        	}  
+        }
       }
 
       public function createMarker(latlng:LatLng, name:String, address:String, type:String, markerXml:XML): Marker {
@@ -364,7 +431,7 @@
 
         PopUpManager.centerPopUp(wListe);
 		
-		chartTrace.text += "\nShowListeDiag" +urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc;
+		trace ("nShowListeDiag" +urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc);
      }
 
      private function ShowListePhoto():void {
@@ -392,6 +459,5 @@
            marker.visible = false;
          }
        } 
-		CursorManager.removeBusyCursor();
 	}
 

@@ -13,4 +13,5 @@ require_once (TT_CLASS_BASE.'MotClef.php');
 require_once (TT_CLASS_BASE.'Xul.php');
 require_once (TT_CLASS_BASE.'Synchro.php');
 require_once (TT_CLASS_BASE.'Document.php');
+require_once (TT_CLASS_BASE.'Flex.php');
 ?>

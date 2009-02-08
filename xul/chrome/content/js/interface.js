@@ -129,12 +129,15 @@ function ShowEtatDiag(idRub) {
 		for (var i = 0; i < xmlRep.firstChild.childNodes.length; i++){
 			var e = xmlRep.firstChild.childNodes[i];
 			var idDoc = e.getAttribute("id");
+			//alert(idDoc);
 			switch (idDoc)
 			{
 			case 'ico_': 
 				for (var j = 0; j < e.childNodes.length; j++){
-					var voir = e.childNodes[j].getAttribute("id");			
-					document.getElementById(idDoc+voir).setAttribute("hidden",false);
+					var voir = e.childNodes[j].getAttribute("id");
+					//gestion de l'icone vide
+					if(voir!="vide")			
+						document.getElementById(idDoc+voir).setAttribute("hidden",false);
 				}
 				break; 
 			case 'ArtDoc': 
@@ -171,7 +174,7 @@ function ShowEtatDiag(idRub) {
 			} 
 		}
 
-  	} catch(ex2){alert("interface:ShowEtatDiag:"+ex2);}
+  	} catch(ex2){alert("interface:ShowEtatDiag:"+ex2+"="+idDoc+voir);}
 	document.documentElement.style.cursor = "auto";
 
 }

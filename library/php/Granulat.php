@@ -30,8 +30,8 @@ class Granulat
 	
     $this->id = $id;
     $this->site = $site;
-	if($complet && $id!=-1){
-		$this->GetProps();
+	$this->GetProps();
+    if($complet && $id!=-1){
 		$this->GetDocs();
 	}
   }
@@ -40,7 +40,7 @@ class Granulat
 
   	function GetKml($gra=-1,$niv=0){
 		
-		if($gra==-1)
+		if(is_int($gra))
 			$gra = $this;
 			
 		if($this->trace)
@@ -56,10 +56,13 @@ class Granulat
 			}
 		}else{
 			//on ne remonte que jusqu'au grand parent
+			//on supprime cette étape pour flex
+			/*
 			if($gra->IdParent && $niv<6){
-				$grap = new Granulat($gra->IdParent,$gra->site);
+				$grap = new Granulat($gra->IdParent,$gra->site,false);
 				$ficsKml = $this->GetKml($grap,$niv+1);	
 			}
+			*/
 		}
 		
 		return $ficsKml;
@@ -68,6 +71,9 @@ class Granulat
   
 	
 	function GetIdsScope(){
+		
+		//purge la liste des enfants
+		$this->DelEnfantId();
 		
 		//vérifie si on traite une ligne de transport
 		$ligne = $this->VerifExistGrille($this->site->infos["GRILLE_LIGNE_TRANS"]);
@@ -97,7 +103,7 @@ class Granulat
 	    	echo "Granulat:GetEtatDiagListe: id=$this->id idDoc=$idDoc<br/>";
 
 		//$ids = $this->GetIdsScope();
-   		$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_".$idDoc.".xml";
+   		$path = PathRoot."/bdd/EtatDiag/".$this->site->id."_".$this->id."_".$idDoc."_".$PourFlex.".xml";
 	    $contents = $this->site->GetFile($path);
    		if($contents)
    			return $contents;
@@ -180,9 +186,9 @@ class Granulat
 		$xulDoc = "";
 		$Arts = $this->GetArticleInfo();
 		$xul = new Xul($this->site);
-		$IcosDoc ="<icones id='ico_doc'>";
+		$IcosDoc ="<icones id='ico_'>";
 		//petit bug flex quand il n'y a qu'une icone
-		$IcosDoc ="<icone id='vide' />";
+		$IcosDoc .="<icone id='vide' />";
 		while($r = mysql_fetch_assoc($Arts)) {
 			$IcosDoc .= $xul->GetFriseDocsIco($r["id_article"],-1,false,true);
 		}
@@ -464,7 +470,10 @@ class Granulat
 		} else return -1;
 	}
 
-	public function VerifExistGrille($idGrille) {
+	public function VerifExistGrille($idGrille,$idRub=-1) {
+		
+		if($idRub==-1)
+			$idRub = $this->id;
 		
 		$sql = "SELECT a.id_article
 			FROM spip_articles a
@@ -472,7 +481,7 @@ class Granulat
 				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
 				INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
 				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ
-			WHERE a.id_rubrique =".$this->id."
+			WHERE a.id_rubrique =".$idRub."
 				AND fd.id_form =".$idGrille;
 			;//LIMIT 0 , 93";
 
@@ -741,7 +750,113 @@ class Granulat
 	return $newId;
   
   }
+
+	function GetXmlGrilles(){
+		$xml = "";
+		//récupère les grilles du granulat 
+		$rsG = $this->GetFormIds(-1,$this->id);
+		if(mysql_num_rows($rsG)>0){
+			$xml .= "<grilles>";
+			while($rG = mysql_fetch_assoc($rsG)) {
+				$xml .= "<grille id='".$rG['id_form']."' titre='".$rG['titre']."' idArt='".$rG['id_article']."' />";
+			}
+			$xml .= "</grilles>";
+		}
+		return $xml;			
+	}
   
+	function GetXmlGrilleMots(){
+		$xml = "";
+
+		//récupère les mots-clef du granulat
+		$rsMC = $this->GetTypeMotClef("rubrique");
+		if(count($rsMC)>0){
+			$xml .= "<motsclefs>";
+			foreach($rsMC as $mc) {
+				$xml .= "<motclef id='".$mc->id."' titre='".$mc->titre."'  />";
+			}
+			$xml .= "</motsclefs>";
+		}
+		
+		return $xml;	
+		
+	}
+	
+	function GetXmlCartoDonnee($row){
+		$xml="";
+		
+		$xml .= "<CartoDonnee lat='".$row['lat']."'";
+		
+		$xml .= " lng='".$row['lng']."'";
+				
+		$xml .= " idRub='".$row['id_rubrique']."'";
+		
+		$xml .= " idSite='".$this->site->id."'";
+		
+		$xml .= " titre=\"".utf8_encode($this->site->XmlParam->XML_entities($row['titre']))."\"";
+		
+		/*
+		$markers .= "topic_$i ".DELIM;
+		//Topic
+		$markers .=Root."/new/lieux.php?site=".$objSite->id."&VoirEn=Topos&Rub=".$row['id_rubrique']."&query=".$NewQuery.DELIM;//lien
+		//$markers .=get_fenetre_info($row,"Topic").DELIM;//localisation
+		if($row['navig'])
+			$markers .=$row['navig'].DELIM;		
+		else
+			$markers .=" ".DELIM;
+		//$markers .=$g->GetImages(68, 45).DELIM;//image
+		$markers .= "".DELIM;//image
+		
+		$markers .=utf8_encode(tronquer($row['texte'],60)).DELIM;
+		//crÃ©ation des onglets pour le granulats
+		//$Val = $g->GetValeurForm($this->site->infos["GRILLE_Granulat"],"Titre", "", "  ", "Titre : ");
+		//if(substr($row['descriptif'], -2)!="00")
+		//if($Val!=" ")
+			//Famillie sauf pour dÃ©partement et communes
+		//	$markers .=get_fenetre_info($row,"Granulat").DELIM;
+		//else
+			$markers .="".DELIM;
+
+		 if(substr($row['descriptif'], -4)!="0000")
+			//Thematique sauf pour dÃ©partement
+			$markers .=get_fenetre_info($row,"Thematique").DELIM;
+		else
+			$markers .="".DELIM;
+		*/
+		//zoom
+
+		$xml .= " zoommin='".$row['zoommin']."'";
+		
+		$xml .= " zoommax='".$row['zoommax']."'";
+		
+		//adresse
+		$xml .= " adresse=\"".utf8_encode($this->site->XmlParam->XML_entities($row['adresse']))."\"";
+		
+		//type carte
+		$xml .= " cartotype='".$row['cartotype']."'";
+		
+		//lien vers le kml
+		$kml="";
+		if($row['docArtkml'])
+			$kml = $this->site->infos["pathSpip"].$row['docArtkml'];
+		if($kml=="")	
+			$kml = $row['kml'];
+		if($kml=="")
+			$kml = $this->GetKml();
+		$xml .= " kml='".$kml."'";
+		
+		//création de l'identidiant xul
+		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_GEO"].DELIM.$row["idDon"].DELIM."fichier".DELIM.$row["idArt"];
+		$xml .= " idDoc='".$idDoc."'";
+		
+		//finalisation des attributs de CartoDonnee
+		$xml .= " >";
+		
+		return $xml;
+						
+	}
+	
+	
   	function GetGeo($id=-1,$idDon=-1) {
 		if($id==-1)
 			$g = $this;
@@ -1131,7 +1246,7 @@ class Granulat
 
 	function SetEnfantId($id)
 	{
-		//vérifie si la ligne existe
+		/*vérifie si la ligne existe
 		$sql = "SELECT id_rubrique FROM spip_rubriques_enfants 
 			WHERE id_parent = ".$this->id." AND id_rubrique=".$id;
 		//echo $this->site->infos["SQL_LOGIN"]."<br/>";
@@ -1149,7 +1264,27 @@ class Granulat
 			$DB->query($sql);
 			$DB->close();			
 		}
-				
+		*/
+		//creation de la ligne
+		$sql = "INSERT INTO spip_rubriques_enfants 
+			SET id_parent = ".$this->id.", id_rubrique=".$id;
+		//echo $this->site->infos["SQL_LOGIN"]."<br/>";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$DB->query($sql);
+		$DB->close();			
+		
+	}
+
+	function DelEnfantId()
+	{
+		//creation de la ligne
+		$sql = "DELETE FROM spip_rubriques_enfants 
+			WHERE id_parent = ".$this->id;
+		//echo $this->site->infos["SQL_LOGIN"]."<br/>";
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$DB->query($sql);
+		$DB->close();			
+		
 	}
 	
 	public function GetEnfantIdsInLiens($id = "", $sep="", $idMot=-1)
@@ -1177,6 +1312,10 @@ class Granulat
 
 		$vals=array();
 		while($r = $DB->fetch_assoc($req)) {
+			//ajoute la rubrique en lien
+			array_push ($vals, $r['descriptif']);
+			$this->SetEnfantId($r['descriptif']);
+			//ajoute les enfants
 			$arrIds = split($sep,$this->GetEnfantIds($r['descriptif'],$sep));
 			foreach($arrIds as $i){
 				if($i!="")

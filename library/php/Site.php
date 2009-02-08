@@ -48,7 +48,33 @@ class Site{
 		
     }
     
-    public function GetFile($path){
+	public function GetCurl($url)
+	{
+	
+		$oCurl = curl_init($url);
+		// set options
+	   // curl_setopt($oCurl, CURLOPT_HEADER, true);
+		curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+		//echo $sCmd."<br/>";
+		//$arrInfos = curl_getinfo($ch);
+		//print_r($arrInfos);
+		//echo "sResult=<br/>";
+		//print_r($sResult);
+		//echo "<br/>";
+		//fin ajout samszo
+		
+		// request URL
+		$sResult = curl_exec($oCurl);
+				
+		// close session
+		curl_close($oCurl);
+
+		return $sResult;
+	
+	}
+    
+	public function GetFile($path){
 
 	    if(!$_SESSION['ForceCalcul'] && file_exists($path)){
 			$contents = file_get_contents($path);
