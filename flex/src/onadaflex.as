@@ -26,17 +26,19 @@
 
 
 
-    /*prod
+    //prod
     [Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
-    private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_centre_.xml";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
-	*/
+    private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_local2_1943.xml";
+    [Bindable] private var urlExeCarto:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php";
+	
 	//local
+	/*
     [Bindable] private var urlExeAjax:String="http://localhost/onadabase/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
     private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_1943.xml";
     [Bindable] private var urlExeCarto:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php";
-	
+	*/
 	[Bindable]	private var rsEtatDiag:Object;
 	[Bindable]	private var rsCarto:Object;
 
