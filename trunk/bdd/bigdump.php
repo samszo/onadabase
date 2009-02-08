@@ -37,16 +37,29 @@
 
 // Database configuration
 require_once ("../param/Constantes.php");
+// Database configuration
 if(isset($_GET['site'])){
 	$idSite = $_GET['site'];
-}else{
-	$idSite = DEFSITE;
+	$db_server   = $SITES[$idSite]["SQL_HOST"];
+	$db_name     = $SITES[$idSite]["SQL_DB"];
+	$db_username = $SITES[$idSite]["SQL_LOGIN"];
+	$db_password = $SITES[$idSite]["SQL_PWD"];
 }
-$idSite = 'local2';
-$db_server   = $SITES[$idSite]["SQL_HOST"];
-$db_name     = $SITES[$idSite]["SQL_DB"];
-$db_username = $SITES[$idSite]["SQL_LOGIN"];
-$db_password = $SITES[$idSite]["SQL_PWD"];
+
+//construction du choix des sites
+$fSite = "<form action='bigdump.php' method='get'>
+S&eacute;lectionner un site : <select name='site' >";
+$i=0;
+while ($s = current($SITES)) {
+	$selected="";
+	if(key($SITES)==$site)
+		$selected=" selected=\"selected\"";
+	$fSite .= "<option value='".key($SITES)."' ".$selected." >".$s["NOM"]."</option>";
+	next($SITES);
+}
+$fSite .= "</select>
+	<input name='valider' type='submit' value='valider' />
+	</form><br/>\n";
 
 // Other settings (optional)
 
@@ -231,6 +244,7 @@ td.bgpctbar
 </head>
 
 <body>
+<?php echo $fSite;?>
 
 <center>
 
@@ -367,7 +381,7 @@ if (!$error && !isset($_REQUEST["fn"]) && $filename=="")
           echo ("<td>Misc</td>");
 
         if ((eregi("\.gz$",$dirfile) && function_exists("gzopen")) || eregi("\.sql$",$dirfile) || eregi("\.csv$",$dirfile))
-          echo ("<td><a href=\"".$_SERVER["PHP_SELF"]."?start=1&amp;fn=".urlencode($dirfile)."&amp;foffset=0&amp;totalqueries=0\">Start Import</a> into $db_name at $db_server</td>\n <td><a href=\"".$_SERVER["PHP_SELF"]."?delete=".urlencode($dirfile)."\">Delete file</a></td></tr>\n");
+          echo ("<td><a href=\"".$_SERVER["PHP_SELF"]."?start=1&amp;fn=".urlencode($dirfile)."&amp;foffset=0&amp;totalqueries=0&site=".$idSite."\">Start Import</a> into $db_name at $db_server</td>\n <td><a href=\"".$_SERVER["PHP_SELF"]."?delete=".urlencode($dirfile)."\">Delete file</a></td></tr>\n");
         else
           echo ("<td>&nbsp;</td>\n <td>&nbsp;</td></tr>\n");
       }
