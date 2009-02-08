@@ -5,6 +5,7 @@
         <![CDATA[
         	import mx.controls.Image;
         	import mx.controls.LinkButton;
+        	import mx.controls.ButtonBar;
         	import mx.collections.ArrayCollection;
         	import mx.containers.HBox;
         	import compo.bCrit;
@@ -16,13 +17,26 @@
 				SetCrit();
             }
 
+			private function showMarker(event:MouseEvent):void {
+//				var target:ButtonBar = ButtonBar(event.target);
+				
+				var target:LinkButton = LinkButton(event.target);
+				var idRub:String = target.id.substring(3); 
+				//this.parentApplication.getXmlCarto(idRub);
+				this.parentApplication.showMarkerId(idRub);
+			}
+
             public function SetFilAriane():void {
 				//construction du fil d'ariane
 		        for each (var rAriane:Object in rsLieu.ariane.hbox.label)
 		        {
 		        	if(rAriane.value != "|"){
 				        var arLnk:LinkButton = new LinkButton;
+				        //var arLnk:ButtonBar = new ButtonBar;
+				        
 				        arLnk.label = rAriane.value;
+				        arLnk.id = rAriane.id;
+						arLnk.addEventListener(MouseEvent.CLICK, showMarker);
 			        	hbAriane.addChild(arLnk);
 		        	}
 		        }

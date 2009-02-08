@@ -31,7 +31,7 @@ class Document{
 	  	}	
 		if($id!=-1){
 			$sql ="SELECT * FROM spip_documents where id_document = ".$id;
-			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"], $dbOptions);
+			$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$db->connect();
 			$req = $db->query($sql);
 			$data = $db->fetch_assoc($req);
@@ -48,6 +48,21 @@ class Document{
 
     }
 
+    function GetAllDocsFic($type){
+
+		$sql ="SELECT d.fichier, r.id_rubrique, a.id_article 
+			FROM spip_documents d
+				INNER JOIN spip_documents_articles da ON da.id_document = d.id_document
+				INNER JOIN spip_articles a ON a.id_article = da.id_article
+				INNER JOIN spip_rubriques r ON r.id_rubrique = a.id_rubrique
+			WHERE id_type = ".$type." ORDER BY d.fichier";
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$req = $db->query($sql);
+		$db->close();
+		return $req;    	    	
+    }
+    
     function GetSvgGallerie($large, $haut){
 
 		$svg = '<svg id="svg_'.$this->id.'" width="'.$large.'" height="'.$haut.'" '.$this->svgns.' >';

@@ -41,7 +41,7 @@ if(!isset($_SESSION['ContEditAll']))
 if(!isset($_SESSION['ContEditPublie']))
 	$_SESSION['ContEditPublie']=false;
 if(!isset($_SESSION['ForceCalcul']))
-	$_SESSION['ForceCalcul']=false;
+	$_SESSION['ForceCalcul']=true;
 	
 	
 if(TRACE)

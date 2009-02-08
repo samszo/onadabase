@@ -27,7 +27,7 @@ if(isset($_GET['theme'])){
 
 switch ($fonction) {
 	case 'get_markers':
-		$resultat = $markers = get_marker($objSite, $_GET['id'], $_GET['southWestLat'], $_GET['northEastLat'],$_GET['southWestLng'], $_GET['northEastLng'], $_GET['zoom'], $_GET['MapQuery'], $themes);
+		$resultat = get_marker($objSite, $_GET['id'], $_GET['southWestLat'], $_GET['northEastLat'],$_GET['southWestLng'], $_GET['northEastLng'], $_GET['zoom'], $_GET['MapQuery'], $themes);
 		break;
 	case 'get_theme_markers':
 		get_theme_markers($_GET['id']);
@@ -233,11 +233,12 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 
 	// on r√©cup√®re les markers suivants les coordonn√©e
 	$NewQuery = "idFiche";
+	//
 	
 	//construction de la requÍte
-	$statut = " AND a.statut = 'publie' ";
+	$statut = "";//" AND a.statut = 'publie' ";
 	$statut = " ";
-	$sql = "SELECT r.id_rubrique, r.titre, r.descriptif, r.texte
+	$sql = "SELECT DISTINCT r.id_rubrique, r.titre, r.descriptif, r.texte
 			, a.id_article idArt, da.id_donnee idDon
 			, dc1.valdec lat, dc2.valdec lng, dc3.valint zoommin, dc4.valint zoommax
 			, m.titre cartotype , dc7.valeur adresse
@@ -279,7 +280,7 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 				";
 		  	break;
 		case "allEtatDiag":
-			//requ√®te pour un √©l√©ment
+			//on boucle sur toute les rubrique sans geoc et on recherche le premier parent
 			$sql .= " WHERE 1  
 				ORDER BY dc1.valdec, dArt.fichier DESC
 				";
@@ -301,122 +302,64 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 	while($row = mysql_fetch_assoc($req))
 	{
 
-	//echo  $i."<br/>"; 
+		$path = PathRoot."/bdd/carto/".$query."_".$objSite->id."_".$row['id_rubrique'].".xml";
+		//pour gÈrer le plantage de connexion mysql
+		//if(file_exists($path))	continue;
+			
 		//echo "recup√®re le granulat = ".$id."<br/>";
-		$g = new Granulat($row['id_rubrique'], $objSite, true);
+		$g = new Granulat($row['id_rubrique'], $objSite,false);
 
 		//construction des markers
-	/*******************************modif CAI*****************************************************************/
-
-
-		$xml .= "<CartoDonnee lat='".$row['lat']."'";
-		
-		$xml .= " lng='".$row['lng']."'";
-		
-		$xml .= " i='".$i."'";
-		
-		$xml .= " idRub='".$row['id_rubrique']."'";
-		
-		$xml .= " idSite='".$objSite->id."'";
-		
-		$xml .= " titre=\"".utf8_encode($objSite->XmlParam->XML_entities($row['titre']))."\"";
-		
-		/*
-		$markers .= "topic_$i ".DELIM;
-		//Topic
-		$markers .=Root."/new/lieux.php?site=".$objSite->id."&VoirEn=Topos&Rub=".$row['id_rubrique']."&query=".$NewQuery.DELIM;//lien
-		//$markers .=get_fenetre_info($row,"Topic").DELIM;//localisation
-		if($row['navig'])
-			$markers .=$row['navig'].DELIM;		
-		else
-			$markers .=" ".DELIM;
-		//$markers .=$g->GetImages(68, 45).DELIM;//image
-		$markers .= "".DELIM;//image
-		
-		$markers .=utf8_encode(tronquer($row['texte'],60)).DELIM;
-		//cr√©ation des onglets pour le granulats
-		//$Val = $g->GetValeurForm($this->site->infos["GRILLE_Granulat"],"Titre", "", "  ", "Titre : ");
-		//if(substr($row['descriptif'], -2)!="00")
-		//if($Val!=" ")
-			//Famillie sauf pour d√©partement et communes
-		//	$markers .=get_fenetre_info($row,"Granulat").DELIM;
-		//else
-			$markers .="".DELIM;
-
-		 if(substr($row['descriptif'], -4)!="0000")
-			//Thematique sauf pour d√©partement
-			$markers .=get_fenetre_info($row,"Thematique").DELIM;
-		else
-			$markers .="".DELIM;
-		*/
-		//zoom
-
-		$xml .= " zoommin='".$row['zoommin']."'";
-		
-		$xml .= " zoommax='".$row['zoommax']."'";
-		
-		//adresse
-		$xml .= " adresse=\"".utf8_encode($objSite->XmlParam->XML_entities($row['adresse']))."\"";
-		
-		//type carte
-		$xml .= " cartotype='".$row['cartotype']."'";
-		
-		//lien vers le kml
-		$kml="";
-		if($row['docArtkml'])
-			$kml = $objSite->infos["pathSpip"].$row['docArtkml'];
-		if($kml=="")	
-			$kml = $row['kml'];
-		if($kml=="")
-			$kml = $g->GetKml();
-		$xml .= " kml='".$kml."'";
-		
-		//crÈation de l'identidiant xul
-		$idDoc = 'val'.DELIM.$objSite->infos["GRILLE_GEO"].DELIM.$row["idDon"].DELIM."fichier".DELIM.$row["idArt"];
-		$xml .= " idDoc='".$idDoc."'";
-		//finalisation des attributs de CartoDonnee
-		$xml .= " >";
-				
+		$xmlRub = $g->GetXmlCartoDonnee($row);
+						
 		//vÈrifie s'il faut rÈcupÈrer le diagnostic
 		if($query=="allEtatDiag"){
 			
 			//$xml .= $g->GetEtatDiag(true,true);
 
 			//rÈcupËre les grilles du granulat 
-			$rsG = $g->GetFormIds(-1,$g->id);
-			if(mysql_num_rows($rsG)>0){
-				$xml .= "<grilles>";
-				while($rG = mysql_fetch_assoc($rsG)) {
-					$xml .= "<grille id='".$rG['id_form']."' titre='".$rG['titre']."' idArt='".$rG['id_article']."' />";
-				}
-				$xml .= "</grilles>";
-			}
-			
+			$xmlRub.= $g->GetXmlGrilles();
 			//rÈcupËre les mots-clef du granulat
-			$rsMC = $g->GetTypeMotClef("rubrique");
-			if(count($rsMC)>0){
-				$xml .= "<motsclefs>";
-				foreach($rsMC as $mc) {
-					$xml .= "<motclef id='".$mc->id."' titre='".$mc->titre."'  />";
-				}
-				$xml .= "</motsclefs>";
-			}
-			
+			$xmlRub.= $g->GetXmlGrilleMots();
+						
 		}
 
 		//finalisation du xml
-		$xml .= "</CartoDonnee>";
-		
+		$xmlRub .= "</CartoDonnee>";
+		$xml .= $xmlRub;
+		//pour l'enregistrement
+		$xmlRub = "<CartoDonnees>".$xmlRub."</CartoDonnees>";
 
 	/***************************************************************fin*******************************/
+		//pour Èviter le bug des connexion mysql
+		//sleep(1);
+		if($SaveFile){
+			$objSite->SaveFile($path,$xmlRub);
+		}
+		
 		$i++;
 
 	}
+
+	//gestion de la gÈolocalisation par le parent quand la requÍte est vide
+	if($i==0){
+		$g = new Granulat($id, $objSite);
+		if($g->IdParent!=0)
+			$xml = get_marker($objSite, $g->IdParent, $southWestLat, $northEastLat, $southWestLng, $northEastLng, $zoom, $query, $themes, $i);		
+	}else{
+		//calcul toute les donnÈes vides
+		if($query=="allEtatDiag"){
+			$g = new Granulat($id,$objSite);
+			$xml .= CalculCartoDonneevide($g);		
+		}
+		//finalisation du xml
+		$xml .= "</CartoDonnees>";		
+	}
 	
-	//finalisation du xml
-	$xml .= "</CartoDonnees>";
+	
 	
 	//gestion des requ√™tes multisite
+	/*
 	if($objSite->infos["SITE_ENFANT"]!=-1 && $query!="idFiche"){
 		foreach($objSite->infos["SITE_ENFANT"] as $siteenfant=>$type)
 		{
@@ -427,16 +370,57 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 				echo get_marker($objSiteNew, $id, $southWestLat, $northEastLat, $southWestLng, $northEastLng, $zoom, $query, $themes, $i);
 		}
 	}
+	*/
 			
 	//echo $markers;
 	if($SaveFile){
-		$fic = fopen(PathRoot."/bdd/carto/".$query."_".$objSite->id."_".$id.".xml", "w");
-		fwrite($fic, $xml);		
-    	fclose($fic);
-	}else
-		echo $xml;
+		$objSite->SaveFile(PathRoot."/bdd/carto/".$query."_".$objSite->id."_".$id.".xml",$xml);
+	}
+	return $xml;
 	
 }
 
+function CalculCartoDonneevide($g){
+
+	//crÈation des donnÈes sur les enfants qui n'ont pas de grille gÈo
+	$grille = new Grille($g->site);
+	$ids = $g->GetIdsScope();
+    $xmlEnf="";
+	$rs = $grille->FiltreRubSansGrille($g->id,$g->site->infos["GRILLE_REP_CON"]);
+	$i=6;
+	while ($rEnf =  mysql_fetch_assoc($rs)) {
+    	$gEnf = new Granulat($rEnf["id_rubrique"],$g->site,false);
+    	$row = $gEnf->GetGeo();
+    	//construction de la ligne en incrÈmentant un peu la position
+    	if($lat==$row["lat"]){
+    		$lat = $row["lat"].$i;
+    		$i++;
+    	}else{
+    		$lat = $row["lat"];
+    		$i=6;
+    	}
+		$r = array("id_rubrique"=>$gEnf->id
+			,"titre"=>$gEnf->titre
+			, "idArt"=>-1
+			, "idDon"=>-1
+			, "lat"=> $lat
+			, "lng"=> $row["lng"]
+			, "zoommin"=> $row["zoom"]
+			, "zoommax"=> $row["zoommax"]
+			, "cartotype"=> $row["type"]
+			, "adresse"=> $row["adresse"]
+			, "kml"=> $row["kml"]
+			, "docArtkml"=> $row["docArtkml"]
+			);
+		$xmlEnf .= $gEnf->GetXmlCartoDonnee($r);
+		//rÈcupËre les grilles du granulat 
+		$xmlEnf.= $gEnf->GetXmlGrilles();
+		//rÈcupËre les mots-clef du granulat
+		$xmlEnf.= $gEnf->GetXmlGrilleMots();
+		//finalisation du xml
+		$xmlEnf .= "</CartoDonnee>";
+    }
+	return $xmlEnf;  	
+}
 
 ?>

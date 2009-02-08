@@ -13,6 +13,8 @@ todo :
 
   <mx:HTTPService id="srvEtatDiag" url="{urlExeAjax}"
   	result="rhEtatDiag(event);" showBusyCursor="true" />
+  <mx:HTTPService id="srvExeCarto" url="{urlExeCarto}"
+  	result="readXmlCarto(event);" showBusyCursor="true" />
   	
 	<mx:Script source="onadaflex.as"/>
 
@@ -31,11 +33,8 @@ todo :
  
   
  <mx:Panel title="ONADABASE diagnostics pour l'accessibilité" width="100%" height="100%">
- <mx:Panel title="Choisissez les éléments à afficher" >
+ <mx:Panel title="Choisissez les éléments à afficher"  borderColor="#080202">
   <mx:HBox>
-      <mx:CheckBox selected="false" change="getPlan();"/>
-      <mx:Label text="Test" color="{categories['grille_66'].color}"/>
-      <!--
       <mx:CheckBox selected="false" change="createMarkerGrille('66')"/>
       <mx:Label text="Territoire" color="{categories['grille_66'].color}"/>
       <mx:CheckBox selected="false" change="createMarkerGrille('55')"/>
@@ -58,14 +57,15 @@ todo :
       <mx:Label text="Objet extérieur" color="{categories['grille_64'].color}"/>
       <mx:CheckBox selected="false" change="createMarkerGrille('72')"/>
       <mx:Label text="Ligne de transport" color="{categories['grille_72'].color}"/>
-      -->
+      <mx:CheckBox selected="false" change="createMarkerGrille('60')"/>
+      <mx:Label text="Signalement problème" color="{categories['grille_60'].color}"/> 	
 
 
   </mx:HBox>	
 </mx:Panel>
   <mx:HDividedBox width="100%" height="100%">
    <mx:VBox id="chartBox" visible="true" width="0" height="100%" paddingLeft="5" paddingTop="5" >
-    <mx:Label id="chartTitre" text="" fontSize="24" fontWeight="bold"/>
+    <mx:Label id="chartTitre" width="100%" text="" fontSize="24" fontWeight="bold"/>
     <mx:HBox width="100%" >
        	<mx:LinkButton id="imgPhoto" visible="false" icon="{PhotoIcon}" click="ShowListePhoto();" />
        	<mx:LinkButton id="imgFilm" visible="false" icon="{FilmIcon}" click="ShowListeFilm();" />
@@ -144,7 +144,7 @@ todo :
 	    <mx:Label id="idRub" visible="false" text="" fontSize="10" fontWeight="bold"/>
 	    <mx:Label id="idSite" visible="false" text="" fontSize="10" fontWeight="bold"/>    	
 	    <!-- traces du graphique -->
-		<mx:TextArea id="chartTrace" visible="false" />
+		<mx:TextArea id="chartTrace" visible="true" />
 	</mx:HBox>
 
    </mx:VBox>

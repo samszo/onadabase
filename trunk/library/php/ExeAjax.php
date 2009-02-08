@@ -37,6 +37,10 @@
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
 			break;*/
+		case 'GetKmlPlans':
+			$flex = new Flex($objSite);
+			$resultat = $flex->GetKmlPlans();
+			break;
 		case 'GetFriseDocs':
 			$xul = new Xul($objSite);
 			$resultat = $xul->GetFriseDocs($_GET['id'],$_GET['idDoc'],$_GET['idArt']);
@@ -208,12 +212,9 @@
 
 	function GetFlexEtatDiagListe($site, $g, $idDoc){
 
-		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id."_".$idDoc.".xml";
-		//vérifie s'il faut créer la stat
-		if (!file_exists($path))		
-			return $g->GetEtatDiagListe($idDoc,true,true);
-			
-		include($path);
+		$contents = $g->GetEtatDiagListe($idDoc,true,true);
+
+   		return $contents; 
 		
 	}
 		

@@ -136,7 +136,7 @@ class Grille{
 					$xul .= "</crit>";
 		}
 		//finalise le xml
-		if($PourFlex)
+		if($PourFlex && $idRubOld!=-1)
 			$xul .= "</lieu>";
 		$xul .= "</vbox>";
 		
@@ -197,7 +197,7 @@ class Grille{
 	
 	public function GetEtatDiagIcones($FormIds, $ids)
 	{
-		$icones ="<icones id='ico_sup'>";
+		$icones ="<icones id='ico_'>";
 		//boucle sur les grilles de la rubrique
 		while($row = mysql_fetch_assoc($FormIds)) {
 			//récupère les critéres des icones supplémentaire
@@ -301,7 +301,27 @@ class Grille{
 		return $result;
 		
 	}
-    
+
+    public function FiltreRubSansGrille($id,$idsGrille)
+	{
+		$sql = "SELECT DISTINCT r.id_rubrique, fd.id_donnee
+			FROM spip_rubriques r
+			INNER JOIN spip_rubriques_enfants re ON re.id_rubrique = r.id_rubrique AND re.id_parent =".$id."
+			INNER JOIN spip_articles a ON a.id_rubrique = r.id_rubrique
+			INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article 
+			LEFT JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee AND fd.id_form IN (".$idsGrille.")
+			WHERE fd.id_donnee IS NULL";
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$db->connect();
+		$result = $db->query($sql);
+		if($this->trace)
+			echo "Grille:FiltreRubAvecGrille".$this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
+		$db->close();
+			
+		return $result;
+		
+	}
+	
     public function GetNumEtatDiagFait($id)
 	{
 		$sql = "SELECT COUNT(DISTINCT re.id_rubrique) nb
