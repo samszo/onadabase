@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="400" height="300"
+	showCloseButton="true"
+	close="PopUpManager.removePopUp(this);"
+	>
+
+
+    <mx:Script>
+        <![CDATA[		
+            import flash.events.MouseEvent;
+	       	import mx.managers.PopUpManager;
+		
+            public function doZoom(event:MouseEvent):void {
+                if (zoomAll.isPlaying) {
+                    zoomAll.reverse();
+                }
+                else {
+                    // If this is a ROLL_OUT event, play the effect backwards. 
+                    // If this is a ROLL_OVER event, play the effect forwards.
+                    zoomAll.play([event.target], event.type == MouseEvent.ROLL_OUT ? true : false);
+                }
+            }
+        ]]>	
+    </mx:Script>
+
+    <mx:Zoom id="zoomAll" zoomWidthTo="3" zoomHeightTo="3" zoomWidthFrom=".5" zoomHeightFrom=".5"  />
+	
+    <mx:Panel title="" width="100%" height="100%" horizontalAlign="center" >
+
+        <mx:Text width="100%" color="blue"
+            text="Move the mouse over the image to enlarge it. Move the mouse off of the image to shrink it."/>
+
+        <mx:Image id="img"
+            source="../../xul/chrome/content/images/moteur1.jpg"
+            scaleX=".5" scaleY=".5"
+            rollOver="doZoom(event)"
+            rollOut="doZoom(event)"/>
+        <mx:Image id="img2"
+            source="../../xul/chrome/content/images/moteur2.jpg"
+            scaleX=".5" scaleY=".5"
+            rollOver="doZoom(event)"
+            rollOut="doZoom(event)"/>
+
+    </mx:Panel>
+	
+</mx:TitleWindow>
