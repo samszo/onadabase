@@ -57,12 +57,12 @@ class Granulat
 		}else{
 			//on ne remonte que jusqu'au grand parent
 			//on supprime cette étape pour flex
-			/*
+			//
 			if($gra->IdParent && $niv<6){
 				$grap = new Granulat($gra->IdParent,$gra->site,false);
 				$ficsKml = $this->GetKml($grap,$niv+1);	
 			}
-			*/
+			//
 		}
 		
 		return $ficsKml;
