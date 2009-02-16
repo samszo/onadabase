@@ -116,7 +116,7 @@ function ChercheAbo ($login, $mdp, $objSite)
 		//mysql_select_db("solacc", $link);	
 		mysql_select_db($objSite->infos["SQL_DB"], $link);	
 		
-		$sql = "SELECT id_auteur, nom, login, email  FROM spip_auteurs WHERE login = '".$login."' AND pass = md5( CONCAT(alea_actuel,'$mdp'))";
+		$sql = "SELECT id_auteur, nom, login, email, statut  FROM spip_auteurs WHERE login = '".$login."' AND pass = md5( CONCAT(alea_actuel,'$mdp'))";
 		$req = mysql_query($sql) or die('Erreur SQL !<br>'.$sql.'<br>'.mysql_error());
 	  	if(TRACE)
 	  		echo "ParamPage:ChercheAbo:sql=".$sql."<br/>";
@@ -135,6 +135,11 @@ function ChercheAbo ($login, $mdp, $objSite)
 					$_SESSION['loginSess'] = $resultat['login'];	
 					$_SESSION['IpSess'] = $_SERVER['REMOTE_ADDR'];
 					$_SESSION['mdpSess'] = $mdp;
+					//gestion du statut
+					if($resultat['statut']=="0minirezo")
+						$_SESSION['role'] = "administrateur";
+					if($resultat['statut']=="1comite")
+						$_SESSION['role'] = "lecteur";
 				}
 			
 		}

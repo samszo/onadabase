@@ -502,8 +502,6 @@ case 'plan_1953':
 		                new plan_51,
 		                new LatLngBounds(new LatLng(48.48165558210019,1.522389124688884), new LatLng(48.4827400278142,1.524369358526914)));
 					 break;
-default:
-			        trace('Not 0, 1, or 2');
 			}
 			return groundOverlay;
 
