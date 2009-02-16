@@ -383,9 +383,8 @@
 			<question id='2_cr_po_18'/>
 			<question id='2_cr_po_19'/>
 		</question>
-		<question id='2_cr_po_16' reponse='2' >
-			<question id='2_cr_po_15'/>
-		</question>	
+		<question id='2_cr_po_16'/>
+		<question id='2_cr_po_15'/>
 		<question id='2_cr_po_08'/>
 		<question id='2_qi_po_03' reponse='1' >
 			<question id='2_cr_po_10' reponse='1'>
