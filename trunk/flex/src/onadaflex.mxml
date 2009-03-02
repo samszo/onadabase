@@ -8,16 +8,18 @@ todo :
 
 -->
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-  width="100%" height="100%" layout="absolute" 
-   xmlns:ns2="compo.*">
+  	width="100%" height="100%" layout="absolute" 
+   	xmlns:ns2="compo.*"
+   >
+
+	<mx:Script source="onadaflex.as"/>
+	
+	<mx:WipeLeft id="myWL"/>
 
   <mx:HTTPService id="srvEtatDiag" url="{urlExeAjax}"
   	result="rhEtatDiag(event);" showBusyCursor="true" />
   <mx:HTTPService id="srvExeCarto" url="{urlExeCarto}"
   	result="readXmlCarto(event);" showBusyCursor="true" />
-  	
-	<mx:Script source="onadaflex.as"/>
-
 
  	<!-- Define custom colors for use as fills. -->
     <mx:SolidColor id="sc0" color="green" alpha=".8"/>
@@ -33,127 +35,127 @@ todo :
  
   
  <mx:Panel title="ONADABASE diagnostics pour l'accessibilité" width="100%" height="100%">
- <mx:Panel title="Choisissez les éléments à afficher"  borderColor="#080202">
-  <mx:HBox>
-      <mx:CheckBox selected="false" change="createMarkerGrille('66')"/>
-      <mx:Label text="Territoire" color="{categories['grille_66'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('55')"/>
-      <mx:Label text="Etablissement" color="{categories['grille_55'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('62')"/>
-      <mx:Label text="Voirie" color="{categories['grille_62'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('53')"/>
-      <mx:Label text="Bâtiment" color="{categories['grille_53'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('61')"/>
-      <mx:Label text="Espace extérieur" color="{categories['grille_61'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('58')"/>
-      <mx:Label text="Parcelle" color="{categories['grille_58'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('35')"/>
-      <mx:Label text="Niveau" color="{categories['grille_35'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('57')"/>
-      <mx:Label text="Espace intérieur" color="{categories['grille_57'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('63')"/>
-      <mx:Label text="Objet intérieur" color="{categories['grille_63'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('64')"/>
-      <mx:Label text="Objet extérieur" color="{categories['grille_64'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('72')"/>
-      <mx:Label text="Ligne de transport" color="{categories['grille_72'].color}"/>
-      <mx:CheckBox selected="false" change="createMarkerGrille('60')"/>
-      <mx:Label text="Signalement problème" color="{categories['grille_60'].color}"/> 	
+ 	<mx:HDividedBox width="100%" height="100%"> 
+	    <mx:HBox width="70%" height="100%">
+		    <mx:VBox width="20%" height="100%">		    	
+		 		<mx:Panel title="Choisissez les éléments à afficher" width="100%" height="30%" borderColor="#080202">
+			   		<ns2:treeEtatLieux id="treeEtatLieux" width="100%" height="100%" >
+			   		</ns2:treeEtatLieux>
+				</mx:Panel>
+		 		<mx:Panel title="Choisissez un territoire" width="100%" height="70%" borderColor="#080808">
+				   <mx:Tree id="treeTerre" width="100%" height="100%"
+				          labelField="@titreRub"
+				          dataProvider="{rsTerre}"
+				          change="changeEvtTreeTerre(event);" 
+				          >
+				   </mx:Tree>		 			
+		 		</mx:Panel>
+	
+		    </mx:VBox>
 
+		   <mx:UIComponent id="mapHolder"
+		      initialize="onHolderCreated(event);"
+		      resize="onHolderResized(event)"
+		      width="80%" height="100%"/>
+	   </mx:HBox>
 
-  </mx:HBox>	
-</mx:Panel>
-  <mx:HDividedBox width="100%" height="100%">
-   <mx:VBox id="chartBox" visible="true" width="0" height="100%" paddingLeft="5" paddingTop="5" >
-    <mx:Label id="chartTitre" width="100%" text="" fontSize="24" fontWeight="bold"/>
-    <mx:HBox width="100%" >
-       	<mx:LinkButton id="imgPhoto" visible="false" icon="{PhotoIcon}" click="ShowListePhoto();" />
-       	<mx:LinkButton id="imgFilm" visible="false" icon="{FilmIcon}" click="ShowListeFilm();" />
-       	<mx:LinkButton id="imgSon" visible="false" icon="{SonIcon}" click="ShowListeSon();" />
-	</mx:HBox>
-
-    <mx:ColumnChart id="chart" 
-        dataProvider="{rsEtatDiag.EtatDiag.Obstacles}" 
-        type="stacked"
-        showDataTips="true" 
-        width="100%" 
-        height="100%"
-		change="chartEtatDiagChange(event)"
-		selectionMode="multiple"
-    >
-        <mx:horizontalAxis>
-            <mx:CategoryAxis id="h1" categoryField="id" />
-        </mx:horizontalAxis>
-        <mx:series>
-           <mx:ColumnSeries 
-                xField="id" 
-                yField="niv0" 
-                displayName="Critères valides"
-				fill="{sc0}"
-                stroke="{s0}"
-                selectable="true"
-           />
-           <mx:ColumnSeries 
-                xField="id" 
-                yField="niv1" 
-                displayName="Obstacles niveau 1"
-				fill="{sc1}"
-                stroke="{s1}"
-           />
-           <mx:ColumnSeries 
-                xField="id" 
-                yField="niv2" 
-                displayName="Obstacles niveau 2"
-				fill="{sc2}"
-                stroke="{s2}"
-           />
-           <mx:ColumnSeries 
-                xField="id" 
-                yField="niv3" 
-                displayName="Obstacles niveau 3"
-				fill="{sc3}"
-                stroke="{s3}"
-           />
-        </mx:series>
-    </mx:ColumnChart>
-    <mx:HBox paddingLeft="40" width="100%" >
-		<mx:Image id="imgAlphaMoteur" source="{AIcon}" width="80" />
-		<mx:Image id="imgAlphaAudio" source="{BIcon}" width="80" />
-		<mx:Image id="imgAlphaCog" source="{CIcon}" width="80" />
-		<mx:Image id="imgAlphaVisu" source="{DIcon}" width="80" />		
-	</mx:HBox>
-     <mx:Legend>
-	    <mx:HBox>
-			<mx:VBox >
-				<mx:Label text="Critères valides" fontWeight="bold" />
-		        <mx:LegendItem label="" fontWeight="bold" fill="{sc0}" stroke="{s0}" />			
-			</mx:VBox>
-			<mx:VBox >
-				<mx:Label text="Obstacles" fontWeight="bold" />
+	   <mx:VBox id="chartBox" visible="true" width="0" height="100%" paddingLeft="5" paddingTop="5" >
+		    <mx:Label id="chartTitre" width="98%" text="" fontSize="24" fontWeight="bold"/>
+		    
+		    <mx:HBox >
+		       	<mx:LinkButton id="imgPhoto" visible="false" icon="{PhotoIcon}" click="ShowListePhoto();" />
+		       	<mx:LinkButton id="imgFilm" visible="false" icon="{FilmIcon}" click="ShowListeFilm();" />
+		       	<mx:LinkButton id="imgSon" visible="false" icon="{SonIcon}" click="ShowListeSon();" />
+			</mx:HBox>
+	
+		   <ns2:vbCoucheKml id="treeKML" visible="false" >
+		   </ns2:vbCoucheKml>
+	
+		    <mx:HBox paddingLeft="70" width="98%" >
+				<mx:Image id="imgAudio" source="{AudioIcon}" width="80" />
+				<mx:Image id="imgCog" source="{CogIcon}" width="80" />
+				<mx:Image id="imgMoteur" source="{MoteurIcon}" width="80" />
+				<mx:Image id="imgVisu" source="{VisuIcon}" width="80" />
+			</mx:HBox>
+			
+		    <mx:ColumnChart id="chart" 
+		        dataProvider="{rsEtatDiag.EtatDiag.Obstacles}" 
+		        type="stacked"
+		        showDataTips="true" 
+		        width="98%" 
+		        height="100%"
+				change="chartEtatDiagChange(event)"
+				selectionMode="multiple"
+		    >
+		        <mx:horizontalAxis>
+		            <mx:CategoryAxis id="h1" categoryField="id" />
+		        </mx:horizontalAxis>
+		        <mx:series>
+		           <mx:ColumnSeries 
+		                xField="id" 
+		                yField="niv0" 
+		                displayName="Critères valides"
+						fill="{sc0}"
+		                stroke="{s0}"
+		                selectable="true"
+		           />
+		           <mx:ColumnSeries 
+		                xField="id" 
+		                yField="niv1" 
+		                displayName="Obstacles niveau 1"
+						fill="{sc1}"
+		                stroke="{s1}"
+		           />
+		           <mx:ColumnSeries 
+		                xField="id" 
+		                yField="niv2" 
+		                displayName="Obstacles niveau 2"
+						fill="{sc2}"
+		                stroke="{s2}"
+		           />
+		           <mx:ColumnSeries 
+		                xField="id" 
+		                yField="niv3" 
+		                displayName="Obstacles niveau 3"
+						fill="{sc3}"
+		                stroke="{s3}"
+		           />
+		        </mx:series>
+		    </mx:ColumnChart>
+		    <mx:HBox paddingLeft="40" width="98%" >
+				<mx:Image id="imgAlphaMoteur" source="{AIcon}" width="80" />
+				<mx:Image id="imgAlphaAudio" source="{BIcon}" width="80" />
+				<mx:Image id="imgAlphaCog" source="{CIcon}" width="80" />
+				<mx:Image id="imgAlphaVisu" source="{DIcon}" width="80" />		
+			</mx:HBox>
+		     <mx:Legend>
 			    <mx:HBox>
-			        <mx:LegendItem label="Niveau 1" fontWeight="bold" fill="{sc1}" stroke="{s1}" />
-			        <mx:LegendItem label="Niveau 2" fontWeight="bold" fill="{sc2}" stroke="{s2}" />
-			        <mx:LegendItem label="Niveau 3" fontWeight="bold" fill="{sc3}" stroke="{s3}" />
+					<mx:VBox >
+						<mx:Label text="Critères valides" fontWeight="bold" />
+				        <mx:LegendItem label="" fontWeight="bold" fill="{sc0}" stroke="{s0}" />			
+					</mx:VBox>
+					<mx:VBox >
+						<mx:Label text="Obstacles" fontWeight="bold" />
+					    <mx:HBox>
+					        <mx:LegendItem label="Niveau 1" fontWeight="bold" fill="{sc1}" stroke="{s1}" />
+					        <mx:LegendItem label="Niveau 2" fontWeight="bold" fill="{sc2}" stroke="{s2}" />
+					        <mx:LegendItem label="Niveau 3" fontWeight="bold" fill="{sc3}" stroke="{s3}" />
+						</mx:HBox>
+					</mx:VBox>
 				</mx:HBox>
-			</mx:VBox>
-		</mx:HBox>
-     </mx:Legend>
-
-    <mx:HBox height="0" width="0">
-	    <!-- clefs du graphique -->
-	    <mx:Label id="idRub" visible="false" text="" fontSize="10" fontWeight="bold"/>
-	    <mx:Label id="idSite" visible="false" text="" fontSize="10" fontWeight="bold"/>    	
-	    <!-- traces du graphique -->
-		<mx:TextArea id="chartTrace" visible="true" />
-	</mx:HBox>
-
-   </mx:VBox>
-
-   <mx:UIComponent id="mapHolder"
-      initialize="onHolderCreated(event);"
-      resize="onHolderResized(event)"
-      width="70%" height="100%"/>
-  </mx:HDividedBox>
+		     </mx:Legend>
+	
+		    <mx:HBox height="0" width="0">
+			    <!-- clefs du graphique -->
+			    <mx:Label id="idRub" visible="false" text="" fontSize="10" fontWeight="bold"/>
+			    <mx:Label id="idSite" visible="false" text="" fontSize="10" fontWeight="bold"/>    	
+			    <!-- traces du graphique -->
+				<mx:TextArea id="chartTrace" visible="true" />
+			</mx:HBox>
+	
+	   </mx:VBox>  
+      
+	</mx:HDividedBox> 
  </mx:Panel>
 
 </mx:Application>
