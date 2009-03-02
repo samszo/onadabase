@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="100%" creationComplete="Init()" >
+ <mx:Script>
+    <![CDATA[
+  import flash.events.Event;
+  
+  import com.google.maps.controls.ZoomControl;
+  import com.google.maps.overlays.Polyline;
+  import com.google.maps.overlays.Marker;
+  import com.google.maps.MapEvent;
+  import com.google.maps.Map;
+  import com.google.maps.MapType;
+  import com.google.maps.LatLng;
+  import com.google.maps.LatLngBounds;
+  import com.google.maps.overlays.GroundOverlay;
+  import com.google.maps.overlays.GroundOverlayOptions; 
+  import com.google.maps.extras.xmlparsers.kml.*;
+  
+  [Bindable] public var mapP:Map;
+  [Bindable] public var kmlUrl:String = "";
+  [Bindable] public var kmlLat:Number;
+  [Bindable] public var kmlLng:Number;
+  [Bindable] public var kmlZoom:int;
+  [Bindable] private var kmlObj:Object = new Object();
+
+  public function Init():void {
+  	if(kmlUrl=="")return;
+	var loader:URLLoader = new URLLoader();
+	loader.addEventListener(Event.COMPLETE, loadKML);
+	loader.load(new URLRequest(kmlUrl));
+  }
+
+  public function loadKML(event:Event):void {
+  	//trace(event.target.data);
+ 	var kml:Kml22 = new Kml22(event.target.data);
+    var rootFeature:Feature = kml.feature;
+     
+	kmlObj = new Object();
+	kmlObj.name = rootFeature.name;
+	
+	if (!canContainFeatures(rootFeature)){
+		//return;
+		associateWithMapObject(kmlObj, rootFeature);
+	}else{ 
+		// its a container, lets look for children features
+		kmlObj.children = getChildrenFeatures(Container(rootFeature));
+	}
+  }
+  
+   private function changeEvt(event:Event):void {
+   	var mapObj:* = event.currentTarget.selectedItem.mapObject;
+   	if (mapObj is Marker) {
+   		var marker:Marker = Marker(mapObj);
+   		mapP.setCenter(marker.getLatLng());
+   	} else if (mapObj is com.google.maps.overlays.Polygon::Polygon) {
+   		var polygon: com.google.maps.overlays.Polygon = com.google.maps.overlays.Polygon::Polygon(mapObj);
+   		mapP.setCenter(polygon.getLatLngBounds().getCenter());
+   	}else if (mapObj is com.google.maps.overlays.Polyline::Polyline) {
+   		var polyline: com.google.maps.overlays.Polyline = com.google.maps.overlays.Polyline::Polyline(mapObj);
+   		mapP.setCenter(polyline.getLatLngBounds().getCenter());
+   	} else if (mapObj is com.google.maps.overlays.GroundOverlay::GroundOverlay) {
+   		var groundOverlay: com.google.maps.overlays.GroundOverlay = com.google.maps.overlays.GroundOverlay::GroundOverlay(mapObj);
+   		// we need a getLatLngBounds function
+   		mapP.setCenter(new LatLng(this.kmlLat,this.kmlLng),this.kmlZoom);
+   	}
+   }
+   
+   
+  public function associateWithMapObject(obj:Object, feature:Feature):void {
+  	// at this point it can either be a placemark or a groundoverlay
+  	if (feature is Placemark) {
+  		var placemark:Placemark = com.google.maps.extras.xmlparsers.kml.Placemark::Placemark(feature);
+  		if (placemark.geometry != null) {
+  			if (placemark.geometry is com.google.maps.extras.xmlparsers.kml.Point::Point) {
+  				var point: com.google.maps.extras.xmlparsers.kml.Point::Point = com.google.maps.extras.xmlparsers.kml.Point::Point(placemark.geometry);
+  				var latlng:LatLng = new LatLng(point.coordinates.coordsList[0].lat, point.coordinates.coordsList[0].lon);
+  				obj.mapObject = new Marker(latlng);
+  				mapP.addOverlay(obj.mapObject);
+  			} else if (placemark.geometry is LineString) {
+  				var lineString:LineString = LineString(placemark.geometry);
+  				obj.mapObject = new Polyline(getCoordinatesLatLngs(lineString.coordinates));
+  				mapP.addOverlay(obj.mapObject);
+  			}  else if (placemark.geometry is LinearRing) {
+  				var linearRing:LinearRing = LinearRing(placemark.geometry);
+  				obj.mapObject = new Polyline(getCoordinatesLatLngs(linearRing.coordinates));
+  				mapP.addOverlay(obj.mapObject);
+  			}  else if (placemark.geometry is Polygon) {
+  				var polygon:Polygon = Polygon(placemark.geometry);
+  				obj.mapObject = new com.google.maps.overlays.Polygon::Polygon(getCoordinatesLatLngs(polygon.outerBoundaryIs.linearRing.coordinates));
+  				mapP.addOverlay(obj.mapObject);
+  			} 
+  		}
+  	} else if (feature is com.google.maps.extras.xmlparsers.kml.GroundOverlay::GroundOverlay) {
+  		var groundOverlay:com.google.maps.extras.xmlparsers.kml.GroundOverlay::GroundOverlay = com.google.maps.extras.xmlparsers.kml.GroundOverlay::GroundOverlay(feature);
+	  	var testLoader:Loader = new Loader();
+	  	var urlRequest:URLRequest = new URLRequest(groundOverlay.icon.href);
+	    testLoader.contentLoaderInfo.addEventListener(
+	      Event.COMPLETE,
+	      function(e:Event):void {
+	        obj.mapObject = new com.google.maps.overlays.GroundOverlay::GroundOverlay(
+	        testLoader,
+	        new LatLngBounds(new LatLng(groundOverlay.latLonBox.south,groundOverlay.latLonBox.west), new LatLng(groundOverlay.latLonBox.north,groundOverlay.latLonBox.east)));
+	        mapP.addOverlay(obj.mapObject);
+	    });
+	    testLoader.load(urlRequest); 
+  	}
+  }
+  
+  public function getCoordinatesLatLngs(coordinates:Coordinates):Array {
+  	var latlngs:Array = new Array();
+  	for (var i:Number = 0; i < coordinates.coordsList.length; i++) {
+  		var coordinate:Object = coordinates.coordsList[i];
+  		latlngs.push(new LatLng(Number(coordinate.lat), Number(coordinate.lon)));
+  	}
+  	return latlngs;
+  }
+  
+  public function getChildrenFeatures(container:Container):Array {
+  	var childrenFeatures:Array = new Array();
+  	for (var i:Number = 0; i < container.features.length; i++) {
+  		var feature:Feature = container.features[i];
+  		var childObj:Object = new Object();
+	 	childObj.name = feature.name;
+	 	if (childObj.name == null) {
+	 		childObj.name = getAlternateName(feature);
+	 	}
+	 	if (canContainFeatures(feature)) {
+	 		childObj.children = getChildrenFeatures(Container(feature));
+	 	} else {
+	 		associateWithMapObject(childObj, feature);
+	 	}
+	 	childrenFeatures.push(childObj);
+  	}
+  	return childrenFeatures;
+  }
+  
+  public function canContainFeatures(feature:Feature):Boolean {
+  	return (feature is Container);
+  }
+  
+  public function getAlternateName(feature:Feature):String {
+  	if (feature is Folder) {
+  		return "Unnamed Folder";
+  	} else if (feature is Document) {
+  		return "Unnamed Document";
+  	} else if (feature is Placemark) {
+  		var placemark:Placemark = com.google.maps.extras.xmlparsers.kml.Placemark::Placemark(feature);
+  		if (placemark.geometry != null) {
+  			if (placemark.geometry is com.google.maps.extras.xmlparsers.kml.Point) {
+  				return "Unnamed Point";
+  			} else if (placemark.geometry is com.google.maps.extras.xmlparsers.kml.LineString) {
+  				return "Unnamed Linestring";
+  			}  else if (placemark.geometry is com.google.maps.extras.xmlparsers.kml.LinearRing) {
+  				return "Unnamed LinearRing";
+  			}  else if (placemark.geometry is com.google.maps.extras.xmlparsers.kml.Polygon) {
+  				return "Unnamed Polygon";
+  			}
+  		}
+  		return "Unnamed Placemark";
+  		
+  	} else if (feature is com.google.maps.extras.xmlparsers.kml.GroundOverlay::GroundOverlay) {
+  		return "Unnamed GroundOverlay";
+  	}
+  	return "Unnamed Feature";
+  }
+    ]]>
+  </mx:Script>  	
+<mx:Label id="treeTitre" width="100%" text="Couches géographiques disponibles" fontSize="16" fontWeight="bold"/>
+<mx:Tree width="98%" height="100%" dataProvider="{kmlObj}" click="changeEvt(event);" labelField="name" showRoot="false"/>
+ 	
+</mx:VBox>

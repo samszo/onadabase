@@ -9,7 +9,7 @@ package
 		public function Plans()
 		{
 		}
-
+/*
 [Embed(source="/plans/7041_47431_17-12-08_14-14-27.png")] public var plan_0:Class;
 [Embed(source="/plans/7055_47452_17-12-08_15-18-44.png")] public var plan_1:Class;
 [Embed(source="/plans/Gare_de_Blois_2.png")] public var plan_2:Class;
@@ -507,6 +507,6 @@ case 'plan_1953':
 
 
 		}
-
+*/
 	}
 }

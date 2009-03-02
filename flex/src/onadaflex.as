@@ -6,7 +6,9 @@
       import com.google.maps.MapEvent;
       import com.google.maps.MapMouseEvent;
       import com.google.maps.MapType;
-      import com.google.maps.overlays.GroundOverlay;
+      import com.google.maps.controls.MapTypeControl;
+      import com.google.maps.controls.PositionControl;
+      import com.google.maps.controls.ZoomControl;
       import com.google.maps.overlays.Marker;
       import com.google.maps.overlays.MarkerOptions;
       import com.google.maps.styles.FillStyle;
@@ -17,30 +19,32 @@
       
       import flash.net.URLRequest;
       
+      import mx.collections.*;
+      import mx.controls.treeClasses.*;
       import mx.managers.CursorManager;
       import mx.managers.PopUpManager;
       import mx.rpc.events.ResultEvent;
 
-      private var map:Map;
-      private var markers:XMLList;
 
-
-
-    //prod
+    /*prod
     [Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
     private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_local2_1943.xml";
     [Bindable] private var urlExeCarto:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php";
-	
+	*/
 	//local
-	/*
+	//
     [Bindable] private var urlExeAjax:String="http://localhost/onadabase/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
     private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_1943.xml";
-    [Bindable] private var urlExeCarto:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php";
-	*/
+    private var urlExeCarto:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php";
+    private var urlTerreRoot:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=local2";
+	//
+      private var map:Map;
+      private var markers:XMLList;
 	[Bindable]	private var rsEtatDiag:Object;
 	[Bindable]	private var rsCarto:Object;
+	[Bindable]	private var rsTerre:XMLList;
 
       [Embed(source="/images/A.png")] [Bindable] private var AIcon:Class;
       [Embed(source="/images/B.png")] [Bindable] private var BIcon:Class;
@@ -50,65 +54,14 @@
       [Embed(source="/images/jpg.png")] [Bindable] private var PhotoIcon:Class;
       [Embed(source="/images/mpg.png")] [Bindable] private var FilmIcon:Class;
       [Embed(source="/images/mp3.png")] [Bindable] private var SonIcon:Class;
+      [Embed(source="/images/audio.jpg")] [Bindable] private var AudioIcon:Class;
+      [Embed(source="/images/cog.jpg")] [Bindable] private var CogIcon:Class;
+      [Embed(source="/images/moteur.jpg")] [Bindable] private var MoteurIcon:Class;
+      [Embed(source="/images/visu.jpg")] [Bindable] private var VisuIcon:Class;
 
-      [Bindable] private var clsPlans:Plans = new Plans; 
 
       [Bindable] private var rubMarkers:Array = new Array; 
-      [Bindable] private var categories:Object = 
-        { "grille_66": {
-            "color": 0x990000,
-            "icon": AIcon,
-            "markers": []}, 
-          "grille_55": {
-              "color": 0x3366F,
-	          "icon": BIcon,
-              "markers": []},
-          "grille_62": {
-              "color": 0xFF33FF,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_61": {
-              "color": 0x009933,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_53": {
-              "color": 0x669933,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_58": {
-              "color": 0x00CCFF,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_35": {
-              "color": 0x9b2121,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_57": {
-              "color": 0x0ba42f,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_63": {
-              "color": 0xf78907,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_64": {
-              "color": 0x9b0f7c,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_72": {
-              "color": 0x2a09f7,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_60": {
-              "color": 0x080202,
-	          "icon": CIcon,
-              "markers": []},
-          "grille_59": {
-              "color": 0x080202,
-	          "icon": CIcon,
-              "markers": []}
-		};
-
+		
       private var handi:Object = 
         { "A": {
             "color": 0xFF0000,
@@ -131,6 +84,7 @@
 	          "icon": EIcon,
               "markers": []}
         };
+
 
         private function chartEtatDiagChange(event:Event):void {
             var allSeries:Array = event.currentTarget.series;
@@ -231,6 +185,9 @@
       public function onHolderCreated(event:Event):void {
         map = new Map();
         map.key = mapKey;
+		  map.addControl(new ZoomControl());
+		  map.addControl(new PositionControl());
+		  map.addControl(new MapTypeControl());
         map.addEventListener(MapEvent.MAP_READY, onMapReady);
         mapHolder.addChild(map);
       }
@@ -243,9 +200,16 @@
         map.enableScrollWheelZoom();
         map.enableContinuousZoom();
         map.setCenter(new LatLng(47.12995076, 1.00001335), 7);
+        getXmlTerre();
         getXml();
      }
      
+     public function getXmlTerre():void {
+         var xmlString:URLRequest = new URLRequest(urlTerreRoot);
+         var xmlLoader:URLLoader = new URLLoader(xmlString);
+         xmlLoader.addEventListener("complete", readXmlTerre);
+    }
+
      public function getXml():void {
          var xmlString:URLRequest = new URLRequest(urlAllEtatDiag);
          var xmlLoader:URLLoader = new URLLoader(xmlString);
@@ -272,6 +236,17 @@
         markers = markersXML.CartoDonnee;
     }
 
+    public function readXmlTerre(event:Event):void{
+        //récupère les territoires
+        var terresXML:XML = new XML(event.target.data);
+        rsTerre = terresXML.terre;
+    }
+
+     private function changeEvtTreeTerre(event:Event):void {
+        showMarkerId(event.currentTarget.selectedItem.@idRub);	        	
+     }
+
+
     public function readXmlCarto(event:ResultEvent):void{
         //récupère les geoloc
         rsCarto = event.result;
@@ -288,43 +263,12 @@
 		}
     }
 
-    private function getPlan():void {
-    	
-		/*
-		<south>47.38516253377669</south>
-		<west>0.7226803418767407</west>
-		<north>47.38681890806328</north>
-		<east>0.7271985843819221</east>
-        map.addControl(new ZoomControl());
-        map.addControl(new MapTypeControl());
-        
-            /*
-        var testLoader:Loader = new Loader();
-        var urlRequest:URLRequest = new URLRequest("http://www.onadabase.eu/centre/spip/IMG/png/Gare_de_St_Pierre_des_Corps_2.png");
-        testLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, function(e:Event):void {
-            var groundOverlay:GroundOverlay = new GroundOverlay(
-                testLoader,
-                new LatLngBounds(new LatLng(47.38516253377669,0.7226803418767407), new LatLng(47.38681890806328,0.7271985843819221)));
-            map.addOverlay(groundOverlay);
-        });
-        testLoader.load(urlRequest);  
-
-        var groundOverlay:GroundOverlay = new GroundOverlay(
-                new clsPlans.santaWorkshop,
-                new LatLngBounds(new LatLng(47.38516253377669,0.7226803418767407), new LatLng(47.38681890806328,0.7271985843819221)));
-         */ 
- 		var groundOverlay:GroundOverlay = clsPlans.getPlan("plan_2084");               
-       	map.addOverlay(groundOverlay);
-        map.setCenter(new LatLng(47.38516253377669, 0.7226803418767407), 18, MapType.HYBRID_MAP_TYPE);
-
-    }
-
       public function createMarkerGrille(idGrille:String): void {
 
 		CursorManager.setBusyCursor();
         var type:String = "grille_"+idGrille;
         //vérifie s'il faut créer les markers ou les rendre visible/invisible
-        if(categories[type].markers.length>0){
+        if(treeEtatLieux.categories[type].markers.length>0){
 			toggleCategory(type);
 	    }else{	    
 	        //boucle sur les géoloc 
@@ -338,7 +282,7 @@
 		            var adresse:String = markerXml.@adresse;
 		            var latlng:LatLng = new LatLng(markerXml.@lat, markerXml.@lng);
 			        var marker:Marker = createMarker(latlng, titre, adresse, type, markerXml);
-				    categories[type].markers.push(marker);
+				    treeEtatLieux.categories[type].markers.push(marker);
 			        map.addOverlay(marker);            		
             	}  
 	        }
@@ -365,9 +309,6 @@
 			        var marker:Marker = createMarker(latlng, titre, adresse, type, markerXml);
 				    rubMarkers[idRub] = marker;
 			        map.addOverlay(marker);
-			 		var groundOverlay:GroundOverlay = clsPlans.getPlan("plan_"+idRub);
-			 		if(groundOverlay)               
-				       	map.addOverlay(groundOverlay);
 			    }
 			    //montre les stats
 			    showStat(markerXml);
@@ -377,17 +318,42 @@
         	}  
         }
       }
+      
+      public function chargeKML(markerXml:XML):void {
+      	
+	    var arrKml:Array = markerXml.@kml.split("*");
+        var bkml:Boolean=false;
+        for each (var kml:String in arrKml){
+		    //vérifie s'il faut charger le kml
+		    if(kml!=""){
+		    	bkml = true;
+		        //charge les couches kml
+				trace ("chargeKML:kml="+kml);
+		        treeKML.mapP = map;
+		        treeKML.kmlUrl = kml;
+		        treeKML.kmlLat = markerXml.@lat;
+		        treeKML.kmlLng = markerXml.@lng;
+		        treeKML.kmlZoom = markerXml.@zoommin;
+		        treeKML.Init();
+		    }        	
+        }
+		if(bkml)
+			treeKML.visible = true;
+		else
+			treeKML.visible = false;
+      	
+      }
 
       public function createMarker(latlng:LatLng, name:String, address:String, type:String, markerXml:XML): Marker {
 
 			//inspiration de http://www.tricedesigns.com/portfolio/googletemps/srcview/
 			var markerOptions:MarkerOptions = new MarkerOptions({
                         strokeStyle: new StrokeStyle({color: 0x000000}),
-                        fillStyle: new FillStyle({color:categories[type].color, alpha: 0.3}),
+                        fillStyle: new FillStyle({color:treeEtatLieux.categories[type].color, alpha: 0.3}),
                         radius: 12,
                         hasShadow: true
                       })
-			//markerOptions = new MarkerOptions({icon: new categories[type].icon, iconOffset: new Point(-16, -32)});
+			markerOptions = new MarkerOptions({icon: new treeEtatLieux.categories[type].icon, iconOffset: new Point(-16, -32)});
 
 	       	var marker:Marker = new Marker(latlng, markerOptions);
 	       	var html:String = "<b>" + name + "</b> <br/>" + address;
@@ -405,6 +371,8 @@
         chartTitre.text = markerXml.@titre;
         idRub.text = markerXml.@idRub;
         idSite.text = markerXml.@idSite;
+	    //charge le kml
+    	chargeKML(markerXml);
         //paramètre la requête pour récupérer le bon fichier xml
 		srvEtatDiag.cancel();
 		var params:Object = new Object();
@@ -413,6 +381,7 @@
 		params.site = markerXml.@idSite;
 		trace ("showStat:srvEtatDiag.url="+srvEtatDiag.url+"?f="+params.f+"&id="+params.id+"&site="+params.site);
 		srvEtatDiag.send(params);
+ 
      }
 
      private function ShowListeDiag(idSite:String, idRub:String, idDoc:String, titreSelect:String):void {
@@ -440,6 +409,13 @@
         // Create a non-modal TitleWindow container.
         var wPhotoListe:twPhotoListe = twPhotoListe(
             PopUpManager.createPopUp(this, twPhotoListe, false));
+		var params:Object = new Object();
+		params.f = "GetImages";
+		params.id = idRub.text;
+		params.site = idSite.text;
+
+		trace ("ShowListePhoto:url="+urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site);
+		wPhotoListe.useHttpService(urlExeAjax,params,chartTitre.text);
 
         PopUpManager.centerPopUp(wPhotoListe);
 
@@ -453,8 +429,8 @@
      }
 
     private function toggleCategory(type:String):void {
-       for (var i:Number = 0; i < categories[type].markers.length; i++) {
-         var marker:Marker = categories[type].markers[i];
+       for (var i:Number = 0; i < treeEtatLieux.categories[type].markers.length; i++) {
+         var marker:Marker = treeEtatLieux.categories[type].markers[i];
          if (!marker.visible) {
            marker.visible = true;
          } else {
