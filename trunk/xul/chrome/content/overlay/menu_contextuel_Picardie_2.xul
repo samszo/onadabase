@@ -81,6 +81,7 @@
 						oncommand="AddNewRubrique(document.getElementById('idRub').value);" />
 				</menupopup>
 			</menu>
+		</popup>
 		<popup id="popetab" onpopupshowing="javascript:;">
 			<menu id="menu_etab_voir" label="Voir">
 				<menupopup id="popup_etab_voir">
@@ -766,6 +767,5 @@
 				label="Voir les problèmes signalés"
 				oncommand="RefreshEcran(document.getElementById('idRub').value,'Signalements problèmes','aucun','SignalementProbleme');" />
 		</popup>
-
 	</popupset>
 </overlay>
