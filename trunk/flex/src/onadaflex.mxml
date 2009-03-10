@@ -72,9 +72,9 @@ todo :
 		   </ns2:vbCoucheKml>
 	
 		    <mx:HBox paddingLeft="70" width="98%" >
+				<mx:Image id="imgMoteur" source="{MoteurIcon}" width="80" />
 				<mx:Image id="imgAudio" source="{AudioIcon}" width="80" />
 				<mx:Image id="imgCog" source="{CogIcon}" width="80" />
-				<mx:Image id="imgMoteur" source="{MoteurIcon}" width="80" />
 				<mx:Image id="imgVisu" source="{VisuIcon}" width="80" />
 			</mx:HBox>
 			

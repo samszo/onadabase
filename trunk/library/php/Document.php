@@ -22,6 +22,7 @@ class Document{
 		    $this->type = $data['id_type'];
 		    $this->id = $data['id_document'];
 		    $this->fichier = $site->infos["pathSpip"].$data['fichier'];
+		    $this->path = $site->infos["rootSpip"].$data['fichier'];
 		    $this->largeur = $data['largeur'];
 		    $this->hauteur = $data['hauteur'];
 			if($data['dtitre'])

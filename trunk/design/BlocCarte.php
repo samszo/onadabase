@@ -37,6 +37,10 @@ $arrGeo = $g->GetGeo(-1,$idDon);
   </head>
   <body onload="initPage()" onunload="GUnload()" >
 
+		<div id='BassinGare' style="visibility: hidden" >
+			<div onclick="map.setCenter(new GLatLng(deflat, deflng), defzoom-6);map.setMapType(G_NORMAL_MAP);" >Afficher le bassin de gare</div>
+			<div onclick="map.setCenter(new GLatLng(deflat, deflng), defzoom);GetMapType(defType)"; >Afficher la gare</div>
+		</div>	
 		<div id='map' style="height:500px;width:450px;" ></div>
 
   </body>

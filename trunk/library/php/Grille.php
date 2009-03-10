@@ -1462,7 +1462,7 @@ class Grille{
 	}
 	
 	
-	function AddDonnee($idRub, $idGrille=-1, $redon=false, $idArt=-1){
+	function AddDonnee($idRub, $idGrille=-1, $redon=false, $idArt=-1,$doublon=false){
 		
 		if($idGrille==-1)
 			$idGrille=$this->id;
@@ -1490,7 +1490,7 @@ class Grille{
 			}
 		}else{
 			//récupération ou création d'une nouvelle donnée
-			$idDon = $g->GetIdDonnee($idGrille, $idArt);
+			$idDon = $g->GetIdDonnee($idGrille, $idArt, $doublon);
 			//récupère la définition des champs sans valeur
 			$rows = $this->GetChamps($idGrille);
 			//initialisation de la donnée
@@ -1718,6 +1718,7 @@ class Grille{
 			return;
 
 		$oXul = new Xul($this->site);	
+		$gra = new Granulat(-1,$this->site);
 			
 		//récupère les articles de la rubrique
 		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetXulTabPanels".$dst."']";
@@ -1754,6 +1755,7 @@ class Grille{
 		if($id==$this->site->infos["GRILLE_SIG_PROB"]){
 			$tabpanel .='<vbox flex="1">';
 		}
+		$MemeId=false;
 		while($r = $db->fetch_assoc($req)) {
 			//$tabpanel .= '<groupbox >';	
 			//$tabpanel .= '<caption label="'.$r["titre"].'"/>';
@@ -1762,6 +1764,20 @@ class Grille{
 				switch ($id) {
 					case $this->site->infos["GRILLE_GEO"]:
 						$tabpanel .= "";
+						break;
+					case $this->site->infos["GRILLE_ACTEUR"]:
+						//construction des éléments du panel 
+						$idDoc = "acteur*".$dst."*".$r["id"]."*".$id."*".$src;
+						if(!$MemeId){
+							$tabpanel .="<vbox flex='1' id='".$idDoc."' >";
+							$tabpanel .="<hbox>";
+							$tabpanel .="<button label='Ajouter un acteur' oncommand=\"AddNewDonnee('".$idDoc."',".$this->site->infos["GRILLE_ACTEUR"].");\"/>";
+							$tabpanel .="</hbox>";
+							$MemeId = true;
+						}
+						$tabpanel .="<groupbox><hbox>";
+						$tabpanel .= $this->GetXulForm($r["id"], $id);
+						$tabpanel .="</hbox></groupbox>";												
 						break;
 					case $this->site->infos["GRILLE_SIG_PROB"]:
 						$tabpanel .='<hbox>';
@@ -1784,28 +1800,43 @@ class Grille{
 					default:
 						//vérifie s'il faut afficher une carte
 						$idDon = $this->VerifDonneeLienGrille($r["id"],$this->site->infos["GRILLE_GEO"]);
-						if($idDon){
+						if($idDon && $id!=$this->site->infos["GRILLE_ACTEUR"]){
 							$carto = $this->GetXulForm($idDon, $this->site->infos["GRILLE_GEO"]);
 							$AddGeo = "";
 						}else{
 							$carto = "";
 							$AddGeo ="<button label='Ajouter une géolocalisation' oncommand=\"AddPlacemark(".$r["idRub"].",'".$this->type."');\"/>";
 						}
+						
 						//construction des éléments du panel 
-						$tabpanel .="<vbox flex='1'>";
+						$idDoc = "box*".$dst."*".$r["id"]."*".$id."*".$src;
+						$tabpanel .="<vbox flex='1' id='".$idDoc."' >";
+
+						//vérifie s'il faut afficher le bouton d'ajout d'acteur
+						$idDon = $this->VerifDonneeLienGrille($r["id"],$this->site->infos["GRILLE_ACTEUR"]);
+						$AddActeur ="";
+						if(!$idDon){
+							$AddActeur .="<hbox>";
+							$AddActeur .="<button label='Ajouter un acteur' oncommand=\"AddNewDonnee('".$idDoc."',".$this->site->infos["GRILLE_ACTEUR"].");\"/>";
+							$AddActeur .="</hbox>";
+						}
+						
 						//ajout le bloc document
 						$idDoc = "doc*".$dst."*".$r["id"]."*".$id."*".$src;
 						$tabpanel .="<hbox flex='1'>";
 						$tabpanel .="<vbox flex='1'>";
+						$tabpanel .= $AddActeur;
 						$tabpanel .= $oXul->GetFriseDocsIco($src,$idDoc);
 						$tabpanel .="</vbox>";
 						$tabpanel .="</hbox>";
-						//ajoute le bloc du formaulaire
-						$tabpanel .="<hbox>";
+												
+						//ajoute le bloc du formaulaire de la grille principale
+						$tabpanel .="<hbox flex='1'>";
 						$tabpanel .= $this->GetXulForm($r["id"], $id);
 						$tabpanel .= $AddGeo;
 						$tabpanel .= $carto;
 						$tabpanel .="</hbox>";
+												
 						//fin des élément du panel
 						$tabpanel .="</vbox>";
 				}				
@@ -1823,6 +1854,11 @@ class Grille{
 		if($id==$this->site->infos["GRILLE_SIG_PROB"]){
 			$tabpanel .='</vbox>';
 		}
+		if($id==$this->site->infos["GRILLE_ACTEUR"]){
+			$tabpanel .='</vbox>';
+		}	
+		
+		
 		$tabpanel .= '</tabpanel>';
 
 		return $tabpanel;
@@ -1930,6 +1966,50 @@ class Grille{
 		$xul .= $xulEtab.$xulVoirie."</hbox></groupbox>";
 
 		return $xul;
+	
+	}
+	
+	function GetXulNoeudCommune($idRub,$idJuste=false){
+		
+		//initalisation du xul
+		$xul = "<groupbox ><hbox>";
+		$xulCom = "<vbox id='NoeudsCommunes' ><label value='Le(s) Communes(s)'/>";		
+		
+		//récupère la liste des communes
+		$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetNoeudCommunes']";
+		$Q = $this->site->XmlParam->GetElements($Xpath);
+		/*
+		$where = str_replace("-ids-", $this->idsInScope, $Q[0]->where);
+		$sql = $Q[0]->select.$Q[0]->from.$where;
+		*/
+		$sql = $Q[0]->select.$Q[0]->from.$Q[0]->where;
+		$db = new mysql ($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		if($this->trace)
+			echo "GetXulNoeudCommune ".$this->site->infos["SQL_DB"]." ".$sql."<br/>";
+		$req = $db->query($sql);
+		$db->close();
+		//initialisation de la liste des ids juste
+		$ids = "";
+		while($r = $db->fetch_assoc($req)){
+			//vérifie si l'élément est sélectionné
+			if($this->VerifLiensInRub($idRub,$r["id_rubrique"])){
+				$check = "true";
+				$ids .= $r["id_rubrique"].",";
+			}else{
+				$check = "false";
+			}
+			//construction du xul
+			$idDoc = "val*".$r["id_form"]."*".$r["id_donnee"]."*".$idRub."*".$r["id_rubrique"];
+			$xulCom .= "<checkbox id='".$idDoc."' oncommand=\"SetElementChaine(".$r["id_rubrique"].",".$idRub.");\" checked='".$check."' label=\"".$r["titre"]."\"/>";				
+		}
+		
+		$xulCom .= "</vbox>";
+		$xul .= $xulCom."</hbox></groupbox>";
+
+		if($idJuste)
+			return substr($ids,0,-1);
+		else
+			return $xul;
 	
 	}
 	
@@ -2267,6 +2347,15 @@ class Grille{
 			$labels .= "<label class='labelForm' control='first' value='Sélectionner les éléments constituant la chaîne de déplacement'/>";
 		}
 		
+		//vérifie s'il faut afficher les bassins de gare
+		if($idGrille == $this->site->infos["GRILLE_ETAB"]){
+			$typeERP = $this->GetValeur($idDon,"mot_2");
+			if($typeERP==$this->site->infos["MOT_CLEF_PANG"] || $typeERP==$this->site->infos["MOT_CLEF_GARE"]){
+				$controls .= $this->GetXulNoeudCommune($lastRow["id_rubrique"]);
+				$labels .= "<label class='labelForm' control='first' value='Sélectionner les communes constituant le bassin de gare'/>";
+			}
+		}
+		
 		
 		if($idGrille!=$this->site->infos["GRILLE_REP_CON"]){
 			$controls .= '</column>';	
@@ -2525,6 +2614,16 @@ class Grille{
 				$js = $this->site->GetJs($Xpath, array($id));
 				//construction du control
 				$control .= '<button id="btn'.$id.'" label="Parcourir" '.$js.' />';
+				//récupération des js
+				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='textbox']";
+				$js = $this->site->GetJs($Xpath, array($id));
+				$control .= '<textbox  '.$js.' multiline="true" id="'.$id.'" value="'.$this->site->XmlParam->XML_entities($row["valeur"]).'"/>';			
+				break;
+			case 'url':
+				//construction du control
+				if($row["valeur"]!=""){
+					$control .="<label id='fa_".$id."' class='text-link' onclick=\"window.open('".$row["valeur"]."');\" value=\"Voir\"/>";					
+				}
 				//récupération des js
 				$Xpath = "/XmlParams/XmlParam/Querys/Query[@fonction='Grille_GetDonnee']/js[@type='textbox']";
 				$js = $this->site->GetJs($Xpath, array($id));

@@ -26,7 +26,8 @@ Class Synchro{
 		
 	}
 
-	function DelRubriqueFrere($idRub){
+
+function DelRubriqueFrere($idRub){
 		$g = new Granulat($idRub,$this->siteSrc);
 		$gParent = new Granulat($g->IdParent,$this->siteSrc);
 		$idPar = $g->GetParent();

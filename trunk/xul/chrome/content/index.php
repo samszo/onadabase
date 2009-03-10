@@ -1,9 +1,9 @@
 <?php
 session_start();
 //local
-//require_once ("../../../param/ParamPage.php");
+require_once ("../../../param/ParamPage.php");
 //prod
-require_once ("param/ParamPage.php");
+//require_once ("param/ParamPage.php");
 
 $_SESSION['type_controle'] = array ($_POST['type_controle1'], $_POST['type_controle2']);
 $_SESSION['type_contexte'] = array ($_POST['type_contexte1'], $_POST['type_contexte2'], $_POST['type_contexte3'], $_POST['type_contexte4']);
