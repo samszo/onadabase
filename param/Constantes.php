@@ -53,6 +53,7 @@ $SiteLocal1 = array(
 	"GRILLE_CHAINE_DEPLA" => 71,
 	"GRILLE_ETAB" => 55,
 	"GRILLE_VOIRIE" => 62,
+	"GRILLE_TERRE" => 66,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,
@@ -61,6 +62,17 @@ $SiteLocal1 = array(
 	"MOT_CLEF_GARE" => 62,
 	"MOT_CLEF_LIGNE_TRANS" => 167,
 	"MOT_CLEF_CHAINE_DEPLA" => 168,
+
+	"MOT_CLEF_Pays" => 54,
+	"MOT_CLEF_Region" =>56,
+	"MOT_CLEF_Departement"=>57,
+	"MOT_CLEF_Intercommunalite"=>58,
+	"MOT_CLEF_Commune"=>59,
+	"MOT_CLEF_Ilot"=>60,
+	"MOT_CLEF_Canton"=>138,
+	"MOT_CLEF_NA."=>139,
+	"MOT_CLEF_Quartier"=>146,
+
 	"RUB_TERRE" => 5479,
 	"RUB_PORTE1" => -50,
 	"RUB_PORTE2" => -74,
@@ -72,6 +84,7 @@ $SiteLocal1 = array(
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
 	"CARTE_TYPE_DOC" => "75,76",
+	"KMZ_TYPE_DOC" => "76",
 	"gmKey" => "ABQIAAAATs5RWdW8iTPuaiLrkvnqjRTRqFFvaBKBgdVodt96I8idUV-28RTOELCsfx_7hD62HnKwk7Lm8Cg_lQ",
 	"lienAdminSpip" => "http://localhost/onadabase/spipsync/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
@@ -85,6 +98,7 @@ $SiteLocal1 = array(
 	"pathUpload" => PathRoot."/spipsync/IMG/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
 	"pathSpip" => "http://localhost/onadabase/spipsync/"
+	,"rootSpip" => PathRoot."/spipsync/"
 	); 
 $SiteLocal2 = array(
 	"AUTEUR_SYNCHRO" => 8, 
@@ -107,14 +121,29 @@ $SiteLocal2 = array(
 	"GRILLE_CHAINE_DEPLA" => 71,
 	"GRILLE_ETAB" => 55,
 	"GRILLE_VOIRIE" => 62,
+	"GRILLE_TERRE" => 66,
+	"GRILLE_ACTEUR" => 73,
+
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
+	
 	"MOT_CLEF_OBS" => 151,
 	"MOT_CLEF_DEF_TYPE_CARTE" => 4,
 	"MOT_CLEF_PANG" => 64,
 	"MOT_CLEF_GARE" => 62,
 	"MOT_CLEF_LIGNE_TRANS" => 167,
 	"MOT_CLEF_CHAINE_DEPLA" => 168,
+
+	"MOT_CLEF_Pays" => 54,
+	"MOT_CLEF_Region" =>56,
+	"MOT_CLEF_Departement"=>57,
+	"MOT_CLEF_Intercommunalite"=>58,
+	"MOT_CLEF_Commune"=>59,
+	"MOT_CLEF_Ilot"=>60,
+	"MOT_CLEF_Canton"=>138,
+	"MOT_CLEF_NA."=>139,
+	"MOT_CLEF_Quartier"=>146,
+
 	"RUB_TERRE" => 1942,
 	"RUB_PORTE1" => -50,
 	"RUB_PORTE2" => -74,
@@ -126,8 +155,9 @@ $SiteLocal2 = array(
 	"DEF_ZOOM" => 4,
 	"DEF_CARTE_TYPE" => "G_HYBRID_MAP",
 	"CARTE_TYPE_DOC" => "75,76",
-	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw",
+	"KMZ_TYPE_DOC" => "76",
 
+	"gmKey" => "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRR8S4b2oMC5BlotEgOIFwvu2Zfg4BRD2eEaRYw3NNB3VDcldikKtbZtsw",
 
 	"lienAdminSpip" => "http://localhost/onadabase/spip/ecrire",
 	"urlExeAjax" => "http://localhost/onadabase/library/php/ExeAjax.php",
@@ -142,6 +172,7 @@ $SiteLocal2 = array(
 	"pathUpload" => PathRoot."/spip/IMG/",
 	"pathXulJs" => "http://localhost/onadabase/xul/chrome/content/js/",	
 	"pathSpip" => "http://localhost/onadabase/spip/"
+	,"rootSpip" => PathRoot."/spip/"
 	); 
 
 	$SiteMundi = array(
@@ -161,6 +192,7 @@ $SiteLocal2 = array(
 	"GRILLE_CONTROL_V1" => 54,
 	"GRILLE_CONTROL_V2" => 70,
 	"GRILLE_LIGNE_TRANS" => 72,
+	"GRILLE_TERRE" => 66,
 	"CHAMPS_CONTROL_DIAG" => array("moteur"=>"ligne_2","audio"=>"ligne_3","visu"=>"ligne_4","cog"=>"ligne_5"),
 	"CHAMPS_CONTROL_DEFFICIENCE" => array("champ"=>"multiple_3","valeur"=>array("moteur"=>"multiple_3_1","audio"=>"multiple_3_2","visu"=>"multiple_3_3","cog"=>"multiple_3_4")),
 	"MOT_CLEF_OBS" => 151,

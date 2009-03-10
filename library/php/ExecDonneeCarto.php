@@ -44,9 +44,56 @@ switch ($fonction) {
 	case 'get_stat_kml':
 		get_stat_kml($g,$objSite);
 		break;
+	case 'get_arbo_territoire':
+		$resultat = get_arbo_territoire($g->id,$objSite);
+		break;
+	case 'get_stat_kml_handi':
+		$resultat = get_stat_kml_handi($g,$objSite);
+		break;
+		
 }
 
 echo $resultat;
+
+function get_arbo_territoire($idRub,$objSite,$niv=0) {
+	
+	$path = PathRoot."/bdd/carto/ArboTerritoire_".$objSite->id."_".$idRub.".xml";
+    $xml = $objSite->GetFile($path);
+	if(!$xml){
+		$objSite->SaveFile(PathRoot."/bdd/carto/ArboTerritoire_".$objSite->id."_".$idRub.".xml",$xml);
+		//récupération des territoires du granulat
+		$sql = "SELECT dc.valeur, dc.champ, da.id_donnee, r.titre rTitre, r.id_rubrique
+				, m.titre mTitre, m.id_mot
+			FROM spip_articles a
+				INNER JOIN spip_rubriques r ON r.id_rubrique = a.id_rubrique
+					AND r.id_parent =".$idRub."
+				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+					AND fd.id_form =".$objSite->infos["GRILLE_TERRE"]."
+				INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
+					AND champ = 'mot_1'
+				INNER JOIN spip_mots m ON m.id_mot = dc.valeur
+			ORDER BY mTitre, rTitre";
+		//echo $sql;
+		$DB = new mysql($objSite->infos["SQL_HOST"], $objSite->infos["SQL_LOGIN"], $objSite->infos["SQL_PWD"], $objSite->infos["SQL_DB"]);
+		$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+		if($niv==0)	
+			$xml = "<terres idRub='".$idRub."' >";
+		else
+			$xml="";
+		while($r = mysql_fetch_assoc($req)) {
+			$xml .= "<terre idRub='".$r["id_rubrique"]."' titreRub='".$r["rTitre"]."'  idMot='".$r["id_mot"]."'  titreMot='".$r["mTitre"]."' >";
+	 		$xml .= get_arbo_territoire($r["id_rubrique"],$objSite,$niv+1);
+			$xml .= "</terre>";
+		}
+		if($niv==0)	
+			$xml .= "</terres>";
+	}
+	return $xml;
+}
+
 
 function get_stat_kml($g,$objSite) {
 	
@@ -123,17 +170,98 @@ function get_stat_kml($g,$objSite) {
 		
 }
 
-function GetCoorStat($arrGeo,$nbEnf){
+
+function get_stat_kml_handi($g,$objSite) {
+	
+	//$objSite = new Site($SITES,$site,"");
+	//$g = new Granulat($id, $objSite);
+	$pck = "";
+	//récupère les coordonnées géographiques
+	$arrGeo = $g->GetGeo();
+	//récupère le diagnostic
+	$EtatDiag = simplexml_load_string($g->GetEtatDiag(true));
+	//création des placemarks par handicap
+	foreach($EtatDiag->Obstacles as $obst){
+		$stat = array($obst->niv0,$obst->niv1,$obst->niv2,$obst->niv3);
+		$coorStat = GetCoorStatCarre($arrGeo,$stat);
+		$pck .='<Placemark>
+				<name>'.$obst["id"]." ".$obst->handi.'</name>
+				<styleUrl>#visu</styleUrl>
+				<Polygon>
+					<extrude>1</extrude>
+					<altitudeMode>relativeToGround</altitudeMode>
+					<outerBoundaryIs>
+						<LinearRing>
+							<coordinates>
+							'.$coorStat.'
+							</coordinates>
+						</LinearRing>
+					</outerBoundaryIs>
+				</Polygon>
+			</Placemark>';		
+		
+	}
+	$folder ='<Folder>
+			<name>'.$g->titre.'</name>
+			<open>1</open>
+			<description />';
+	$folder .= $pck;
+	$folder .= '</Folder>';
+	header('Content-Type: application/vnd.google-earth.kml+xml');
+	header("Content-Disposition: attachment; filename=\"Stat.kml\"");
+	//on construit un kml Ã  partir de plusieurs placemarks
+	$kml = "<?xml version='1.0' encoding='UTF-8'?>";
+	$kml .= "<kml xmlns='http://earth.google.com/kml/2.0'>";
+	$kml .= '<Document>
+		<name>'.$g->titre.'</name>
+		<open>1</open>
+		<Style id="visu">
+			<LineStyle>
+				<color>ff7f0000</color>
+				<width>2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>447f0000</color>
+			</PolyStyle>
+		</Style>
+		<Style id="audio">
+			<LineStyle>
+				<color>ff098191</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>bf00b3ff</color>
+			</PolyStyle>
+		</Style>
+		<Style id="moteur">
+			<LineStyle>
+				<color>cc00ffff</color>
+				<width>3</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>cc00ffff</color>
+			</PolyStyle>
+		</Style>';
+	$kml .= $folder;
+	$kml .=  "</Document>
+		</kml>";
+	echo $kml;
+		
+}
+
+
+
+function GetCoorStatCarre($arrGeo,$stats){
 	
 	$coor='';
 	$lat = $arrGeo['lat'];
 	$lng = $arrGeo['lng'];
 	$lrg = 0.01;
-	$coor.=$lng.','.$lat.",".($nbEnf*100)." ";
-	$coor.= $lng.','.($lat+$lrg).",".($nbEnf*100)." ";
-	$coor.=($lng+$lrg).','.($lat+$lrg).",".($nbEnf*100)." ";
-	$coor.=($lng+$lrg).','.$lat.",".($nbEnf*100)." ";
-	$coor.=$lng.','.$lat.",".($nbEnf*100)." ";
+	$coor.=$lng.','.$lat.",".($stats[0]*100)." ";
+	$coor.= $lng.','.($lat+$lrg).",".($stats[1]*100)." ";
+	$coor.=($lng+$lrg).','.($lat+$lrg).",".($stats[2]*100)." ";
+	$coor.=($lng+$lrg).','.$lat.",".($stats[3]*100)." ";
+	$coor.=$lng.','.$lat.",".($stats[0]*100)." ";
 	$coor.='';
 							
 	return $coor;
@@ -313,7 +441,10 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 		$xmlRub = $g->GetXmlCartoDonnee($row);
 						
 		//vérifie s'il faut récupérer le diagnostic
+		$saveStat = true;//false;
 		if($query=="allEtatDiag"){
+			
+			$saveStat = true;
 			
 			//$xml .= $g->GetEtatDiag(true,true);
 
@@ -323,6 +454,9 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 			$xmlRub.= $g->GetXmlGrilleMots();
 						
 		}
+		
+		//ajoute le bassin de gare
+		$xmlRub .= CalculBassinGare($g, $saveStat);
 
 		//finalisation du xml
 		$xmlRub .= "</CartoDonnee>";
@@ -422,5 +556,86 @@ function CalculCartoDonneevide($g){
     }
 	return $xmlEnf;  	
 }
+
+
+function CalculBassinGare($g,$saveStat=false){
+
+	if($g->trace)
+    	echo "Granulat:CalculBassinGare:g->id = $g->id g->titre= $g->titre<br/>";
+	
+	//création du bassin de gare si nécessaire
+	$kml = "";
+	
+	//vérifie le type d'ERP
+	$typeERP = $g->GetValeurForm($g->site->infos["GRILLE_ETAB"], "", "", "", "", -1, "mot_2");
+	if($g->trace)
+    	echo "Granulat:CalculBassinGare:typeERP = $typeERP<br/>";
+	if($typeERP==$g->site->infos["MOT_CLEF_PANG"] || $typeERP==$g->site->infos["MOT_CLEF_GARE"]){
+		$grille = new Grille($g->site);
+		$arrIds = split(",",$grille->GetXulNoeudCommune($g->id,true));
+		//boucle pour trouver les kml
+		foreach($arrIds as $idEnf){
+			$gEnf = new Granulat($idEnf,$g->site,false);
+			//récupère le kml du granulat mais pas celui de ses parents => $niv>6
+			$docKmls = $gEnf->GetDocs($gEnf->id, $gEnf->site->infos["CARTE_TYPE_DOC"]);;
+			foreach($docKmls as $docKml){
+				$kml .= "<kml url='".$docKml->fichier."' />";
+				if($saveStat){
+					//récupère les infos de geo
+					$row = $gEnf->GetGeo();
+					//récupère le kml
+					if($docKml->type==$gEnf->site->infos["KMZ_TYPE_DOC"]){
+	        			$xml = GetXmlFromKmz($docKml->path);						
+					}else{
+						$xml = simplexml_load_file($docKml->path);					
+					}
+					//récupèration des coordonnées de la communes
+					/*
+					$xml->registerXPathNamespace("xmlns","http://earth.google.com/kml/2.1");
+					$Xpath = "//xmlns:coordinates";
+					//$Xpath = "/Document/Placemark/Polygon/outerBoundaryIs/LinearRing/coordinates";
+					$coors = $xml->xpath($Xpath);
+					*/
+					if($xml){
+						$coors = $xml->Document->Placemark->Polygon->outerBoundaryIs->LinearRing->coordinates."";
+						if($coors==""){
+							echo "toto";
+						}
+						//enregistrement dans la geo
+						$gEnf->SetGeoRef($row["lat"],$row["lng"],$coors." ");
+						//récupère le nombre d'habitant
+						$nbHab = $gEnf->GetValeurForm($gEnf->site->infos["GRILLE_TERRE"], "", "", "", "", -1, "ligne_2");
+						//enregistrement dans la stat
+						$gEnf->SetGeoStat(1,2006,$nbHab+1000);
+						//récupère le nombre d'handicapé
+						$nbHan = $gEnf->GetValeurForm($gEnf->site->infos["GRILLE_TERRE"], "", "", "", "", -1, "ligne_3");
+						//enregistrement dans la stat
+						$gEnf->SetGeoStat(2,1999,$nbHan+1000);
+					}
+				}
+				
+			} 	
+		}
+	}
+	
+	if($kml!="")
+		$kml = "<BassinGare>".$kml."</BassinGare>";
+	return $kml;  	
+}
+
+function GetXmlFromKmz($path){
+	
+	$zip = new ZipArchive;
+	$kml="";
+	if ($zip->open($path) === TRUE) {
+	    $kml = $zip->getFromIndex(0);
+	    $zip->close();
+	} else {
+	    echo 'échec';
+	}
+	return  simplexml_load_string($kml);
+}
+
+
 
 ?>

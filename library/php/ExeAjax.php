@@ -37,6 +37,9 @@
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
 			break;*/
+		case 'GetImages':
+			$resultat = GetXmlImaListe($g);
+			break;
 		case 'GetKmlPlans':
 			$flex = new Flex($objSite);
 			$resultat = $flex->GetKmlPlans();
@@ -203,13 +206,30 @@
 			$synchro = new Synchro($objSite, -1);
 			$synchro->DelRubriqueFrere($_GET['idRub']);
 			break;
-		
+		case 'AddNewDonnee':
+			$resultat = AddNewDonnee($_GET['idRub'],$_GET['idGrille'],$objSite);
+			break;		
 		default:
 			//$resultat = AddDocToArt();
 	}
 
 	echo  utf8_encode($resultat);	
 
+	function GetXmlImaListe($g){
+		//récupère les images jpeg png, gif
+		$imas = $g->GetDocs($g->id,"1,2,3");
+		$xml = "<images>";
+		foreach($imas as $ima){
+			$xml .= "<ima>";
+			$xml .= "<src>".$ima->fichier."</src><width>".$ima->largeur."</width><height>".$ima->hauteur."</height>";
+			$xml .= "</ima>";
+		}
+		$xml .= "</images>";
+		
+   		return $xml; 
+		
+	}
+	
 	function GetFlexEtatDiagListe($site, $g, $idDoc){
 
 		$contents = $g->GetEtatDiagListe($idDoc,true,true);
@@ -887,6 +907,19 @@
 
 		return $xul;	
 	}
+	
+
+	function AddNewDonnee($idRub, $idGrille, $objSite){
+
+		if(TRACE)
+			echo "ExeAjax:AddNewGrilleId:$idRub, $idGrille, $objSite<br/>";
+		$grille = new Grille($objSite);
+		$idDon = $grille->AddDonnee($idRub, $idGrille,false,-1,true);
+		$xul = $grille->GetXulForm($idDon, $idGrille);
+
+		return $xul;	
+	}
+	
 	
 	function AddNewEspaceGen($idRubSrc, $idRubDst, $trs){
 		global $objSite;

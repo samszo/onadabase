@@ -87,8 +87,10 @@ class Site{
     public function SaveFile($path,$texte){
 
 		$fic = fopen($path, "w");
-		fwrite($fic, $texte);		
-    	fclose($fic);
+		if($fic){
+			fwrite($fic, $texte);		
+	    	fclose($fic);
+		}
 
     }
     

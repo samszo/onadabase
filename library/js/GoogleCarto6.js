@@ -159,7 +159,7 @@ function GetMarkers(id, query) {
 		write_line('GetMarkers i = ' + i);
 		var lat = cd.getAttribute("lat");
 		var lng = cd.getAttribute("lng");
-		var n = cd.getAttribute("i");
+		var n = i;//cd.getAttribute("i");
 		var id_rubrique = cd.getAttribute("idRub");
 		var titre = cd.getAttribute("titre");
 		var zoommin = cd.getAttribute("zoommin");
@@ -232,7 +232,16 @@ function GetMarkers(id, query) {
 					//marker.openInfoWindowTabsHtml(infoTabs);
 					//attribut le type de carte
 					GetMapType(cartotype);
+					//affiche le kml du granulat
 					GetRubKml(id_rubrique,query,urlKml);
+					//vérifie s'il faut afficher les kmls supplémentaires
+					if(cd.childNodes.length>0){
+						window.document.getElementById("BassinGare").style.visibility='visible';
+						for (var j = 0; j < cd.firstChild.childNodes.length; j++){
+							var kmlSup = cd.firstChild.childNodes[j];
+							GetRubKml("","",kmlSup.getAttribute("url"));
+						}
+					}
 					
 					write_line('zoommin ' + zoommin, 'red');
 					

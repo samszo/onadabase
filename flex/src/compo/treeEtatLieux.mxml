@@ -163,15 +163,20 @@
                         ,{label:"Espace", cat:categories["grille_57"], data:"child data"}
                     ]}
                 ]}
+                ,{label:"Parcelle", cat:categories["grille_58"], children: [
+	                {label:"Espace extérieur", cat:categories["grille_61"], data:"child data"}
+                    ,{label:"Objet extérieur", cat:categories["grille_64"], data:"child data"}
+                ]}
             ]; 
             /* Second top-level node and its children.*/ 
             public var nestArrayVoirie:Array = [
-                {label:"Espace extérieur", cat:categories["grille_61"], children: [
-                    {label:"Parcelle", cat:categories["grille_58"], children: [
-                        {label:"Objet extérieur", cat:categories["grille_64"], data:"child data"}
-                    ]}
-                ]}
-                ,{label:"Ligne de transport", cat:categories["grille_72"], data:"child data"}
+                {label:"Elément de voirie", cat:categories["grille_72"], data:"child data"}
+            ];
+            
+            public var nestArrayLigneTrans:Array = [
+                {label:"Arrêt de gare", cat:categories["grille_72"], data:"child data"}
+                ,{label:"Arrêt de bus", cat:categories["grille_72"], data:"child data"}
+                ,{label:"Halte ferroviaire", cat:categories["grille_72"], data:"child data"}
             ];
             
             /* Variable for the tree array. */
@@ -180,6 +185,7 @@
                top-level nodes. */
             public var colEtab:ArrayCollection;
             public var colVoirie:ArrayCollection;
+            public var colLigneTrans:ArrayCollection;
             
             /* Variable for the ArrayCollection used as the Tree data provider. */
             [Bindable]
@@ -191,12 +197,14 @@
                 /* Wrap each top-level node in an ArrayCollection. */
                 colEtab = new ArrayCollection(nestArrayEtab);
                 colVoirie = new ArrayCollection(nestArrayVoirie);
+                colLigneTrans = new ArrayCollection(nestArrayLigneTrans);
 
                 /* Put the three top-level node
                    ArrayCollections in the treeArray. */
                 treeArray = [
                     {label:"Etablissement",cat:categories["grille_55"], children: colEtab}
                     ,{label:"Voirie",cat:categories["grille_62"], children: colVoirie}
+	                ,{label:"Ligne de transport", cat:categories["grille_72"], children: colLigneTrans}
                 ]; 
 
                 /* Wrap the treeArray in an ArrayCollection. */

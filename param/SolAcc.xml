@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
 <XmlParams>
 
-	<!-- Gestion des icones supplémentaire -->		
+	<!-- Gestion des icones supplÃ©mentaire -->		
 	<icones>
 		<objet titre="etablissement" IdGrille='55' >
 			<question srcIdGrille='59'  srcRefCont='2_air_sta_07' srcIdChamp='mot_1' srcCheckVal='2'>
@@ -115,7 +114,7 @@
 	<XmlParam nom="MenuUrl">
 		<menu nom="Diagnostic">
 			<urlDesc nom="Sur la voirie" src="http://localhost/onadabase/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Sur%20la%20voirie" dst="http://localhost/onadabase/TreeCartOng.php"/>
-			<urlDesc nom="Dans des bâtiments (ERP, IOP)" src="http://localhost/mundilogiweb/ieml/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Processus" dst="http://localhost/mundilogiweb/ieml/processus.php"/>
+			<urlDesc nom="Dans des bÃ¢timents (ERP, IOP)" src="http://localhost/mundilogiweb/ieml/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Processus" dst="http://localhost/mundilogiweb/ieml/processus.php"/>
 			<urlDesc nom="Dans les modes de transport en commun" src="http://localhost/mundilogiweb/ieml/overlay/iframe.php?ParamNom=MenuUrl&amp;UrlNom=Processus" dst="http://localhost/mundilogiweb/ieml/processus.php"/>
 		</menu>
 		<menu nom="Outils">
@@ -157,31 +156,31 @@
 			</menuDst>
 		</menuSrc>
 		<menuSrc code="Niveau">
-			<menuDst codeTree="espaceint" codeSaisi="EspaceInt" lib="Espaces intérieurs" >
+			<menuDst codeTree="espaceint" codeSaisi="EspaceInt" lib="Espaces intÃ©rieurs" >
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','EspaceInt');"/>
 			</menuDst>
-			<menuDst codeTree="objetint" codeSaisi="ObjetInt" lib="Objet(s) intérieurs" >
+			<menuDst codeTree="objetint" codeSaisi="ObjetInt" lib="Objet(s) intÃ©rieurs" >
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','ObjetInt');"/>
 			</menuDst>
 		</menuSrc>
 		<menuSrc code="EspaceInt">
-			<menuDst codeTree="espacegen" codeSaisi="EspaceGen" lib="Paramètres de contôle" >
+			<menuDst codeTree="espacegen" codeSaisi="EspaceGen" lib="ParamÃ¨tres de contÃ´le" >
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','EspaceGen');"/>
 			</menuDst>
 		</menuSrc>
 		<menuSrc code="ObjetInt">
-			<menuDst codeTree="espacegen" codeSaisi="EspaceGen" lib="Paramètres de contôle" >
+			<menuDst codeTree="espacegen" codeSaisi="EspaceGen" lib="ParamÃ¨tres de contÃ´le" >
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','EspaceGen');"/>
 			</menuDst>
 		</menuSrc>
 
 	</XmlParam>
 
-	<!-- Gestion des requêtes SPIP -->		
+	<!-- Gestion des requÃªtes SPIP -->		
 	<XmlParam nom="GetOntoTree">
 		<Querys>
 				
-<!-- Requêtes pour la création des arbres  -->
+<!-- RequÃªtes pour la crÃ©ation des arbres  -->
 			<Query fonction="GetTreeChildren_SigProb">
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
@@ -225,7 +224,7 @@
 
 
 			<Query fonction="GetTreeChildren_terre">
-				<!-- récupère par rapport au parent les rubriques qui ont un mot clef type de territoire-->
+				<!-- rÃ©cupÃ¨re par rapport au parent les rubriques qui ont un mot clef type de territoire-->
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
 				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
@@ -237,7 +236,7 @@
 			</Query>
 			
 			<Query fonction="GetTreeChildren_etab">
-				<!-- récupère par rapport au parent les rubriques qui ont une grille information établissement-->
+				<!-- rÃ©cupÃ¨re par rapport au parent les rubriques qui ont une grille information Ã©tablissement-->
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
 				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
@@ -251,7 +250,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 55
 			</Query>
 			
 			<Query fonction="GetTreeChildren_voirie">
-				<!-- récupère par rapport au parent les rubriques qui ont une grille information voirie-->
+				<!-- rÃ©cupÃ¨re par rapport au parent les rubriques qui ont une grille information voirie-->
 				<col tag="id" parse="Integer"/>
 				<col tag="titre"/>
 				<select>SELECT r.id_rubrique id, r.titre, r.id_parent parent </select>
@@ -616,7 +615,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 	</XmlParam>
 	
 	
-<!-- Requêtes pour la création des formulaires de saisie  -->
+<!-- RequÃªtes pour la crÃ©ation des formulaires de saisie  -->
 	<XmlParam nom="GetTabForm">
 		<Querys>
 			<Query fonction="Grille_GetRubDon">
@@ -634,7 +633,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 				<where> WHERE id_donnee = -id-</where>
 			</Query>
 			
-<!-- Requêtes pour la création des panels  -->
+<!-- RequÃªtes pour la crÃ©ation des panels  -->
 			<Query fonction="Grille_GetXulTabFormRub">
 				<select>SELECT id_article id, titre </select>
 				<from> FROM spip_articles </from>
@@ -943,7 +942,7 @@ INNER JOIN spip_forms_donnees d ON d.id_donnee = da.id_donnee AND d.id_form = 71
 			</Query>
 
 
-<!-- Requêtes pour l'affichage des tableaux de bord -->
+<!-- RequÃªtes pour l'affichage des tableaux de bord -->
 			<Query fonction="Grille_GetListeSignalementProbleme">
 				<select>
 				SELECT a.id_article idArt, a.titre titreArt, a.date aDate
@@ -1383,7 +1382,7 @@ INNER JOIN spip_forms_donnees_champs fdcV ON fdcV.id_donnee = fdV.id_donnee
 				<dst>Form</dst>
 			</Query>
 
-			<!-- Recherche une donnée par rapport à un article, un champ et une valeur -->
+			<!-- Recherche une donnÃ©e par rapport Ã  un article, un champ et une valeur -->
 			<Query fonction="Grille_RechercheDonneeId">
 				<select>SELECT fd.id_donnee idDon </select>
 				<from> FROM spip_forms_donnees fd
@@ -1394,7 +1393,7 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 				 </from>
 				<where> </where>
 			</Query>
-			<!-- Recherche une donnée par rapport à une série de rubrique, un champ et une valeur -->
+			<!-- Recherche une donnÃ©e par rapport Ã  une sÃ©rie de rubrique, un champ et une valeur -->
 			<Query fonction="Grille_RechercheDonneeIdByRub">
 				<select>SELECT fd.id_donnee idDon </select>
 				<from> FROM spip_articles a 
@@ -1405,7 +1404,7 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 				 </from>
 				<where> WHERE a.id_rubrique IN (-ids-)</where>
 			</Query>
-			<!-- Recherche une donnée par rapport à une série de rubrique, un champ, une valeur et une référence -->
+			<!-- Recherche une donnÃ©e par rapport Ã  une sÃ©rie de rubrique, un champ, une valeur et une rÃ©fÃ©rence -->
 			<Query fonction="Grille_RechercheDonneeIdByRubRef">
 				<select>SELECT fd.id_donnee idDon </select>
 				<from> FROM spip_articles a 
@@ -1419,7 +1418,23 @@ INNER JOIN spip_forms_donnees_champs fdcR ON fdcR.id_donnee = fd.id_donnee
 				<where> WHERE a.id_rubrique IN (-ids-)</where>
 			</Query>
 
-			<!-- Récupère les noeuds de déplacement : voirie, établissement -->
+			<!-- RÃ©cupÃ¨re les noeuds de communes -->
+			<Query fonction="Grille_GetNoeudCommunes">
+				<select>SELECT a.id_rubrique, a.id_article id, a.titre, fdc.id_donnee
+					, fd.id_form
+					, fdc.id_donnee, fdc.valeur
+					</select>
+				<from> FROM spip_articles a 
+INNER JOIN spip_rubriques r ON r.id_rubrique = a.id_rubrique
+INNER JOIN spip_forms_donnees_articles fda ON fda.id_article = a.id_article
+INNER JOIN spip_forms_donnees fd ON fd.id_donnee = fda.id_donnee
+	AND fd.id_form IN (66)
+INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
+	AND fdc.champ = 'mot_1' AND fdc.valeur = '59'
+				 </from>
+				<where> ORDER BY a.titre</where>
+			</Query>
+			<!-- RÃ©cupÃ¨re les noeuds de dÃ©placement : voirie, Ã©tablissement -->
 			<Query fonction="Grille_GetNoeudDeplacement">
 				<select>SELECT a.id_rubrique, a.id_article id, a.titre
 					, fd.id_form
@@ -1436,7 +1451,7 @@ INNER JOIN spip_forms_donnees_champs fdc ON fdc.id_donnee = fd.id_donnee
 				 </from>
 				<where> WHERE a.id_rubrique IN (-ids-) GROUP BY a.id_rubrique ORDER BY a.titre</where>
 			</Query>
-			<!-- Récupère les noeuds de transports : gare, pang, arret de bus -->
+			<!-- RÃ©cupÃ¨re les noeuds de transports : gare, pang, arret de bus -->
 			<Query fonction="Grille_GetEtabTransport">
 				<select>SELECT a.id_rubrique, a.id_article id, a.titre
 					, fd.id_form
@@ -1471,7 +1486,7 @@ INNER JOIN spip_mots m ON m.id_mot = mr.id_mot
 
 
 
-<!-- Requêtes pour la création des formulaires -->
+<!-- RequÃªtes pour la crÃ©ation des formulaires -->
 			
 			<Query fonction="Grille_GetXulTabPanelsArt">
 				<select>SELECT id_article id, titre, id_rubrique idRub </select>
@@ -1653,7 +1668,7 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 	<!-- Gestion du Workflow -->		
 	<XmlParam nom="Workflow">
 	
-		<!-- Mise à jour des noms des articles et rubriques -->
+		<!-- Mise Ã  jour des noms des articles et rubriques -->
 		<workflow srcObj="grille;champ" srcId="66;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		<workflow srcObj="grille;champ" srcId="66;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>		
 		<workflow srcObj="grille;champ" srcId="55;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
@@ -1686,10 +1701,10 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ" srcId="71;ligne_1" dstObj="Rubrique" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_RubTitre']"/>
 		<workflow srcObj="grille;champ" srcId="71;ligne_1" dstObj="Article" dstQuery="/XmlParams/XmlParam/Querys/Query[@fonction='update_ArtTitre']"/>
 		
-		<!-- Reponse non à un diagnostic -->
+		<!-- Reponse non Ã  un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="2" dstObj="Rubrique" trsId="60" dstQuery="AddNewArtGrille" />
 		
-		<!-- Reponse Observations à un diagnostic -->
+		<!-- Reponse Observations Ã  un diagnostic -->
 		<workflow srcObj="grille;champ;valeur" srcId="59;mot_1" srcCheckVal="151" dstObj="Rubrique" trsId="67" dstQuery="AddNewArtGrille" />
 		
 		<!-- affichage d'un diagnostic -->
@@ -1702,7 +1717,7 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<!-- affichage observation -->
 		<workflow srcObj="grille;champ;valeur" srcId="67;Sup" trsId="67" dstQuery="ShowDonnee" />
 		
-		<!-- Espaces intérieurs spécifiques -->
+		<!-- Espaces intÃ©rieurs spÃ©cifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-56" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-57" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-1063" />
@@ -1714,13 +1729,13 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_12" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-1018" />
 		<workflow srcObj="grille;champ;valeur" srcId="57;select_2" srcCheckVal="select_2_13" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-55" />
 		
-		<!-- Espaces extérieurs spécifiques -->
+		<!-- Espaces extÃ©rieurs spÃ©cifiques -->
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-78" />
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-2170" />
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-79" />
 		<workflow srcObj="grille;champ;valeur" srcId="61;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-1091" />
 		
-		<!-- Eléments de voirie -->
+		<!-- ElÃ©ments de voirie -->
 		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-679" />
 		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-674" />
 		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-677" />
@@ -1729,14 +1744,14 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_6" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-678" />
 		<workflow srcObj="grille;champ;valeur" srcId="69;select_1" srcCheckVal="select_1_7" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-676" />
 			
-		<!-- Objets niveau intérieur -->	
+		<!-- Objets niveau intÃ©rieur -->	
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-52" />
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-53" />
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-51" />
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_4" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-50" />
 		<workflow srcObj="grille;champ;valeur" srcId="63;select_2" srcCheckVal="select_2_5" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-5015" />
 		
-		<!-- Objets extérieurs parcelle -->	
+		<!-- Objets extÃ©rieurs parcelle -->	
 		<workflow srcObj="grille;champ;valeur" srcId="64;select_2" srcCheckVal="select_2_1" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-1416" />
 		<workflow srcObj="grille;champ;valeur" srcId="64;select_2" srcCheckVal="select_2_2" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-75" />
 		<workflow srcObj="grille;champ;valeur" srcId="64;select_2" srcCheckVal="select_2_3" dstObj="Rubrique" dstQuery="AddNewArtGrille" trsObjet="controles" trsId="-76" />
@@ -1757,7 +1772,7 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="146" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="146" />
 		<workflow srcObj="grille;champ;valeur" srcId="66;mot_1" srcCheckVal="56" dstObj="Rubrique" dstQuery="AddNewMotClef" trsObjet="motclef" trsId="56" />
 							
-		<!-- Gestion de l'affichage des onglets liés -->		
+		<!-- Gestion de l'affichage des onglets liÃ©s -->		
 		<workflow srcObj="TabForm;Type" srcId="GetXulTabForm;EspaceExtParamGenkkkk" dstQuery="AddNewTab" />
 
 		<Querys>
@@ -1785,7 +1800,7 @@ LEFT JOIN spip_forms_donnees_champs fdc4 ON fdc4.id_donnee = fd.id_donnee AND fd
 	</XmlParam>
 	
 	
-	<!-- Gestion de la cohérence des droits -->		
+	<!-- Gestion de la cohÃ©rence des droits -->		
 	<XmlParam nom="CoheDroit">
 	<CoheDroit srcId="57" srcChamp="select_1" srcCheckVal="select_1_1" dstId="54" dstCheckVal="multiple_2_1"  />
 	<CoheDroit srcId="57" srcChamp="select_1" srcCheckVal="select_1_2" dstId="54" dstCheckVal="multiple_2_2"  />
@@ -1929,7 +1944,7 @@ LIMIT 0 , 1
 		</Querys>
 	</XmlParam>
 
-	<!-- Gestion de la scénarisation -->		
+	<!-- Gestion de la scÃ©narisation -->		
 	<XmlParam nom="Scenarisation">
 		<Querys>
 			<Query fonction="GetDonneeCritere">

@@ -750,7 +750,7 @@ class Granulat
 	return $newId;
   
   }
-
+  
 	function GetXmlGrilles(){
 		$xml = "";
 		//récupère les grilles du granulat 
@@ -781,7 +781,7 @@ class Granulat
 		return $xml;	
 		
 	}
-	
+		
 	function GetXmlCartoDonnee($row){
 		$xml="";
 		
@@ -844,7 +844,7 @@ class Granulat
 		if($kml=="")
 			$kml = $this->GetKml();
 		$xml .= " kml='".$kml."'";
-		
+				
 		//création de l'identidiant xul
 		$idDoc = 'val'.DELIM.$this->site->infos["GRILLE_GEO"].DELIM.$row["idDon"].DELIM."fichier".DELIM.$row["idArt"];
 		$xml .= " idDoc='".$idDoc."'";
@@ -1073,11 +1073,13 @@ class Granulat
 		
 		if(!$donId){
 			//attache le form à l'article
+			/*
 			$sql = "INSERT INTO `spip_forms_articles` (id_form, id_article)
 				VALUES (".$formId.",".$artId.")";
 			$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 			$req = $DB->query($sql);
 			$DB->close();
+			*/
 			//création de la donnée du formulaire
 			$sql = "INSERT INTO `spip_forms_donnees` (`id_form`, `date`,`confirmation`, `statut`, `rang`)
 				VALUES (".$formId.", now(), 'valide', 'prop', 1)";
@@ -1359,7 +1361,46 @@ class Granulat
 
 	}
 	
-	public function GetValeurForm($form, $champ, $valdefaut="", $sep="", $deb="", $id=-1)
+	function SetGeoRef($lat,$lon,$coors){
+		
+		$sql = "DELETE FROM ona_geo
+			WHERE id_rubrique = ".$this->id;
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$DB->connect();
+		$DB->query($sql);
+		$DB->close();
+
+		$sql = "INSERT INTO ona_geo (id_rubrique, lat , lon, coors, name)
+			VALUES('".$this->id."', '".$lat."', '".$lon."', '".$coors."', \"".$this->titre."\")"; 
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$DB->connect();
+		$DB->query($sql);
+		$DB->close();
+		
+	}
+	
+	function SetGeoStat($idInd,$year,$val){
+		
+		//vérifie si la GeoRef existe
+		$sql = "DELETE FROM ona_indicator_values 
+			WHERE area = ".$this->id." AND variable=".$idInd." AND year=".$year ;
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$DB->connect();
+		$req = $DB->query($sql);
+		$DB->close();
+	
+		$sql = "INSERT INTO ona_indicator_values (variable, area , year, value)
+			VALUES('".$idInd."', '".$this->id."', '".$year."', '".$val."')"; 
+		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
+		$DB->connect();
+		$DB->query($sql);
+		$DB->close();
+		
+	}
+		
+	
+	
+	public function GetValeurForm($form, $titre, $valdefaut="", $sep="", $deb="", $id=-1, $champ=-1)
 	{
 		if($id==-1)
 			$id=$this->id;
@@ -1367,16 +1408,27 @@ class Granulat
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 	
-		//récupère les sous thème
-		$sql = "SELECT dc.valeur
-			FROM spip_articles a
-				INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
-				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
-				INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
-				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ
-			WHERE a.id_rubrique =".$id."
-				AND fd.id_form =".$form."
-				AND fc.titre ='".$champ."'";
+		//récupère la valeur de la donnée
+		if($champ==-1){
+			$sql = "SELECT dc.valeur
+				FROM spip_articles a
+					INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+					INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
+					INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ
+				WHERE a.id_rubrique =".$id."
+					AND fd.id_form =".$form."
+					AND fc.titre ='".$titre."'";
+		}else{
+			$sql = "SELECT dc.valeur
+				FROM spip_articles a
+					INNER JOIN spip_forms_donnees_articles da ON da.id_article = a.id_article
+					INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee
+					INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
+				WHERE a.id_rubrique =".$id."
+					AND fd.id_form =".$form."
+					AND dc.champ ='".$champ."'";
+		}
 		//echo $this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 
 		$req = $DB->query($sql);

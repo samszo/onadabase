@@ -706,6 +706,25 @@ function AddNewGrille(type){
   } catch(ex2){alert("AddNewGrille::"+ex2+" "+type);;}
 }
 
+function AddNewDonnee(idDoc,idGrille){
+  try {
+	var verif = true;
+		
+	var idRub = document.getElementById('idRub').value;
+	var login = document.getElementById('login').value;
+	
+	var doc = document.getElementById(idDoc);
+
+	if(verif){
+		var url = urlExeAjax+"?f=AddNewDonnee&idRub="+idRub+"&idGrille="+idGrille;
+		//dump("SetNewGrille "+url+"\n");
+		AppendResult(url,doc,true);
+	}
+
+  } catch(ex2){alert("AddNewDonnee::"+ex2+" idRub="+idRub+" idGrille="+idGrille);}
+}
+
+
 function AddNewRubrique(idDst) {
 	
 	try {
