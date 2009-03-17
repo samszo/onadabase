@@ -34,6 +34,11 @@
   	//trace(event.target.data);
  	var kml:Kml22 = new Kml22(event.target.data);
     var rootFeature:Feature = kml.feature;
+
+   	mapP.clearOverlays();
+
+    if(!kml.feature)
+    	return;
      
 	kmlObj = new Object();
 	kmlObj.name = rootFeature.name;
@@ -48,6 +53,8 @@
   }
   
    private function changeEvt(event:Event):void {
+   	if(!event.currentTarget.selectedItem)
+   		return;
    	var mapObj:* = event.currentTarget.selectedItem.mapObject;
    	if (mapObj is Marker) {
    		var marker:Marker = Marker(mapObj);

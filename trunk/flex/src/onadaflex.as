@@ -28,16 +28,18 @@
 
     //prod
 	/*
-    [Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
+	    [Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
-    private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_local2_1943.xml";
+    private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_picardies_1942.xml";
     [Bindable] private var urlExeCarto:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php";
-    private var urlTerreRoot:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=centre";
-	*/
+    private var urlTerreRoot:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=picardie";
+*/
+
 	//local
+
     [Bindable] private var urlExeAjax:String="http://localhost/onadabase/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
-    private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_1943.xml";
+    private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_1942.xml";
     [Bindable] private var urlExeCarto:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php";
     private var urlTerreRoot:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=local2";
 
