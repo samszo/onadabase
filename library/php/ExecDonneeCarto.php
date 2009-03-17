@@ -84,7 +84,7 @@ function get_arbo_territoire($idRub,$objSite,$niv=0) {
 		else
 			$xml="";
 		while($r = mysql_fetch_assoc($req)) {
-			$xml .= "<terre idRub='".$r["id_rubrique"]."' titreRub='".$r["rTitre"]."'  idMot='".$r["id_mot"]."'  titreMot='".$r["mTitre"]."' >";
+			$xml .= "<terre idRub='".$r["id_rubrique"]."' titreRub=\"".$r["rTitre"]."\"  idMot='".$r["id_mot"]."'  titreMot=\"".$r["mTitre"]."\" >";
 	 		$xml .= get_arbo_territoire($r["id_rubrique"],$objSite,$niv+1);
 			$xml .= "</terre>";
 		}

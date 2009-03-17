@@ -13,7 +13,7 @@
       import mx.controls.treeClasses.*;
 
          [Bindable]
-         [Embed(source="../images/batimentP.jpg")] 
+         [Embed(source="../images/batimentP.png")] 
          public var iconBatiment:Class; 
          [Bindable]
          [Embed(source="../images/eclairageP.jpg")] 
@@ -28,13 +28,13 @@
          [Embed(source="../images/espaceP.jpg")] 
          public var iconEspace:Class; 
          [Bindable]
-         [Embed(source="../images/etablissementP.jpg")] 
+         [Embed(source="../images/etablissementP.png")] 
          public var iconEtablissement:Class; 
          [Bindable]
-         [Embed(source="../images/niveauP.jpg")] 
+         [Embed(source="../images/niveauP.png")] 
          public var iconNiveau:Class; 
          [Bindable]
-         [Embed(source="../images/objetP.jpg")] 
+         [Embed(source="../images/objetP.png")] 
          public var iconObjet:Class; 
          [Bindable]
          [Embed(source="../images/parkingP.jpg")] 
@@ -42,6 +42,18 @@
          [Bindable]
          [Embed(source="../images/porteP.jpg")] 
          public var iconPorte:Class; 
+         [Bindable]
+         [Embed(source="../images/espace_exterieurP.png")] 
+         public var iconEspaceExt:Class; 
+         [Bindable]
+         [Embed(source="../images/espace_interieurP.png")] 
+         public var iconEspaceInt:Class; 
+         [Bindable]
+         [Embed(source="../images/parcelle_exterieureP.png")] 
+         public var iconParcelleExt:Class; 
+         [Bindable]
+         [Embed(source="../images/voirieP.png")] 
+         public var iconVoirie:Class; 
          
       [Bindable] public var categories:Object = 
         { "grille_66": {
@@ -60,13 +72,13 @@
         	"id": "62",
 	          "titre": "Voirie",
               "color": 0xFF33FF,
-	          "icon": iconObjet,
+	          "icon": iconVoirie,
               "markers": []},
           "grille_61": {
         	"id": "61",
 	          "titre": "Espace extérieur",
               "color": 0x009933,
-	          "icon": iconEspace,
+	          "icon": iconEspaceExt,
               "markers": []},
           "grille_53": {
         	"id": "53",
@@ -76,9 +88,9 @@
               "markers": []},
           "grille_58": {
         	"id": "58",
-	          "titre": "Parcelle",
+	          "titre": "Parcelle extérieur",
               "color": 0x00CCFF,
-	          "icon": iconEspace,
+	          "icon": iconParcelleExt,
               "markers": []},
           "grille_35": {
         	"id": "35",
@@ -90,7 +102,7 @@
         	"id": "57",
 	          "titre": "Espace intérieur",
               "color": 0x0ba42f,
-	          "icon": iconEspace,
+	          "icon": iconEspaceInt,
               "markers": []},
           "grille_63": {
         	"id": "63",
@@ -106,9 +118,9 @@
               "markers": []},
           "grille_72": {
         	"id": "72",
-	          "titre": "Ligne de transport",
+	          "titre": "Elément de voirie",
               "color": 0x2a09f7,
-	          "icon": iconObjet,
+	          "icon": iconVoirie,
               "markers": []},
           "grille_60": {
         	"id": "60",
@@ -160,12 +172,12 @@
                 {label:"Bâtiment", cat:categories["grille_53"], children: [
                     {label:"Niveau", cat:categories["grille_35"], children:     [
                         {label:"Objet", cat:categories["grille_63"], data:"child data"}
-                        ,{label:"Espace", cat:categories["grille_57"], data:"child data"}
+                        ,{label:"Espace intérieur", cat:categories["grille_57"], data:"child data"}
                     ]}
                 ]}
                 ,{label:"Parcelle", cat:categories["grille_58"], children: [
 	                {label:"Espace extérieur", cat:categories["grille_61"], data:"child data"}
-                    ,{label:"Objet extérieur", cat:categories["grille_64"], data:"child data"}
+                    ,{label:"Objet", cat:categories["grille_64"], data:"child data"}
                 ]}
             ]; 
             /* Second top-level node and its children.*/ 
@@ -204,8 +216,8 @@
                 treeArray = [
                     {label:"Etablissement",cat:categories["grille_55"], children: colEtab}
                     ,{label:"Voirie",cat:categories["grille_62"], children: colVoirie}
-	                ,{label:"Ligne de transport", cat:categories["grille_72"], children: colLigneTrans}
                 ]; 
+                //pas pour picardie,{label:"Ligne de transport", cat:categories["grille_72"], children: colLigneTrans}
 
                 /* Wrap the treeArray in an ArrayCollection. */
                 ac = new ArrayCollection(treeArray);
@@ -236,6 +248,7 @@
          }	
 
          private function changeEvt(event:Event):void {
+         	if(!event.currentTarget.selectedItem)return;
             var theData:Object=event.currentTarget.selectedItem.cat;
             if (theData) {
                trace(" Data: " + theData.titre);

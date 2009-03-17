@@ -37,6 +37,10 @@
                 if(event.result!=""){
 	                var rsListe:Object = event.result;
                 }
+                if(rsListe.images==null){
+					CursorManager.removeBusyCursor();
+					return;            	
+                }
                 
                 var wMax:int=0;
                 var hMax:int=0;
