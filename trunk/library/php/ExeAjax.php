@@ -37,6 +37,9 @@
 			// en prod c'est $objSite
 			$resultat = Synchroniser($objSiteSync);
 			break;*/
+		case 'GetStatBassinGare':
+			$resultat = GetStatBassinGare($objSite,$g);
+			break;
 		case 'GetImages':
 			$resultat = GetXmlImaListe($g);
 			break;
@@ -230,6 +233,18 @@
 		
 	}
 	
+	function GetStatBassinGare($site, $g){
+
+		$path = PathRoot."/bdd/BassinGare/".$site->id."_".$g->id."_flex.xml";
+	    $contents = $site->GetFile($path);
+   		if(!$contents){
+   			$contents = $g->GetStatBassinGare();
+			$site->SaveFile($path,$contents);
+   		}
+
+   		return $contents; 
+	}
+	
 	function GetFlexEtatDiagListe($site, $g, $idDoc){
 
 		$contents = $g->GetEtatDiagListe($idDoc,true,true);
@@ -242,6 +257,7 @@
 
 		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id."_flex.xml";
 	    $contents = $site->GetFile($path);
+	    $_SESSION['ShowDocs']=true;
    		if(!$contents)
    			$contents = $g->GetEtatDiag(true,true);
 

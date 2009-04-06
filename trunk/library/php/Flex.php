@@ -8,20 +8,18 @@ class Flex{
     return "Cette classe permet la création dynamique d'objet XUL.<br/>";
     }
 
-    function __construct($site, $id=-1, $complet=true) {
-	//echo "new Site $sites, $id, $scope<br/>";
-  	$this->trace = TRACE;
-
-    $this->site = $site;
-    $this->id = $id;
+    function __construct($site, $id=-1) {
+		//echo "new Site $sites, $id, $scope<br/>";
+	  	$this->trace = TRACE;
 	
-	
-	if($complet){
-	}
-
-	//echo "FIN new grille <br/>";
+	    $this->site = $site;
+	    $this->id = $id;
 		
+		
+		//echo "FIN new grille <br/>";		
     }
+
+
     
     function GetKmlPlans(){
 

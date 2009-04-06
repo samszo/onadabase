@@ -120,6 +120,76 @@ class Granulat
 	}
 
 
+	function GetStatBassinGare(){
+		
+		$stat = "";
+		$nbPop = 0;
+		$nbPopHandi = 0;
+		$communes="";
+		$typeERP = $this->GetValeurForm($this->site->infos["GRILLE_ETAB"],"","","","",$this->id,"mot_2");
+		if($typeERP==$this->site->infos["MOT_CLEF_PANG"] || $typeERP==$this->site->infos["MOT_CLEF_GARE"]){
+			$grille = new Grille($this->site);
+			$arrIdRub = split(",",$grille->GetXulNoeudCommune($this->id,true));
+			foreach($arrIdRub as $idRub){
+				$rs = $this->GetGrille($this->site->infos["GRILLE_TERRE"],"",$idRub);	 
+				$champs = "";
+				while ($r =  mysql_fetch_assoc($rs)) {
+					$champs .= "<champ idDon='".$r["id_donnee"]."' champ='".$r["champ"]."' titre=\"".$r["titre"]."\">".$r["valeur"]."</champ>";
+					if($r["champ"]=="ligne_2")
+						$nbPop+=$r["valeur"];
+					if($r["champ"]=="ligne_3")
+						$nbPopHandi+=$r["valeur"];
+				}
+				$communes .= "<commune id='".$idRub."' >".$champs."</commune>";;
+			}
+			$stat = "<bassin id='".$this->id."' nbPop='".$nbPop."'  nbPopHandi='".$nbPopHandi."' >";
+			$stat .= $communes;
+			$stat .= "</bassin>";
+			
+		}
+		
+		
+		return $stat;
+		
+	}
+
+	function GetActeurBassinGare(){
+		
+		$xml="";
+		$acteurs="";
+		$typeERP = $this->GetValeurForm($this->site->infos["GRILLE_ETAB"],"","","","",$this->id,"mot_2");
+		if($typeERP==$this->site->infos["MOT_CLEF_PANG"] || $typeERP==$this->site->infos["MOT_CLEF_GARE"]){
+			$grille = new Grille($this->site);
+			$arrIdRub = split(",",$grille->GetXulNoeudCommune($this->id,true));
+			foreach($arrIdRub as $idRub){
+				$rs = $this->GetGrille($this->site->infos["GRILLE_ACTEUR"],"",$idRub);	 
+				$champs = "";
+				while ($r =  mysql_fetch_assoc($rs)) {
+					$champs .= "<champ idDon='".$r["id_donnee"]."' champ='".$r["champ"]."' titre=\"".$r["titre"]."\">".$r["valeur"]."</champ>";
+				}
+				$acteurs .= "<acteur id='".$idRub."' >".$champs."</acteur>";
+			}
+			$arrIdRub = split(",",$this->GetParentIds("",","));
+			foreach($arrIdRub as $idRub){
+				if($idRub){
+					$rs = $this->GetGrille($this->site->infos["GRILLE_ACTEUR"],"",$idRub);	 
+					$champs = "";
+					while ($r =  mysql_fetch_assoc($rs)) {
+						$champs .= "<champ idDon='".$r["id_donnee"]."' champ='".$r["champ"]."' titre=\"".$r["titre"]."\">".$r["valeur"]."</champ>";
+					}
+					$acteurs .= "<acteur id='".$idRub."' >".$champs."</acteur>";
+				}	
+			}
+			if($acteurs!=""){
+				$xml = "<acteurs id='".$this->id."' >";
+				$xml .= $acteurs;
+				$xml .= "</acteurs>";
+			}
+		}		
+		return $xml;
+		
+	}
+	
 	function GetEtatDiag($PourFlex=false,$SaveFile=false,$calcul=false){
 		
 		$deb = microtime(true);
@@ -234,6 +304,8 @@ class Granulat
 			</Obstacles>";
 			$xml .= $Icos; 
 			$xml .= $IcosDoc;
+			$xml .= $this->GetStatBassinGare();
+			$xml .= $this->GetActeurBassinGare();
 		}else{
 			$xml .= $EtatOui["xml"];
 			$xml .= $Etat1["xml"];
@@ -1192,10 +1264,12 @@ class Granulat
 		return in_array($id, $arrParent);
 	}
 
-	public function GetParentIds($id = "")
+	public function GetParentIds($id = "",$sep="")
 	{
 		if($id =="")
 			$id = $this->id;
+		if($sep =="")
+			$sep = DELIM;
 			
 		//récupère les sous thème
 		$sql = "SELECT id_rubrique, titre, r.id_parent
@@ -1208,8 +1282,8 @@ class Granulat
 
 		$valeur="";
 		while($r = $DB->fetch_assoc($req)) {
-			$valeur .= $this->GetParentIds($r['id_parent']);
-			$valeur .= $r['id_rubrique'].DELIM;
+			$valeur .= $this->GetParentIds($r['id_parent'],$sep);
+			$valeur .= $r['id_rubrique'].$sep;
 		}
 		
 		return $valeur;
@@ -1443,8 +1517,12 @@ class Granulat
 		return $valeur;
 	}
 
-	public function GetGrille($IdGrille, $ExtraSql="")
+	public function GetGrille($IdGrille, $ExtraSql="", $idRub=-1)
 	{
+		if($idRub==-1)
+			$idRub=$this->id;
+		
+		
 		$DB = new mysql($this->site->infos["SQL_HOST"], $this->site->infos["SQL_LOGIN"], $this->site->infos["SQL_PWD"], $this->site->infos["SQL_DB"]);
 		$DB->connect();
 	
@@ -1455,7 +1533,7 @@ class Granulat
 				INNER JOIN spip_forms_donnees fd ON fd.id_donnee = da.id_donnee AND fd.id_form =".$IdGrille."
 				INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
 				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ AND fc.id_form =".$IdGrille."
-			WHERE a.id_rubrique =".$this->id.$ExtraSql."
+			WHERE a.id_rubrique =".$idRub.$ExtraSql."
 			ORDER BY da.id_donnee, dc.champ";
 		//echo $this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 	
