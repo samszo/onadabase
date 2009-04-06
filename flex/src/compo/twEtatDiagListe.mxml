@@ -64,10 +64,6 @@
                 //boucle sur les critères
 		        for each (var rLieu:Object in rsListe.vbox.lieu)
 		        {
-        	        var hbLC:hbLieuDiag = new hbLieuDiag();
-        	        hbLC.rsLieu=rLieu;
-   					mainCtrl.addChild(hbLC);
-
 		        }
 				CursorManager.removeBusyCursor();
             

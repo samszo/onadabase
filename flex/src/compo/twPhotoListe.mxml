@@ -51,8 +51,8 @@
 		            for (var i:int=0; i<rsListe.images.ima.length; i++) {
 				        var ima:Image = new Image;
 				        ima.source=rsListe.images.ima[i].src;
-				        ima.scaleX=0.5;
-				        ima.scaleY=0.5;
+				        ima.scaleX=0.2;
+				        ima.scaleY=0.2;
 				        ima.addEventListener(MouseEvent.ROLL_OVER, doZoom);
 				        ima.addEventListener(MouseEvent.ROLL_OUT, doZoom);
 		   				mainCtrl.addChild(ima);
@@ -65,8 +65,8 @@
 		        }else{
 			        var imaS:Image = new Image;
 			        imaS.source=rsListe.images.ima.src;
-			        imaS.scaleX=0.3;
-			        imaS.scaleY=0.3;
+			        imaS.scaleX=0.2;
+			        imaS.scaleY=0.2;
 			        imaS.addEventListener(MouseEvent.ROLL_OVER, doZoom);
 			        imaS.addEventListener(MouseEvent.ROLL_OUT, doZoom);
 	   				mainCtrl.addChild(imaS);		        	
@@ -99,7 +99,7 @@
         ]]>	
     </mx:Script>
 
-    <mx:Zoom id="zoomAll" zoomWidthTo="0.9" zoomHeightTo="0.9" zoomWidthFrom=".3" zoomHeightFrom=".3"  />
+    <mx:Zoom id="zoomAll" zoomWidthTo="0.5" zoomHeightTo="0.5" zoomWidthFrom=".2" zoomHeightFrom=".2"  />
 	
     <mx:Panel id="mainCtrl" width="75%" height="75%" title="Image de la sélection" horizontalAlign="center" >
 

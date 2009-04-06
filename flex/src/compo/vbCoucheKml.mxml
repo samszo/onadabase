@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="100%" creationComplete="Init()" >
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="Init()" >
  <mx:Script>
     <![CDATA[
   import flash.events.Event;
@@ -15,6 +15,8 @@
   import com.google.maps.overlays.GroundOverlay;
   import com.google.maps.overlays.GroundOverlayOptions; 
   import com.google.maps.extras.xmlparsers.kml.*;
+
+  import mx.managers.CursorManager;
   
   [Bindable] public var mapP:Map;
   [Bindable] public var kmlUrl:String = "";
@@ -35,8 +37,6 @@
  	var kml:Kml22 = new Kml22(event.target.data);
     var rootFeature:Feature = kml.feature;
 
-   	mapP.clearOverlays();
-
     if(!kml.feature)
     	return;
      
@@ -53,25 +53,59 @@
   }
   
    private function changeEvt(event:Event):void {
-   	if(!event.currentTarget.selectedItem)
-   		return;
-   	var mapObj:* = event.currentTarget.selectedItem.mapObject;
-   	if (mapObj is Marker) {
-   		var marker:Marker = Marker(mapObj);
-   		mapP.setCenter(marker.getLatLng());
-   	} else if (mapObj is com.google.maps.overlays.Polygon::Polygon) {
-   		var polygon: com.google.maps.overlays.Polygon = com.google.maps.overlays.Polygon::Polygon(mapObj);
-   		mapP.setCenter(polygon.getLatLngBounds().getCenter());
-   	}else if (mapObj is com.google.maps.overlays.Polyline::Polyline) {
-   		var polyline: com.google.maps.overlays.Polyline = com.google.maps.overlays.Polyline::Polyline(mapObj);
-   		mapP.setCenter(polyline.getLatLngBounds().getCenter());
-   	} else if (mapObj is com.google.maps.overlays.GroundOverlay::GroundOverlay) {
-   		var groundOverlay: com.google.maps.overlays.GroundOverlay = com.google.maps.overlays.GroundOverlay::GroundOverlay(mapObj);
-   		// we need a getLatLngBounds function
-   		mapP.setCenter(new LatLng(this.kmlLat,this.kmlLng),this.kmlZoom);
-   	}
+	   	if(!event.currentTarget.selectedItem)
+	   		return;
+		CursorManager.setBusyCursor();
+	   	var mapObj:* = event.currentTarget.selectedItem.mapObject;
+	   	if(mapObj){
+		   	ShowHideMapObjet(mapObj);
+	   	}else{
+	   		ShowHideCollMapObjet(event.currentTarget.selectedItem);
+	   	}
+		CursorManager.removeBusyCursor();
    }
    
+   private function ShowHideCollMapObjet(item:Object):void {
+   	
+	  	for (var i:Number = 0; i < item.children.length; i++) {
+			var childObj:Object =	item.children[i];
+			if(childObj.mapObject){
+				ShowHideMapObjet(childObj.mapObject);
+				//change la couleur de la ligne
+				
+	  		}else{
+				if(childObj.children)
+					ShowHideCollMapObjet(childObj);
+			}						  		
+	  	}
+
+   }   
+   
+   private function ShowHideMapObjet(mapObj:*):void {
+
+	    if (!mapObj.visible) {
+	       mapObj.visible = true;
+	    } else {
+	       mapObj.visible = false;
+	    }
+
+	   	if (mapObj is Marker) {
+	   		var marker:Marker = Marker(mapObj);
+	   		mapP.setCenter(marker.getLatLng());
+	   	} else if (mapObj is com.google.maps.overlays.Polygon::Polygon) {
+	   		var polygon: com.google.maps.overlays.Polygon = com.google.maps.overlays.Polygon::Polygon(mapObj);
+	   		mapP.setCenter(polygon.getLatLngBounds().getCenter());
+	   	}else if (mapObj is com.google.maps.overlays.Polyline::Polyline) {
+	   		var polyline: com.google.maps.overlays.Polyline = com.google.maps.overlays.Polyline::Polyline(mapObj);
+	   		mapP.setCenter(polyline.getLatLngBounds().getCenter());
+	   	} else if (mapObj is com.google.maps.overlays.GroundOverlay::GroundOverlay) {
+	   		var groundOverlay: com.google.maps.overlays.GroundOverlay = com.google.maps.overlays.GroundOverlay::GroundOverlay(mapObj);
+	   		mapP.setCenter(new LatLng(this.kmlLat,this.kmlLng),this.kmlZoom);
+	   	}
+   	
+   }
+
+
    
   public function associateWithMapObject(obj:Object, feature:Feature):void {
   	// at this point it can either be a placemark or a groundoverlay
@@ -172,7 +206,7 @@
   }
     ]]>
   </mx:Script>  	
-<mx:Label id="treeTitre" width="100%" text="Couches géographiques disponibles" fontSize="16" fontWeight="bold"/>
-<mx:Tree width="98%" height="100%" dataProvider="{kmlObj}" click="changeEvt(event);" labelField="name" showRoot="false"/>
+<mx:Label id="treeTitre" text="Couches géographiques disponibles" fontSize="16" fontWeight="bold"/>
+<mx:Tree width="98%" height="98%" dataProvider="{kmlObj}" click="changeEvt(event);" labelField="name" showRoot="false"/>
  	
 </mx:VBox>

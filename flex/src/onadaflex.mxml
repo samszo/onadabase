@@ -62,16 +62,19 @@ todo :
 	   <mx:VBox id="chartBox" visible="true" width="0" height="100%" paddingLeft="5" paddingTop="5" >
 		    <mx:Label id="chartTitre" width="98%" text="" fontSize="24" fontWeight="bold"/>
 		    
-		    <mx:HBox >
+		    <mx:HBox width="100%" height="30%" >
 		       	<mx:LinkButton id="imgPhoto" visible="false" icon="{PhotoIcon}" click="ShowListePhoto();" />
 		       	<mx:LinkButton id="imgFilm" visible="false" icon="{FilmIcon}" click="ShowListeFilm();" />
 		       	<mx:LinkButton id="imgSon" visible="false" icon="{SonIcon}" click="ShowListeSon();" />
 			</mx:HBox>
 	
-		   <ns2:vbCoucheKml id="treeKML" visible="false" >
+		   <ns2:vbBassinGare id="BassinGare" height="30%" visible="false" >
+		   </ns2:vbBassinGare>
+
+		   <ns2:vbCoucheKml id="treeKML" height="20%" visible="false" >
 		   </ns2:vbCoucheKml>
 	
-		    <mx:HBox paddingLeft="70" width="98%" >
+		    <mx:HBox paddingLeft="70" >
 				<mx:Image id="imgMoteur" source="{MoteurIcon}" width="80" />
 				<mx:Image id="imgAudio" source="{AudioIcon}" width="80" />
 				<mx:Image id="imgCog" source="{CogIcon}" width="80" />
@@ -83,7 +86,7 @@ todo :
 		        type="stacked"
 		        showDataTips="true" 
 		        width="98%" 
-		        height="100%"
+		        height="40%"
 				change="chartEtatDiagChange(event)"
 				selectionMode="multiple"
 		    >

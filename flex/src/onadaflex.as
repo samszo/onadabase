@@ -27,22 +27,20 @@
 
 
     //prod
-	/*
 	    [Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
     private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_picardies_1942.xml";
     [Bindable] private var urlExeCarto:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php";
     private var urlTerreRoot:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=picardie";
-*/
 
 	//local
-
+/*
     [Bindable] private var urlExeAjax:String="http://localhost/onadabase/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
     private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_1942.xml";
     [Bindable] private var urlExeCarto:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php";
     private var urlTerreRoot:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=local2";
-
+*/
       private var map:Map;
       private var markers:XMLList;
 	[Bindable]	private var rsEtatDiag:Object;
@@ -173,6 +171,18 @@
 				        }
 		        	}
 		        }
+		        //gestion du bassin
+		        if(rsEtatDiag.EtatDiag.bassin){
+		        	BassinGare.rsBassin = rsEtatDiag.EtatDiag.bassin;	
+		        	BassinGare.SetBassin();
+		        }else{
+		        	BassinGare.Init();
+		        	BassinGare.visible = false;
+		        }
+		        if(rsEtatDiag.EtatDiag.acteurs){
+		        	BassinGare.rsActeurs = rsEtatDiag.EtatDiag.acteurs;	
+		        	BassinGare.SetActeurs();
+		        }
 		 	}
 		}
       
@@ -294,7 +304,7 @@
 
       }
 
-      public function showMarkerId(idRub:String): void {
+      public function showMarkerId(idRub:String,sStat:Boolean=true): void {
 
         //vérifie s'il faut créer les markers ou les rendre visible/invisible
         //boucle sur les géoloc 
@@ -314,7 +324,8 @@
 			        map.addOverlay(marker);
 			    }
 			    //montre les stats
-			    showStat(markerXml);
+			    if(sStat)	
+				    showStat(markerXml);
 			    //recentre la carte            		
 		        map.setCenter(latlng, markerXml.@zoommin, MapType.HYBRID_MAP_TYPE);
 		        break;	        	
