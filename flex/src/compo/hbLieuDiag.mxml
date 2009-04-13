@@ -28,6 +28,7 @@
 
             public function SetFilAriane():void {
 				//construction du fil d'ariane
+				if(!rsLieu.ariane)return;
 		        for each (var rAriane:Object in rsLieu.ariane.hbox.label)
 		        {
 		        	if(rAriane.value != "|"){
@@ -50,12 +51,12 @@
 		            for (var i:int=0; i<rsLieu.crit.length; i++) {
 	        	        var bC:bCrit = new bCrit();
 	        	        bC.rsCrit=rsLieu.crit[i];
-	   					LieuDiag.addChild(bC);
+	   					vbCrit.addChild(bC);
 		            }	
 		        }else{
         	        var bC1:bCrit = new bCrit();
         	        bC1.rsCrit=rsLieu.crit;
-   					LieuDiag.addChild(bC1);		        	
+   					vbCrit.addChild(bC1);		        	
 		        }
             }
 
@@ -63,10 +64,13 @@
         ]]>
     </mx:Script>
 
-	<mx:VBox id="LieuDiag" height="100%">
+	<mx:VBox id="LieuDiag" height="100%" width="100%" >
 		<mx:HRule strokeColor="#1C999A" strokeWidth="4" themeColor="#83B5D4" width="100%" height="4"/>
 		<mx:HBox width="100%" id="hbAriane" borderStyle="none" borderColor="#6B055B" borderThickness="2" fontSize="8">
 		</mx:HBox>
+		<mx:VBox paddingLeft="30" width="100%" id="vbCrit" paddingBottom="5" paddingTop="5" >
+			
+		</mx:VBox>
 	</mx:VBox>
 	
 </mx:HBox>

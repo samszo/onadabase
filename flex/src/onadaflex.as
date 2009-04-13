@@ -14,8 +14,7 @@
       import com.google.maps.styles.FillStyle;
       import com.google.maps.styles.StrokeStyle;
       
-      import compo.twEtatDiagListe;
-      import compo.twPhotoListe;
+      import compo.*;
       
       import flash.net.URLRequest;
       
@@ -26,35 +25,38 @@
       import mx.rpc.events.ResultEvent;
 
 
-    //prod
+    /*prod
 	    [Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
     private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_picardies_1942.xml";
     [Bindable] private var urlExeCarto:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php";
     private var urlTerreRoot:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=picardie";
-
+*/
 	//local
-/*
+
     [Bindable] private var urlExeAjax:String="http://localhost/onadabase/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
     private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_local2_1942.xml";
     [Bindable] private var urlExeCarto:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php";
     private var urlTerreRoot:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=local2";
-*/
+
       private var map:Map;
       private var markers:XMLList;
 	[Bindable]	private var rsEtatDiag:Object;
 	[Bindable]	private var rsCarto:Object;
 	[Bindable]	private var rsTerre:XMLList;
 
+	private var accDocs:hbIcoMultimedia;
+	private var accBassin:vbBassinGare;
+	private var accActeurs:vbActeurs;
+	private var accKML:vbCoucheKml;
+
       [Embed(source="/images/A.png")] [Bindable] private var AIcon:Class;
       [Embed(source="/images/B.png")] [Bindable] private var BIcon:Class;
       [Embed(source="/images/C.png")] [Bindable] private var CIcon:Class;
       [Embed(source="/images/D.png")] [Bindable] private var DIcon:Class;
       [Embed(source="/images/E.png")] [Bindable] private var EIcon:Class;
-      [Embed(source="/images/jpg.png")] [Bindable] private var PhotoIcon:Class;
-      [Embed(source="/images/mpg.png")] [Bindable] private var FilmIcon:Class;
-      [Embed(source="/images/mp3.png")] [Bindable] private var SonIcon:Class;
+
       [Embed(source="/images/audio.jpg")] [Bindable] private var AudioIcon:Class;
       [Embed(source="/images/cog.jpg")] [Bindable] private var CogIcon:Class;
       [Embed(source="/images/moteur.jpg")] [Bindable] private var MoteurIcon:Class;
@@ -87,6 +89,14 @@
         };
 
 
+		private function InitBoxStat():void{
+			
+			mapHolder.percentWidth=50;
+			boxTree.percentWidth=20
+			boxEtatLieux.percentWidth=30;
+			
+		}
+		
         private function chartEtatDiagChange(event:Event):void {
             var allSeries:Array = event.currentTarget.series;
             chartTrace.text = "";
@@ -137,11 +147,18 @@
             idDoc = niv+strHandi; 
             //exécute la requête
             ShowListeDiag(idSite.text, idRub.text, idDoc, titreSelect);
+
         }
 
 		public function rhEtatDiag(event:ResultEvent):void {
 			rsEtatDiag = event.result;
-			if(rsEtatDiag.toString()!=""){
+			accEtatLieu.selectedIndex=0;			
+			TraiteReponseEtatDiag();
+		}
+      
+      public function TraiteReponseEtatDiag():void {
+      	
+			if(rsEtatDiag && rsEtatDiag.toString()!=""){
 				//mise à jour des icones handicateur
 		        for each (var obs:Object in rsEtatDiag.EtatDiag.Obstacles)
 		        {
@@ -154,55 +171,60 @@
 		        	if(obs.id=="visuel")
 		        		imgAlphaVisu.source=handi[obs.handi].icon;
 		        }
-				//mise à jour des icones médias
-        		imgPhoto.visible=false;
-        		imgFilm.visible=false;
-        		imgSon.visible=false;
-	        	//bug dans le cas où il n'y a qu'une icone
-	        	var nbIco:int = rsEtatDiag.EtatDiag.icones[1].icone.length;
-	        	if(nbIco != 0){
-		        	if(nbIco == 1){
-			        	var ico1:Object = rsEtatDiag.EtatDiag.icones[1].icone;
-			        	showIcone(ico1.toString());	        		        		
-		        	}else{
-				        for each (var ico:Object in rsEtatDiag.EtatDiag.icones[1].icone)
-				        {
-				        	showIcone(ico.id);	        	
-				        }
-		        	}
-		        }
-		        //gestion du bassin
-		        if(rsEtatDiag.EtatDiag.bassin){
-		        	BassinGare.rsBassin = rsEtatDiag.EtatDiag.bassin;	
-		        	BassinGare.SetBassin();
+		        
+				//gestion des documents multimédia
+				
+				if(accDocs!=null){
+					accEtatLieu.removeChild(accDocs);
+				}
+				accDocs=new hbIcoMultimedia();
+		        accDocs.Init(rsEtatDiag,idRub.text,idSite.text,urlExeAjax);
+				var ico:Boolean = accDocs.VerifIco(); 
+				if(ico){
+					accEtatLieu.addChild(accDocs);
 		        }else{
-		        	BassinGare.Init();
-		        	BassinGare.visible = false;
+			        accDocs=null;	
 		        }
+		        
+
+				//gestion des bassins de gare
+				if(accBassin!=null){
+					accEtatLieu.removeChild(accBassin);
+				}
+		        if(rsEtatDiag.EtatDiag.bassin){
+					accBassin=new vbBassinGare();
+		        	accBassin.rsBassin = rsEtatDiag.EtatDiag.bassin;	
+					accEtatLieu.addChild(accBassin);
+		        }else{
+		        	accBassin=null;
+		        }
+		        
+				//gestion des acteurs de la concertation
+				if(accActeurs!=null){
+					accEtatLieu.removeChild(accActeurs);
+				}
 		        if(rsEtatDiag.EtatDiag.acteurs){
-		        	BassinGare.rsActeurs = rsEtatDiag.EtatDiag.acteurs;	
-		        	BassinGare.SetActeurs();
+		        	accActeurs=new vbActeurs();
+		        	accActeurs.rsActeurs = rsEtatDiag.EtatDiag.acteurs;	
+					accEtatLieu.addChild(accActeurs);
+		        }else{
+		        	accActeurs=null;
 		        }
-		 	}
-		}
-      
-      public function showIcone(type:String):void{
-    	if(type=="images")
-    		imgPhoto.visible=true;
-    	if(type=="videos")
-    		imgFilm.visible=true;
-    	if(type=="sons")
-    		imgSon.visible=true;      	
+
+		 	}     	
+      	
       }
-        
+      
+      
       public function onHolderCreated(event:Event):void {
         map = new Map();
         map.key = mapKey;
-		  map.addControl(new ZoomControl());
-		  map.addControl(new PositionControl());
-		  map.addControl(new MapTypeControl());
+		map.addControl(new ZoomControl());
+		map.addControl(new PositionControl());
+		map.addControl(new MapTypeControl());
         map.addEventListener(MapEvent.MAP_READY, onMapReady);
         mapHolder.addChild(map);
+        
       }
 
       public function onHolderResized(event:Event):void {
@@ -256,6 +278,13 @@
     }
 
      private function changeEvtTreeTerre(event:Event):void {
+
+        //reinitialise l'accordion
+        if(!accEtatLieu.visible)
+			accEtatLieu.visible=true;
+        if(accEtatLieu.selectedIndex!=0)
+	        accEtatLieu.selectedIndex=0;
+
         showMarkerId(event.currentTarget.selectedItem.@idRub);	        	
      }
 
@@ -335,26 +364,33 @@
       
       public function chargeKML(markerXml:XML):void {
       	
+      	
 	    var arrKml:Array = markerXml.@kml.split("*");
-        var bkml:Boolean=false;
+    	//on vide l'accordion
+		if(accKML!=null){
+			accEtatLieu.removeChild(accKML);
+		}
+		var i:int=0;
         for each (var kml:String in arrKml){
 		    //vérifie s'il faut charger le kml
 		    if(kml!=""){
-		    	bkml = true;
+		    	//on créé l'objet des coucheS kml
+		    	accKML=new vbCoucheKml();
 		        //charge les couches kml
 				trace ("chargeKML:kml="+kml);
-		        treeKML.mapP = map;
-		        treeKML.kmlUrl = kml;
-		        treeKML.kmlLat = markerXml.@lat;
-		        treeKML.kmlLng = markerXml.@lng;
-		        treeKML.kmlZoom = markerXml.@zoommin;
-		        treeKML.Init();
+		        accKML.mapP = map;
+		        accKML.kmlUrl = kml;
+		        accKML.kmlLat = markerXml.@lat;
+		        accKML.kmlLng = markerXml.@lng;
+		        accKML.kmlZoom = markerXml.@zoommin;
+		        i++;
 		    }        	
         }
-		if(bkml)
-			treeKML.visible = true;
-		else
-			treeKML.visible = false;
+        if(i!=0){
+        	accEtatLieu.addChild(accKML);
+        }else{
+        	accKML=null;
+        }
       	
       }
 
@@ -380,9 +416,8 @@
 
      private function showStat(markerXml:XML):void {
         //affiche la box des stats
-        chartBox.visible=true;
-        chartBox.width=400;
-        chartTitre.text = markerXml.@titre;
+        InitBoxStat();
+        pEtatLieu.title = markerXml.@titre;
         idRub.text = markerXml.@idRub;
         idSite.text = markerXml.@idSite;
 	    //charge le kml
@@ -410,37 +445,15 @@
 		params.site = idSite;
 		params.idDoc = idDoc;
 
-		titreSelect = chartTitre.text+" : "+titreSelect;
+		titreSelect = pEtatLieu.title+" : "+titreSelect;
 
 		wListe.useHttpService(urlExeAjax,params,titreSelect);
 
         PopUpManager.centerPopUp(wListe);
 		
-		trace ("nShowListeDiag" +urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc);
+		trace ("nShowListeDiag=" +urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc);
      }
 
-     private function ShowListePhoto():void {
-        // Create a non-modal TitleWindow container.
-        var wPhotoListe:twPhotoListe = twPhotoListe(
-            PopUpManager.createPopUp(this, twPhotoListe, false));
-		var params:Object = new Object();
-		params.f = "GetImages";
-		params.id = idRub.text;
-		params.site = idSite.text;
-
-		trace ("ShowListePhoto:url="+urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site);
-		wPhotoListe.useHttpService(urlExeAjax,params,chartTitre.text);
-
-        PopUpManager.centerPopUp(wPhotoListe);
-
-     }
-
-     private function ShowListeFilm():void {
-
-     }
-     private function ShowListeSon():void {
-
-     }
 
     private function toggleCategory(type:String):void {
        for (var i:Number = 0; i < treeEtatLieux.categories[type].markers.length; i++) {

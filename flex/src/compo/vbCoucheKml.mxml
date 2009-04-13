@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="Init()" >
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="Init()" width="100%" height="100%"
+	label="Couches géographiques"
+	 >
  <mx:Script>
     <![CDATA[
   import flash.events.Event;
@@ -206,7 +208,6 @@
   }
     ]]>
   </mx:Script>  	
-<mx:Label id="treeTitre" text="Couches géographiques disponibles" fontSize="16" fontWeight="bold"/>
-<mx:Tree width="98%" height="98%" dataProvider="{kmlObj}" click="changeEvt(event);" labelField="name" showRoot="false"/>
+<mx:Tree width="100%" height="100%" dataProvider="{kmlObj}" click="changeEvt(event);" labelField="name" showRoot="false"/>
  	
 </mx:VBox>
