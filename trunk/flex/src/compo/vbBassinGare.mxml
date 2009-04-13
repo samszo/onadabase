@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" >
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	creationComplete="SetBassin()"
+	label="Bassin de gares"
+	>
  <mx:Script>
         <![CDATA[
         	import mx.collections.ArrayCollection;
@@ -8,10 +11,8 @@
         	import compo.bCrit;
            
            	[Bindable] public var rsBassin:Object;
-           	[Bindable] public var rsActeurs:Object;
            
             public function Init():void {
-				ActeursListe.removeAllChildren();
 				CommunesListe.removeAllChildren();
             }
 
@@ -51,40 +52,12 @@
 		        }
             }
 
-            public function SetActeurs():void {
-				if(!rsActeurs){
-					return;
-				}
-				//construction des communes
-		        for each (var rAct:Object in rsActeurs.acteur)
-		        {
-			        for each (var rChamp:Object in rAct.champ)
-			        {
-			        	if(rChamp.champ=="ligne_1"){
-					        var arLnk:LinkButton = new LinkButton;
-					        //var arLnk:ButtonBar = new ButtonBar;
-					        arLnk.label = rChamp.value;
-					        arLnk.id = rAct.id;
-							//arLnk.addEventListener(MouseEvent.CLICK, showMarker);
-				        	ActeursListe.addChild(arLnk);
-			        	}
-			        }
-		        }
-            }
-
 			
         ]]>
   </mx:Script>
-  <mx:Label id="BassinTitre" width="100%" text="Bassin de gare" fontSize="16" fontWeight="bold"/>
-  <mx:Label x="10" y="10" text="Population du bassin de gare : " id="lblPop"/>
-  <mx:Label x="10" y="36" text="Estimation de la population handicapée : " id="lblPopHandi"/>
+  <mx:Label x="10" y="10" fontSize="16" fontWeight="bold" text="Population du bassin de gare : " id="lblPop"/>
+  <mx:Label x="10" y="36" fontSize="16" fontWeight="bold" text="Estimation de la population handicapée : " id="lblPopHandi"/>
   <mx:Label id="CommunesTitre" width="100%" text="Communes du bassin" fontSize="14" fontWeight="bold"/>
-  <!--
-  <mx:TileList id="CommunesListe" width="100%" height="100%"></mx:TileList>
-  <mx:TileList width="100%" height="100%"></mx:TileList>
-  -->
   <mx:VBox id="CommunesListe" width="100%" ></mx:VBox>
-  <mx:Label id="ActeursTitre" width="100%" text="Acteurs de la concertation" fontSize="14" fontWeight="bold"/>
-  <mx:VBox id="ActeursListe" width="100%" ></mx:VBox>
 	
 </mx:VBox>

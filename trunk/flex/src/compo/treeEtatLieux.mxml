@@ -25,9 +25,6 @@
          [Embed(source="../images/escalierP.jpg")] 
          public var iconEscalier:Class; 
          [Bindable]
-         [Embed(source="../images/espaceP.jpg")] 
-         public var iconEspace:Class; 
-         [Bindable]
          [Embed(source="../images/etablissementP.png")] 
          public var iconEtablissement:Class; 
          [Bindable]
