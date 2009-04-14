@@ -446,7 +446,7 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 			
 			$saveStat = true;
 			
-			//$xml .= $g->GetEtatDiag(true,true);
+			$xml .= $g->GetEtatDiag(true,true);
 
 			//récupère les grilles du granulat 
 			$xmlRub.= $g->GetXmlGrilles();
