@@ -36,15 +36,15 @@
 				//construction des communes
 		        for each (var rAct:Object in rsActeurs.acteur)
 		        {
+		        	var i:int=0;
 			        var actCont:VBox = new VBox;
-			        var i:int=0;
 			        for each (var rChamp:Object in rAct.champ)
 			        {
 			        	if(rChamp.champ=="ligne_1"){
 					        actCont.label=rChamp.value;
 			        	}
 			        	//on exclu le type d'organisme et les champs vide
-			        	if(rChamp.champ!="mot_1"&&rChamp.value!=""){
+			        	if(rChamp.champ!="mot_1" && rChamp.champ!="ligne_1" && rChamp.value!=null){
 					        var champCont:HBox = new HBox;
 					        champCont.label=rChamp.titre;
 					        //on gère le type de champ
@@ -61,6 +61,16 @@
 							        arMail.label = rChamp.value;					        	
 						        	champCont.addChild(arLnk);
 							        break;
+							    case "ligne_4":
+							    	//vérifie si l'acteur fait partie d'un organisme
+							    	if(actCont.label==""){
+							    		actCont.label=rChamp.value;
+							    	}else{
+								        var champNom:Label = new Label;
+								        champNom.text = rChamp.value;
+							        	champCont.addChild(champNom);
+							     	}
+							        break;
 							   default:
 							        var champLabel:Label = new Label;
 							        champLabel.text = rChamp.value;
@@ -68,10 +78,10 @@
 							        break;
 							}					        
 				        	actCont.addChild(champCont);
+				        	i=i+1;
 				        }
-			        	i++;
 			        }
-			        if(i!=0){
+			        if(i>0){
 			        	accActeurs.addChild(actCont);
 			        }
 		        }

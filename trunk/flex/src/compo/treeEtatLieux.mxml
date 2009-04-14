@@ -53,7 +53,14 @@
          public var iconVoirie:Class; 
          
       [Bindable] public var categories:Object = 
-        { "grille_66": {
+        { 
+          "grille_1": {
+    	    "id": "1",
+	          "titre": "Geolocalisation",
+              "color": 0x3366F,
+	          "icon": iconObjet,
+              "markers": []},
+         "grille_66": {
         	"id": "66",
         	"titre": "Territoire",
             "color": 0x990000,
