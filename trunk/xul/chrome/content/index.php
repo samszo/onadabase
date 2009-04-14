@@ -75,14 +75,14 @@ echo '<'.'?xul-overlay href="overlay/EtatDiag.xul"?'.'>';
 						<menuitem accesskey="d" label="Déconnexion" oncommand="window.location.replace('exit.php');"/>
 					    <menu label="Synchronisation">
 					      <menupopup id='mnuBarSynchro' >
-						    <menu label="serveur->local">
+						    <menu label="<?php echo $SITES[SYNCSITE]["NOM"]; ?>-><?php echo $SITES[$site]["NOM"]; ?>">
 						      <menupopup >
 								<menuitem hidden="true" accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
 								<menuitem accesskey="v" label="Vérifier les contrôles" oncommand="CompareRubSrcDst('CompareServeurLocal',80);"/>
 								<menuitem label="Vérifier l'élément en cours" oncommand="CompareRubSrcDst('CompareServeurLocal',document.getElementById('idRub').value);"/>
 						      </menupopup>
 						    </menu>
-						    <menu label="local->serveur">
+						    <menu label="<?php echo $SITES[$site]["NOM"]; ?>-><?php echo $SITES[SYNCSITE]["NOM"]; ?>">
 						      <menupopup >
 								<menuitem hidden="true" accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
 								<menuitem label="Vérifier l'élément en cours" oncommand="CompareRubSrcDst('CompareLocalServeur',document.getElementById('idRub').value);"/>

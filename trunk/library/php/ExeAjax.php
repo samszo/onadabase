@@ -179,6 +179,9 @@
 		case 'CopyRub':
 			$resultat = CopyRub($_GET['idDst']) ;
 			break;
+		case 'CopyRubToSite':
+			$resultat = CopyRubToSite($_GET['idRub'],$_GET['idRubDst'],$_GET['idSiteDst']) ;
+			break;
 		case 'AddVersion':
 			$resultat = AddVersion() ;
 			break;
@@ -1354,6 +1357,17 @@
 		$idParent = $g->GetParent($g->id);
 		$g->CopyRub($idParent);
 	}
+
+	function CopyRubToSite($idRub, $idRubDst, $idSiteDst) {
+		global $objSite;
+		
+		if (TRACE) echo '+++ ExeAjax:CopyRubToSite:idRub:'.$idRub.' idRubDst:'.$idRubDst;
+		
+		$siteDst = new Site($objSite->sites,$idSiteDst,$objSite->scope,false);
+		$g = new Granulat($idRub,$objSite);
+		$g->CopyRubToSite($idRub,$idRubDst, $siteDst);
+	}
+	
 	
 	function AddVersion() {
 		global $objSite;

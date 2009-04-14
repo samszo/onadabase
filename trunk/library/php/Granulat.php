@@ -862,7 +862,7 @@ class Granulat
 		$xml .= " lng='".$row['lng']."'";
 				
 		$xml .= " idRub='".$row['id_rubrique']."'";
-		
+				
 		$xml .= " idSite='".$this->site->id."'";
 		
 		$xml .= " titre=\"".utf8_encode($this->site->XmlParam->XML_entities($row['titre']))."\"";
@@ -1821,6 +1821,71 @@ class Granulat
 		if ($arrListeEnfants != null) {
 			foreach($arrListeEnfants as $granulat) {
 				$granulat->CopyRub($idEnfant);
+			}
+		}		
+	}
+
+	public function CopyRubToSite($idParent,$idParentDst,$siteDst) {
+		
+		//$idParent = $this->GetParent($this->id);
+		if($this->trace) echo "Granulat/copy/- idParent ".$idParent."<br/>";
+		$arrListeEnfants = $this->GetEnfants();
+		//$idArticle = $this->GetArticle();
+		//if($this->trace) echo "Granulat/copy/- arrListeEnfants ".print_r($arrListeEnfants)."<br/>";
+		
+		$motclef = $this->GetMotClef();
+		
+		$arrListeInfoArticle = $this->GetArticleInfo();
+		
+		$gSrc = new Granulat($idParent, $this->site);
+		
+		$gDst = new Granulat($idParentDst, $siteDst);
+		$idEnfant = $gDst->SetNewEnfant($this->titre);
+		$graNew = new Granulat($idEnfant, $siteDst);
+		$graNew->descriptif = $this->descriptif;
+		$graNew->texte = $this->texte;
+		if ($motclef!="") $graNew->SetMotClef($motclef);
+		
+		$grille = new Grille($graNew->site);
+		
+		while($article = mysql_fetch_assoc($arrListeInfoArticle)) {
+			$idArt = $graNew->SetNewArticleComplet($article['titre'], $article['date'], $article['maj']);
+	  		//récupère les données du granulat source
+			$arrListeDonnees = $gSrc->GetIdDonnees(-1, $article['id_article']);
+			while($donnee = mysql_fetch_assoc($arrListeDonnees)){
+	  			$idDon = $graNew->AddIdDonnee($donnee['idGrille'], $idArt, $donnee['date'], $donnee['maj']);
+				if($this->trace)
+					echo "Granulat/copy/- création de la donnee ".$idDon."<br/>";	
+	  			//récupère les valeurs de la donnee source
+				$arrListeDonneeInfos = $gSrc->GetInfosDonnee($donnee['id_donnee']);
+				while($Donnee = mysql_fetch_assoc($arrListeDonneeInfos)){
+					if($Donnee['valeur']!='non'){
+						$valeur=$Donnee['valeur'];
+						$champ = $Donnee['champ'];
+						if($this->trace)
+							echo "Granulat/copy/--- gestion des champs multiples ".substr($champ,0,8)."<br/>";
+						if(substr($champ,0,8)=="multiple"){
+							$valeur=$champ;
+						//attention il ne doit pas y avoir plus de 10 choix
+							$champ=substr($champ,0,-2);
+						}
+						if($this->trace) {
+							echo "Granulat/copy/-- récupération du type de champ ".$champ."<br/>";
+							echo "Granulat/copy/-- récupération de la valeur du champ ".$valeur."<br/>";
+						}
+						$row = array('champ'=>$champ, 'valeur'=>$valeur);
+						
+						if($this->trace)
+							echo "Granulat/copy/--- création du champ <br/>";
+						$grille->SetChamp($row, $idDon, false);
+					}
+				}
+			}
+		}	
+		
+		if ($arrListeEnfants != null) {
+			foreach($arrListeEnfants as $granulat) {
+				$granulat->CopyRubToSite($gSrc->id,$idEnfant,$siteDst);
 			}
 		}		
 	}

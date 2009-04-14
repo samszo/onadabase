@@ -102,6 +102,7 @@ $scope = array(
 //print_r($scope);
 
 $objSite = new Site($SITES, $site, $scope, false);
+//print_r($objSite);
 $objSiteSync = new Site($SITES, SYNCSITE, $scope, false);
 
 if($id!=-1)

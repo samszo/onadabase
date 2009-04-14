@@ -129,7 +129,10 @@ class Xul{
     
     
     function GetMenuPopUp($idRub,$typeSrc,$niv=0,$SaveFile=true){
-    	$gra = new Granulat($idRub,$this->site);
+    	//vérifie s'il faut calculer les menus de la base
+    	if($idRub){
+	    	$gra = new Granulat($idRub,$this->site);
+    	}
     	$menu ='';
     	$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst";
 		$menusDst = $this->site->XmlParam->GetElements($Xpath);
@@ -140,34 +143,49 @@ class Xul{
 		
 		if($menusDst){			
 	    	foreach($menusDst as $mDst)
-			{    	
-		    	$rows = $gra->GetTreeChildren($mDst["codeTree"]);
-		    	if($rows){
+			{
+				//vérifie s'il faut calculer les menus de la base
+				if($idRub){    	
+			    	$rows = $gra->GetTreeChildren($mDst["codeTree"]);
+			    	if($rows){
+			    		$lib = utf8_decode($mDst["lib"]);
+			    		$mnuLabel = " - ".$lib."";
+			    		$menu .='<menu id="MenuPopUp_'.$typeSrc.'_'.$mDst["codeTree"].'_'.$idRub.'" label="'.$mnuLabel.'" ><menupopup >';
+				    	while($r = mysql_fetch_assoc($rows))
+						{
+							//récupération du js
+							$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst[@codeTree='".$mDst["codeTree"]."']/js";
+							$js = $this->site->GetJs($Xpath, array($idRub,$lib,$mDst["codeTree"],$mDst["codeSaisi"],$r["id"]));
+							//création de l'item
+			    			$mnuLabel = $this->site->XmlParam->XML_entities($r["titre"]);
+							$menu .= '<menuitem '.$js.' label="'.$mnuLabel.'"/>';
+							//vérifie la création d'un sous menu calculer dans la base
+							$sousmenu = $this->GetMenuPopUp($r["id"],$mDst["codeSaisi"],$niv+1,false);
+							if($sousmenu!=""){
+								$menu .= $sousmenu;
+								$menu .= '<menuseparator/>';			
+							}					
+						}
+						$menu .= '</menupopup></menu>';
+			    	}
+				}else{
 		    		$lib = utf8_decode($mDst["lib"]);
 		    		$mnuLabel = " - ".$lib."";
 		    		$menu .='<menu id="MenuPopUp_'.$typeSrc.'_'.$mDst["codeTree"].'_'.$idRub.'" label="'.$mnuLabel.'" ><menupopup >';
-			    	while($r = mysql_fetch_assoc($rows))
-					{
-						//récupération du js
-						$Xpath = "/XmlParams/XmlParam[@nom='MenuNavig']/menuSrc[@code='".$typeSrc."']/menuDst[@codeTree='".$mDst["codeTree"]."']/js";
-						$js = $this->site->GetJs($Xpath, array($idRub,$lib,$mDst["codeTree"],$mDst["codeSaisi"],$r["id"]));
-						//création de l'item
-		    			$mnuLabel = $this->site->XmlParam->XML_entities($r["titre"]);
-						$menu .= '<menuitem '.$js.' label="'.$mnuLabel.'"/>';
-						//vérifie la création d'un sous menu
-						$sousmenu = $this->GetMenuPopUp($r["id"],$mDst["codeSaisi"],$niv+1,false);
-						if($sousmenu!=""){
-							$menu .= $sousmenu;
-							$menu .= '<menuseparator/>';			
-						}					
+				}
+				//vérifie la création d'un sous menu présent dans le xml
+    			foreach($mDst->menuSrc as $mSrcEnf){
+					$sousmenu = $this->GetMenuPopUp($r["id"],$mSrcEnf["code"],$niv+1,false);
+					if($sousmenu!=""){
+						$menu .= $sousmenu;
+						$menu .= '<menuseparator/>';			
 					}
-					$menu .= '</menupopup></menu>';
-		    	}
+    			}					
 			}			
 		}
 
 		if($SaveFile)
-			$this->site->SaveFile($file,$menu);
+			$this->site->SaveFile($path,$menu);
 		return $menu;
 
     }
