@@ -258,10 +258,12 @@
 		
 	function GetStatEtatDiag($site, $g){
 
+		/*
 		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id."_flex.xml";
 	    $contents = $site->GetFile($path);
 	    $_SESSION['ShowDocs']=true;
    		if(!$contents)
+		*/
    			$contents = $g->GetEtatDiag(true,true);
 
    		return $contents; 

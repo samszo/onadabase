@@ -160,6 +160,7 @@ class Granulat
 		$typeERP = $this->GetValeurForm($this->site->infos["GRILLE_ETAB"],"","","","",$this->id,"mot_2");
 		if($typeERP==$this->site->infos["MOT_CLEF_PANG"] || $typeERP==$this->site->infos["MOT_CLEF_GARE"]){
 			$grille = new Grille($this->site);
+			/*calcul les acteurs des communes
 			$arrIdRub = split(",",$grille->GetXulNoeudCommune($this->id,true));
 			foreach($arrIdRub as $idRub){
 				$rs = $this->GetGrille($this->site->infos["GRILLE_ACTEUR"],"",$idRub);	 
@@ -169,15 +170,26 @@ class Granulat
 				}
 				$acteurs .= "<acteur id='".$idRub."' >".$champs."</acteur>";
 			}
+			*/
+			//calcul les acteurs des parents
 			$arrIdRub = split(",",$this->GetParentIds("",","));
 			foreach($arrIdRub as $idRub){
 				if($idRub){
 					$rs = $this->GetGrille($this->site->infos["GRILLE_ACTEUR"],"",$idRub);	 
 					$champs = "";
+					$idDon=0;
 					while ($r =  mysql_fetch_assoc($rs)) {
+						if($idDon!=$r["id_donnee"] && $idDon!=0){
+							$acteurs .= "<acteur id='".$idRub."' >".$champs."</acteur>";
+							$champs = ""; 
+							$idDon=$r["id_donnee"];
+						}
 						$champs .= "<champ idDon='".$r["id_donnee"]."' champ='".$r["champ"]."' titre=\"".$r["titre"]."\">".$r["valeur"]."</champ>";
+						$idDon=$r["id_donnee"];
 					}
-					$acteurs .= "<acteur id='".$idRub."' >".$champs."</acteur>";
+					if($champs!=""){
+						$acteurs .= "<acteur id='".$idRub."' >".$champs."</acteur>";
+					}
 				}	
 			}
 			if($acteurs!=""){
@@ -1534,7 +1546,7 @@ class Granulat
 				INNER JOIN spip_forms_donnees_champs dc ON dc.id_donnee = da.id_donnee
 				INNER JOIN spip_forms_champs fc ON fc.champ = dc.champ AND fc.id_form =".$IdGrille."
 			WHERE a.id_rubrique =".$idRub.$ExtraSql."
-			ORDER BY da.id_donnee, dc.champ";
+			ORDER BY da.id_donnee, fc.rang, dc.champ";
 		//echo $this->site->infos["SQL_LOGIN"]." ".$sql."<br/>";
 	
 		$req = $DB->query($sql);
