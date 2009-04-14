@@ -31,7 +31,7 @@ class Grille{
     if($idScope!=-1){
     	$this->idScope = $idScope;
     	$g = new Granulat($idScope,$this->site);
-    	$this->idsInScope = $g->GetEnfantIds($g->IdParent,",")."-1";
+    	$this->idsInScope = $g->GetEnfantIds($g->id,",")."-1";
     }
 	if($this->site->scope["FicXml"]!=-1)
 		$this->XmlParam = new XmlParam($this->site->scope["FicXml"]);

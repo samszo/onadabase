@@ -13,9 +13,9 @@
 
   define ("TRACE", false);
 
-  define ("DEFSITE", "local2");
+  define ("DEFSITE", "local1");
   //define ("DEFSITE", "mundi"); 
-  define ("SYNCSITE", "local1");
+  define ("SYNCSITE", "local2");
   //define ("SYNCSITE", "mundi");
  
   
@@ -73,12 +73,12 @@ $SiteLocal1 = array(
 	"MOT_CLEF_NA."=>139,
 	"MOT_CLEF_Quartier"=>146,
 
-	"RUB_TERRE" => 5479,
-	"RUB_PORTE1" => -50,
-	"RUB_PORTE2" => -74,
-	"RUB_PORTE_FACE1" => -1342,
-	"RUB_PORTE_FACE2" => -1341,
-	"DEF_ID" => 5479,
+	"RUB_TERRE" => 1942,
+	"RUB_PORTE1" => 50,
+	"RUB_PORTE2" => 74,
+	"RUB_PORTE_FACE1" => 1342,
+	"RUB_PORTE_FACE2" => 1341,
+	"DEF_ID" => 1942,
 	"DEF_LAT" => 45,
 	"DEF_LNG" => 1,
 	"DEF_ZOOM" => 4,

@@ -125,6 +125,7 @@
 		<menuSrc code="Terre">
 			<menuDst codeTree="etab" codeSaisi="Etab" lib="Etablissement(s)" >
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Etab');"/>
+				<menuSrc code="Etab"/>
 			</menuDst>
 			<menuDst codeTree="voirie" codeSaisi="Voirie" lib="Voirie(s)" >
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Etab');"/>
@@ -133,9 +134,12 @@
 		<menuSrc code="Etab">
 			<menuDst codeTree="parcelle" codeSaisi="Parcelle" lib="Parcelle(s)" >
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Parcelle');"/>
+						<menuSrc code="Parcelle">
+						</menuSrc>
 			</menuDst>
 			<menuDst codeTree="bat" codeSaisi="Bat" lib="Batiment(s)" >
 				<js evt="oncommand" function="RefreshEcran(-param0-,'-param1-','-param2-','-param3-');ChargeTabboxFromAjax(-param4-,'FormSaisi','Bat');"/>
+				<menuSrc code="Bat"></menuSrc>
 			</menuDst>
 		</menuSrc>
 		<menuSrc code="Parcelle">
@@ -1910,7 +1914,7 @@ LIMIT 0 , 1
 		</synchro>
 		<synchro action="UpdateReferenceId" >
 			<Query table="spip_rubriques" champ="id_rubrique" sql="UPDATE spip_rubriques SET id_rubrique = (id_rubrique*-1), id_parent = (id_parent*-1) WHERE id_rubrique > 0"/>
-			<Query sql="UPDATE spip_mots_rubriques SET id_rubrique = (id_rubrique*-1), id_secteur = (id_secteur*-1) WHERE id_rubrique > 0"/>
+			<Query sql="UPDATE spip_mots_rubriques SET id_rubrique = (id_rubrique*-1) WHERE id_rubrique > 0"/>
 			<Query sql="UPDATE spip_documents_rubriques SET id_rubrique = (id_rubrique*-1), id_document = (id_document*-1) WHERE id_rubrique > 0"/>
 			<Query sql="UPDATE spip_auteurs_rubriques SET id_rubrique = (id_rubrique*-1) WHERE id_rubrique > 0"/>
 			<Query sql="UPDATE spip_syndic SET id_rubrique = (id_rubrique*-1), id_syndic = (id_syndic*-1) WHERE id_rubrique > 0"/>

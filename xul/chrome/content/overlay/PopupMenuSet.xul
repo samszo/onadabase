@@ -111,6 +111,26 @@
 						role="administrateur;diagnostiqueur"
 						label="Une chaîne de déplacement" 
 						oncommand="AddNewGrille('Chaine');" />
+
+					    <menu label="Synchronisation" role="administrateur;diagnostiqueur">
+					      <menupopup id='mnuBarSynchro' >
+						    <menu label="toto">
+						      <menupopup >
+								<menuitem accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
+								<menuitem accesskey="v" label="Vérifier les contrôles" oncommand="CompareRubSrcDst('CompareServeurLocal',80);"/>
+								<menuitem label="Vérifier l'élément en cours" oncommand="CompareRubSrcDst('CompareServeurLocal',document.getElementById('idRub').value);"/>
+						      </menupopup>
+						    </menu>
+						    <menu label="titi">
+						      <menupopup >
+								<menuitem accesskey="s" label="Vérifier les paramètres" oncommand="SynchroniserMajParam();"/>
+								<menuitem label="Vérifier l'élément en cours" oncommand="CompareRubSrcDst('CompareLocalServeur',document.getElementById('idRub').value);"/>
+						      </menupopup>
+						    </menu>
+					      </menupopup>
+					    </menu>
+
+
 				</menupopup>
 			</menu>
 		</popup>
