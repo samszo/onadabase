@@ -26,23 +26,25 @@
 
 
     //prod
-
-/*
 	[Bindable] private var urlExeAjax:String="http://www.onadabase.eu/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRQPuSe5bSrCkW0z0AK5OduyCmU7hRSB6XyMSlG4GUuaIVi6tnDRGuEsWw";
-    private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_picardies_1942.xml";
+    private var urlAllEtatDiag:String="http://www.onadabase.eu/bdd/carto/allEtatDiag_centre-valdemarne-picardie_1942_prod.xml";
     [Bindable] private var urlExeCarto:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php";
-    private var urlTerreRoot:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=picardie";
-*/
+    //private var urlTerreRoot:String="http://www.onadabase.eu/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=picardie";
+    private var urlTerreRoot:String="http://www.onadabase.eu/bdd/carto/ArboTerritoire_centre-picardie-valdemarne_1942.xml";
+
 	//local
+/*
+
    [Bindable] private var urlExeAjax:String="http://localhost/onadabase/library/php/ExeAjax.php";
 	private var mapKey:String = "ABQIAAAAU9-q_ELxIQ-YboalQWRCjRSAqqCYJRNRYB52nvFZykN9ZY0cdhRvfhvUr_7t7Rz5_XNkPGDb_GYlQA";
-    private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_picardie_1942.xml";
+    private var urlAllEtatDiag:String="http://localhost/onadabase/bdd/carto/allEtatDiag_centre-valdemarne-picardie_1942.xml";
     [Bindable] private var urlExeCarto:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php";
-    private var urlTerreRoot:String="http://localhost/onadabase/library/php/ExecDonneeCarto.php?f=get_arbo_territoire&id=1942&site=picardie";
+    private var urlTerreRoot:String="http://localhost/onadabase/bdd/carto/ArboTerritoire_centre-picardie-valdemarne_1942.xml";
+*/
 
-      private var map:Map;
-      private var markers:XMLList;
+    private var map:Map;
+    private var markers:XMLList;
 	[Bindable]	private var rsEtatDiag:Object;
 	[Bindable]	private var rsCarto:Object;
 	[Bindable]	private var rsTerre:XMLList;
@@ -50,7 +52,7 @@
 	private var accDocs:hbIcoMultimedia;
 	private var accBassin:vbBassinGare;
 	private var accActeurs:vbActeurs;
-	private var accKML:vbCoucheKml;
+	public var accKML:vbCoucheKml;
 
       [Embed(source="/images/A.png")] [Bindable] private var AIcon:Class;
       [Embed(source="/images/B.png")] [Bindable] private var BIcon:Class;
@@ -194,7 +196,9 @@
 				}
 		        if(rsEtatDiag.EtatDiag.bassin){
 					accBassin=new vbBassinGare();
-		        	accBassin.rsBassin = rsEtatDiag.EtatDiag.bassin;	
+		        	accBassin.rsBassin = rsEtatDiag.EtatDiag.bassin;
+		        	accBassin.coucheKml=this.accKML;
+		        	accBassin.markers=markers;	
 					accEtatLieu.addChild(accBassin);
 		        }else{
 		        	accBassin=null;
@@ -285,8 +289,8 @@
 			accEtatLieu.visible=true;
         if(accEtatLieu.selectedIndex!=0)
 	        accEtatLieu.selectedIndex=0;
-
-        showMarkerId(event.currentTarget.selectedItem.@idRub);	        	
+		var item:Object=event.currentTarget.selectedItem;
+        showMarkerId(item.@idRub,item.@idSite);	        	
      }
 
 
@@ -334,14 +338,17 @@
 
       }
 
-      public function showMarkerId(idRub:String,sStat:Boolean=true): void {
+      public function showMarkerId(idR:String,idS:String="-1",sStat:Boolean=true): void {
+
+		//si l'identifiant du site est vide car venant d'une liste de critère on prend celui du graphique
+		if(idS=="-1")idS=this.idSite.text;
 
         //vérifie s'il faut créer les markers ou les rendre visible/invisible
         //boucle sur les géoloc 
         for each (var markerXml:XML in markers){
         	//vérifie si le marker a bien l'identifiant
         	var resultG:XMLList;
-        	resultG = markerXml.(@idRub == idRub);
+        	resultG = markerXml.(@idSite == idS && @idRub == idR);
         	if(resultG.length()>0){
         		//contruction du markers
 	            var titre:String = markerXml.@titre;
@@ -455,8 +462,17 @@
 		trace ("nShowListeDiag=" +urlExeAjax+"?f="+params.f+"&id="+params.id+"&site="+params.site+"&idDoc="+params.idDoc);
      }
 
+	private function PurgeCarte():void{
+		//suprrime le tableau des markers par type
+        for each (var cat:Object in treeEtatLieux.categories){
+        	cat.markers= new ArrayCollection();
+        }
+		//vide la carte
+		map.clearOverlays();
+	}
 
     private function toggleCategory(type:String):void {
+		CursorManager.setBusyCursor();
        for (var i:Number = 0; i < treeEtatLieux.categories[type].markers.length; i++) {
          var marker:Marker = treeEtatLieux.categories[type].markers[i];
          if (!marker.visible) {
@@ -465,5 +481,7 @@
            marker.visible = false;
          }
        } 
+		CursorManager.removeBusyCursor();
+
 	}
 

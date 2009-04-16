@@ -51,6 +51,12 @@
          [Bindable]
          [Embed(source="../images/voirieP.png")] 
          public var iconVoirie:Class; 
+         [Bindable]
+         [Embed(source="../images/chaine_de_deplacementP.png")] 
+         public var iconChaine:Class; 
+         [Bindable]
+         [Embed(source="../images/axe_de_transportP.png")] 
+         public var iconAxe:Class; 
          
       [Bindable] public var categories:Object = 
         { 
@@ -120,8 +126,8 @@
               "color": 0x9b0f7c,
 	          "icon": iconObjet,
               "markers": []},
-          "grille_72": {
-        	"id": "72",
+          "grille_69": {
+        	"id": "69",
 	          "titre": "Elément de voirie",
               "color": 0x2a09f7,
 	          "icon": iconVoirie,
@@ -167,6 +173,18 @@
 	          "titre": "Escalier mécanique",
               "color": 0x080202,
 	          "icon": iconEscaliermeca,
+              "markers": []},
+          "grille_71": {
+        	"id": "71",
+	          "titre": "Chaine de déplacement",
+              "color": 0x080202,
+	          "icon": iconChaine,
+              "markers": []},
+          "grille_72": {
+        	"id": "72",
+	          "titre": "Axe de transport",
+              "color": 0x080202,
+	          "icon": iconAxe,
               "markers": []}
 		};
     
@@ -186,14 +204,18 @@
             ]; 
             /* Second top-level node and its children.*/ 
             public var nestArrayVoirie:Array = [
-                {label:"Elément de voirie", cat:categories["grille_72"], data:"child data"}
+                {label:"Elément de voirie", cat:categories["grille_69"], data:"child data"}
             ];
             
-            public var nestArrayLigneTrans:Array = [
-                {label:"Arrêt de gare", cat:categories["grille_72"], data:"child data"}
-                ,{label:"Arrêt de bus", cat:categories["grille_72"], data:"child data"}
-                ,{label:"Halte ferroviaire", cat:categories["grille_72"], data:"child data"}
+            public var nestArrayLigne:Array = [
+                {label:"Element de ligne", cat:categories["grille_71"], data:"child data"}
             ];
+
+
+            public var nestArrayAxe:Array = [
+                {label:"Element d'axe", cat:categories["grille_72"], data:"child data"}
+            ];
+
             
             /* Variable for the tree array. */
             public var treeArray:Array
@@ -201,7 +223,8 @@
                top-level nodes. */
             public var colEtab:ArrayCollection;
             public var colVoirie:ArrayCollection;
-            public var colLigneTrans:ArrayCollection;
+            public var colLigne:ArrayCollection;
+            public var colAxe:ArrayCollection;
             
             /* Variable for the ArrayCollection used as the Tree data provider. */
             [Bindable]
@@ -213,13 +236,16 @@
                 /* Wrap each top-level node in an ArrayCollection. */
                 colEtab = new ArrayCollection(nestArrayEtab);
                 colVoirie = new ArrayCollection(nestArrayVoirie);
-                colLigneTrans = new ArrayCollection(nestArrayLigneTrans);
+                colLigne = new ArrayCollection(nestArrayLigne);
+                colAxe = new ArrayCollection(nestArrayAxe);
 
                 /* Put the three top-level node
                    ArrayCollections in the treeArray. */
                 treeArray = [
                     {label:"Etablissement",cat:categories["grille_55"], children: colEtab}
                     ,{label:"Voirie",cat:categories["grille_62"], children: colVoirie}
+                    ,{label:"Chaine de déplacement",cat:categories["grille_71"], children: colLigne}
+                    ,{label:"Axe de transport",cat:categories["grille_72"], children: colAxe}
                 ]; 
                 //pas pour picardie,{label:"Ligne de transport", cat:categories["grille_72"], children: colLigneTrans}
 

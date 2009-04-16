@@ -42,6 +42,9 @@ if(!isset($_SESSION['ContEditPublie']))
 	$_SESSION['ContEditPublie']=false;
 if(!isset($_SESSION['ForceCalcul']))
 	$_SESSION['ForceCalcul']=false;
+if(!isset($_SESSION['version']))
+	$_SESSION['version']="V1";
+	
 	
 	
 if(TRACE)
