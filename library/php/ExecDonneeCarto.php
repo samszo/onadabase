@@ -60,7 +60,6 @@ function get_arbo_territoire($idRub,$objSite,$niv=0) {
 	$path = PathRoot."/bdd/carto/ArboTerritoire_".$objSite->id."_".$idRub.".xml";
     $xml = $objSite->GetFile($path);
 	if(!$xml){
-		$objSite->SaveFile(PathRoot."/bdd/carto/ArboTerritoire_".$objSite->id."_".$idRub.".xml",$xml);
 		//récupération des territoires du granulat
 		$sql = "SELECT dc.valeur, dc.champ, da.id_donnee, r.titre rTitre, r.id_rubrique
 				, m.titre mTitre, m.id_mot
@@ -80,16 +79,17 @@ function get_arbo_territoire($idRub,$objSite,$niv=0) {
 		$req = $DB->query($sql);
 		$DB->close();
 		if($niv==0)	
-			$xml = "<terres idRub='".$idRub."' >";
+			$xml = "<terres idSite='".$objSite->id."' idRub='".$idRub."' >";
 		else
 			$xml="";
 		while($r = mysql_fetch_assoc($req)) {
-			$xml .= "<terre idRub='".$r["id_rubrique"]."' titreRub=\"".$r["rTitre"]."\"  idMot='".$r["id_mot"]."'  titreMot=\"".$r["mTitre"]."\" >";
+			$xml .= "<terre idSite='".$objSite->id."' idRub='".$r["id_rubrique"]."' titreRub=\"".$r["rTitre"]."\"  idMot='".$r["id_mot"]."'  titreMot=\"".$r["mTitre"]."\" >";
 	 		$xml .= get_arbo_territoire($r["id_rubrique"],$objSite,$niv+1);
 			$xml .= "</terre>";
 		}
 		if($niv==0)	
 			$xml .= "</terres>";
+		$objSite->SaveFile(PathRoot."/bdd/carto/ArboTerritoire_".$objSite->id."_".$idRub.".xml",utf8_encode($xml));
 	}
 	return $xml;
 }
@@ -446,7 +446,7 @@ function get_marker($objSite, $id, $southWestLat, $northEastLat, $southWestLng, 
 			
 			$saveStat = true;
 			
-			$xml .= $g->GetEtatDiag(true,true);
+			//$xml .= $g->GetEtatDiag(true,true);
 
 			//récupère les grilles du granulat 
 			$xmlRub.= $g->GetXmlGrilles();
@@ -575,47 +575,48 @@ function CalculBassinGare($g,$saveStat=false){
 		$arrIds = split(",",$grille->GetXulNoeudCommune($g->id,true));
 		//boucle pour trouver les kml
 		foreach($arrIds as $idEnf){
-			$gEnf = new Granulat($idEnf,$g->site,false);
-			//récupère le kml du granulat mais pas celui de ses parents => $niv>6
-			$docKmls = $gEnf->GetDocs($gEnf->id, $gEnf->site->infos["CARTE_TYPE_DOC"]);;
-			foreach($docKmls as $docKml){
-				$kml .= "<kml url='".$docKml->fichier."' />";
-				if($saveStat){
-					//récupère les infos de geo
-					$row = $gEnf->GetGeo();
-					//récupère le kml
-					if($docKml->type==$gEnf->site->infos["KMZ_TYPE_DOC"]){
-	        			$xml = GetXmlFromKmz($docKml->path);						
-					}else{
-						$xml = simplexml_load_file($docKml->path);					
-					}
-					//récupèration des coordonnées de la communes
-					/*
-					$xml->registerXPathNamespace("xmlns","http://earth.google.com/kml/2.1");
-					$Xpath = "//xmlns:coordinates";
-					//$Xpath = "/Document/Placemark/Polygon/outerBoundaryIs/LinearRing/coordinates";
-					$coors = $xml->xpath($Xpath);
-					*/
-					if($xml){
-						$coors = $xml->Document->Placemark->Polygon->outerBoundaryIs->LinearRing->coordinates."";
-						if($coors==""){
-							echo "toto";
+			if($idEnf){
+				$gEnf = new Granulat($idEnf,$g->site,false);
+				//récupère le kml du granulat mais pas celui de ses parents => $niv>6
+				$docKmls = $gEnf->GetDocs($gEnf->id, $gEnf->site->infos["CARTE_TYPE_DOC"]);;
+				foreach($docKmls as $docKml){
+					$kml .= "<kml url='".$docKml->fichier."' />";
+					if($saveStat){
+						//récupère les infos de geo
+						$row = $gEnf->GetGeo();
+						//récupère le kml
+						if($docKml->type==$gEnf->site->infos["KMZ_TYPE_DOC"]){
+		        			$xml = GetXmlFromKmz($docKml->path);						
+						}else{
+							$xml = simplexml_load_file($docKml->path);					
 						}
-						//enregistrement dans la geo
-						$gEnf->SetGeoRef($row["lat"],$row["lng"],$coors." ");
-						//récupère le nombre d'habitant
-						$nbHab = $gEnf->GetValeurForm($gEnf->site->infos["GRILLE_TERRE"], "", "", "", "", -1, "ligne_2");
-						//enregistrement dans la stat
-						$gEnf->SetGeoStat(1,2006,$nbHab+1000);
-						//récupère le nombre d'handicapé
-						$nbHan = $gEnf->GetValeurForm($gEnf->site->infos["GRILLE_TERRE"], "", "", "", "", -1, "ligne_3");
-						//enregistrement dans la stat
-						$gEnf->SetGeoStat(2,1999,$nbHan+1000);
+						//récupèration des coordonnées de la communes
+						/*
+						$xml->registerXPathNamespace("xmlns","http://earth.google.com/kml/2.1");
+						$Xpath = "//xmlns:coordinates";
+						//$Xpath = "/Document/Placemark/Polygon/outerBoundaryIs/LinearRing/coordinates";
+						$coors = $xml->xpath($Xpath);
+						*/
+						if($xml){
+							$coors = $xml->Document->Placemark->Polygon->outerBoundaryIs->LinearRing->coordinates."";
+							if($coors==""){
+								echo "toto";
+							}
+							//enregistrement dans la geo
+							$gEnf->SetGeoRef($row["lat"],$row["lng"],$coors." ");
+							//récupère le nombre d'habitant
+							$nbHab = $gEnf->GetValeurForm($gEnf->site->infos["GRILLE_TERRE"], "", "", "", "", -1, "ligne_2");
+							//enregistrement dans la stat
+							$gEnf->SetGeoStat(1,2006,$nbHab+1000);
+							//récupère le nombre d'handicapé
+							$nbHan = $gEnf->GetValeurForm($gEnf->site->infos["GRILLE_TERRE"], "", "", "", "", -1, "ligne_3");
+							//enregistrement dans la stat
+							$gEnf->SetGeoStat(2,1999,$nbHan+1000);
+						}
 					}
 				}
-				
-			} 	
-		}
+			}
+		} 	
 	}
 	
 	if($kml!="")

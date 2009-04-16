@@ -131,18 +131,20 @@ class Granulat
 			$grille = new Grille($this->site);
 			$arrIdRub = split(",",$grille->GetXulNoeudCommune($this->id,true));
 			foreach($arrIdRub as $idRub){
-				$rs = $this->GetGrille($this->site->infos["GRILLE_TERRE"],"",$idRub);	 
-				$champs = "";
-				while ($r =  mysql_fetch_assoc($rs)) {
-					$champs .= "<champ idDon='".$r["id_donnee"]."' champ='".$r["champ"]."' titre=\"".$r["titre"]."\">".$r["valeur"]."</champ>";
-					if($r["champ"]=="ligne_2")
-						$nbPop+=$r["valeur"];
-					if($r["champ"]=="ligne_3")
-						$nbPopHandi+=$r["valeur"];
+				if($idRub){
+					$rs = $this->GetGrille($this->site->infos["GRILLE_TERRE"],"",$idRub);	 
+					$champs = "";
+					while ($r =  mysql_fetch_assoc($rs)) {
+						$champs .= "<champ idDon='".$r["id_donnee"]."' champ='".$r["champ"]."' titre=\"".$r["titre"]."\">".$r["valeur"]."</champ>";
+						if($r["champ"]=="ligne_2")
+							$nbPop+=$r["valeur"];
+						if($r["champ"]=="ligne_3")
+							$nbPopHandi+=$r["valeur"];
+					}
+					$communes .= "<commune id='".$idRub."' >".$champs."</commune>";
 				}
-				$communes .= "<commune id='".$idRub."' >".$champs."</commune>";;
 			}
-			$stat = "<bassin id='".$this->id."' nbPop='".$nbPop."'  nbPopHandi='".$nbPopHandi."' >";
+			$stat = "<bassin idSite='".$this->site->id."' id='".$this->id."' nbPop='".$nbPop."'  nbPopHandi='".$nbPopHandi."' >";
 			$stat .= $communes;
 			$stat .= "</bassin>";
 			
@@ -213,7 +215,7 @@ class Granulat
 	    	
 		//calculer l'état du diagnostique
 		$grille = new Grille($this->site);
-		
+		$numDiag=0;
 		if(!$calcul){
 			//récupère les rubriques ayant un diagnostique
 			$rs = $grille->FiltreRubAvecGrille($this->id,$this->site->infos["GRILLE_REP_CON"]);

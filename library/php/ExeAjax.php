@@ -258,10 +258,11 @@
 		
 	function GetStatEtatDiag($site, $g){
 
+	    //pour flex force l'affichage des images
+		$_SESSION['ShowDocs']=true;
 		/*
 		$path = PathRoot."/bdd/EtatDiag/".$site->id."_".$g->id."_flex.xml";
 	    $contents = $site->GetFile($path);
-	    $_SESSION['ShowDocs']=true;
    		if(!$contents)
 		*/
    			$contents = $g->GetEtatDiag(true,true);
@@ -898,7 +899,7 @@
 		//prise encompte du scope pour la grille Ligne de transport uniquement
 		//pour éviter le calcul de idsInScope si on n'en a pas besoin
 		if($trs=="Ligne" || $trs=="Chaine")	
-			$grille = new Grille($objSite,-1,false,$trs, $idRubDst);
+			$grille = new Grille($objSite,-1,false,$trs, $idRubDst,true);
 		else
 			$grille = new Grille($objSite,-1,false,$trs);
 				

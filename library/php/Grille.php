@@ -20,7 +20,7 @@ class Grille{
     return "Cette classe permet de définir et manipuler des grilles.<br/>";
     }
 
-  function __construct($site, $id=-1, $complet=true, $type="", $idScope=-1) {
+  function __construct($site, $id=-1, $complet=true, $type="", $idScope=-1, $crea=false) {
 	//echo "new Site $sites, $id, $scope<br/>";
 	$this->trace = TRACE;
 
@@ -31,7 +31,15 @@ class Grille{
     if($idScope!=-1){
     	$this->idScope = $idScope;
     	$g = new Granulat($idScope,$this->site);
-    	$this->idsInScope = $g->GetEnfantIds($g->id,",")."-1";
+    	//gestion de la création des lignes
+    	if($crea){
+    		//on prend le scope à partir de la rubrique
+    		$this->idsInScope = $g->GetEnfantIds($g->id,",")."-1";
+    	}else{
+    		//pour afficher les éléments on prend le scope à partir du parent de la rubrique
+    		$this->idsInScope = $g->GetEnfantIds($g->IdParent,",")."-1";    		
+    	}
+    	
     }
 	if($this->site->scope["FicXml"]!=-1)
 		$this->XmlParam = new XmlParam($this->site->scope["FicXml"]);
