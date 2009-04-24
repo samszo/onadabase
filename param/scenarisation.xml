@@ -758,11 +758,18 @@
 			<question id='2_cr_voirie_gic_08'/>
 			<question id='2_cr_voirie_gic_17'/>
 		</question>
+		<question id='2_cr_voirie_gic_07' reponse='2' >
+			<question id='2_cr_voirie_gic_13' reponse='1' >			
+				<question id='2_cr_voirie_gic_07' champ='mot_1' valeur='124' />
+			</question>
+			<question id='2_cr_voirie_gic_13' reponse='2' >			
+				<question id='2_cr_voirie_gic_07' champ='mot_1' valeur='124' />
+			</question>
+		</question>
 		<question id='2_cr_voirie_gic_09'/>
 		<question id='2_cr_voirie_gic_10'/>
 		<question id='2_cr_voirie_gic_11'/>
 		<question id='2_cr_voirie_gic_12'/>
-		<question id='2_cr_voirie_gic_13'/>
 		<question id='2_cr_voirie_gic_14'/>
 		<question id='2_cr_voirie_gic_15'/>
 		<question id='2_cr_voirie_gic_16'/>
