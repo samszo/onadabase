@@ -1,9 +1,4 @@
 <?php
-
-session_start();
-
-extract($_SESSION,EXTR_OVERWRITE);
-
 class Grille{
   public $id;
   public $XmlParam;
