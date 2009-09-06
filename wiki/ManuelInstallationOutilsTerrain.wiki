@@ -26,4 +26,5 @@ cf. http://www.wampserver.com/presentation.php
 == Application Onadabase ==
 
   *  Tester l'application
-    #   Pour lancer l'aplication aller sur http://localhost/onadabase/
+    #   Pour lancer l'application aller sur http://localhost/onadabase/
+    #   le login est le mot de passe sont ceux que vous avez défini lors de l'installation SPIP
